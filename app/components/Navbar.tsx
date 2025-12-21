@@ -52,9 +52,8 @@ export default function Navbar() {
               onMouseEnter={() => setIsServicesHovered(true)}
               onMouseLeave={() => setIsServicesHovered(false)}
             >
-              <Link
-                href={"/services" as const}
-                className={`text-sm font-medium transition-colors flex items-center gap-1 ${
+              <button
+                className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith('/services')
                     ? 'text-white'
                     : 'text-white/90 hover:text-white/60'
@@ -66,24 +65,26 @@ export default function Navbar() {
                     isServicesHovered ? 'rotate-180' : ''
                   }`}
                 />
-              </Link>
+              </button>
               
               {/* Dropdown Menu */}
               {isServicesHovered && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
-                  {servicesSubmenu.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`block px-4 py-2 text-sm transition-colors ${
-                        pathname === item.href
-                          ? 'text-white bg-white/10'
-                          : 'text-white/90 hover:text-white hover:bg-white/10'
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                <div className="absolute top-full left-0 pt-2 w-56">
+                  <div className="bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
+                    {servicesSubmenu.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`block px-4 py-2 text-sm transition-colors ${
+                          pathname === item.href
+                            ? 'text-white bg-white/10'
+                            : 'text-white/90 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

@@ -9,6 +9,8 @@ import LenisProvider from "../components/LenisProvider";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollToTop from "../components/ScrollToTop";
+import PageLoader from "../components/PageLoader";
+import PageTransition from "../components/PageTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,10 +51,13 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <NextIntlClientProvider messages={messages}>
+          <PageLoader />
           <LenisProvider>
             <ScrollToTop />
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <PageTransition>
+              <main className="flex-1">{children}</main>
+            </PageTransition>
             <Footer />
           </LenisProvider>
         </NextIntlClientProvider>

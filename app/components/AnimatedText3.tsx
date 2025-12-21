@@ -1,6 +1,6 @@
 "use client";
 import { useRef, ReactNode, useState, useEffect } from "react";
-import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
+import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsapConfig";
 import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
 
 // Function to fix SplitText clipping issues with descenders
@@ -59,6 +59,8 @@ function AnimatedText({
   const splitRefs = useRef<SplitText[]>([]); // Store all SplitText instances for cleanup
   const scrollTriggerRefs = useRef<ScrollTriggerType[]>([]); // Store ScrollTrigger instances for refresh
   const [fontsReady, setFontsReady] = useState(false);
+  const [pageLoaderReady, setPageLoaderReady] = useState(false);
+  const [navigationComplete, setNavigationComplete] = useState(isHero); // Hero text doesn't need to wait for navigation
 
   // Simplified font loading detection using document.fonts.ready
   useEffect(() => {
@@ -66,19 +68,121 @@ function AnimatedText({
       try {
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
-          setFontsReady(true);
+          // For hero text, don't set fontsReady yet - wait for PageLoader
+          if (!isHero) {
+            setFontsReady(true);
+          }
         } else {
           // Fallback for browsers that don't support document.fonts
-          setFontsReady(true);
+          if (!isHero) {
+            setFontsReady(true);
+          }
         }
       } catch (error) {
         // Fallback: proceed if font detection fails
-        setFontsReady(true);
+        if (!isHero) {
+          setFontsReady(true);
+        }
       }
     };
 
     checkFontsLoaded();
-  }, []);
+  }, [isHero]);
+
+  // Wait for PageLoader to complete (for both hero and non-hero text)
+  useEffect(() => {
+    const handlePageLoaderComplete = () => {
+      // Set PageLoader ready and fonts ready
+      setPageLoaderReady(true);
+      setTimeout(() => setFontsReady(true), isHero ? 200 : 100);
+    };
+
+    // Check if PageLoader is already complete
+    if (document.documentElement.classList.contains("page-loader-complete")) {
+      handlePageLoaderComplete();
+    } else {
+      // Listen for PageLoader completion
+      window.addEventListener("pageLoaderComplete", handlePageLoaderComplete);
+
+      return () => {
+        window.removeEventListener(
+          "pageLoaderComplete",
+          handlePageLoaderComplete
+        );
+      };
+    }
+  }, [isHero]);
+
+  // Listen for page transition completion (for navigation)
+  useEffect(() => {
+    if (isHero) return; // Hero text doesn't need navigation tracking
+
+    let timeoutId: NodeJS.Timeout | null = null;
+    let refreshTimeout: NodeJS.Timeout | null = null;
+
+    // Debounced refresh function to avoid multiple rapid refreshes
+    const scheduleRefresh = () => {
+      if (refreshTimeout) {
+        clearTimeout(refreshTimeout);
+      }
+      refreshTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+        refreshTimeout = null;
+      }, 150);
+    };
+
+    const handlePageTransitionComplete = () => {
+      // Clear any pending timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+
+      // Mark navigation as complete and refresh ScrollTrigger
+      setNavigationComplete(true);
+
+      // Wait a bit for layout to stabilize, then refresh ScrollTrigger
+      scheduleRefresh();
+    };
+
+    // Listen for page transition completion
+    window.addEventListener(
+      "pageTransitionComplete",
+      handlePageTransitionComplete
+    );
+
+    // Check if we came from navigation or if it's initial load
+    const navigatedFlag = sessionStorage.getItem("navigated");
+
+    if (navigatedFlag === "true") {
+      // We're navigating - wait for transition to complete
+      // The event will fire when reveal animation completes
+      // Add a safety timeout in case the event fires before we start listening
+      timeoutId = setTimeout(() => {
+        setNavigationComplete(true);
+        scheduleRefresh();
+      }, 1500); // 1.5s should be more than enough for the transition
+    } else {
+      // Initial load/refresh - no navigation happened, mark as complete immediately
+      // Use setTimeout to avoid synchronous setState in effect
+      timeoutId = setTimeout(() => {
+        setNavigationComplete(true);
+      }, 0);
+    }
+
+    return () => {
+      window.removeEventListener(
+        "pageTransitionComplete",
+        handlePageTransitionComplete
+      );
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      if (refreshTimeout) {
+        clearTimeout(refreshTimeout);
+      }
+    };
+  }, [isHero]);
 
   // Add CSS to prevent FOUC - ensure text is hidden until GSAP takes control
   useEffect(() => {
@@ -111,6 +215,12 @@ function AnimatedText({
   useGSAP(
     () => {
       if (!wrapperRef.current || !fontsReady) return;
+
+      // Wait for PageLoader to be ready (for both hero and non-hero text)
+      if (!pageLoaderReady) return;
+
+      // For non-hero text, wait for navigation to complete before creating ScrollTrigger
+      if (!isHero && !navigationComplete) return;
 
       // Add FOUC prevention class initially
       wrapperRef.current.classList.add("fouc-prevent");
@@ -245,6 +355,8 @@ function AnimatedText({
         delay,
         ease,
         fontsReady,
+        pageLoaderReady,
+        navigationComplete,
         isHero,
       ],
     }
