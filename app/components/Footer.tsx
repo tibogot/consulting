@@ -19,27 +19,27 @@ export default function Footer() {
 
   const footerLinks = {
     services: [
-      { href: '/services', label: t('services') },
-      { href: '/services/search-selection', label: t('servicesSubmenu.searchSelection') },
-      { href: '/services/consulting', label: t('servicesSubmenu.consulting') },
-      { href: '/services/managed', label: t('servicesSubmenu.managed') },
+      { href: '/services' as const, label: t('services') },
+      { href: '/services/search-selection' as const, label: t('servicesSubmenu.searchSelection') },
+      { href: '/services/consulting' as const, label: t('servicesSubmenu.consulting') },
+      { href: '/services/managed' as const, label: t('servicesSubmenu.managed') },
     ],
     hubs: [
-      { href: '/hubs', label: t('hubs') },
-      { href: '/hubs/technology', label: tHubs('technology.title') },
-      { href: '/hubs/engineering', label: tHubs('engineering.title') },
-      { href: '/hubs/business-operations', label: tHubs('businessOperations.title') },
+      { href: '/hubs' as const, label: t('hubs') },
+      { href: '/hubs/technology' as const, label: tHubs('technology.title') },
+      { href: '/hubs/engineering' as const, label: tHubs('engineering.title') },
+      { href: '/hubs/business-operations' as const, label: tHubs('businessOperations.title') },
     ],
     about: [
-      { href: '/about', label: t('about') },
-      { href: '/about/us', label: tAbout('us.title') },
-      { href: '/about/mission', label: tAbout('mission.title') },
-      { href: '/about/team', label: tAbout('team.title') },
+      { href: '/about' as const, label: t('about') },
+      { href: '/about/us' as const, label: tAbout('us.title') },
+      { href: '/about/mission' as const, label: tAbout('mission.title') },
+      { href: '/about/team' as const, label: tAbout('team.title') },
     ],
     careers: [
-      { href: '/careers', label: t('careers') },
-      { href: '/careers/find-job', label: tCareers('findJob.title') },
-      { href: '/careers/work-at-sparagus', label: tCareers('workAtSparagus.title') },
+      { href: '/careers' as const, label: t('careers') },
+      { href: '/careers/find-job' as const, label: tCareers('findJob.title') },
+      { href: '/careers/work-at-sparagus' as const, label: tCareers('workAtSparagus.title') },
     ],
   };
 
@@ -162,7 +162,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/contact"
+                  href={"/contact" as const}
                   className="text-gray-400 hover:text-white text-sm transition-colors"
                 >
                   {t('contact')}

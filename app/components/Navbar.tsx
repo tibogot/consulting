@@ -13,16 +13,16 @@ export default function Navbar() {
   const [isServicesHovered, setIsServicesHovered] = useState(false);
 
   const servicesSubmenu = [
-    { href: '/services/search-selection', label: t('servicesSubmenu.searchSelection') },
-    { href: '/services/consulting', label: t('servicesSubmenu.consulting') },
-    { href: '/services/managed', label: t('servicesSubmenu.managed') },
+    { href: '/services/search-selection' as const, label: t('servicesSubmenu.searchSelection') },
+    { href: '/services/consulting' as const, label: t('servicesSubmenu.consulting') },
+    { href: '/services/managed' as const, label: t('servicesSubmenu.managed') },
   ];
 
   const navigation = [
-    { href: '/hubs', label: t('hubs') },
-    { href: '/about', label: t('about') },
-    { href: '/careers', label: t('careers') },
-    { href: '/contact', label: t('contact') },
+    { href: '/hubs' as const, label: t('hubs') },
+    { href: '/about' as const, label: t('about') },
+    { href: '/careers' as const, label: t('careers') },
+    { href: '/contact' as const, label: t('contact') },
   ];
 
   const languages = [
@@ -53,7 +53,7 @@ export default function Navbar() {
               onMouseLeave={() => setIsServicesHovered(false)}
             >
               <Link
-                href="/services"
+                href={"/services" as const}
                 className={`text-sm font-medium transition-colors flex items-center gap-1 ${
                   pathname.startsWith('/services')
                     ? 'text-white'
