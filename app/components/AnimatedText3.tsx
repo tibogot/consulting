@@ -1,6 +1,7 @@
 "use client";
 import { useRef, ReactNode, useState, useEffect } from "react";
-import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsapConfig";
+import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
+import type { ScrollTrigger as ScrollTriggerType } from "gsap/ScrollTrigger";
 
 // Function to fix SplitText clipping issues with descenders
 function fixMask(
@@ -55,8 +56,8 @@ function AnimatedText({
   isHero = false,
 }: AnimatedTextProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const splitRefs = useRef<any[]>([]); // Store all SplitText instances for cleanup
-  const scrollTriggerRefs = useRef<any[]>([]); // Store ScrollTrigger instances for refresh
+  const splitRefs = useRef<SplitText[]>([]); // Store all SplitText instances for cleanup
+  const scrollTriggerRefs = useRef<ScrollTriggerType[]>([]); // Store ScrollTrigger instances for refresh
   const [fontsReady, setFontsReady] = useState(false);
 
   // Simplified font loading detection using document.fonts.ready
