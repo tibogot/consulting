@@ -32,7 +32,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-linear-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -70,7 +70,7 @@ export default function Navbar() {
               
               {/* Dropdown Menu */}
               {isServicesHovered && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-gradient-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
+                <div className="absolute top-full left-0 mt-2 w-56 bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
                   {servicesSubmenu.map((item) => (
                     <Link
                       key={item.href}
