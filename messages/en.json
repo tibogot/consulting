@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "servicesSubmenu": {
+      "searchSelection": "Search & Selection",
+      "consulting": "Consulting Services",
+      "managed": "Managed Services"
+    },
+    "hubs": "Hubs",
+    "about": "About",
+    "careers": "Careers",
+    "contact": "Contact"
+  },
+  "services": {
+    "title": "Services",
+    "searchSelection": {
+      "title": "Search & Selection",
+      "description": "Connecting top talent with business needs through tailored recruitment solutions for permanent, independent, and executive positions."
+    },
+    "consulting": {
+      "title": "Consulting Services",
+      "description": "Driving business transformation with expert consulting, customized technological solutions, and agile project delivery."
+    },
+    "managed": {
+      "title": "Managed Services",
+      "description": "Optimizing recruitment and outsourcing operations through personalized managed services that improve efficiency, reduce costs, and ensure compliance."
+    }
+  },
+  "hubs": {
+    "title": "Hubs",
+    "technology": {
+      "title": "Technology",
+      "description": "Accelerate digital transformation through customized IT solutions in cloud, cybersecurity, data, and agile project management."
+    },
+    "engineering": {
+      "title": "Engineering",
+      "description": "Providing specialized engineering solutions across all sectors to design, build, and optimize complex systems with precision and innovation."
+    },
+    "businessOperations": {
+      "title": "Business & Operations",
+      "description": "Optimizing key business functions through personalized consulting in strategy, finance, human resources, and operations to drive sustainable growth."
+    }
+  },
+  "about": {
+    "title": "About",
+    "us": {
+      "title": "About Us",
+      "description": "At the intersection of talent and transformation, Sparagus is designed to be a leader."
+    },
+    "mission": {
+      "title": "Mission Statement",
+      "description": "Our mission is clear: driving business growth through exceptional talent."
+    },
+    "team": {
+      "title": "Management Team",
+      "description": "Visionary, motivated, and pragmatic, our management team champions a culture of trust, excellence, and agility."
+    }
+  },
+  "careers": {
+    "title": "Careers",
+    "findJob": {
+      "title": "Find a Job",
+      "description": "Move to your next role. We connect top talent with high-impact opportunities."
+    },
+    "workAtSparagus": {
+      "title": "Work at Sparagus",
+      "description": "Be part of the team behind the impact. At Sparagus, our internal team is the engine of our culture."
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Need tailored solutions? Let's talk"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to Home"
+  },
+  "error": {
+    "title": "Something went wrong!",
+    "description": "An error occurred while loading this page. Please try again.",
+    "tryAgain": "Try again",
+    "backHome": "Back to Home"
+  },
+  "home": {
+    "hero": {
+      "title": "Unlock your company's full potential through talent, vision, and execution.",
+      "subtitle": "Whether it's finding the right people, leading complex projects, or managing complete services, we help companies act faster, think better, and improve their performance.",
+      "cta": "Discover our services"
+    },
+    "blackSection": {
+      "title": "Transforming businesses through exceptional talent",
+      "subtitle": "We connect the right expertise with the right opportunities, driving innovation and growth across industries.",
+      "description": "At Sparagus, we believe that exceptional talent is the foundation of every successful business transformation. Our approach combines deep industry knowledge with personalized solutions to help companies achieve their strategic goals."
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Complete solutions to transform your business",
+      "searchSelection": {
+        "title": "Search & Selection",
+        "description": "Connecting top talent with business needs through tailored recruitment solutions."
+      },
+      "consulting": {
+        "title": "Consulting Services",
+        "description": "Driving business transformation with expert consulting and customized technological solutions."
+      },
+      "managed": {
+        "title": "Managed Services",
+        "description": "Optimizing recruitment and outsourcing operations through personalized managed services."
+      }
+    },
+    "stats": {
+      "title": "Our Numbers",
+      "consultants": "+100 CONSULTANTS",
+      "consultantsDesc": "Interventions on IT, engineering, and business & operations projects.",
+      "countries": "11 countries",
+      "countriesDesc": "Presence across 3 continents for local and global support.",
+      "seniors": "35% SENIOR PROFILES",
+      "seniorsDesc": "Experts with over 10 years of operational field experience.",
+      "expertise": "3 expertise hubs",
+      "expertiseDesc": "Specialized in IT, engineering, and business & operations at scale."
+    },
+    "about": {
+      "title": "Built on expertise. Driven by people",
+      "subtitle": "ABOUT US",
+      "description": "From its roots in recruitment to its role as a trusted partner in consulting and managed services, Sparagus has evolved to meet the real needs of modern businesses. We help our clients fill key positions, lead complex projects, and manage complete services, while preserving a human relationship.",
+      "cta": "About us"
+    },
+    "hubs": {
+      "title": "Specialized expertise. Adapted to your sector",
+      "subtitle": "OUR HUBS",
+      "technology": {
+        "title": "Technology HUB",
+        "description": "Accelerate digital transformation through our expertise in cloud, cybersecurity, and data intelligence."
+      },
+      "engineering": {
+        "title": "Engineering Hub",
+        "description": "Providing advanced engineering solutions in mechanics, electrical, aerospace, and processes."
+      },
+      "businessOperations": {
+        "title": "Business & Operations Hub",
+        "description": "Drive business growth through experts in strategy, finance, human resources, procurement, and operational excellence."
+      }
+    }
+  }
+}
+

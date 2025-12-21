@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Diensten",
+    "servicesSubmenu": {
+      "searchSelection": "Zoeken en selectie",
+      "consulting": "Adviesdiensten",
+      "managed": "Beheerde diensten"
+    },
+    "hubs": "Hubs",
+    "about": "Over ons",
+    "careers": "Carrières",
+    "contact": "Contact"
+  },
+  "services": {
+    "title": "Diensten",
+    "searchSelection": {
+      "title": "Zoeken en selectie",
+      "description": "De beste talenten verbinden met bedrijfsbehoeften via op maat gemaakte wervingsoplossingen voor vaste, onafhankelijke en uitvoerende functies."
+    },
+    "consulting": {
+      "title": "Adviesdiensten",
+      "description": "Bedrijfstransformatie stimuleren met deskundig advies, op maat gemaakte technologische oplossingen en agile projectlevering."
+    },
+    "managed": {
+      "title": "Beheerde diensten",
+      "description": "Optimalisatie van wervings- en outsourcingactiviteiten via gepersonaliseerde beheerde diensten die de efficiëntie verbeteren, kosten verlagen en naleving garanderen."
+    }
+  },
+  "hubs": {
+    "title": "Hubs",
+    "technology": {
+      "title": "Technologie",
+      "description": "Digitale transformatie versnellen via op maat gemaakte IT-oplossingen in cloud, cybersecurity, data en agile projectmanagement."
+    },
+    "engineering": {
+      "title": "Ingenieurs",
+      "description": "Gespecialiseerde engineeringoplossingen leveren in alle sectoren om complexe systemen met precisie en innovatie te ontwerpen, bouwen en optimaliseren."
+    },
+    "businessOperations": {
+      "title": "Bedrijfsvoering",
+      "description": "Optimalisatie van belangrijke bedrijfsfuncties via gepersonaliseerd advies in strategie, financiën, human resources en operaties om duurzame groei te stimuleren."
+    }
+  },
+  "about": {
+    "title": "Over ons",
+    "us": {
+      "title": "Over ons",
+      "description": "Op het kruispunt van talent en transformatie is Sparagus ontworpen om een leider te zijn."
+    },
+    "mission": {
+      "title": "Missieverklaring",
+      "description": "Onze missie is duidelijk: bedrijfsgroei stimuleren door uitzonderlijk talent."
+    },
+    "team": {
+      "title": "Managementteam",
+      "description": "Visionair, gemotiveerd en pragmatisch, ons managementteam verdedigt een cultuur van vertrouwen, excellentie en wendbaarheid."
+    }
+  },
+  "careers": {
+    "title": "Carrières",
+    "findJob": {
+      "title": "Vacatures",
+      "description": "Ga naar uw volgende rol. We verbinden top talent met kansen met grote impact."
+    },
+    "workAtSparagus": {
+      "title": "Werken bij Sparagus",
+      "description": "Maak deel uit van het team achter de impact. Bij Sparagus is ons interne team de motor van onze cultuur."
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Op maat gemaakte oplossingen nodig? Laten we praten"
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "description": "De pagina die u zoekt bestaat niet of is verplaatst.",
+    "backHome": "Terug naar home"
+  },
+  "error": {
+    "title": "Er is iets misgegaan!",
+    "description": "Er is een fout opgetreden bij het laden van deze pagina. Probeer het opnieuw.",
+    "tryAgain": "Probeer opnieuw",
+    "backHome": "Terug naar home"
+  },
+  "home": {
+    "hero": {
+      "title": "Ontgrendel het volledige potentieel van uw bedrijf door talent, visie en uitvoering.",
+      "subtitle": "Of het nu gaat om het vinden van de juiste mensen, het leiden van complexe projecten of het beheren van complete diensten, we helpen bedrijven sneller te handelen, beter na te denken en hun prestaties te verbeteren.",
+      "cta": "Ontdek onze diensten"
+    },
+    "blackSection": {
+      "title": "Bedrijven transformeren door uitzonderlijk talent",
+      "subtitle": "We verbinden de juiste expertise met de juiste kansen, stimuleren innovatie en groei in alle sectoren.",
+      "description": "Bij Sparagus geloven we dat uitzonderlijk talent de basis is van elke succesvolle bedrijfstransformatie. Onze aanpak combineert diepgaande branchekennis met gepersonaliseerde oplossingen om bedrijven te helpen hun strategische doelen te bereiken."
+    },
+    "services": {
+      "title": "Onze Diensten",
+      "subtitle": "Complete oplossingen om uw bedrijf te transformeren",
+      "searchSelection": {
+        "title": "Zoeken en selectie",
+        "description": "De beste talenten verbinden met bedrijfsbehoeften via op maat gemaakte wervingsoplossingen."
+      },
+      "consulting": {
+        "title": "Adviesdiensten",
+        "description": "Bedrijfstransformatie stimuleren met deskundig advies en op maat gemaakte technologische oplossingen."
+      },
+      "managed": {
+        "title": "Beheerde diensten",
+        "description": "Optimalisatie van wervings- en outsourcingactiviteiten via gepersonaliseerde beheerde diensten."
+      }
+    },
+    "stats": {
+      "title": "Onze cijfers",
+      "consultants": "+100 CONSULTANTS",
+      "consultantsDesc": "Interventies op IT-, engineering- en business & operationsprojecten.",
+      "countries": "11 landen",
+      "countriesDesc": "Aanwezigheid op 3 continenten voor lokale en wereldwijde ondersteuning.",
+      "seniors": "35% SENIOR PROFIELEN",
+      "seniorsDesc": "Experts met meer dan 10 jaar operationele veldervaring.",
+      "expertise": "3 expertisehubs",
+      "expertiseDesc": "Gespecialiseerd in IT, engineering en business & operations op schaal."
+    },
+    "about": {
+      "title": "Gebouwd op expertise. Aangedreven door mensen",
+      "subtitle": "OVER ONS",
+      "description": "Van zijn wortels in werving tot zijn rol als vertrouwde partner in advies en beheerde diensten, Sparagus is geëvolueerd om te voldoen aan de echte behoeften van moderne bedrijven. We helpen onze klanten bij het invullen van sleutelposities, het leiden van complexe projecten en het beheren van complete diensten, terwijl we een menselijke relatie behouden.",
+      "cta": "Over ons"
+    },
+    "hubs": {
+      "title": "Gespecialiseerde expertise. Aangepast aan uw sector",
+      "subtitle": "ONZE HUBS",
+      "technology": {
+        "title": "Technology HUB",
+        "description": "Digitale transformatie versnellen door onze expertise in cloud, cybersecurity en data-intelligentie."
+      },
+      "engineering": {
+        "title": "Engineering Hub",
+        "description": "Geavanceerde engineeringoplossingen bieden in mechanica, elektrisch, luchtvaart en processen."
+      },
+      "businessOperations": {
+        "title": "Business & Operations Hub",
+        "description": "Bedrijfsgroei stimuleren door experts in strategie, financiën, human resources, inkoop en operationele excellentie."
+      }
+    }
+  }
+}
+

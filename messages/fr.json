@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "servicesSubmenu": {
+      "searchSelection": "Recherche et sélection",
+      "consulting": "Services de conseil",
+      "managed": "Services gérés"
+    },
+    "hubs": "Hubs",
+    "about": "À propos",
+    "careers": "Carrières",
+    "contact": "Contact"
+  },
+  "services": {
+    "title": "Services",
+    "searchSelection": {
+      "title": "Recherche et sélection",
+      "description": "Connecter les meilleurs talents aux besoins de l'entreprise grâce à des solutions de recrutement personnalisées pour les postes permanents, indépendants et exécutifs."
+    },
+    "consulting": {
+      "title": "Services de conseil",
+      "description": "Favoriser la transformation de l'entreprise grâce à des conseils d'experts, à des solutions technologiques personnalisées et à une livraison de projets agile."
+    },
+    "managed": {
+      "title": "Services gérés",
+      "description": "Optimisation des opérations de recrutement et de sous-traitance grâce à des services gérés personnalisés qui améliorent l'efficacité, réduisent les coûts et garantissent la conformité."
+    }
+  },
+  "hubs": {
+    "title": "Hubs",
+    "technology": {
+      "title": "Technologie",
+      "description": "Favorisez la transformation numérique grâce à des solutions informatiques personnalisées dans les domaines du cloud, de la cybersécurité, des données et de la gestion de projet agile."
+    },
+    "engineering": {
+      "title": "Ingénierie",
+      "description": "Fournir des solutions d'ingénierie spécialisées dans tous les secteurs pour concevoir, construire et optimiser des systèmes complexes avec précision et innovation."
+    },
+    "businessOperations": {
+      "title": "Affaires et opérations",
+      "description": "Optimisation des principales fonctions commerciales grâce à des conseils personnalisés en matière de stratégie, de finances, de ressources humaines et d'opérations afin de favoriser une croissance durable."
+    }
+  },
+  "about": {
+    "title": "À propos",
+    "us": {
+      "title": "À propos de nous",
+      "description": "À l'intersection du talent et de la transformation, Sparagus est conçue pour être un leader."
+    },
+    "mission": {
+      "title": "Énoncé de mission",
+      "description": "Notre mission est claire : stimuler la croissance des entreprises grâce à des talents exceptionnels."
+    },
+    "team": {
+      "title": "L'équipe de direction",
+      "description": "Visionnaire, motivée et pragmatique, notre équipe de direction défend une culture de confiance, d'excellence et d'agilité."
+    }
+  },
+  "careers": {
+    "title": "Carrières",
+    "findJob": {
+      "title": "Trouvez un emploi",
+      "description": "Passez à votre prochain rôle. Nous mettons en relation les meilleurs talents avec des opportunités à fort impact."
+    },
+    "workAtSparagus": {
+      "title": "Travaillez chez Sparagus",
+      "description": "Faites partie de l'équipe à l'origine de l'impact. Chez Sparagus, notre équipe interne est le moteur de notre culture."
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Besoin de solutions sur mesure ? Parlons-en"
+  },
+  "notFound": {
+    "title": "Page non trouvée",
+    "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "backHome": "Retour à l'accueil"
+  },
+  "error": {
+    "title": "Une erreur s'est produite !",
+    "description": "Une erreur s'est produite lors du chargement de cette page. Veuillez réessayer.",
+    "tryAgain": "Réessayer",
+    "backHome": "Retour à l'accueil"
+  },
+  "home": {
+    "hero": {
+      "title": "Révélez le plein potentiel de votre entreprise grâce au talent, à la vision et à l'exécution.",
+      "subtitle": "Qu'il s'agisse de trouver les bonnes personnes, de diriger des projets complexes ou de gérer des services complets, nous aidons les entreprises à agir plus rapidement, à mieux réfléchir et à améliorer leurs performances.",
+      "cta": "Découvrez nos services"
+    },
+    "blackSection": {
+      "title": "Transformer les entreprises grâce à des talents exceptionnels",
+      "subtitle": "Nous connectons la bonne expertise aux bonnes opportunités, stimulant l'innovation et la croissance dans tous les secteurs.",
+      "description": "Chez Sparagus, nous croyons que les talents exceptionnels sont le fondement de toute transformation d'entreprise réussie. Notre approche combine une connaissance approfondie de l'industrie avec des solutions personnalisées pour aider les entreprises à atteindre leurs objectifs stratégiques."
+    },
+    "services": {
+      "title": "Nos Services",
+      "subtitle": "Des solutions complètes pour transformer votre entreprise",
+      "searchSelection": {
+        "title": "Recherche et sélection",
+        "description": "Connecter les meilleurs talents aux besoins de l'entreprise grâce à des solutions de recrutement personnalisées."
+      },
+      "consulting": {
+        "title": "Services de conseil",
+        "description": "Favoriser la transformation de l'entreprise grâce à des conseils d'experts et des solutions technologiques personnalisées."
+      },
+      "managed": {
+        "title": "Services gérés",
+        "description": "Optimisation des opérations de recrutement et de sous-traitance grâce à des services gérés personnalisés."
+      }
+    },
+    "stats": {
+      "title": "Nos chiffres",
+      "consultants": "+100 CONSULTANTS",
+      "consultantsDesc": "Interventions sur des projets IT, d'ingénierie et de business & operations.",
+      "countries": "11 pays",
+      "countriesDesc": "Présence sur 3 continents pour un accompagnement local et global.",
+      "seniors": "35% DE PROFILS SENIORS",
+      "seniorsDesc": "Experts disposant de plus de 10 ans d'expérience opérationnelle sur le terrain.",
+      "expertise": "3 pôles d'expertise",
+      "expertiseDesc": "Spécialisés en IT, ingénierie, et business & opérations à grande échelle."
+    },
+    "about": {
+      "title": "Fondée sur l'expertise. Portée par l'humain",
+      "subtitle": "À PROPOS DE NOUS",
+      "description": "De ses racines en recrutement à son rôle de partenaire de confiance en conseil et services managés, Sparagus a évolué pour répondre aux besoins réels des entreprises modernes. Nous aidons nos clients à pourvoir des postes clés, à piloter des projets complexes et à gérer des prestations complètes, tout en préservant une relation humaine.",
+      "cta": "À propos de nous"
+    },
+    "hubs": {
+      "title": "Expertise spécialisée. Adapté à votre secteur",
+      "subtitle": "NOS HUBS",
+      "technology": {
+        "title": "Technology HUB",
+        "description": "Accélérer la transformation numérique grâce à notre expertise en cloud, cybersécurité et data intelligence."
+      },
+      "engineering": {
+        "title": "Engineering Hub",
+        "description": "Fournir des solutions d'ingénierie avancées dans les domaines de la mécanique, de l'électricité, de l'aérospatiale et des procédés."
+      },
+      "businessOperations": {
+        "title": "Business & operations hub",
+        "description": "Favoriser la croissance de l'entreprise grâce à des experts en matière de stratégie, de finances, de ressources humaines, d'approvisionnement et d'excellence opérationnelle."
+      }
+    }
+  }
+}
+
