@@ -9,7 +9,7 @@ export default function ContactTestContent() {
   return (
     <div className="w-full">
       {/* Hero Section - Using isHero prop like old project */}
-      <section className="relative min-h-screen bg-linear-to-b from-purple-900 via-black to-black flex items-center justify-center px-4 md:px-8">
+      <section className="relative min-h-screen bg-black flex items-center justify-center px-4 md:px-8">
         <div className="mx-auto text-center">
           <AnimatedText isHero>
             <h1 className="mx-auto mb-6 text-white max-w-4xl text-6xl">
