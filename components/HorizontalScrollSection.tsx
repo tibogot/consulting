@@ -29,7 +29,7 @@ export default function HorizontalScrollSection({
   const containerRef = useRef<HTMLDivElement>(null);
   const pinnedMarqueeImgCloneRef = useRef<HTMLImageElement | null>(null);
   const isImgCloneActiveRef = useRef(false);
-  const flipAnimationRef = useRef<gsap.core.Tween | null>(null);
+  const flipAnimationRef = useRef<gsap.core.Timeline | null>(null);
 
   useGSAP(() => {
     if (!containerRef.current) return;
