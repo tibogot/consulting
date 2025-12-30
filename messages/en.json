@@ -70,7 +70,24 @@
   },
   "contact": {
     "title": "Contact",
-    "description": "Need tailored solutions? Let's talk"
+    "description": "Need tailored solutions? Let's talk",
+    "hero": {
+      "title": "Contact Us",
+      "subtitle": "Get in touch with our team"
+    },
+    "section1": {
+      "title": "Default Scroll Animation",
+      "description": "This section uses the default scroll-triggered animation. The text will animate in as you scroll down."
+    },
+    "section2": {
+      "leftTitle": "Custom Start & Stagger",
+      "leftDescription": "This animation starts earlier and has a longer stagger between lines for a more dramatic effect.",
+      "rightTitle": "Multiple Text Blocks",
+      "rightDescription": "This section demonstrates multiple AnimatedText components working together. Each text block animates independently as it enters the viewport."
+    },
+    "section3": {
+      "description": "This section tests how the AnimatedText component handles longer paragraphs with multiple lines. The component should split the text into lines and animate each line independently. This creates a smooth, professional text reveal effect that works great for storytelling and engaging user experiences."
+    }
   },
   "notFound": {
     "title": "Page Not Found",

@@ -70,7 +70,24 @@
   },
   "contact": {
     "title": "Contact",
-    "description": "Op maat gemaakte oplossingen nodig? Laten we praten"
+    "description": "Op maat gemaakte oplossingen nodig? Laten we praten",
+    "hero": {
+      "title": "Neem contact met ons op",
+      "subtitle": "Kom in contact met ons team"
+    },
+    "section1": {
+      "title": "Standaard scroll-animatie",
+      "description": "Deze sectie maakt gebruik van de standaard scroll-geactiveerde animatie. De tekst wordt geanimeerd terwijl u naar beneden scrollt."
+    },
+    "section2": {
+      "leftTitle": "Aangepaste start en spreiding",
+      "leftDescription": "Deze animatie begint eerder en heeft een langere spreiding tussen regels voor een dramatischer effect.",
+      "rightTitle": "Meerdere tekstblokken",
+      "rightDescription": "Deze sectie demonstreert meerdere AnimatedText-componenten die samenwerken. Elk tekstblok animeert onafhankelijk wanneer het de viewport binnenkomt."
+    },
+    "section3": {
+      "description": "Deze sectie test hoe de AnimatedText-component langere paragrafen met meerdere regels verwerkt. De component moet de tekst in regels splitsen en elke regel onafhankelijk animeren. Dit creëert een vloeiend, professioneel tekst onthullingseffect dat geweldig werkt voor storytelling en boeiende gebruikerservaringen."
+    }
   },
   "notFound": {
     "title": "Pagina niet gevonden",

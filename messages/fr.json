@@ -70,7 +70,24 @@
   },
   "contact": {
     "title": "Contact",
-    "description": "Besoin de solutions sur mesure ? Parlons-en"
+    "description": "Besoin de solutions sur mesure ? Parlons-en",
+    "hero": {
+      "title": "Contactez-nous",
+      "subtitle": "Entrez en contact avec notre équipe"
+    },
+    "section1": {
+      "title": "Animation de défilement par défaut",
+      "description": "Cette section utilise l'animation déclenchée par le défilement par défaut. Le texte s'animera au fur et à mesure que vous descendez."
+    },
+    "section2": {
+      "leftTitle": "Début et décalage personnalisés",
+      "leftDescription": "Cette animation démarre plus tôt et présente un décalage plus long entre les lignes pour un effet plus spectaculaire.",
+      "rightTitle": "Plusieurs blocs de texte",
+      "rightDescription": "Cette section démontre plusieurs composants AnimatedText fonctionnant ensemble. Chaque bloc de texte s'anime indépendamment lorsqu'il entre dans la fenêtre d'affichage."
+    },
+    "section3": {
+      "description": "Cette section teste la façon dont le composant AnimatedText gère les paragraphes plus longs avec plusieurs lignes. Le composant doit diviser le texte en lignes et animer chaque ligne indépendamment. Cela crée un effet de révélation de texte fluide et professionnel qui fonctionne très bien pour la narration et les expériences utilisateur engageantes."
+    }
   },
   "notFound": {
     "title": "Page non trouvée",
