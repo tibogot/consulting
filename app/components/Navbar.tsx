@@ -2,7 +2,7 @@
 
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
@@ -14,6 +14,68 @@ export default function Navbar() {
   const [isHubsHovered, setIsHubsHovered] = useState(false);
   const [isAboutHovered, setIsAboutHovered] = useState(false);
   const [isCareersHovered, setIsCareersHovered] = useState(false);
+
+  // Timeout refs for delayed closing
+  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hubsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const careersTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleServicesMouseEnter = () => {
+    if (servicesTimeoutRef.current) {
+      clearTimeout(servicesTimeoutRef.current);
+      servicesTimeoutRef.current = null;
+    }
+    setIsServicesHovered(true);
+  };
+
+  const handleServicesMouseLeave = () => {
+    servicesTimeoutRef.current = setTimeout(() => {
+      setIsServicesHovered(false);
+    }, 200);
+  };
+
+  const handleHubsMouseEnter = () => {
+    if (hubsTimeoutRef.current) {
+      clearTimeout(hubsTimeoutRef.current);
+      hubsTimeoutRef.current = null;
+    }
+    setIsHubsHovered(true);
+  };
+
+  const handleHubsMouseLeave = () => {
+    hubsTimeoutRef.current = setTimeout(() => {
+      setIsHubsHovered(false);
+    }, 200);
+  };
+
+  const handleAboutMouseEnter = () => {
+    if (aboutTimeoutRef.current) {
+      clearTimeout(aboutTimeoutRef.current);
+      aboutTimeoutRef.current = null;
+    }
+    setIsAboutHovered(true);
+  };
+
+  const handleAboutMouseLeave = () => {
+    aboutTimeoutRef.current = setTimeout(() => {
+      setIsAboutHovered(false);
+    }, 200);
+  };
+
+  const handleCareersMouseEnter = () => {
+    if (careersTimeoutRef.current) {
+      clearTimeout(careersTimeoutRef.current);
+      careersTimeoutRef.current = null;
+    }
+    setIsCareersHovered(true);
+  };
+
+  const handleCareersMouseLeave = () => {
+    careersTimeoutRef.current = setTimeout(() => {
+      setIsCareersHovered(false);
+    }, 200);
+  };
 
   const servicesSubmenu = [
     {
@@ -62,8 +124,8 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-linear-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center h-full">
@@ -79,8 +141,8 @@ export default function Navbar() {
             {/* Services Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setIsServicesHovered(true)}
-              onMouseLeave={() => setIsServicesHovered(false)}
+              onMouseEnter={handleServicesMouseEnter}
+              onMouseLeave={handleServicesMouseLeave}
             >
               <button
                 className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
@@ -99,21 +161,59 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isServicesHovered && (
-                <div className="absolute top-full left-0 pt-2 w-56">
-                  <div className="bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
-                    {servicesSubmenu.map((item) => (
+                <div 
+                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                  onMouseEnter={handleServicesMouseEnter}
+                  onMouseLeave={handleServicesMouseLeave}
+                >
+                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                    {/* Left Image Section */}
+                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
+                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                        {t("services")}
+                      </div>
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2 text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white bg-white/10"
-                            : "text-white/90 hover:text-white hover:bg-white/10"
-                        }`}
+                        href="/services"
+                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        {item.label}
+                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </Link>
-                    ))}
+                    </div>
+                    {/* Right Two Columns Section */}
+                    <div className="flex p-4 gap-8">
+                      <div className="space-y-2 min-w-[180px]">
+                        {servicesSubmenu.slice(0, Math.ceil(servicesSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="space-y-2 min-w-[180px]">
+                        {servicesSubmenu.slice(Math.ceil(servicesSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -122,8 +222,8 @@ export default function Navbar() {
             {/* Hubs Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setIsHubsHovered(true)}
-              onMouseLeave={() => setIsHubsHovered(false)}
+              onMouseEnter={handleHubsMouseEnter}
+              onMouseLeave={handleHubsMouseLeave}
             >
               <button
                 className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
@@ -142,21 +242,59 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isHubsHovered && (
-                <div className="absolute top-full left-0 pt-2 w-56">
-                  <div className="bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
-                    {hubsSubmenu.map((item) => (
+                <div 
+                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                  onMouseEnter={handleHubsMouseEnter}
+                  onMouseLeave={handleHubsMouseLeave}
+                >
+                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                    {/* Left Image Section */}
+                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
+                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                        {t("hubs")}
+                      </div>
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2 text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white bg-white/10"
-                            : "text-white/90 hover:text-white hover:bg-white/10"
-                        }`}
+                        href="/hubs"
+                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        {item.label}
+                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </Link>
-                    ))}
+                    </div>
+                    {/* Right Two Columns Section */}
+                    <div className="flex p-4 gap-8">
+                      <div className="space-y-2 min-w-[180px]">
+                        {hubsSubmenu.slice(0, Math.ceil(hubsSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="space-y-2 min-w-[180px]">
+                        {hubsSubmenu.slice(Math.ceil(hubsSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -165,8 +303,8 @@ export default function Navbar() {
             {/* About Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setIsAboutHovered(true)}
-              onMouseLeave={() => setIsAboutHovered(false)}
+              onMouseEnter={handleAboutMouseEnter}
+              onMouseLeave={handleAboutMouseLeave}
             >
               <button
                 className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
@@ -185,21 +323,59 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isAboutHovered && (
-                <div className="absolute top-full left-0 pt-2 w-56">
-                  <div className="bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
-                    {aboutSubmenu.map((item) => (
+                <div 
+                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                  onMouseEnter={handleAboutMouseEnter}
+                  onMouseLeave={handleAboutMouseLeave}
+                >
+                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                    {/* Left Image Section */}
+                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
+                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                        {t("about")}
+                      </div>
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2 text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white bg-white/10"
-                            : "text-white/90 hover:text-white hover:bg-white/10"
-                        }`}
+                        href="/about"
+                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        {item.label}
+                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </Link>
-                    ))}
+                    </div>
+                    {/* Right Two Columns Section */}
+                    <div className="flex p-4 gap-8">
+                      <div className="space-y-2 min-w-[180px]">
+                        {aboutSubmenu.slice(0, Math.ceil(aboutSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="space-y-2 min-w-[180px]">
+                        {aboutSubmenu.slice(Math.ceil(aboutSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -208,8 +384,8 @@ export default function Navbar() {
             {/* Careers Dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setIsCareersHovered(true)}
-              onMouseLeave={() => setIsCareersHovered(false)}
+              onMouseEnter={handleCareersMouseEnter}
+              onMouseLeave={handleCareersMouseLeave}
             >
               <button
                 className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
@@ -228,21 +404,59 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isCareersHovered && (
-                <div className="absolute top-full left-0 pt-2 w-56">
-                  <div className="bg-linear-to-b from-black/20 via-black/20 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg py-2 z-50">
-                    {careersSubmenu.map((item) => (
+                <div 
+                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                  onMouseEnter={handleCareersMouseEnter}
+                  onMouseLeave={handleCareersMouseLeave}
+                >
+                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                    {/* Left Image Section */}
+                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
+                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                        {t("careers")}
+                      </div>
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2 text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white bg-white/10"
-                            : "text-white/90 hover:text-white hover:bg-white/10"
-                        }`}
+                        href="/careers"
+                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        {item.label}
+                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </Link>
-                    ))}
+                    </div>
+                    {/* Right Two Columns Section */}
+                    <div className="flex p-4 gap-8">
+                      <div className="space-y-2 min-w-[180px]">
+                        {careersSubmenu.slice(0, Math.ceil(careersSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="space-y-2 min-w-[180px]">
+                        {careersSubmenu.slice(Math.ceil(careersSubmenu.length / 2)).map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

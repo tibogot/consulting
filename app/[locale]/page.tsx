@@ -4,6 +4,7 @@ import GradientTextReveal from "../components/GradientTextReveal";
 import StickyCards3D from "../components/StickyCards3D";
 import PartnersTicker from "../components/PartnersTicker";
 import AnimatedText from "../components/AnimatedText3";
+import ShaderBackground from "../components/ShaderBackground4";
 
 export default async function Home() {
   const t = await getTranslations("home");
@@ -11,7 +12,11 @@ export default async function Home() {
   return (
     <div className="w-full min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-svh bg-blue-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+      <section className="relative h-svh flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Shader Background */}
+        <div className="absolute inset-0 -z-10">
+          <ShaderBackground />
+        </div>
         <div className="relative z-10 w-full max-w-4xl mx-auto text-center">
           <AnimatedText
             isHero
@@ -36,7 +41,7 @@ export default async function Home() {
         <PartnersTicker
           speed={20}
           direction="left"
-          pauseOnHover={true}
+          pauseOnHover={false}
           gap={32}
           logoHeight={30}
         />
@@ -47,7 +52,7 @@ export default async function Home() {
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-light text-left"
+          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left"
         >
           <h2>{t("blackSection.title")}</h2>
         </GradientTextReveal>
