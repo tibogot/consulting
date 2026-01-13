@@ -12,25 +12,21 @@ export default function Footer() {
 
   const footerLinks = {
     services: [
-      { href: '/services' as const, label: t('services') },
       { href: '/services/search-selection' as const, label: t('servicesSubmenu.searchSelection') },
       { href: '/services/consulting' as const, label: t('servicesSubmenu.consulting') },
       { href: '/services/managed' as const, label: t('servicesSubmenu.managed') },
     ],
     hubs: [
-      { href: '/hubs' as const, label: t('hubs') },
       { href: '/hubs/technology' as const, label: tHubs('technology.title') },
       { href: '/hubs/engineering' as const, label: tHubs('engineering.title') },
       { href: '/hubs/business-operations' as const, label: tHubs('businessOperations.title') },
     ],
     about: [
-      { href: '/about' as const, label: t('about') },
       { href: '/about/us' as const, label: tAbout('us.title') },
       { href: '/about/mission' as const, label: tAbout('mission.title') },
       { href: '/about/team' as const, label: tAbout('team.title') },
     ],
     careers: [
-      { href: '/careers' as const, label: t('careers') },
       { href: '/careers/find-job' as const, label: tCareers('findJob.title') },
       { href: '/careers/work-at-sparagus' as const, label: tCareers('workAtSparagus.title') },
     ],
