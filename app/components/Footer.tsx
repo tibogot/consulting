@@ -182,22 +182,6 @@ export default function Footer() {
                   {t('contact')}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href={"/flip-demo" as const}
-                  className="text-gray-400 hover:text-white text-sm transition-colors"
-                >
-                  Flip Demo
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={"/gradientshader" as const}
-                  className="text-gray-400 hover:text-white text-sm transition-colors"
-                >
-                  Gradient Shader
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
