@@ -13,6 +13,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-switzer: var(--font-switzer);
+  --font-pp-neue-montreal: var(--font-pp-neue-montreal);
 }
 
 @media (prefers-color-scheme: dark) {

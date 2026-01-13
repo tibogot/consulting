@@ -108,6 +108,20 @@ export const routing = defineRouting({
       en: '/contact',
       nl: '/contact',
     },
+    
+    // Legal
+    '/legal': {
+      fr: '/legal',
+      en: '/legal',
+      nl: '/juridisch',
+    },
+    
+    // Cookies
+    '/cookies': {
+      fr: '/cookies',
+      en: '/cookies',
+      nl: '/cookies',
+    },
   },
 });
 

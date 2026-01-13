@@ -36,6 +36,16 @@ const switzer = localFont({
   preload: true, // Preloads the font for better performance
 });
 
+// PP Neue Montreal Variable Font
+const ppNeueMontreal = localFont({
+  src: "../../fonts/PP Neue Montreal-Variable.ttf",
+  variable: "--font-pp-neue-montreal",
+  display: "swap",
+  fallback: ["sans-serif"],
+  weight: "100 900",
+  preload: true,
+});
+
 export const metadata: Metadata = {
   title: "Sparagus",
   description: "Des solutions d'expertes au service de votre succès",
@@ -62,7 +72,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${switzer.variable} antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${switzer.variable} ${ppNeueMontreal.variable} antialiased flex flex-col min-h-screen`}
       >
         <NextIntlClientProvider messages={messages}>
           <PageLoader />

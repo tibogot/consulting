@@ -190,13 +190,13 @@ export default function Footer() {
             </p>
             <div className="flex gap-6">
               <Link
-                href="/legal"
+                href={"/legal" as const}
                 className="text-gray-400 hover:text-white text-sm transition-colors"
               >
                 {t('legal')}
               </Link>
               <Link
-                href="/cookies"
+                href={"/cookies" as const}
                 className="text-gray-400 hover:text-white text-sm transition-colors"
               >
                 {t('cookies')}

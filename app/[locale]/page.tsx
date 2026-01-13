@@ -52,7 +52,14 @@ export default async function Home() {
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left"
+          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal"
+        >
+          <h2>{t("blackSection.title")}</h2>
+        </GradientTextReveal>
+        <GradientTextReveal
+          startColor="rgb(255, 255, 255, 0.3)"
+          endColor="rgb(255, 255, 255)"
+          className="text-5xl md:text-6xl lg:text-7xl font-[400] text-left font-switzer tracking-[-0.01em] mt-8"
         >
           <h2>{t("blackSection.title")}</h2>
         </GradientTextReveal>
