@@ -95,6 +95,13 @@ export const routing = defineRouting({
       nl: '/carrieres/werken-bij-sparagus',
     },
     
+    // Blog
+    '/blog': {
+      fr: '/blog',
+      en: '/blog',
+      nl: '/blog',
+    },
+    
     // Contact
     '/contact': {
       fr: '/contact',

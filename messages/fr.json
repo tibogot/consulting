@@ -8,8 +8,23 @@
       "managed": "Services gérés"
     },
     "hubs": "Hubs",
+    "hubsSubmenu": {
+      "technology": "Technologie",
+      "engineering": "Ingénierie",
+      "businessOperations": "Affaires et opérations"
+    },
     "about": "À propos",
+    "aboutSubmenu": {
+      "us": "À propos de nous",
+      "mission": "Énoncé de mission",
+      "team": "L'équipe de direction"
+    },
     "careers": "Carrières",
+    "careersSubmenu": {
+      "findJob": "Trouvez un emploi",
+      "workAtSparagus": "Travaillez chez Sparagus"
+    },
+    "blog": "Blog",
     "contact": "Contact"
   },
   "services": {
@@ -66,6 +81,14 @@
     "workAtSparagus": {
       "title": "Travaillez chez Sparagus",
       "description": "Faites partie de l'équipe à l'origine de l'impact. Chez Sparagus, notre équipe interne est le moteur de notre culture."
+    }
+  },
+  "flipDemo": {
+    "hero": "Transformer les entreprises grâce à des talents exceptionnels et une expertise stratégique. Nous connectons la bonne expertise avec les bonnes opportunités.",
+    "outro": "Stimuler l'innovation et la croissance dans tous les secteurs. Votre succès est notre mission, un projet à la fois.",
+    "slides": {
+      "slide1": "Nous aidons les entreprises à trouver les bonnes personnes, à diriger des projets complexes et à gérer des services complets. Notre approche combine une connaissance approfondie de l'industrie avec des solutions personnalisées.",
+      "slide2": "Qu'il s'agisse de trouver les bonnes personnes, de diriger des projets complexes ou de gérer des services complets, nous aidons les entreprises à agir plus rapidement, à mieux réfléchir et à améliorer leurs performances."
     }
   },
   "contact": {

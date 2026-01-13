@@ -8,8 +8,23 @@
       "managed": "Beheerde diensten"
     },
     "hubs": "Hubs",
+    "hubsSubmenu": {
+      "technology": "Technologie",
+      "engineering": "Ingenieurs",
+      "businessOperations": "Bedrijfsvoering"
+    },
     "about": "Over ons",
+    "aboutSubmenu": {
+      "us": "Over ons",
+      "mission": "Missieverklaring",
+      "team": "Managementteam"
+    },
     "careers": "Carrières",
+    "careersSubmenu": {
+      "findJob": "Vacatures",
+      "workAtSparagus": "Werken bij Sparagus"
+    },
+    "blog": "Blog",
     "contact": "Contact"
   },
   "services": {
@@ -66,6 +81,14 @@
     "workAtSparagus": {
       "title": "Werken bij Sparagus",
       "description": "Maak deel uit van het team achter de impact. Bij Sparagus is ons interne team de motor van onze cultuur."
+    }
+  },
+  "flipDemo": {
+    "hero": "Bedrijven transformeren door uitzonderlijk talent en strategische expertise. We verbinden de juiste expertise met de juiste kansen.",
+    "outro": "Innovatie en groei stimuleren in alle sectoren. Uw succes is onze missie, één project tegelijk.",
+    "slides": {
+      "slide1": "We helpen bedrijven de juiste mensen te vinden, complexe projecten te leiden en complete diensten te beheren. Onze aanpak combineert diepgaande branchekennis met gepersonaliseerde oplossingen.",
+      "slide2": "Of het nu gaat om het vinden van de juiste mensen, het leiden van complexe projecten of het beheren van complete diensten, we helpen bedrijven sneller te handelen, beter na te denken en hun prestaties te verbeteren."
     }
   },
   "contact": {

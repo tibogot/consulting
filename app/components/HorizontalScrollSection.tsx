@@ -10,6 +10,8 @@ interface HorizontalScrollSectionProps {
     text: string;
     image: string;
   }[];
+  heroText?: string;
+  outroText?: string;
 }
 
 export default function HorizontalScrollSection({
@@ -25,6 +27,8 @@ export default function HorizontalScrollSection({
       image: "/slide-2.jpg",
     },
   ],
+  heroText = "Fragments of thought arranged in sequence become patterns. They unfold step by step, shaping meaning as they move forward.",
+  outroText = "Shadows fold into light. Shapes shift across the frame, reminding us that stillness is only temporary.",
 }: HorizontalScrollSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pinnedMarqueeImgCloneRef = useRef<HTMLImageElement | null>(null);
@@ -252,8 +256,7 @@ export default function HorizontalScrollSection({
     <div ref={containerRef} className="relative w-full bg-[#edf1e8]">
       <section className="hero relative w-full h-svh p-8 flex items-center justify-center text-center">
         <h1 className="w-full lg:w-3/4 mx-auto text-4xl lg:text-[4rem] font-medium tracking-tight leading-tight">
-          Fragments of thought arranged in sequence become patterns. They unfold
-          step by step, shaping meaning as they move forward.
+          {heroText}
         </h1>
       </section>
 
@@ -305,8 +308,7 @@ export default function HorizontalScrollSection({
 
       <section className="outro relative w-full h-svh p-8 flex items-center justify-center text-center bg-[#101010] text-[#edf1e8]">
         <h1 className="w-full lg:w-3/4 mx-auto text-4xl lg:text-[4rem] font-medium tracking-tight leading-tight">
-          Shadows fold into light. Shapes shift across the frame, reminding us
-          that stillness is only temporary.
+          {outroText}
         </h1>
       </section>
     </div>

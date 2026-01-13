@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -15,11 +16,24 @@ import PageTransition from "../components/PageTransition";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Switzer Variable Font - Variable fonts use a single file for all weights
+// Using root-level fonts folder for better Next.js path resolution
+const switzer = localFont({
+  src: "../../fonts/Switzer-Variable.woff2",
+  variable: "--font-switzer",
+  display: "swap", // Best practice: ensures text remains visible during font load
+  fallback: ["sans-serif"], // Fallback font family
+  weight: "100 900", // Variable fonts support weight range (adjust if your font supports different range)
+  preload: true, // Preloads the font for better performance
 });
 
 export const metadata: Metadata = {
@@ -48,7 +62,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${switzer.variable} antialiased flex flex-col min-h-screen`}
       >
         <NextIntlClientProvider messages={messages}>
           <PageLoader />

@@ -1,4 +1,4 @@
-import HorizontalScrollSection from "@/components/HorizontalScrollSection";
+import HorizontalScrollSection from "../../components/HorizontalScrollSection";
 
 export default function HorizontalScrollDemo() {
   return (

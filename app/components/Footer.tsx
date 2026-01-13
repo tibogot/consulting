@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/i18n/routing';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
   const t = useTranslations('nav');
@@ -9,13 +9,6 @@ export default function Footer() {
   const tHubs = useTranslations('hubs');
   const tAbout = useTranslations('about');
   const tCareers = useTranslations('careers');
-  const locale = useLocale();
-
-  const languages = [
-    { code: 'fr', label: 'FR' },
-    { code: 'en', label: 'EN' },
-    { code: 'nl', label: 'NL' },
-  ];
 
   const footerLinks = {
     services: [
@@ -45,15 +38,15 @@ export default function Footer() {
 
   return (
     <footer className="bg-black text-white mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Logo & Description */}
-          <div className="lg:col-span-2">
+          <div className="col-span-2 lg:col-span-2">
             <Link href="/" className="block mb-4">
               <img
-                src="/images/logosvg.svg"
+                src="/Sparagus - Icon White.svg"
                 alt="Sparagus Logo"
-                className="h-8 w-auto"
+                className="h-16 md:h-20 w-auto"
               />
             </Link>
             <p className="text-gray-400 text-sm mb-4">
@@ -124,12 +117,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* About & Careers */}
+          {/* About */}
           <div>
             <h3 className="text-sm font-semibold mb-4 uppercase tracking-wider">
               {t('about')}
             </h3>
-            <ul className="space-y-2 mb-6">
+            <ul className="space-y-2">
               {footerLinks.about.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -141,10 +134,14 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Careers */}
+          <div>
             <h3 className="text-sm font-semibold mb-4 uppercase tracking-wider">
               {t('careers')}
             </h3>
-            <ul className="space-y-2 mb-6">
+            <ul className="space-y-2">
               {footerLinks.careers.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -155,6 +152,23 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Blog & Contact */}
+          <div>
+            <h3 className="text-sm font-semibold mb-4 uppercase tracking-wider">
+              {t('blog')}
+            </h3>
+            <ul className="space-y-2 mb-6">
+              <li>
+                <Link
+                  href={"/blog" as const}
+                  className="text-gray-400 hover:text-white text-sm transition-colors"
+                >
+                  {t('blog')}
+                </Link>
+              </li>
             </ul>
             <h3 className="text-sm font-semibold mb-4 uppercase tracking-wider">
               {t('contact')}
@@ -168,32 +182,40 @@ export default function Footer() {
                   {t('contact')}
                 </Link>
               </li>
+              <li>
+                <Link
+                  href={"/flip-demo" as const}
+                  className="text-gray-400 hover:text-white text-sm transition-colors"
+                >
+                  Flip Demo
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={"/gradientshader" as const}
+                  className="text-gray-400 hover:text-white text-sm transition-colors"
+                >
+                  Gradient Shader
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
+        <div className="mt-8 pt-8 border-t border-gray-800">
+          <p className="text-gray-400 text-sm mb-8">
             © {new Date().getFullYear()} Sparagus | Création web par We-R. | Tous droits réservés
           </p>
-          <div className="flex items-center space-x-2 mt-4 md:mt-0">
-            {languages.map((lang) => (
-              <Link
-                key={lang.code}
-                href="/"
-                locale={lang.code as 'fr' | 'en' | 'nl'}
-                className={`px-2 py-1 text-sm transition-colors ${
-                  locale === lang.code
-                    ? 'text-white underline'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                {lang.label}
-              </Link>
-            ))}
-          </div>
         </div>
+      </div>
+      {/* Footer Logo - Full Width */}
+      <div className="w-full px-4 md:px-8">
+        <img
+          src="/Sparagus - Footer logo.svg"
+          alt="Sparagus Footer Logo"
+          className="w-full h-auto"
+        />
       </div>
     </footer>
   );

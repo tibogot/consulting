@@ -8,8 +8,23 @@
       "managed": "Managed Services"
     },
     "hubs": "Hubs",
+    "hubsSubmenu": {
+      "technology": "Technology",
+      "engineering": "Engineering",
+      "businessOperations": "Business & Operations"
+    },
     "about": "About",
+    "aboutSubmenu": {
+      "us": "About Us",
+      "mission": "Mission Statement",
+      "team": "Management Team"
+    },
     "careers": "Careers",
+    "careersSubmenu": {
+      "findJob": "Find a Job",
+      "workAtSparagus": "Work at Sparagus"
+    },
+    "blog": "Blog",
     "contact": "Contact"
   },
   "services": {
@@ -66,6 +81,14 @@
     "workAtSparagus": {
       "title": "Work at Sparagus",
       "description": "Be part of the team behind the impact. At Sparagus, our internal team is the engine of our culture."
+    }
+  },
+  "flipDemo": {
+    "hero": "Transforming businesses through exceptional talent and strategic expertise. We connect the right expertise with the right opportunities.",
+    "outro": "Driving innovation and growth across industries. Your success is our mission, one project at a time.",
+    "slides": {
+      "slide1": "We help companies find the right people, lead complex projects, and manage complete services. Our approach combines deep industry knowledge with personalized solutions.",
+      "slide2": "Whether it's finding the right people, leading complex projects, or managing complete services, we help companies act faster, think better, and improve their performance."
     }
   },
   "contact": {
