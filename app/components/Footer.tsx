@@ -203,6 +203,29 @@ export default function Footer() {
               </Link>
             </div>
           </div>
+          {/* Debug Links */}
+          <div className="flex flex-wrap justify-center gap-2 mb-2">
+            <Link
+              href={"/gta-scroll-demo" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              GTA Demo
+            </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/gta-scroll-reverse-demo" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              GTA Reverse
+            </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/gta-scroll-reverse-gradient-demo" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              GTA Gradient
+            </Link>
+          </div>
         </div>
       </div>
       {/* Footer Logo - Full Width */}

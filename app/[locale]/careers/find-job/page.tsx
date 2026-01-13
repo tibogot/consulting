@@ -97,13 +97,12 @@ export default async function FindJobPage() {
       </section>
 
       {/* Third Section with CssGradientTailwind */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden">
-        {/* Base blue gradient background */}
+      <section className="relative h-svh flex flex-col px-4 md:px-8 overflow-hidden">
+        {/* Base black background */}
         <div
           className="absolute inset-0 -z-10"
           style={{
-            background:
-              "linear-gradient(180deg, #4a5a9a 0%, #3d4d8a 50%, #2d3d7a 100%)",
+            background: "#000000",
           }}
         />
 
@@ -113,10 +112,25 @@ export default async function FindJobPage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white">
-            Third Gradient Section
-          </h2>
+        <div className="relative z-10 w-full max-w-4xl pt-32 md:pt-40 ">
+          <AnimatedText
+            isHero
+            className="text-4xl md:text-7xl  font-light overflow-visible  text-white text-left"
+          >
+            <h1>Engineering the future of aging medicine.</h1>
+          </AnimatedText>
+        </div>
+        <div className="absolute bottom-8 left-4 md:left-8 w-full max-w-xl">
+          <AnimatedText
+            isHero
+            delay={0.5}
+            className="text-white/80 text-sm md:text-lg text-left"
+          >
+            <p>
+              We connect top talent with high-impact opportunities across
+              technology, engineering, and business operations.
+            </p>
+          </AnimatedText>
         </div>
       </section>
     </div>
