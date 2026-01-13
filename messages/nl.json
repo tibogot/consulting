@@ -25,7 +25,9 @@
       "workAtSparagus": "Werken bij Sparagus"
     },
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "legal": "Juridische informatie",
+    "cookies": "Cookies"
   },
   "services": {
     "title": "Diensten",
@@ -122,6 +124,14 @@
     "description": "Er is een fout opgetreden bij het laden van deze pagina. Probeer het opnieuw.",
     "tryAgain": "Probeer opnieuw",
     "backHome": "Terug naar home"
+  },
+  "legal": {
+    "title": "Juridische informatie",
+    "content": "De inhoud van de juridische informatie wordt hier toegevoegd."
+  },
+  "cookies": {
+    "title": "Cookiebeleid",
+    "content": "De inhoud van het cookiebeleid wordt hier toegevoegd."
   },
   "home": {
     "hero": {

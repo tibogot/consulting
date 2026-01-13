@@ -25,7 +25,9 @@
       "workAtSparagus": "Travaillez chez Sparagus"
     },
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "legal": "Informations légales",
+    "cookies": "Cookies"
   },
   "services": {
     "title": "Services",
@@ -122,6 +124,14 @@
     "description": "Une erreur s'est produite lors du chargement de cette page. Veuillez réessayer.",
     "tryAgain": "Réessayer",
     "backHome": "Retour à l'accueil"
+  },
+  "legal": {
+    "title": "Informations légales",
+    "content": "Le contenu des informations légales sera ajouté ici."
+  },
+  "cookies": {
+    "title": "Politique de cookies",
+    "content": "Le contenu de la politique de cookies sera ajouté ici."
   },
   "home": {
     "hero": {

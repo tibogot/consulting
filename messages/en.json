@@ -25,7 +25,9 @@
       "workAtSparagus": "Work at Sparagus"
     },
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "legal": "Legal Information",
+    "cookies": "Cookies"
   },
   "services": {
     "title": "Services",
@@ -122,6 +124,14 @@
     "description": "An error occurred while loading this page. Please try again.",
     "tryAgain": "Try again",
     "backHome": "Back to Home"
+  },
+  "legal": {
+    "title": "Legal Information",
+    "content": "Legal information content will be added here."
+  },
+  "cookies": {
+    "title": "Cookies Policy",
+    "content": "Cookies policy content will be added here."
   },
   "home": {
     "hero": {

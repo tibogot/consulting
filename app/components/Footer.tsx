@@ -35,7 +35,7 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white mt-auto">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-7 gap-8">
           {/* Logo & Description */}
           <div className="col-span-2 lg:col-span-2">
             <Link href="/" className="block mb-4">
@@ -184,9 +184,25 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-8 pt-8 border-t border-gray-800">
-          <p className="text-gray-400 text-sm mb-8">
-            © {new Date().getFullYear()} Sparagus | Création web par We-R. | Tous droits réservés
-          </p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+            <p className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} Sparagus | Création web par We-R. | Tous droits réservés
+            </p>
+            <div className="flex gap-6">
+              <Link
+                href="/legal"
+                className="text-gray-400 hover:text-white text-sm transition-colors"
+              >
+                {t('legal')}
+              </Link>
+              <Link
+                href="/cookies"
+                className="text-gray-400 hover:text-white text-sm transition-colors"
+              >
+                {t('cookies')}
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       {/* Footer Logo - Full Width */}
