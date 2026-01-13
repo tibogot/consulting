@@ -186,7 +186,7 @@ export default function Footer() {
         <div className="mt-8 pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} Sparagus | Création web par We-R. | Tous droits réservés
+              © {new Date().getFullYear()} Sparagus | Tous droits réservés
             </p>
             <div className="flex gap-6">
               <Link

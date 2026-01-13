@@ -1,13 +1,14 @@
-import { getTranslations } from 'next-intl/server';
+import PinnedImageReveal from '@/app/components/PinnedImageReveal';
 
-export default async function MissionPage() {
-  const t = await getTranslations('about.mission');
-  
+export default function MissionPage() {
   return (
-    <div className="min-h-screen py-16 px-8">
-      <h1 className="text-4xl font-bold mb-8">{t('title')}</h1>
-      <p className="text-lg">{t('description')}</p>
-    </div>
+    <>
+      <PinnedImageReveal
+        imageSrc="/img-1.jpg"
+        imageAlt="Mission statement background"
+        useLogo={true}
+      />
+    </>
   );
 }
 
