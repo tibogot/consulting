@@ -139,6 +139,26 @@ export const routing = defineRouting({
       en: '/gta-scroll-reverse-gradient-demo',
       nl: '/gta-scroll-reverse-gradient-demo',
     },
+    '/scrolltrigger-dash-demo': {
+      fr: '/scrolltrigger-dash-demo',
+      en: '/scrolltrigger-dash-demo',
+      nl: '/scrolltrigger-dash-demo',
+    },
+    '/scrolltrigger-dash-v2-demo': {
+      fr: '/scrolltrigger-dash-v2-demo',
+      en: '/scrolltrigger-dash-v2-demo',
+      nl: '/scrolltrigger-dash-v2-demo',
+    },
+    '/gta-scroll-reverse-gradient-demo-v2': {
+      fr: '/gta-scroll-reverse-gradient-demo-v2',
+      en: '/gta-scroll-reverse-gradient-demo-v2',
+      nl: '/gta-scroll-reverse-gradient-demo-v2',
+    },
+    '/gta-scroll-reverse-gradient-demo-v3': {
+      fr: '/gta-scroll-reverse-gradient-demo-v3',
+      en: '/gta-scroll-reverse-gradient-demo-v3',
+      nl: '/gta-scroll-reverse-gradient-demo-v3',
+    },
   },
 });
 
