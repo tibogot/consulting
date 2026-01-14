@@ -246,6 +246,13 @@ export default function Footer() {
             >
               GTA Gradient V2
             </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/gta-scroll-reverse-gradient-demo-v3" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              GTA Gradient V3
+            </Link>
           </div>
         </div>
       </div>
