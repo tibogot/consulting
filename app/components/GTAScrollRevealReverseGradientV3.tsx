@@ -11,12 +11,15 @@ const logoData =
 
 export default function GTAScrollRevealReverseGradientV3() {
   // Hardcoded values
-  const backgroundColor = "#ffffff";
-  const overlayColor = "#ff0000"; // Start with red
-  const overlayEndColor = "#000000"; // End with black
+  const backgroundColor = "#000000";
+  const overlayColor = "#ffffff"; // Start with white
+  const overlayEndColor = "#ffffff"; // End with white
   const scrollMultiplier = 3;
   const enableSmoothScroll = true;
   const logoSvgPath = logoData;
+  // Transform origin offset adjustments (in percentage points)
+  const transformOriginOffsetX = -1; // Adjust this to shift origin horizontally
+  const transformOriginOffsetY = 0; // Adjust this to shift origin vertically
 
   const heroRef = useRef<HTMLElement>(null);
   const heroImgContainerRef = useRef<HTMLDivElement>(null);
@@ -27,6 +30,10 @@ export default function GTAScrollRevealReverseGradientV3() {
   const logoMaskRef = useRef<SVGPathElement>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
   const maskId = useId();
+  const transformOriginRef = useRef<{ x: string; y: string }>({
+    x: "50%",
+    y: "50%",
+  });
 
   // Get Lenis instance from ReactLenis provider
   const lenis = useLenis();
@@ -73,6 +80,31 @@ export default function GTAScrollRevealReverseGradientV3() {
       ScrollTrigger.refresh();
     };
   }, [lenis, enableSmoothScroll]);
+
+  // Calculate transform origin based on logo container's center position
+  const calculateTransformOrigin = () => {
+    if (!logoContainerRef.current || !heroRef.current) return;
+
+    const heroRect = heroRef.current.getBoundingClientRect();
+    const logoRect = logoContainerRef.current.getBoundingClientRect();
+
+    // Calculate center of logo container relative to hero section
+    const logoCenterX = logoRect.left - heroRect.left + logoRect.width / 2;
+    const logoCenterY = logoRect.top - heroRect.top + logoRect.height / 2;
+
+    // Convert to percentage and apply offset adjustments
+    const originXPercent =
+      (logoCenterX / heroRect.width) * 100 + transformOriginOffsetX;
+    const originYPercent =
+      (logoCenterY / heroRect.height) * 100 + transformOriginOffsetY;
+
+    transformOriginRef.current = {
+      x: `${originXPercent}%`,
+      y: `${originYPercent}%`,
+    };
+
+    return transformOriginRef.current;
+  };
 
   // Update logo mask position and scale
   const updateLogoMask = () => {
@@ -188,10 +220,13 @@ export default function GTAScrollRevealReverseGradientV3() {
       immediateRender: true,
     });
 
+    // Calculate transform origin based on logo container position
+    calculateTransformOrigin();
+
     // Set initial overlay scale - start small (centered at logo position)
     // The overlay should be small initially, revealing the image
     gsap.set(svgOverlayRef.current, {
-      transformOrigin: "52% 50%",
+      transformOrigin: `${transformOriginRef.current.x} ${transformOriginRef.current.y}`,
       xPercent: 0,
       yPercent: 0,
       left: 0,
@@ -202,9 +237,9 @@ export default function GTAScrollRevealReverseGradientV3() {
       immediateRender: true,
     });
 
-    // Set initial SVG fill color to red (only the SVG overlay, not the background)
+    // Set initial SVG fill color to white (only the SVG overlay, not the background)
     if (svgRectRef.current) {
-      svgRectRef.current.setAttribute("fill", overlayColor); // Red
+      svgRectRef.current.setAttribute("fill", overlayColor); // White
     }
 
     let isSettingUp = false;
@@ -274,34 +309,17 @@ export default function GTAScrollRevealReverseGradientV3() {
             });
 
             gsap.set(svgOverlayRef.current, {
-              transformOrigin: "52% 50%",
+              transformOrigin: `${transformOriginRef.current.x} ${transformOriginRef.current.y}`,
               scale: overlayScale,
               force3D: true,
               opacity: 1, // Keep opacity at 1, only change the SVG color
             });
 
-            // Update SVG fill color - interpolate from red to black
+            // Update SVG fill color - keep white throughout
             // Only the SVG overlay (masked area) changes color, not the background
             if (svgRectRef.current) {
-              // Interpolate RGB values from red to black
-              const startR = 255;
-              const startG = 0;
-              const startB = 0;
-              const endR = 0;
-              const endG = 0;
-              const endB = 0;
-
-              const r = Math.round(
-                startR + (endR - startR) * normalizedProgress
-              );
-              const g = Math.round(
-                startG + (endG - startG) * normalizedProgress
-              );
-              const b = Math.round(
-                startB + (endB - startB) * normalizedProgress
-              );
-
-              svgRectRef.current.setAttribute("fill", `rgb(${r}, ${g}, ${b})`);
+              // Keep white color throughout
+              svgRectRef.current.setAttribute("fill", "#ffffff");
             }
 
             gsap.set(fadeOverlayRef.current, {
@@ -319,13 +337,13 @@ export default function GTAScrollRevealReverseGradientV3() {
             });
 
             gsap.set(svgOverlayRef.current, {
-              transformOrigin: "52% 50%",
+              transformOrigin: `${transformOriginRef.current.x} ${transformOriginRef.current.y}`,
               scale: finalOverlayScaleValue,
               force3D: true,
               opacity: 1, // Keep opacity at 1
             });
 
-            // Set final color to black (only the SVG overlay)
+            // Set final color to white (only the SVG overlay)
             if (svgRectRef.current) {
               svgRectRef.current.setAttribute("fill", overlayEndColor);
             }
@@ -352,6 +370,7 @@ export default function GTAScrollRevealReverseGradientV3() {
 
     const handleResize = () => {
       updateLogoMask();
+      calculateTransformOrigin(); // Recalculate transform origin on resize
       // Use requestAnimationFrame to debounce and avoid recursion
       requestAnimationFrame(() => {
         ScrollTrigger.refresh();
@@ -386,7 +405,7 @@ export default function GTAScrollRevealReverseGradientV3() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative w-full h-screen bg-white text-center overflow-hidden"
+        className="relative w-full h-screen bg-black text-center overflow-hidden"
         style={{ backgroundColor }}
       >
         {/* Background Container (Black Div) */}
@@ -415,12 +434,12 @@ export default function GTAScrollRevealReverseGradientV3() {
           <svg width="100%" height="100%" style={{ display: "block" }}>
             <defs>
               <mask id={maskId}>
-                <rect width="100%" height="100%" fill="black" />
+                <rect width="100%" height="100%" fill="white" />
                 <path
                   ref={logoMaskRef}
                   id="logoMask"
                   d={logoSvgPath}
-                  fill="white"
+                  fill="black"
                 />
               </mask>
             </defs>
