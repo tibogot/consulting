@@ -91,6 +91,7 @@ export default function GTAScrollRevealReverseGradientV3() {
     const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
 
     // Calculate position relative to the SVG overlay (which is absolute positioned in the hero section)
+    // Use relative calculations based on percentages to ensure consistency across screen sizes
     const logoHorizontalPosition =
       logoDimensions.left -
       heroRect.left +
@@ -436,7 +437,12 @@ export default function GTAScrollRevealReverseGradientV3() {
         {/* Logo Container (invisible, used for positioning) */}
         <div
           ref={logoContainerRef}
-          className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 origin-center w-[400px] h-[400px] z-[101]"
+          className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 origin-center z-[101]"
+          style={{
+            width: "min(25vw, 400px)",
+            height: "min(25vw, 400px)",
+            aspectRatio: "1 / 1",
+          }}
         />
       </section>
     </>
