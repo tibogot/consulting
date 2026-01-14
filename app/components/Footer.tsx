@@ -225,6 +225,20 @@ export default function Footer() {
             >
               GTA Gradient
             </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/scrolltrigger-dash-demo" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              ScrollTrigger Dash
+            </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/scrolltrigger-dash-v2-demo" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              ScrollTrigger Dash V2
+            </Link>
           </div>
         </div>
       </div>

@@ -122,6 +122,23 @@ export const routing = defineRouting({
       en: '/cookies',
       nl: '/cookies',
     },
+    
+    // Demo routes
+    '/gta-scroll-demo': {
+      fr: '/gta-scroll-demo',
+      en: '/gta-scroll-demo',
+      nl: '/gta-scroll-demo',
+    },
+    '/gta-scroll-reverse-demo': {
+      fr: '/gta-scroll-reverse-demo',
+      en: '/gta-scroll-reverse-demo',
+      nl: '/gta-scroll-reverse-demo',
+    },
+    '/gta-scroll-reverse-gradient-demo': {
+      fr: '/gta-scroll-reverse-gradient-demo',
+      en: '/gta-scroll-reverse-gradient-demo',
+      nl: '/gta-scroll-reverse-gradient-demo',
+    },
   },
 });
 
