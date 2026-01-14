@@ -133,6 +133,8 @@ export default function Navbar() {
               src="/images/logosvg.svg"
               alt="Sparagus Logo"
               className="h-8 w-auto"
+              width={120}
+              height={32}
             />
           </Link>
 

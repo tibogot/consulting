@@ -43,6 +43,8 @@ export default function Footer() {
                 src="/Sparagus - Icon White.svg"
                 alt="Sparagus Logo"
                 className="h-16 md:h-20 w-auto"
+                width={80}
+                height={80}
               />
             </Link>
             <p className="text-gray-400 text-sm mb-4">
@@ -262,6 +264,8 @@ export default function Footer() {
           src="/Sparagus - Footer logo.svg"
           alt="Sparagus Footer Logo"
           className="w-full h-auto"
+          width={800}
+          height={200}
         />
       </div>
     </footer>

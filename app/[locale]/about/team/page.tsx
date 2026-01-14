@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import ShaderBackground from "../../../components/ShaderBackground5";
+import ShaderBackground from "../../../components/ShaderBackground5Lazy";
 
 export default async function TeamPage() {
   const t = await getTranslations("about.team");
