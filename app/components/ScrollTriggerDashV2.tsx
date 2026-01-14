@@ -24,12 +24,12 @@ export default function ScrollTriggerDashV2() {
       });
 
       // SVG scale-up transition effect - Clear Street style
+      // Focus on the right vertical bar of the letter "a"
       tl.to(logoContainerRef.current, {
-        scale: 100,
-        transformOrigin: "center center",
+        scale: 2000,
+        transformOrigin: "56% 50%", // Focus on right side of the "a" - the vertical stroke
         ease: "none",
-      })
-      .to(
+      }).to(
         logoContainerRef.current,
         {
           opacity: 0,
@@ -61,7 +61,10 @@ export default function ScrollTriggerDashV2() {
   return (
     <div className="w-full">
       {/* Hero Section with SVG Scale Transition */}
-      <div ref={containerRef} className="relative w-full h-screen overflow-hidden">
+      <div
+        ref={containerRef}
+        className="relative w-full h-screen overflow-hidden"
+      >
         {/* SVG Logo Container - starts centered, scales up dramatically */}
         <div
           ref={logoContainerRef}
@@ -130,8 +133,7 @@ export default function ScrollTriggerDashV2() {
             in <span className="text-white">Toronto</span>.
           </h1>
           <h1 className="text-[5vw] font-normal leading-[120%] text-center text-white/50 mb-16">
-            You got <span className="text-white">2 emails</span> and have{" "}
-            <br />
+            You got <span className="text-white">2 emails</span> and have <br />
             <span className="text-white">2 meetings</span> today!
           </h1>
           <div className="grid grid-cols-2 gap-8 mt-32">
