@@ -1,9 +1,9 @@
-import GTAScrollRevealReverse from "@/app/components/GTAScrollRevealReverseGradient";
+import GTAScrollRevealReverseGradientV2 from "@/app/components/GTAScrollRevealReverseGradientV2";
 
 export default function GTAScrollReverseDemoPage() {
   return (
     <div className="min-h-screen">
-      <GTAScrollRevealReverse
+      <GTAScrollRevealReverseGradientV2
         backgroundImage1="/codegrid-images/hero-img-layer-1.jpg"
         backgroundImage2="/codegrid-images/hero-img-layer-2.png"
         scrollText="Scroll down to reveal"

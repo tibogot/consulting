@@ -12,7 +12,8 @@ const logoData =
 export default function GTAScrollRevealReverseGradientV3() {
   // Hardcoded values
   const backgroundColor = "#ffffff";
-  const overlayColor = "#ffffff";
+  const overlayColor = "#ff0000"; // Start with red
+  const overlayEndColor = "#000000"; // End with black
   const scrollMultiplier = 3;
   const enableSmoothScroll = true;
   const logoSvgPath = logoData;
@@ -21,6 +22,7 @@ export default function GTAScrollRevealReverseGradientV3() {
   const heroImgContainerRef = useRef<HTMLDivElement>(null);
   const fadeOverlayRef = useRef<HTMLDivElement>(null);
   const svgOverlayRef = useRef<HTMLDivElement>(null);
+  const svgRectRef = useRef<SVGRectElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
   const logoMaskRef = useRef<SVGPathElement>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
@@ -72,7 +74,6 @@ export default function GTAScrollRevealReverseGradientV3() {
     };
   }, [lenis, enableSmoothScroll]);
 
-
   // Update logo mask position and scale
   const updateLogoMask = () => {
     if (!logoContainerRef.current || !logoMaskRef.current) return;
@@ -91,11 +92,13 @@ export default function GTAScrollRevealReverseGradientV3() {
 
     // Calculate position relative to the SVG overlay (which is absolute positioned in the hero section)
     const logoHorizontalPosition =
-      logoDimensions.left - heroRect.left +
+      logoDimensions.left -
+      heroRect.left +
       (logoDimensions.width - logoBoundingBox.width * logoScaleFactor) / 2 -
       logoBoundingBox.x * logoScaleFactor;
     const logoVerticalPosition =
-      logoDimensions.top - heroRect.top +
+      logoDimensions.top -
+      heroRect.top +
       (logoDimensions.height - logoBoundingBox.height * logoScaleFactor) / 2 -
       logoBoundingBox.y * logoScaleFactor;
 
@@ -111,6 +114,7 @@ export default function GTAScrollRevealReverseGradientV3() {
       !heroImgContainerRef.current ||
       !fadeOverlayRef.current ||
       !svgOverlayRef.current ||
+      !svgRectRef.current ||
       !logoContainerRef.current ||
       !logoMaskRef.current
     )
@@ -124,7 +128,7 @@ export default function GTAScrollRevealReverseGradientV3() {
 
     // Set logo SVG path
     logoMaskRef.current.setAttribute("d", logoSvgPath);
-    
+
     // Set an initial transform to ensure mask is visible immediately
     // This prevents blank screen when component first appears
     const initialTransform = "translate(0, 0) scale(1)";
@@ -133,17 +137,17 @@ export default function GTAScrollRevealReverseGradientV3() {
     // Update logo mask immediately and ensure it's visible
     // Use multiple attempts to ensure it calculates correctly
     updateLogoMask();
-    
+
     // Also update on next frame to ensure correct positioning
     requestAnimationFrame(() => {
       updateLogoMask();
     });
-    
+
     // And once more after a short delay to catch any layout changes
     const maskUpdateTimeout = setTimeout(() => {
       updateLogoMask();
     }, 50);
-    
+
     // Also update when component becomes visible (IntersectionObserver)
     let observer: IntersectionObserver | null = null;
     if (heroRef.current) {
@@ -176,7 +180,6 @@ export default function GTAScrollRevealReverseGradientV3() {
       immediateRender: true,
     });
 
-
     // Set fade overlay to be transparent initially
     gsap.set(fadeOverlayRef.current, {
       opacity: 0,
@@ -193,10 +196,15 @@ export default function GTAScrollRevealReverseGradientV3() {
       left: 0,
       top: 0,
       scale: initialOverlayScale,
-      opacity: 1,
+      opacity: 1, // Start fully visible with red color
       visibility: "visible",
       immediateRender: true,
     });
+
+    // Set initial SVG fill color to red (only the SVG overlay, not the background)
+    if (svgRectRef.current) {
+      svgRectRef.current.setAttribute("fill", overlayColor); // Red
+    }
 
     let isSettingUp = false;
     const setupScrollTrigger = () => {
@@ -225,7 +233,7 @@ export default function GTAScrollRevealReverseGradientV3() {
         pin: true,
         pinSpacing: true,
         scrub: true,
-        anticipatePin: 1,
+        // anticipatePin: 1,
         preventOverlaps: true,
         invalidateOnRefresh: true,
         onEnter: () => {
@@ -268,7 +276,32 @@ export default function GTAScrollRevealReverseGradientV3() {
               transformOrigin: "52% 50%",
               scale: overlayScale,
               force3D: true,
+              opacity: 1, // Keep opacity at 1, only change the SVG color
             });
+
+            // Update SVG fill color - interpolate from red to black
+            // Only the SVG overlay (masked area) changes color, not the background
+            if (svgRectRef.current) {
+              // Interpolate RGB values from red to black
+              const startR = 255;
+              const startG = 0;
+              const startB = 0;
+              const endR = 0;
+              const endG = 0;
+              const endB = 0;
+
+              const r = Math.round(
+                startR + (endR - startR) * normalizedProgress
+              );
+              const g = Math.round(
+                startG + (endG - startG) * normalizedProgress
+              );
+              const b = Math.round(
+                startB + (endB - startB) * normalizedProgress
+              );
+
+              svgRectRef.current.setAttribute("fill", `rgb(${r}, ${g}, ${b})`);
+            }
 
             gsap.set(fadeOverlayRef.current, {
               opacity: 0,
@@ -288,13 +321,18 @@ export default function GTAScrollRevealReverseGradientV3() {
               transformOrigin: "52% 50%",
               scale: finalOverlayScaleValue,
               force3D: true,
+              opacity: 1, // Keep opacity at 1
             });
+
+            // Set final color to black (only the SVG overlay)
+            if (svgRectRef.current) {
+              svgRectRef.current.setAttribute("fill", overlayEndColor);
+            }
 
             gsap.set(fadeOverlayRef.current, {
               opacity: 0,
             });
           }
-
         },
       });
 
@@ -354,7 +392,11 @@ export default function GTAScrollRevealReverseGradientV3() {
         <div
           ref={heroImgContainerRef}
           className="absolute top-0 left-0 w-full h-full z-0"
-          style={{ transform: "scale(1)", opacity: 1, backgroundColor: "#000000" }}
+          style={{
+            transform: "scale(1)",
+            opacity: 1,
+            backgroundColor: "#000000",
+          }}
         />
 
         {/* Fade Overlay */}
@@ -372,16 +414,17 @@ export default function GTAScrollRevealReverseGradientV3() {
           <svg width="100%" height="100%" style={{ display: "block" }}>
             <defs>
               <mask id={maskId}>
-                <rect width="100%" height="100%" fill="white" />
+                <rect width="100%" height="100%" fill="black" />
                 <path
                   ref={logoMaskRef}
                   id="logoMask"
                   d={logoSvgPath}
-                  fill="black"
+                  fill="white"
                 />
               </mask>
             </defs>
             <rect
+              ref={svgRectRef}
               width="100%"
               height="100%"
               fill={overlayColor}
