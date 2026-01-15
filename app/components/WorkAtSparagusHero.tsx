@@ -39,6 +39,49 @@ export default function WorkAtSparagusHero({
   const ctaRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const [animationReady, setAnimationReady] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Detect device type, connection quality, and motion preferences
+  useEffect(() => {
+    // Check for reduced motion preference
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleReducedMotionChange);
+
+    // Detect mobile device
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ) || window.innerWidth < 768;
+
+    // Check connection quality (if available)
+    const connection =
+      (navigator as any).connection ||
+      (navigator as any).mozConnection ||
+      (navigator as any).webkitConnection;
+
+    const isGoodConnection =
+      !connection ||
+      connection.effectiveType === "4g" ||
+      connection.effectiveType === "5g";
+
+    // Decide whether to load video:
+    // - Don't load on mobile (use poster image instead)
+    // - Don't load if user prefers reduced motion
+    // - Don't load if connection is slow (2g/3g)
+    const shouldLoad = !isMobile && !mediaQuery.matches && isGoodConnection;
+
+    setShouldLoadVideo(shouldLoad);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleReducedMotionChange);
+    };
+  }, []);
 
   // Set initial clip-path immediately on mount (before loader completes)
   // This ensures the rectangle is visible the moment the page is revealed
@@ -247,16 +290,44 @@ export default function WorkAtSparagusHero({
           WebkitBackfaceVisibility: "hidden",
         }}
       >
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
+        {/* Poster image - loads immediately, improves LCP */}
+        <img
+          src="/videohero-poster.jpg"
+          alt=""
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/videohero.mp4" type="video/mp4" />
-        </video>
+          loading="eager"
+          fetchPriority="high"
+        />
+        
+        {/* Video - conditionally loaded based on device/connection */}
+        {shouldLoadVideo && !prefersReducedMotion && (
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+            poster="/videohero-poster.jpg"
+            onCanPlay={() => {
+              // Fade in video once it's ready to play
+              if (videoRef.current) {
+                videoRef.current.style.opacity = "1";
+              }
+            }}
+            onError={(e) => {
+              // Fallback to poster image if video fails to load
+              console.warn("Video failed to load, using poster image", e);
+            }}
+          >
+            {/* WebM format - better compression, load first (30-40% smaller) */}
+            <source src="/videohero.webm" type="video/webm" />
+            {/* MP4 fallback - for broader browser support */}
+            <source src="/videohero.mp4" type="video/mp4" />
+          </video>
+        )}
+        
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/40 z-0" />
         {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
