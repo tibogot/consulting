@@ -81,8 +81,9 @@
       "description": "Passez à votre prochain rôle. Nous mettons en relation les meilleurs talents avec des opportunités à fort impact."
     },
     "workAtSparagus": {
-      "title": "Travaillez chez Sparagus",
-      "description": "Faites partie de l'équipe à l'origine de l'impact. Chez Sparagus, notre équipe interne est le moteur de notre culture."
+      "title": "Recrutement, Conseil & Services Gérés en Belgique",
+      "description": "Sparagus aide les entreprises à croître grâce à des solutions de recrutement sur mesure, des consultants experts en TI, ingénierie et opérations, et une gestion complète de votre main-d'œuvre externe.",
+      "cta": "Contactez-nous"
     }
   },
   "flipDemo": {

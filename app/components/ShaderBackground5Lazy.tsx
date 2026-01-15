@@ -8,7 +8,7 @@ const ShaderBackground = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-black" />
+      <div className="absolute inset-0 bg-black" />
     ),
   }
 );

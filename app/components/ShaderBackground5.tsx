@@ -231,7 +231,7 @@ const NOISE = {
 };
 
 const POSITION = {
-  uvOffsetX: 0.25,
+  uvOffsetX: -0.25,
   uvOffsetY: 0.25,
   layerMixStart: 0.5,
   layerMixEnd: -0.3,
@@ -381,7 +381,7 @@ export default function ShaderBackground() {
         left: 0,
         width: "100vw",
         height: "100vh",
-        zIndex: -1,
+        zIndex: 0,
         background: "#000",
       }}
     >
