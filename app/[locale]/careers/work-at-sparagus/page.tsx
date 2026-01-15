@@ -116,28 +116,39 @@ export default async function WorkAtSparagusPage() {
         <StickyCards3D2 />
       </section>
 
-      {/* FractalGradient Section */}
+      {/* Newsletter Section */}
       <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         {/* Centered Content */}
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 sm:px-6 lg:px-8">
           <AnimatedText className="text-4xl md:text-6xl lg:text-7xl font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
-            <h2>Join Our Team</h2>
+            <h2>Stay Updated</h2>
           </AnimatedText>
           <AnimatedText
             delay={0.2}
             className="text-base md:text-lg text-white font-pp-neue-montreal mb-8 md:mb-10 max-w-2xl"
           >
             <p>
-              Be part of a dynamic team that&apos;s shaping the future of
-              technology and business. We&apos;re always looking for talented
-              individuals who share our passion for excellence and innovation.
+              Subscribe to our newsletter to stay informed about the latest
+              insights, innovations, and opportunities in technology and
+              business.
             </p>
           </AnimatedText>
           <AnimatedButton delay={0.4}>
-            <button className="px-8 py-3 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors">
-              {t("cta")}
-            </button>
+            <form className="w-full max-w-md flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                className="flex-1 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 font-pp-neue-montreal focus:outline-none focus:border-[#8202FF] transition-colors"
+              />
+              <button
+                type="submit"
+                className="px-8 py-3 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
           </AnimatedButton>
         </div>
       </section>
