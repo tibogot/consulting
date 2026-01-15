@@ -123,9 +123,17 @@ export default function Navbar() {
     { code: "nl", label: "NL" },
   ];
 
+  // Check if any submenu is open - if so, remove backdrop-blur from navbar to fix nested backdrop-filter issue
+  const isAnySubmenuOpen =
+    isServicesHovered || isHubsHovered || isAboutHovered || isCareersHovered;
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <nav
+      className={`fixed top-8 left-1/2 -translate-x-1/2 w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 ${
+        isAnySubmenuOpen ? "" : "backdrop-blur-xl"
+      } border-b border-white/10 rounded-lg font-pp-neue-montreal`}
+    >
+      <div className="px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center h-full">
@@ -147,7 +155,7 @@ export default function Navbar() {
               onMouseLeave={handleServicesMouseLeave}
             >
               <button
-                className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`text-sm  transition-colors flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith("/services")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -163,57 +171,71 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isServicesHovered && (
-                <div 
-                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                <div
+                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
                   onMouseEnter={handleServicesMouseEnter}
                   onMouseLeave={handleServicesMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                      <div className="absolute bottom-4 left-4 text-white ">
                         {t("services")}
                       </div>
                       <Link
                         href="/services"
                         className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          className="w-4 h-4 text-black"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
                     <div className="flex p-4 gap-8">
                       <div className="space-y-2 min-w-[180px]">
-                        {servicesSubmenu.slice(0, Math.ceil(servicesSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {servicesSubmenu
+                          .slice(0, Math.ceil(servicesSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                       <div className="space-y-2 min-w-[180px]">
-                        {servicesSubmenu.slice(Math.ceil(servicesSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {servicesSubmenu
+                          .slice(Math.ceil(servicesSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -228,7 +250,7 @@ export default function Navbar() {
               onMouseLeave={handleHubsMouseLeave}
             >
               <button
-                className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith("/hubs")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -244,57 +266,71 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isHubsHovered && (
-                <div 
-                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                <div
+                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
                   onMouseEnter={handleHubsMouseEnter}
                   onMouseLeave={handleHubsMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                      <div className="absolute bottom-4 left-4 text-white ">
                         {t("hubs")}
                       </div>
                       <Link
                         href="/hubs"
                         className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          className="w-4 h-4 text-black"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
                     <div className="flex p-4 gap-8">
                       <div className="space-y-2 min-w-[180px]">
-                        {hubsSubmenu.slice(0, Math.ceil(hubsSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {hubsSubmenu
+                          .slice(0, Math.ceil(hubsSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                       <div className="space-y-2 min-w-[180px]">
-                        {hubsSubmenu.slice(Math.ceil(hubsSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {hubsSubmenu
+                          .slice(Math.ceil(hubsSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -309,7 +345,7 @@ export default function Navbar() {
               onMouseLeave={handleAboutMouseLeave}
             >
               <button
-                className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith("/about")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -325,57 +361,71 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isAboutHovered && (
-                <div 
-                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                <div
+                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
                   onMouseEnter={handleAboutMouseEnter}
                   onMouseLeave={handleAboutMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                      <div className="absolute bottom-4 left-4 text-white ">
                         {t("about")}
                       </div>
                       <Link
                         href="/about"
                         className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          className="w-4 h-4 text-black"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
                     <div className="flex p-4 gap-8">
                       <div className="space-y-2 min-w-[180px]">
-                        {aboutSubmenu.slice(0, Math.ceil(aboutSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {aboutSubmenu
+                          .slice(0, Math.ceil(aboutSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                       <div className="space-y-2 min-w-[180px]">
-                        {aboutSubmenu.slice(Math.ceil(aboutSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {aboutSubmenu
+                          .slice(Math.ceil(aboutSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -390,7 +440,7 @@ export default function Navbar() {
               onMouseLeave={handleCareersMouseLeave}
             >
               <button
-                className={`text-sm font-medium transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith("/careers")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -406,57 +456,71 @@ export default function Navbar() {
 
               {/* Dropdown Menu */}
               {isCareersHovered && (
-                <div 
-                  className="fixed top-[4rem] left-1/2 -translate-x-1/2 z-50 pt-1"
+                <div
+                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
                   onMouseEnter={handleCareersMouseEnter}
                   onMouseLeave={handleCareersMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white font-medium">
+                      <div className="absolute bottom-4 left-4 text-white ">
                         {t("careers")}
                       </div>
                       <Link
                         href="/careers"
                         className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
                       >
-                        <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          className="w-4 h-4 text-black"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
                     <div className="flex p-4 gap-8">
                       <div className="space-y-2 min-w-[180px]">
-                        {careersSubmenu.slice(0, Math.ceil(careersSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {careersSubmenu
+                          .slice(0, Math.ceil(careersSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                       <div className="space-y-2 min-w-[180px]">
-                        {careersSubmenu.slice(Math.ceil(careersSubmenu.length / 2)).map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`block text-sm transition-colors ${
-                              pathname === item.href
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
+                        {careersSubmenu
+                          .slice(Math.ceil(careersSubmenu.length / 2))
+                          .map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -469,7 +533,7 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm transition-colors ${
                   pathname === item.href
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -489,7 +553,7 @@ export default function Navbar() {
                   key={lang.code}
                   href={pathname}
                   locale={lang.code as "fr" | "en" | "nl"}
-                  className={`px-2 py-1 text-sm font-medium transition-colors ${
+                  className={`px-2 py-1 text-sm transition-colors ${
                     locale === lang.code
                       ? "text-white underline"
                       : "text-white/70 hover:text-white/90"
@@ -534,7 +598,7 @@ export default function Navbar() {
                 <Link
                   href="/services"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors ${
+                  className={`text-base transition-colors ${
                     pathname.startsWith("/services")
                       ? "text-white"
                       : "text-white/90 hover:text-white/60"
@@ -565,7 +629,7 @@ export default function Navbar() {
                 <Link
                   href="/hubs"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors ${
+                  className={`text-base transition-colors ${
                     pathname.startsWith("/hubs")
                       ? "text-white"
                       : "text-white/90 hover:text-white/60"
@@ -596,7 +660,7 @@ export default function Navbar() {
                 <Link
                   href="/about"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors ${
+                  className={`text-base transition-colors ${
                     pathname.startsWith("/about")
                       ? "text-white"
                       : "text-white/90 hover:text-white/60"
@@ -627,7 +691,7 @@ export default function Navbar() {
                 <Link
                   href="/careers"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors ${
+                  className={`text-base transition-colors ${
                     pathname.startsWith("/careers")
                       ? "text-white"
                       : "text-white/90 hover:text-white/60"
@@ -658,7 +722,7 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-base font-medium transition-colors ${
+                  className={`text-base transition-colors ${
                     pathname === item.href
                       ? "text-white"
                       : "text-white/90 hover:text-white/60"

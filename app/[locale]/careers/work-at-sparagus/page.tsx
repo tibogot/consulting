@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 import AnimatedText from "../../../components/AnimatedText3";
 import GradientTextReveal from "../../../components/GradientTextReveal";
 import PartnersTicker from "../../../components/PartnersTicker";
+import AnimatedButton from "../../../components/AnimatedButton";
+import FractalGradient from "../../../components/FractalGradient2";
 
 export default async function WorkAtSparagusPage() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -38,7 +40,7 @@ export default async function WorkAtSparagusPage() {
             <AnimatedText
               isHero
               delay={0.3}
-              className="text-base  text-white font-pp-neue-montreal text-left max-w-xl"
+              className="text-base  text-white font-pp-neue-montreal text-left max-w-lg"
             >
               <p>{t("description")}</p>
             </AnimatedText>
@@ -46,9 +48,11 @@ export default async function WorkAtSparagusPage() {
 
           {/* Right side - CTA Button */}
           <div className="flex items-end">
-            <button className="px-8 py-2 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal rounded-sm hover:bg-[#6a02cc] transition-colors">
-              {t("cta")}
-            </button>
+            <AnimatedButton isHero delay={0.6}>
+              <button className="px-8 py-2 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal  hover:bg-[#6a02cc] transition-colors">
+                {t("cta")}
+              </button>
+            </AnimatedButton>
           </div>
         </div>
       </section>
@@ -58,9 +62,34 @@ export default async function WorkAtSparagusPage() {
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal indent-8 md:indent-12 lg:indent-16"
+          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal "
         >
-          <h2>Transforming businesses through exceptional talent</h2>
+          <h2>
+            <span className="opacity-0 select-none pointer-events-none">
+              Invisible text{" "}
+            </span>
+            From AI startups to global tech leaders, we help turn complexity
+            into clarity, making revolutionary ideas feel inevitable. Millions
+            of visits or millions raised, our work is built for impact.
+          </h2>
+        </GradientTextReveal>
+      </section>
+
+      {/* Third Section - White Background with Grey to Purple Gradient */}
+      <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
+        <GradientTextReveal
+          startColor="rgb(156, 163, 175)"
+          endColor="rgb(130, 2, 255)"
+          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal "
+        >
+          <h2>
+            <span className="opacity-0 select-none pointer-events-none">
+              Invisible text{" "}
+            </span>
+            From AI startups to global tech leaders, we help turn complexity
+            into clarity, making revolutionary ideas feel inevitable. Millions
+            of visits or millions raised, our work is built for impact.
+          </h2>
         </GradientTextReveal>
       </section>
 
@@ -73,6 +102,11 @@ export default async function WorkAtSparagusPage() {
           gap={32}
           logoHeight={30}
         />
+      </section>
+
+      {/* FractalGradient Section */}
+      <section className="relative w-full min-h-screen bg-black overflow-hidden">
+        <FractalGradient zIndex={10} position="fixed" />
       </section>
     </div>
   );
