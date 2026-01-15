@@ -47,13 +47,13 @@ export default async function WorkAtSparagusPage() {
           </div>
 
           {/* Right side - CTA Button */}
-          <div className="flex items-end">
+          {/* <div className="flex items-end">
             <AnimatedButton isHero delay={0.6}>
-              <button className="px-8 py-2 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal  hover:bg-[#6a02cc] transition-colors">
+              <button className="px-8 py-4 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal text-sm  hover:bg-[#6a02cc] transition-colors">
                 {t("cta")}
               </button>
             </AnimatedButton>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -105,8 +105,29 @@ export default async function WorkAtSparagusPage() {
       </section>
 
       {/* FractalGradient Section */}
-      <section className="relative w-full min-h-screen bg-black overflow-hidden">
-        <FractalGradient zIndex={10} position="fixed" />
+      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+        <FractalGradient zIndex={10} position="absolute" />
+        {/* Centered Content */}
+        <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 sm:px-6 lg:px-8">
+          <AnimatedText className="text-4xl md:text-6xl lg:text-7xl font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
+            <h2>Join Our Team</h2>
+          </AnimatedText>
+          <AnimatedText
+            delay={0.2}
+            className="text-base md:text-lg text-white font-pp-neue-montreal mb-8 md:mb-10 max-w-2xl"
+          >
+            <p>
+              Be part of a dynamic team that&apos;s shaping the future of
+              technology and business. We&apos;re always looking for talented
+              individuals who share our passion for excellence and innovation.
+            </p>
+          </AnimatedText>
+          <AnimatedButton delay={0.4}>
+            <button className="px-8 py-3 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors">
+              {t("cta")}
+            </button>
+          </AnimatedButton>
+        </div>
       </section>
     </div>
   );

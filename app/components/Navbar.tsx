@@ -112,10 +112,7 @@ export default function Navbar() {
     },
   ];
 
-  const navigation = [
-    { href: "/blog" as const, label: t("blog") },
-    { href: "/contact" as const, label: t("contact") },
-  ];
+  const navigation = [{ href: "/blog" as const, label: t("blog") }];
 
   const languages = [
     { code: "fr", label: "FR" },
@@ -544,7 +541,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Language Switcher & Mobile Menu Button */}
+          {/* Language Switcher, Contact & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
             {/* Language Switcher */}
             <div className="flex items-center space-x-2">
@@ -563,6 +560,16 @@ export default function Navbar() {
                 </Link>
               ))}
             </div>
+
+            {/* Contact Link */}
+            <Link
+              href="/contact"
+              className={`px-4 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded ${
+                pathname === "/contact" ? "bg-[#6a02cc]" : ""
+              }`}
+            >
+              {t("contact")}
+            </Link>
 
             {/* Mobile Menu Button */}
             <button
@@ -731,6 +738,15 @@ export default function Navbar() {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                href="/contact"
+                onClick={() => setIsMenuOpen(false)}
+                className={`px-4 py-2 bg-[#8202FF] text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded inline-block ${
+                  pathname === "/contact" ? "bg-[#6a02cc]" : ""
+                }`}
+              >
+                {t("contact")}
+              </Link>
             </div>
           </div>
         )}
