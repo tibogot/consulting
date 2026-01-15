@@ -585,9 +585,9 @@ export default function Navbar() {
 
           {/* Language Switcher, Contact & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            {/* Language Switcher Dropdown */}
+            {/* Language Switcher Dropdown - Hidden on mobile when menu is closed */}
             <div
-              className="relative"
+              className="relative hidden md:block"
               onMouseEnter={handleLanguageMouseEnter}
               onMouseLeave={handleLanguageMouseLeave}
             >
@@ -645,10 +645,10 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Contact Link */}
+            {/* Contact Link - Hidden on mobile when menu is closed */}
             <Link
               href="/contact"
-              className={`px-4 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded ${
+              className={`hidden md:block px-4 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded ${
                 pathname === "/contact" ? "bg-[#6a02cc]" : ""
               }`}
             >
