@@ -1,43 +1,58 @@
 import { getTranslations } from "next-intl/server";
-import BlackSection from "../components/BlackSection";
-import GradientTextReveal from "../components/GradientTextReveal";
-import StickyCards3D from "../components/StickyCards3D";
-import PartnersTicker from "../components/PartnersTicker";
 import AnimatedText from "../components/AnimatedText3";
-import ShaderBackground from "../components/ShaderBackground4";
+import GradientTextReveal from "../components/GradientTextReveal";
+import PartnersTicker from "../components/PartnersTicker";
+import AnimatedButton from "../components/AnimatedButton";
+import FractalGradient from "../components/FractalGradient2";
+import StickyCards3D2 from "../components/StickyCards3D2";
+import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
 
 export default async function Home() {
-  const t = await getTranslations("home");
+  const t = await getTranslations("careers.workAtSparagus");
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="relative h-svh flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Shader Background */}
-        <div className="absolute inset-0 -z-10">
-          <ShaderBackground />
-        </div>
-        <div className="relative z-10 w-full max-w-4xl mx-auto text-center">
-          <AnimatedText
-            isHero
-            className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white"
-          >
-            <h1>{t("hero.title")}</h1>
-          </AnimatedText>
-        </div>
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-lg mx-auto text-center px-4">
-          <AnimatedText
-            isHero
-            delay={0.5}
-            className="text-white/80 text-sm md:text-base"
-          >
-            <p>{t("hero.subtitle")}</p>
-          </AnimatedText>
-        </div>
-      </section>
+      <WorkAtSparagusHero title={t("title")} description={t("description")} />
+
+      {/* Second Section */}
+      {/* <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
+        <GradientTextReveal
+          startColor="rgb(255, 255, 255, 0.3)"
+          endColor="rgb(255, 255, 255)"
+          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal "
+        >
+          <h2>
+            <span className="opacity-0 select-none pointer-events-none">
+              Invisible text{" "}
+            </span>
+            From AI startups to global tech leaders, we help turn complexity
+            into clarity, making revolutionary ideas feel inevitable. Millions
+            of visits or millions raised, our work is built for impact.
+          </h2>
+        </GradientTextReveal>
+      </section> */}
+
+      {/* Third Section - White Background with Grey to Purple Gradient */}
+      {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
+        <GradientTextReveal
+          startColor="rgb(156, 163, 175)"
+          endColor="rgb(130, 2, 255)"
+          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal "
+        >
+          <h2>
+            <span className="opacity-0 select-none pointer-events-none">
+              Invisible text{" "}
+            </span>
+            From AI startups to global tech leaders, we help turn complexity
+            into clarity, making revolutionary ideas feel inevitable. Millions
+            of visits or millions raised, our work is built for impact.
+          </h2>
+        </GradientTextReveal>
+      </section> */}
 
       {/* Partners Ticker Section */}
-      <section className="relative w-full bg-black py-4">
+      {/* <section className="relative w-full bg-black py-4">
         <PartnersTicker
           speed={20}
           direction="left"
@@ -45,31 +60,49 @@ export default async function Home() {
           gap={32}
           logoHeight={30}
         />
+      </section> */}
+
+      {/* StickyCards3D2 Section */}
+      {/* <section className="relative w-full bg-black">
+        <StickyCards3D2 />
+      </section> */}
+
+      {/* Newsletter Section */}
+      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+        <FractalGradient zIndex={10} position="absolute" />
+        {/* Centered Content */}
+        <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 sm:px-6 lg:px-8">
+          <AnimatedText className="text-4xl md:text-6xl lg:text-7xl font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
+            <h2>Stay Updated</h2>
+          </AnimatedText>
+          <AnimatedText
+            delay={0.2}
+            className="text-base md:text-lg text-white font-pp-neue-montreal mb-8 md:mb-10 max-w-2xl"
+          >
+            <p>
+              Subscribe to our newsletter to stay informed about the latest
+              insights, innovations, and opportunities in technology and
+              business.
+            </p>
+          </AnimatedText>
+          <AnimatedButton delay={0.4}>
+            <form className="w-full max-w-md flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                className="flex-1 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 font-pp-neue-montreal focus:outline-none focus:border-[#8202FF] transition-colors"
+              />
+              <button
+                type="submit"
+                className="px-8 py-3 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          </AnimatedButton>
+        </div>
       </section>
-
-      {/* Second Section */}
-      <section className="relative w-full bg-black py-24 px-4 md:px-8">
-        <GradientTextReveal
-          startColor="rgb(255, 255, 255, 0.3)"
-          endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal"
-        >
-          <h2>{t("blackSection.title")}</h2>
-        </GradientTextReveal>
-        <GradientTextReveal
-          startColor="rgb(255, 255, 255, 0.3)"
-          endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-[400] text-left font-switzer tracking-[-0.01em] mt-8"
-        >
-          <h2>{t("blackSection.title")}</h2>
-        </GradientTextReveal>
-      </section>
-
-      {/* Black Section */}
-      <BlackSection />
-
-      {/* Sticky Cards 3D Section */}
-      <StickyCards3D />
     </div>
   );
 }
