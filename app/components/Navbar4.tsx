@@ -2,7 +2,7 @@
 
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function Navbar() {
@@ -22,23 +22,6 @@ export default function Navbar() {
   const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const careersTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const languageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Ref to measure navbar width
-  const navbarRef = useRef<HTMLElement>(null);
-  const [navbarWidth, setNavbarWidth] = useState<string>("80%");
-
-  useEffect(() => {
-    const updateNavbarWidth = () => {
-      if (navbarRef.current) {
-        const width = navbarRef.current.offsetWidth;
-        setNavbarWidth(`${width}px`);
-      }
-    };
-
-    updateNavbarWidth();
-    window.addEventListener("resize", updateNavbarWidth);
-    return () => window.removeEventListener("resize", updateNavbarWidth);
-  }, []);
 
   const handleServicesMouseEnter = () => {
     if (servicesTimeoutRef.current) {
@@ -163,7 +146,6 @@ export default function Navbar() {
 
   return (
     <nav
-      ref={navbarRef}
       className={`fixed top-8 left-1/2 -translate-x-1/2 w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 ${
         isAnySubmenuOpen ? "" : "backdrop-blur-xl"
       } border-b border-white/10 rounded-lg font-pp-neue-montreal`}
@@ -208,11 +190,10 @@ export default function Navbar() {
               {isServicesHovered && (
                 <div
                   className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
                   onMouseEnter={handleServicesMouseEnter}
                   onMouseLeave={handleServicesMouseLeave}
                 >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
                       <div className="absolute bottom-4 left-4 text-white ">
@@ -304,11 +285,10 @@ export default function Navbar() {
               {isHubsHovered && (
                 <div
                   className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
                   onMouseEnter={handleHubsMouseEnter}
                   onMouseLeave={handleHubsMouseLeave}
                 >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
                       <div className="absolute bottom-4 left-4 text-white ">
@@ -400,11 +380,10 @@ export default function Navbar() {
               {isAboutHovered && (
                 <div
                   className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
                   onMouseEnter={handleAboutMouseEnter}
                   onMouseLeave={handleAboutMouseLeave}
                 >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
                       <div className="absolute bottom-4 left-4 text-white ">
@@ -496,11 +475,10 @@ export default function Navbar() {
               {isCareersHovered && (
                 <div
                   className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
                   onMouseEnter={handleCareersMouseEnter}
                   onMouseLeave={handleCareersMouseLeave}
                 >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
                       <div className="absolute bottom-4 left-4 text-white ">
@@ -610,11 +588,10 @@ export default function Navbar() {
               {isLanguageHovered && (
                 <div
                   className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
                   onMouseEnter={handleLanguageMouseEnter}
                   onMouseLeave={handleLanguageMouseLeave}
                 >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
                     {/* Left Image Section */}
                     <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
                       <div className="absolute bottom-4 left-4 text-white ">

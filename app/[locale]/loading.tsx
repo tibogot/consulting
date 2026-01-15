@@ -1,11 +1,13 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+
+// Dynamically import LottieLoader with SSR disabled to avoid hydration issues
+const LottieLoader = dynamic(() => import('@/app/components/LottieLoader'), {
+  ssr: false,
+});
+
 export default function Loading() {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] text-black dark:text-white"></div>
-        <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
-      </div>
-    </div>
-  );
+  return <LottieLoader />;
 }
 

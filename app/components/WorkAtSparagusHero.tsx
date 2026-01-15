@@ -9,6 +9,25 @@ interface WorkAtSparagusHeroProps {
   description: string;
 }
 
+// ============================================
+// ANIMATION TIMING CONFIG - Adjust these values
+// ============================================
+const ANIMATION_CONFIG = {
+  // Delay before clip-path animation starts (relative to loader completion)
+  // Positive = wait after loader, 0 = start immediately when loader finishes
+  animationStartDelay: 0, // seconds - wait for Lottie loader to complete
+
+  // Clip-path animation duration
+  clipPathDuration: 1.8,
+
+  // How much the text animation overlaps with clip-path (seconds before clip ends)
+  textOverlap: 0.7,
+
+  // How much the CTA overlaps with text animation
+  ctaOverlap: 0.4,
+};
+// ============================================
+
 export default function WorkAtSparagusHero({
   title,
   description,
@@ -18,7 +37,8 @@ export default function WorkAtSparagusHero({
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const [pageLoaderReady, setPageLoaderReady] = useState(false);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const [animationReady, setAnimationReady] = useState(false);
 
   // Set initial clip-path immediately on mount (before loader completes)
   // This ensures the rectangle is visible the moment the page is revealed
@@ -44,17 +64,21 @@ export default function WorkAtSparagusHero({
     videoContainer.style.visibility = "visible";
   }, []);
 
-  // Wait for PageLoader to complete
+  // Setup animation timeline (paused) and listen for loader
   useEffect(() => {
     const handlePageLoaderComplete = () => {
-      setPageLoaderReady(true);
+      // Wait for the specified delay after loader completes
+      // This ensures the Lottie animation finishes before this animation starts
+      setTimeout(() => {
+        setAnimationReady(true);
+      }, ANIMATION_CONFIG.animationStartDelay * 1000);
     };
 
     // Check if PageLoader is already complete
     if (document.documentElement.classList.contains("page-loader-complete")) {
       handlePageLoaderComplete();
     } else {
-      // Listen for PageLoader completion
+      // Listen for PageLoader completion (fires when Lottie animation finishes)
       window.addEventListener("pageLoaderComplete", handlePageLoaderComplete);
 
       return () => {
@@ -73,7 +97,7 @@ export default function WorkAtSparagusHero({
         !videoContainerRef.current ||
         !titleRef.current ||
         !ctaRef.current ||
-        !pageLoaderReady
+        !animationReady
       )
         return;
 
@@ -84,7 +108,7 @@ export default function WorkAtSparagusHero({
 
       // Ensure section has white background
       gsap.set(section, {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#000000",
       });
 
       // Get section dimensions
@@ -132,6 +156,9 @@ export default function WorkAtSparagusHero({
         transformOrigin: "center center",
       });
 
+      // Make title visible (was hidden with opacity-0 to prevent FOUC)
+      gsap.set(titleElement, { opacity: 1 });
+
       // Create SplitText for title
       const titleSplit = SplitText.create(titleElement, {
         type: "lines",
@@ -141,7 +168,6 @@ export default function WorkAtSparagusHero({
       // Set initial state for text (hidden, translated down)
       gsap.set(titleSplit.lines, {
         yPercent: 100,
-        opacity: 0,
       });
 
       // Set initial state for CTA button
@@ -150,8 +176,9 @@ export default function WorkAtSparagusHero({
         y: 20,
       });
 
-      // Create unified timeline with a small delay so the initial shape is visible first
-      const timeline = gsap.timeline({ delay: 0.3 });
+      // Create unified timeline
+      const timeline = gsap.timeline();
+      timelineRef.current = timeline;
 
       // Clip-path animation
       timeline.to(animationData, {
@@ -162,7 +189,7 @@ export default function WorkAtSparagusHero({
         borderRadius: finalBorderRadius,
         rotation: finalRotation,
         scale: finalScale,
-        duration: 1.8,
+        duration: ANIMATION_CONFIG.clipPathDuration,
         ease: "power2.out",
         onUpdate: function () {
           videoContainer.style.clipPath = `inset(${animationData.insetTop}px ${animationData.insetRight}px ${animationData.insetBottom}px ${animationData.insetLeft}px)`;
@@ -171,7 +198,7 @@ export default function WorkAtSparagusHero({
         },
       });
 
-      // Text animation - starts at 60% of clip-path animation (overlapping)
+      // Text animation - overlaps with clip-path
       timeline.to(
         titleSplit.lines,
         {
@@ -181,7 +208,7 @@ export default function WorkAtSparagusHero({
           duration: 0.8,
           ease: "power2.out",
         },
-        "-=0.7" // Start 0.7s before clip-path ends (overlap)
+        `-=${ANIMATION_CONFIG.textOverlap}`
       );
 
       // CTA button animation
@@ -193,7 +220,7 @@ export default function WorkAtSparagusHero({
           duration: 0.5,
           ease: "power2.out",
         },
-        "-=0.4" // Overlap with text animation
+        `-=${ANIMATION_CONFIG.ctaOverlap}`
       );
 
       // Cleanup
@@ -201,13 +228,13 @@ export default function WorkAtSparagusHero({
         titleSplit.revert();
       };
     },
-    { scope: sectionRef, dependencies: [pageLoaderReady] }
+    { scope: sectionRef, dependencies: [animationReady] }
   );
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden bg-white"
+      className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden bg-black"
     >
       {/* Video Background Container with Clip Path */}
       <div
@@ -215,6 +242,9 @@ export default function WorkAtSparagusHero({
         className="absolute inset-0 z-0"
         style={{
           transformOrigin: "center center",
+          willChange: "clip-path, transform",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
         }}
       >
         <video
@@ -229,6 +259,14 @@ export default function WorkAtSparagusHero({
         </video>
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/40 z-0" />
+        {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
+        <div
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.5)",
+            borderRadius: "inherit",
+          }}
+        />
       </div>
 
       {/* Content Overlay - Bottom positioned */}
@@ -237,14 +275,14 @@ export default function WorkAtSparagusHero({
         <div className="max-w-3xl">
           <h1
             ref={titleRef}
-            className="text-4xl md:text-7xl font-normal text-white mb-4 md:mb-6 font-pp-neue-montreal text-left"
+            className="text-4xl md:text-7xl font-normal text-white mb-4 md:mb-6 font-pp-neue-montreal text-left opacity-0"
           >
             {title}
           </h1>
         </div>
 
         {/* Right side - CTA Button */}
-        <div ref={ctaRef} className="flex items-end">
+        <div ref={ctaRef} className="flex items-end opacity-0">
           <div className="w-12 h-12 bg-[#8202FF] rounded-sm flex items-center justify-center">
             <ArrowDown className="text-white w-6 h-6" />
           </div>
