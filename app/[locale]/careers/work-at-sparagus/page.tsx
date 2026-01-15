@@ -4,6 +4,7 @@ import GradientTextReveal from "../../../components/GradientTextReveal";
 import PartnersTicker from "../../../components/PartnersTicker";
 import AnimatedButton from "../../../components/AnimatedButton";
 import FractalGradient from "../../../components/FractalGradient2";
+import StickyCards3D2 from "../../../components/StickyCards3D2";
 
 export default async function WorkAtSparagusPage() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -102,6 +103,11 @@ export default async function WorkAtSparagusPage() {
           gap={32}
           logoHeight={30}
         />
+      </section>
+
+      {/* StickyCards3D2 Section */}
+      <section className="relative w-full bg-black">
+        <StickyCards3D2 />
       </section>
 
       {/* FractalGradient Section */}
