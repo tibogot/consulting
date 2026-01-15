@@ -5,6 +5,7 @@ import PartnersTicker from "../../../components/PartnersTicker";
 import AnimatedButton from "../../../components/AnimatedButton";
 import FractalGradient from "../../../components/FractalGradient2";
 import StickyCards3D2 from "../../../components/StickyCards3D2";
+import { ArrowDown } from "lucide-react";
 
 export default async function WorkAtSparagusPage() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -55,6 +56,11 @@ export default async function WorkAtSparagusPage() {
               </button>
             </AnimatedButton>
           </div> */}
+          <div className="flex items-end">
+            <div className="w-12 h-12 bg-[#8202FF] rounded-sm flex items-center justify-center">
+              <ArrowDown className="text-white w-6 h-6" />
+            </div>
+          </div>
         </div>
       </section>
 

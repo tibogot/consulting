@@ -84,7 +84,7 @@ const StickyCards3D = () => {
 
   return (
     <div
-      className="bg-black relative h-full w-full overflow-hidden"
+      className="bg-black relative h-full pt-64 w-full overflow-hidden"
       style={{ isolation: "isolate" }}
       ref={container}
     >

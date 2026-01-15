@@ -14,12 +14,14 @@ export default function Navbar() {
   const [isHubsHovered, setIsHubsHovered] = useState(false);
   const [isAboutHovered, setIsAboutHovered] = useState(false);
   const [isCareersHovered, setIsCareersHovered] = useState(false);
+  const [isLanguageHovered, setIsLanguageHovered] = useState(false);
 
   // Timeout refs for delayed closing
   const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hubsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const careersTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const languageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleServicesMouseEnter = () => {
     if (servicesTimeoutRef.current) {
@@ -77,6 +79,20 @@ export default function Navbar() {
     }, 200);
   };
 
+  const handleLanguageMouseEnter = () => {
+    if (languageTimeoutRef.current) {
+      clearTimeout(languageTimeoutRef.current);
+      languageTimeoutRef.current = null;
+    }
+    setIsLanguageHovered(true);
+  };
+
+  const handleLanguageMouseLeave = () => {
+    languageTimeoutRef.current = setTimeout(() => {
+      setIsLanguageHovered(false);
+    }, 200);
+  };
+
   const servicesSubmenu = [
     {
       href: "/services/search-selection" as const,
@@ -122,7 +138,11 @@ export default function Navbar() {
 
   // Check if any submenu is open - if so, remove backdrop-blur from navbar to fix nested backdrop-filter issue
   const isAnySubmenuOpen =
-    isServicesHovered || isHubsHovered || isAboutHovered || isCareersHovered;
+    isServicesHovered ||
+    isHubsHovered ||
+    isAboutHovered ||
+    isCareersHovered ||
+    isLanguageHovered;
 
   return (
     <nav
@@ -543,22 +563,63 @@ export default function Navbar() {
 
           {/* Language Switcher, Contact & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            {/* Language Switcher */}
-            <div className="flex items-center space-x-2">
-              {languages.map((lang) => (
-                <Link
-                  key={lang.code}
-                  href={pathname}
-                  locale={lang.code as "fr" | "en" | "nl"}
-                  className={`px-2 py-1 text-sm transition-colors ${
-                    locale === lang.code
-                      ? "text-white underline"
-                      : "text-white/70 hover:text-white/90"
+            {/* Language Switcher Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={handleLanguageMouseEnter}
+              onMouseLeave={handleLanguageMouseLeave}
+            >
+              <button
+                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                  isLanguageHovered
+                    ? "text-white"
+                    : "text-white/90 hover:text-white/60"
+                }`}
+              >
+                {languages.find((lang) => lang.code === locale)?.label || "EN"}
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${
+                    isLanguageHovered ? "rotate-180" : ""
                   }`}
+                />
+              </button>
+
+              {/* Dropdown Menu */}
+              {isLanguageHovered && (
+                <div
+                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
+                  onMouseEnter={handleLanguageMouseEnter}
+                  onMouseLeave={handleLanguageMouseLeave}
                 >
-                  {lang.label}
-                </Link>
-              ))}
+                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                    {/* Left Image Section */}
+                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
+                      <div className="absolute bottom-4 left-4 text-white ">
+                        Language
+                      </div>
+                    </div>
+                    {/* Right Two Columns Section */}
+                    <div className="flex p-4 gap-8">
+                      <div className="space-y-2 min-w-[180px]">
+                        {languages.map((lang) => (
+                          <Link
+                            key={lang.code}
+                            href={pathname}
+                            locale={lang.code as "fr" | "en" | "nl"}
+                            className={`block text-sm transition-colors ${
+                              locale === lang.code
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {lang.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Contact Link */}
@@ -738,6 +799,29 @@ export default function Navbar() {
                   {item.label}
                 </Link>
               ))}
+
+              {/* Language with Submenu in Mobile */}
+              <div>
+                <div className="text-base text-white/90">Language</div>
+                <div className="ml-4 mt-2 space-y-2">
+                  {languages.map((lang) => (
+                    <Link
+                      key={lang.code}
+                      href={pathname}
+                      locale={lang.code as "fr" | "en" | "nl"}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`block text-sm transition-colors ${
+                        locale === lang.code
+                          ? "text-white"
+                          : "text-white/80 hover:text-white/60"
+                      }`}
+                    >
+                      {lang.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}
