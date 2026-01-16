@@ -163,20 +163,28 @@ export default function AnimatedCopy({
 
   if (validChildren.length === 1) {
     const child = validChildren[0] as React.ReactElement;
-    return React.cloneElement(child, {
-      ref: (node: HTMLElement | null) => {
-        containerRef.current = node;
-        // Forward ref if child already has one
-        const originalRef = (child as any).ref;
-        if (originalRef) {
-          if (typeof originalRef === "function") {
-            originalRef(node);
-          } else if (originalRef && "current" in originalRef) {
-            originalRef.current = node;
-          }
+    // Create ref callback that merges with existing ref
+    const mergedRefCallback = (node: HTMLElement | null) => {
+      containerRef.current = node;
+      // Forward ref if child already has one
+      const originalRef = (child as any).ref;
+      if (originalRef) {
+        if (typeof originalRef === "function") {
+          originalRef(node);
+        } else if (originalRef && "current" in originalRef) {
+          originalRef.current = node;
         }
-      },
-    });
+      }
+    };
+
+    // Clone element with merged ref - TypeScript requires casting for ref prop
+    return React.cloneElement(
+      child,
+      {
+        ...child.props,
+        ref: mergedRefCallback,
+      } as React.Attributes & { ref: (node: HTMLElement | null) => void }
+    );
   }
 
   // Handle multiple children - wrap in container
