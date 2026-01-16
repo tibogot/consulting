@@ -181,7 +181,7 @@ export default function AnimatedCopy({
     return React.cloneElement(
       child,
       {
-        ...child.props,
+        ...(child.props as Record<string, unknown>),
         ref: mergedRefCallback,
       } as React.Attributes & { ref: (node: HTMLElement | null) => void }
     );
