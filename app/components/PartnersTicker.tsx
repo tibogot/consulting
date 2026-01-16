@@ -175,14 +175,13 @@ export default function PartnersTicker({
                 <Image
                   src={logo}
                   alt={`Partner logo ${index + 1}`}
-                  width={logoHeight * 1.5}
-                  height={logoHeight * 0.5}
+                  width={150}
+                  height={60}
                   className="object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    maxHeight: `${logoHeight * 0.5}px`,
-                    maxWidth: `${logoHeight * 1.5}px`,
-                    width: "auto",
-                    height: "auto",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
                   }}
                   unoptimized={logo.endsWith(".svg")}
                 />

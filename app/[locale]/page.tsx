@@ -37,7 +37,7 @@ export default async function Home() {
 
       {/* Third Section - AnimatedCopy */}
       <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
-        <div className="text-5xl md:text-4xl font-medium text-left font-pp-neue-montreal max-w-5xl">
+        <div className="text-5xl md:text-4xl leading-tight font-medium text-left font-pp-neue-montreal max-w-5xl">
           <AnimatedCopy
             colorInitial="#666666"
             colorAccent="#8202FF"

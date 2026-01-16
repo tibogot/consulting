@@ -3,14 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsapConfig";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 
-// Helper to unlock scroll
-const unlockScroll = () => {
-  document.body.style.overflow = "";
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.width = "";
-};
-
 export default function PageLoader() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
@@ -20,14 +12,41 @@ export default function PageLoader() {
     unknown
   > | null>(null);
   const hasTriggeredExit = useRef(false);
+  const scrollPositionRef = useRef<number>(0);
+
+  // Helper to lock scroll while preserving scrollbar visibility
+  const lockScroll = () => {
+    // Capture current scroll position
+    scrollPositionRef.current = window.scrollY;
+    
+    // Lock scroll but keep scrollbar visible
+    document.body.style.overflowY = "scroll";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPositionRef.current}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+  };
+
+  // Helper to unlock scroll and restore position
+  const unlockScroll = () => {
+    const scrollY = scrollPositionRef.current;
+    
+    // Remove scroll lock styles
+    document.body.style.overflowY = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    
+    // Restore scroll position
+    window.scrollTo(0, scrollY);
+  };
 
   // Block scroll while loader is active
   useEffect(() => {
-    // Apply scroll lock
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = "0";
-    document.body.style.width = "100%";
+    lockScroll();
   }, []);
 
   // Fetch Lottie animation data
