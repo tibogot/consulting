@@ -13,11 +13,23 @@ export default function PageLoader() {
   > | null>(null);
   const hasTriggeredExit = useRef(false);
   const scrollPositionRef = useRef<number>(0);
+  const isInitialLoad = useRef(true);
 
   // Helper to lock scroll while preserving scrollbar visibility
   const lockScroll = () => {
-    // Capture current scroll position
-    scrollPositionRef.current = window.scrollY;
+    // Only capture scroll position if this is NOT an initial page load/refresh
+    // Check if we came from navigation (not a refresh)
+    const navigatedFlag = sessionStorage.getItem("navigated");
+    const isNavigation = navigatedFlag === "true";
+    
+    if (isNavigation) {
+      // Capture current scroll position only on navigation
+      scrollPositionRef.current = window.scrollY;
+    } else {
+      // On initial load/refresh, always start at top
+      scrollPositionRef.current = 0;
+      isInitialLoad.current = true;
+    }
     
     // Lock scroll but keep scrollbar visible
     document.body.style.overflowY = "scroll";
@@ -40,8 +52,14 @@ export default function PageLoader() {
     document.body.style.right = "";
     document.body.style.width = "";
     
-    // Restore scroll position
-    window.scrollTo(0, scrollY);
+    // Only restore scroll position if this was a navigation (not initial load/refresh)
+    if (!isInitialLoad.current) {
+      window.scrollTo(0, scrollY);
+    } else {
+      // On initial load/refresh, ensure we're at top
+      window.scrollTo(0, 0);
+      isInitialLoad.current = false;
+    }
   };
 
   // Block scroll while loader is active

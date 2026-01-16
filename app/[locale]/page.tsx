@@ -1,11 +1,13 @@
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 import AnimatedText from "../components/AnimatedText3";
-import GradientTextReveal from "../components/GradientTextReveal";
 import PartnersTicker from "../components/PartnersTicker";
 import AnimatedButton from "../components/AnimatedButton";
 import FractalGradient from "../components/FractalGradient2";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
 import AnimatedCopy from "../components/AnimatedCopy";
+import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
+import NeoCultureMouseMove from "../components/NeoCultureMouseMove";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -17,29 +19,11 @@ export default async function Home() {
 
       <PartnersTicker />
 
-      {/* Second Section */}
-      {/* <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
-        <GradientTextReveal
-          startColor="rgb(255, 255, 255, 0.3)"
-          endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl  font-medium text-left font-pp-neue-montreal max-w-7xl  "
-        >
-          <h2>
-            <span className="opacity-0 select-none pointer-events-none">
-              Invisible text
-            </span>
-            From AI startups to global tech leaders, we help turn complexity
-            into clarity, making revolutionary ideas feel inevitable. Millions
-            of visits or millions raised, our work is built for impact.
-          </h2>
-        </GradientTextReveal>
-      </section> */}
-
-      {/* Third Section - AnimatedCopy */}
+      {/* Combined Section - AnimatedCopy */}
       <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
-        <div className="text-5xl md:text-4xl leading-tight font-medium text-left font-pp-neue-montreal max-w-5xl">
+        <div className="text-3xl md:text-3xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
           <AnimatedCopy
-            colorInitial="#666666"
+            colorInitial="#333333"
             colorAccent="#8202FF"
             colorFinal="#ffffff"
           >
@@ -48,12 +32,79 @@ export default async function Home() {
                 Invisible text{" "}
               </span>
               From AI startups to global tech leaders, we help turn complexity
-              into clarity, making revolutionary ideas feel inevitable. Millions
-              of visits or millions raised, our work is built for impact.
+              into clarity, making revolutionary ideas feel inevitable.
+            </h2>
+            <p className="text-lg md:text-xl mt-6 opacity-80">
+              Millions of visits or millions raised, our work is built for
+              impact. We transform complex challenges into clear, actionable
+              solutions that drive real results.
+            </p>
+          </AnimatedCopy>
+          <div className="mt-8">
+            <AnimatedButton delay={0.2}>
+              <Link
+                href="/contact"
+                className="inline-block px-6 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded cursor-pointer"
+              >
+                Get in Touch
+              </Link>
+            </AnimatedButton>
+          </div>
+        </div>
+        <div className="text-7xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
+          <AnimatedCopy
+            colorInitial="#333333"
+            colorAccent="#8202FF"
+            colorFinal="#ffffff"
+          >
+            <h2>
+              <span className="opacity-0 select-none pointer-events-none">
+                Invisible text{" "}
+              </span>
+              From AI startups to global tech leaders, we help turn complexity
+              into clarity, making revolutionary ideas feel inevitable.
             </h2>
           </AnimatedCopy>
         </div>
       </section>
+
+      {/* Pinned Clip Path Animation Section */}
+      <PinnedClipPathAnimation
+        image1="/img-1.jpg"
+        image2="/img-2.jpg"
+        image3="/img-3.jpg"
+        alt1="First section image"
+        alt2="Second section image"
+        alt3="Third section image"
+        content1={
+          <div className="text-center">
+            <h2 className="text-5xl md:text-7xl font-medium mb-4">
+              Innovation
+            </h2>
+            <p className="text-xl md:text-2xl opacity-90">
+              Transforming ideas into reality
+            </p>
+          </div>
+        }
+        content2={
+          <div className="text-center">
+            <h2 className="text-5xl md:text-7xl font-medium mb-4">
+              Excellence
+            </h2>
+            <p className="text-xl md:text-2xl opacity-90">
+              Delivering world-class solutions
+            </p>
+          </div>
+        }
+        content3={
+          <div className="text-center">
+            <h2 className="text-5xl md:text-7xl font-medium mb-4">Impact</h2>
+            <p className="text-xl md:text-2xl opacity-90">
+              Building the future together
+            </p>
+          </div>
+        }
+      />
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
       {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
@@ -92,7 +143,6 @@ export default async function Home() {
       {/* Newsletter Section */}
       <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
-        {/* Centered Content */}
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
             <h2>Stay Updated</h2>
@@ -124,6 +174,17 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
+      </section>
+
+      {/* NeoCulture Mouse Move Section */}
+      <section className="relative w-full h-svh bg-black">
+        <NeoCultureMouseMove
+          gradientColors={{
+            initial: "#8202FF",
+            accent: "#FF02FF",
+            final: "#FF02FF",
+          }}
+        />
       </section>
     </div>
   );
