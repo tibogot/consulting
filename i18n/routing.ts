@@ -159,6 +159,11 @@ export const routing = defineRouting({
       en: '/gta-scroll-reverse-gradient-demo-v3',
       nl: '/gta-scroll-reverse-gradient-demo-v3',
     },
+    '/animated-copy-demo': {
+      fr: '/animated-copy-demo',
+      en: '/animated-copy-demo',
+      nl: '/animated-copy-demo',
+    },
   },
 });
 
