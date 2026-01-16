@@ -4,8 +4,8 @@ import GradientTextReveal from "../components/GradientTextReveal";
 import PartnersTicker from "../components/PartnersTicker";
 import AnimatedButton from "../components/AnimatedButton";
 import FractalGradient from "../components/FractalGradient2";
-import StickyCards3D2 from "../components/StickyCards3D2";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
+import AnimatedCopy from "../components/AnimatedCopy";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -13,18 +13,20 @@ export default async function Home() {
   return (
     <div className="w-full min-h-screen bg-black">
       {/* Hero Section */}
-      <WorkAtSparagusHero title={t("title")} description={t("description")} />
+      <WorkAtSparagusHero title={t("title")} />
+
+      <PartnersTicker />
 
       {/* Second Section */}
       {/* <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal "
+          className="text-5xl md:text-6xl  font-medium text-left font-pp-neue-montreal max-w-7xl  "
         >
           <h2>
             <span className="opacity-0 select-none pointer-events-none">
-              Invisible text{" "}
+              Invisible text
             </span>
             From AI startups to global tech leaders, we help turn complexity
             into clarity, making revolutionary ideas feel inevitable. Millions
@@ -33,12 +35,32 @@ export default async function Home() {
         </GradientTextReveal>
       </section> */}
 
-      {/* Third Section - White Background with Grey to Purple Gradient */}
+      {/* Third Section - AnimatedCopy */}
+      <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
+        <div className="text-5xl md:text-4xl font-medium text-left font-pp-neue-montreal max-w-5xl">
+          <AnimatedCopy
+            colorInitial="#666666"
+            colorAccent="#8202FF"
+            colorFinal="#ffffff"
+          >
+            <h2>
+              <span className="opacity-0 select-none pointer-events-none">
+                Invisible text{" "}
+              </span>
+              From AI startups to global tech leaders, we help turn complexity
+              into clarity, making revolutionary ideas feel inevitable. Millions
+              of visits or millions raised, our work is built for impact.
+            </h2>
+          </AnimatedCopy>
+        </div>
+      </section>
+
+      {/* Fourth Section - White Background with Grey to Purple Gradient */}
       {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
         <GradientTextReveal
           startColor="rgb(156, 163, 175)"
           endColor="rgb(130, 2, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal "
+          className="text-5xl md:text-6xl font-medium text-left font-pp-neue-montreal "
         >
           <h2>
             <span className="opacity-0 select-none pointer-events-none">
@@ -71,8 +93,8 @@ export default async function Home() {
       <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         {/* Centered Content */}
-        <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 sm:px-6 lg:px-8">
-          <AnimatedText className="text-4xl md:text-6xl lg:text-7xl font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
+        <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
+          <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
             <h2>Stay Updated</h2>
           </AnimatedText>
           <AnimatedText

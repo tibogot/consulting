@@ -6,7 +6,6 @@ import { ArrowDown } from "lucide-react";
 
 interface WorkAtSparagusHeroProps {
   title: string;
-  description: string;
 }
 
 // ============================================
@@ -28,60 +27,55 @@ const ANIMATION_CONFIG = {
 };
 // ============================================
 
-export default function WorkAtSparagusHero({
-  title,
-  description,
-}: WorkAtSparagusHeroProps) {
+// Hook to safely get client-side values after hydration
+function useClientMediaState() {
+  const [state, setState] = useState({
+    isMobile: false,
+    shouldLoadVideo: false,
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = (
+      navigator as Navigator & { connection?: { effectiveType?: string } }
+    ).connection;
+    const isSlowConnection = connection?.effectiveType === "2g";
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Required for hydration safety
+    setState({
+      isMobile:
+        /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        ) || window.innerWidth < 768,
+      shouldLoadVideo: !mediaQuery.matches && !isSlowConnection,
+    });
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      const conn = (
+        navigator as Navigator & { connection?: { effectiveType?: string } }
+      ).connection;
+      setState((prev) => ({
+        ...prev,
+        shouldLoadVideo: !e.matches && !(conn?.effectiveType === "2g"),
+      }));
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  return state;
+}
+
+export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const [animationReady, setAnimationReady] = useState(false);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  // Detect device type, connection quality, and motion preferences
-  useEffect(() => {
-    // Check for reduced motion preference
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleReducedMotionChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleReducedMotionChange);
-
-    // Detect mobile device
-    const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    ) || window.innerWidth < 768;
-
-    // Check connection quality (if available)
-    const connection =
-      (navigator as any).connection ||
-      (navigator as any).mozConnection ||
-      (navigator as any).webkitConnection;
-
-    const isGoodConnection =
-      !connection ||
-      connection.effectiveType === "4g" ||
-      connection.effectiveType === "5g";
-
-    // Decide whether to load video:
-    // - Don't load on mobile (use poster image instead)
-    // - Don't load if user prefers reduced motion
-    // - Don't load if connection is slow (2g/3g)
-    const shouldLoad = !isMobile && !mediaQuery.matches && isGoodConnection;
-
-    setShouldLoadVideo(shouldLoad);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleReducedMotionChange);
-    };
-  }, []);
+  const { isMobile, shouldLoadVideo } = useClientMediaState();
 
   // Set initial clip-path immediately on mount (before loader completes)
   // This ensures the rectangle is visible the moment the page is revealed
@@ -133,12 +127,35 @@ export default function WorkAtSparagusHero({
     }
   }, []);
 
+  // Ensure video loops properly
+  useEffect(() => {
+    if (!shouldLoadVideo || !videoRef.current) return;
+
+    const video = videoRef.current;
+
+    // Ensure loop attribute is set
+    video.loop = true;
+
+    // Handle ended event as fallback for browsers where loop doesn't work
+    const handleEnded = () => {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    };
+
+    video.addEventListener("ended", handleEnded);
+
+    return () => {
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, [shouldLoadVideo]);
+
   useGSAP(
     () => {
       if (
         !sectionRef.current ||
         !videoContainerRef.current ||
         !titleRef.current ||
+        !descriptionRef.current ||
         !ctaRef.current ||
         !animationReady
       )
@@ -147,6 +164,7 @@ export default function WorkAtSparagusHero({
       const section = sectionRef.current;
       const videoContainer = videoContainerRef.current;
       const titleElement = titleRef.current;
+      const descriptionElement = descriptionRef.current;
       const ctaElement = ctaRef.current;
 
       // Ensure section has white background
@@ -208,9 +226,29 @@ export default function WorkAtSparagusHero({
         mask: "lines",
       });
 
-      // Set initial state for text (hidden, translated down)
+      // Fix descender clipping (g, y, p letters) - add padding to lines, keep masks clipping
       gsap.set(titleSplit.lines, {
+        paddingBottom: "0.1em",
         yPercent: 100,
+      });
+      gsap.set(titleSplit.masks, {
+        marginBottom: "-0.1em",
+      });
+
+      // Make description visible and create SplitText
+      gsap.set(descriptionElement, { opacity: 1 });
+      const descriptionSplit = SplitText.create(descriptionElement, {
+        type: "lines",
+        mask: "lines",
+      });
+
+      // Fix descender clipping for description
+      gsap.set(descriptionSplit.lines, {
+        paddingBottom: "0.1em",
+        yPercent: 100,
+      });
+      gsap.set(descriptionSplit.masks, {
+        marginBottom: "-0.1em",
       });
 
       // Set initial state for CTA button
@@ -221,7 +259,6 @@ export default function WorkAtSparagusHero({
 
       // Create unified timeline
       const timeline = gsap.timeline();
-      timelineRef.current = timeline;
 
       // Clip-path animation
       timeline.to(animationData, {
@@ -254,6 +291,19 @@ export default function WorkAtSparagusHero({
         `-=${ANIMATION_CONFIG.textOverlap}`
       );
 
+      // Description animation - follows title
+      timeline.to(
+        descriptionSplit.lines,
+        {
+          yPercent: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power2.out",
+        },
+        `-=${ANIMATION_CONFIG.ctaOverlap}`
+      );
+
       // CTA button animation
       timeline.to(
         ctaElement,
@@ -269,6 +319,7 @@ export default function WorkAtSparagusHero({
       // Cleanup
       return () => {
         titleSplit.revert();
+        descriptionSplit.revert();
       };
     },
     { scope: sectionRef, dependencies: [animationReady] }
@@ -282,13 +333,8 @@ export default function WorkAtSparagusHero({
       {/* Video Background Container with Clip Path */}
       <div
         ref={videoContainerRef}
-        className="absolute inset-0 z-0"
-        style={{
-          transformOrigin: "center center",
-          willChange: "clip-path, transform",
-          backfaceVisibility: "hidden",
-          WebkitBackfaceVisibility: "hidden",
-        }}
+        className="absolute inset-0 z-0 origin-center will-change-transform backface-hidden"
+        style={{ willChange: "clip-path, transform" }}
       >
         {/* Poster image - loads immediately, improves LCP */}
         <img
@@ -298,46 +344,48 @@ export default function WorkAtSparagusHero({
           loading="eager"
           fetchPriority="high"
         />
-        
+
         {/* Video - conditionally loaded based on device/connection */}
-        {shouldLoadVideo && !prefersReducedMotion && (
+        {shouldLoadVideo && (
           <video
             ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
-            preload="none"
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
             poster="/videohero-poster.jpg"
-            onCanPlay={() => {
+            onCanPlay={(e) => {
               // Fade in video once it's ready to play
-              if (videoRef.current) {
-                videoRef.current.style.opacity = "1";
-              }
+              e.currentTarget.style.opacity = "1";
             }}
             onError={(e) => {
               // Fallback to poster image if video fails to load
               console.warn("Video failed to load, using poster image", e);
             }}
           >
-            {/* WebM format - better compression, load first (30-40% smaller) */}
-            <source src="/videohero.webm" type="video/webm" />
-            {/* MP4 fallback - for broader browser support */}
-            <source src="/videohero.mp4" type="video/mp4" />
+            {/* Mobile: Use smaller 480p version */}
+            {isMobile ? (
+              <>
+                <source src="/videohero-mobile.webm" type="video/webm" />
+                <source src="/videohero-mobile.mp4" type="video/mp4" />
+              </>
+            ) : (
+              <>
+                {/* Desktop: Use 720p version - WebM first (smaller) */}
+                <source src="/videohero.webm" type="video/webm" />
+                {/* MP4 fallback - for broader browser support */}
+                <source src="/videohero.mp4" type="video/mp4" />
+              </>
+            )}
           </video>
         )}
-        
+
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/40 z-0" />
         {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
-        <div
-          className="absolute inset-0 pointer-events-none z-10"
-          style={{
-            boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.5)",
-            borderRadius: "inherit",
-          }}
-        />
+        <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.5)] rounded-[inherit]" />
       </div>
 
       {/* Content Overlay - Bottom positioned */}
@@ -350,6 +398,13 @@ export default function WorkAtSparagusHero({
           >
             {title}
           </h1>
+          <p
+            ref={descriptionRef}
+            className="text-base md:text-lg text-white/80 font-pp-neue-montreal max-w-lg opacity-0"
+          >
+            Join our team of innovators, designers, and engineers building
+            exceptional digital experiences.
+          </p>
         </div>
 
         {/* Right side - CTA Button */}

@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
-import Image from "next/image";
 
 interface PartnersTickerProps {
   speed?: number; // Animation speed in seconds (lower = faster)
@@ -34,11 +33,11 @@ const partnerLogos = [
 ];
 
 export default function PartnersTicker({
-  speed = 20,
+  speed = 100,
   direction = "left",
   pauseOnHover = true,
-  gap = 64,
-  logoHeight = 80,
+  gap = 16,
+  logoHeight = 60,
 }: PartnersTickerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<HTMLDivElement>(null);
@@ -142,61 +141,54 @@ export default function PartnersTicker({
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full overflow-hidden relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className="w-full relative py-16 px-4 md:px-8">
       <div
-        ref={tickerRef}
-        className="flex items-center will-change-transform"
-        style={{
-          gap: `${gap}px`,
-        }}
+        ref={containerRef}
+        className="w-full overflow-hidden relative"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {duplicatedLogos.map((logo, index) => {
-          const isSvg = logo.endsWith(".svg");
-          const isAvif = logo.endsWith(".avif");
+        {/* Corner borders */}
+        <div className="absolute top-0 left-0 w-[8px] h-[8px] border-t border-l border-white/50 z-[100] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[8px] h-[8px] border-t border-r border-white/50 z-[100] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[8px] h-[8px] border-b border-l border-white/50 z-[100] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[8px] h-[8px] border-b border-r border-white/50 z-[100] pointer-events-none" />
 
-          return (
-            <div
-              key={`${logo}-${index}`}
-              className="partner-logo flex-shrink-0 flex items-center justify-center"
-              style={{
-                height: `${logoHeight}px`,
-                width: "auto",
-              }}
-            >
-              {isSvg || isAvif ? (
-                // Use img tag for SVG and AVIF (Next.js Image doesn't handle all formats well)
+        <div
+          ref={tickerRef}
+          className="flex items-center will-change-transform"
+          style={{
+            gap: `${gap}px`,
+          }}
+        >
+          {duplicatedLogos.map((logo, index) => {
+            const isSvg = logo.endsWith(".svg");
+            const isAvif = logo.endsWith(".avif");
+
+            return (
+              <div
+                key={`${logo}-${index}`}
+                className="partner-logo flex-shrink-0 flex items-center justify-center px-6 py-4"
+                style={{
+                  height: `${logoHeight}px`,
+                  width: `${logoHeight * 2.5}px`,
+                }}
+              >
                 <img
                   src={logo}
                   alt={`Partner logo ${index + 1}`}
-                  className="h-full w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                  className="object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    maxHeight: `${logoHeight}px`,
-                    filter: "brightness(0) invert(1)", // Makes logos white, remove if you want original colors
+                    maxHeight: `${logoHeight * 0.5}px`,
+                    maxWidth: `${logoHeight * 1.5}px`,
+                    width: "auto",
+                    height: "auto",
                   }}
                 />
-              ) : (
-                // Use Next.js Image for PNG/JPG
-                <Image
-                  src={logo}
-                  alt={`Partner logo ${index + 1}`}
-                  width={200}
-                  height={logoHeight}
-                  className="h-full w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    maxHeight: `${logoHeight}px`,
-                    filter: "brightness(0) invert(1)", // Makes logos white, remove if you want original colors
-                  }}
-                  unoptimized // Remove if you want Next.js optimization
-                />
-              )}
-            </div>
-          );
-        })}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

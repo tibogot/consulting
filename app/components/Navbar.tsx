@@ -648,7 +648,7 @@ export default function Navbar() {
             {/* Contact Link - Hidden on mobile when menu is closed */}
             <Link
               href="/contact"
-              className={`hidden md:block px-4 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded ${
+              className={`hidden md:block px-6 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded ${
                 pathname === "/contact" ? "bg-[#6a02cc]" : ""
               }`}
             >
@@ -848,7 +848,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className={`px-4 py-2 bg-[#8202FF] text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded inline-block ${
+                className={`px-6 py-2 bg-[#8202FF] text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded inline-block ${
                   pathname === "/contact" ? "bg-[#6a02cc]" : ""
                 }`}
               >

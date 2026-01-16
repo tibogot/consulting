@@ -47,6 +47,7 @@ export default function GradientTextReveal({
     lineParents.forEach((parent) => {
       parent.style.overflow = "visible";
       parent.style.paddingBottom = "0.1em"; // Add small padding for descenders
+      parent.style.marginBottom = "-0.1em"; // Offset padding to maintain line spacing
     });
 
     // Apply gradient styling to each line
@@ -70,9 +71,9 @@ export default function GradientTextReveal({
       ease: "linear",
       scrollTrigger: {
         trigger: textElement,
-        scrub: 1,
-        start: "top bottom-=20%",
-        end: "center center",
+        scrub: true,
+        start: "top bottom-=10%",
+        end: "bottom center",
         // markers: true,
       },
     });

@@ -255,6 +255,13 @@ export default function Footer() {
             >
               GTA Gradient V3
             </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/animated-copy-demo" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              AnimatedCopy Demo
+            </Link>
           </div>
         </div>
       </div>
