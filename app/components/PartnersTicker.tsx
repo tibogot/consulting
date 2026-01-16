@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsapConfig";
 
@@ -149,10 +150,10 @@ export default function PartnersTicker({
         onMouseLeave={handleMouseLeave}
       >
         {/* Corner borders */}
-        <div className="absolute top-0 left-0 w-[8px] h-[8px] border-t border-l border-white/50 z-[100] pointer-events-none" />
-        <div className="absolute top-0 right-0 w-[8px] h-[8px] border-t border-r border-white/50 z-[100] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[8px] h-[8px] border-b border-l border-white/50 z-[100] pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-[8px] h-[8px] border-b border-r border-white/50 z-[100] pointer-events-none" />
+        <div className="absolute top-0 left-0 w-[8px] h-[8px] border-t border-l border-white/50 z-100 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[8px] h-[8px] border-t border-r border-white/50 z-100 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[8px] h-[8px] border-b border-l border-white/50 z-100 pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[8px] h-[8px] border-b border-r border-white/50 z-100 pointer-events-none" />
 
         <div
           ref={tickerRef}
@@ -162,21 +163,20 @@ export default function PartnersTicker({
           }}
         >
           {duplicatedLogos.map((logo, index) => {
-            const isSvg = logo.endsWith(".svg");
-            const isAvif = logo.endsWith(".avif");
-
             return (
               <div
                 key={`${logo}-${index}`}
-                className="partner-logo flex-shrink-0 flex items-center justify-center px-6 py-4"
+                className="partner-logo shrink-0 flex items-center justify-center px-6 py-4"
                 style={{
                   height: `${logoHeight}px`,
                   width: `${logoHeight * 2.5}px`,
                 }}
               >
-                <img
+                <Image
                   src={logo}
                   alt={`Partner logo ${index + 1}`}
+                  width={logoHeight * 1.5}
+                  height={logoHeight * 0.5}
                   className="object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
                   style={{
                     maxHeight: `${logoHeight * 0.5}px`,
@@ -184,6 +184,7 @@ export default function PartnersTicker({
                     width: "auto",
                     height: "auto",
                   }}
+                  unoptimized={logo.endsWith(".svg")}
                 />
               </div>
             );

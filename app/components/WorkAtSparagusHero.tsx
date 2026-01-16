@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
 import { ArrowDown } from "lucide-react";
 
@@ -337,12 +338,12 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         style={{ willChange: "clip-path, transform" }}
       >
         {/* Poster image - loads immediately, improves LCP */}
-        <img
+        <Image
           src="/videohero-poster.jpg"
           alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-          fetchPriority="high"
+          fill
+          priority
+          className="object-cover"
         />
 
         {/* Video - conditionally loaded based on device/connection */}
