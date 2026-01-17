@@ -26,7 +26,9 @@ export default function AnimatedCopyDemo() {
               AnimatedCopy Component
             </h1>
             <p className="text-base md:text-lg text-white/80 font-pp-neue-montreal max-w-lg">
-              Scroll-triggered character reveal animation. Each character transitions through three color stages as you scroll, creating a terminal-style text reveal effect.
+              Scroll-triggered character reveal animation. Each character
+              transitions through three color stages as you scroll, creating a
+              terminal-style text reveal effect.
             </p>
           </div>
 
@@ -53,15 +55,16 @@ export default function AnimatedCopyDemo() {
       </section>
 
       {/* AnimatedCopy Demo Section */}
-      <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8 space-y-32">
+      <section className="relative w-full min-h-screen bg-gray-900 py-20 px-4 md:px-8 space-y-32">
         {/* Section Title */}
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-medium text-white mb-16 font-pp-neue-montreal">
             AnimatedCopy Component Demo
           </h2>
           <p className="text-lg text-white/70 font-pp-neue-montreal mb-16 max-w-3xl">
-            Scroll through the page to see each example animate as it enters the viewport. 
-            Each character transitions through three color stages: initial → accent → final.
+            Scroll through the page to see each example animate as it enters the
+            viewport. Each character transitions through three color stages:
+            initial → accent → final.
           </p>
         </div>
 
@@ -181,8 +184,8 @@ export default function AnimatedCopyDemo() {
             colorFinal="#ffffff"
           >
             <p className="text-2xl md:text-3xl font-medium text-white font-pp-neue-montreal leading-relaxed">
-              An orange accent brings warmth and creativity to your content. 
-              Ideal for showcasing innovative projects or creative portfolios 
+              An orange accent brings warmth and creativity to your content.
+              Ideal for showcasing innovative projects or creative portfolios
               that need a vibrant, energetic feel.
             </p>
           </AnimatedCopy>
@@ -201,8 +204,8 @@ export default function AnimatedCopyDemo() {
             colorFinal="#ffffff"
           >
             <p className="text-2xl md:text-3xl font-medium text-white font-pp-neue-montreal leading-relaxed">
-              A clean, minimal approach with white on dark. The subtle reveal 
-              adds sophistication without being distracting, perfect for 
+              A clean, minimal approach with white on dark. The subtle reveal
+              adds sophistication without being distracting, perfect for
               professional and elegant designs.
             </p>
           </AnimatedCopy>
@@ -215,20 +218,40 @@ export default function AnimatedCopyDemo() {
           </h3>
           <div className="space-y-4 text-white/80 font-pp-neue-montreal">
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">
-              <code className="text-[#abff02] text-sm block mb-2">colorInitial?: string</code>
-              <p className="text-base">The initial color of characters before scrolling. Default: "#dddddd"</p>
+              <code className="text-[#abff02] text-sm block mb-2">
+                colorInitial?: string
+              </code>
+              <p className="text-base">
+                The initial color of characters before scrolling. Default:
+                "#dddddd"
+              </p>
             </div>
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">
-              <code className="text-[#abff02] text-sm block mb-2">colorAccent?: string</code>
-              <p className="text-base">The accent color shown when a character is revealed. Default: "#abff02"</p>
+              <code className="text-[#abff02] text-sm block mb-2">
+                colorAccent?: string
+              </code>
+              <p className="text-base">
+                The accent color shown when a character is revealed. Default:
+                "#abff02"
+              </p>
             </div>
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">
-              <code className="text-[#abff02] text-sm block mb-2">colorFinal?: string</code>
-              <p className="text-base">The final color after the reveal animation completes. Default: "#000000"</p>
+              <code className="text-[#abff02] text-sm block mb-2">
+                colorFinal?: string
+              </code>
+              <p className="text-base">
+                The final color after the reveal animation completes. Default:
+                "#000000"
+              </p>
             </div>
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">
-              <code className="text-[#abff02] text-sm block mb-2">children: React.ReactNode</code>
-              <p className="text-base">Text content to animate. Can be a single element or multiple elements.</p>
+              <code className="text-[#abff02] text-sm block mb-2">
+                children: React.ReactNode
+              </code>
+              <p className="text-base">
+                Text content to animate. Can be a single element or multiple
+                elements.
+              </p>
             </div>
           </div>
         </div>

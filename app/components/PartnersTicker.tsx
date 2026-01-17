@@ -38,7 +38,7 @@ export default function PartnersTicker({
   direction = "left",
   pauseOnHover = true,
   gap = 16,
-  logoHeight = 60,
+  logoHeight = 80,
 }: PartnersTickerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<HTMLDivElement>(null);
@@ -142,7 +142,7 @@ export default function PartnersTicker({
   };
 
   return (
-    <div className="w-full relative py-16 px-4 md:px-8">
+    <div className="w-full relative py-20 px-4 md:px-8">
       <div
         ref={containerRef}
         className="w-full overflow-hidden relative"
