@@ -26,6 +26,7 @@
 }
 
 html {
+  background: var(--background);
   /* Reserve scrollbar space to prevent layout shift when scroll is locked */
   scrollbar-gutter: stable;
   /* Disable native smooth scroll behavior - Lenis handles this */

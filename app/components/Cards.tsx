@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 export default function Cards() {
   return (
     <div className="w-full bg-black px-4 md:px-8 py-8">
-      <div className="flex flex-col md:flex-row md:justify-between w-full">
+      <div className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto">
         <div 
           className="max-w-md h-96 md:h-128 p-6 flex flex-col justify-between text-white relative bg-cover bg-center bg-no-repeat rounded-sm overflow-hidden"
           style={{ backgroundImage: 'url(/img-1.jpg)' }}
