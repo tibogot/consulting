@@ -90,7 +90,7 @@ function DropdownMenu({
     <div
       className={`overflow-hidden transition-all duration-300 ease-in-out ${
         isOpen
-          ? "max-h-[500px] opacity-100 translate-y-0"
+          ? "max-h-[800px] opacity-100 translate-y-0"
           : "max-h-0 opacity-0 -translate-y-2"
       }`}
     >
@@ -104,12 +104,12 @@ function DropdownMenu({
       />
       <div className="pt-0 pb-2">
         <div
-          className="rounded-lg overflow-hidden flex h-96 p-4"
+          className="rounded-lg flex min-h-96 p-4"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
           {/* Left Image Section */}
-          <div className="w-96 h-full relative flex-shrink-0 p-4">
+          <div className="w-96 h-full relative flex-shrink-0 p-4 overflow-hidden rounded-lg">
             <div className="w-full h-full relative overflow-hidden rounded-lg">
               <img
                 src={image}
