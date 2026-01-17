@@ -157,7 +157,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         !videoContainerRef.current ||
         !titleRef.current ||
         !descriptionRef.current ||
-        !ctaRef.current ||
+        // !ctaRef.current ||
         !animationReady
       )
         return;
@@ -253,10 +253,10 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
       });
 
       // Set initial state for CTA button
-      gsap.set(ctaElement, {
-        opacity: 0,
-        y: 20,
-      });
+      // gsap.set(ctaElement, {
+      //   opacity: 0,
+      //   y: 20,
+      // });
 
       // Create unified timeline
       const timeline = gsap.timeline();
@@ -306,16 +306,16 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
       );
 
       // CTA button animation
-      timeline.to(
-        ctaElement,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        },
-        `-=${ANIMATION_CONFIG.ctaOverlap}`
-      );
+      // timeline.to(
+      //   ctaElement,
+      //   {
+      //     opacity: 1,
+      //     y: 0,
+      //     duration: 0.5,
+      //     ease: "power2.out",
+      //   },
+      //   `-=${ANIMATION_CONFIG.ctaOverlap}`
+      // );
 
       // Cleanup
       return () => {
@@ -409,11 +409,11 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         </div>
 
         {/* Right side - CTA Button */}
-        <div ref={ctaRef} className="flex items-end opacity-0">
-          <div className="w-12 h-12 bg-[#8202FF] rounded-sm flex items-center justify-center">
+        {/* <div ref={ctaRef} className="flex items-end opacity-0">
+          <div className="w-12 h-12 bg-[var(--primary)] rounded-sm flex items-center justify-center">
             <ArrowDown className="text-white w-6 h-6" />
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

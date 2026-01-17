@@ -45,16 +45,16 @@ const PinnedClipPathAnimation = ({
     });
 
     // Image Scale
-    gsap.to(".section1", {
-      scale: 1,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".section1",
-        start: "top 90%",
-        end: "bottom 90%",
-        scrub: true,
-      },
-    });
+    // gsap.to(".section1", {
+    //   scale: 1,
+    //   ease: "none",
+    //   scrollTrigger: {
+    //     trigger: ".section1",
+    //     start: "top 90%",
+    //     end: "bottom 90%",
+    //     scrub: true,
+    //   },
+    // });
 
     // Images Clip-Path
     tl2.to(".section2", {
@@ -67,17 +67,18 @@ const PinnedClipPathAnimation = ({
       ease: "power1.out",
     });
 
-    // Cleanup function
-    return () => {
-      tl2.kill();
-      gsap.killTweensOf(".section1");
-    };
+      // Cleanup function
+      return () => {
+        tl2.kill();
+        // gsap.killTweensOf(".section1");
+      };
   }, []);
 
   return (
     <div className={`p-0 ${className}`}>
-      <section className="bigimg-wrapper relative h-screen w-full overflow-hidden">
-        <div className="section1 absolute inset-0 z-30 origin-center scale-75">
+      <section className="bigimg-wrapper relative h-screen w-full overflow-hidden flex flex-col justify-between">
+        <div className="section1 absolute inset-0 z-30 origin-center">
+          {/* scale-75 */}
           {image1 && (
             <Image
               src={image1}
@@ -87,11 +88,24 @@ const PinnedClipPathAnimation = ({
               sizes="100vw"
             />
           )}
-          {content1 && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-4 text-center text-white font-pp-neue-montreal backdrop-blur-[2px]">
-              {content1}
+          {/* Content Container - Flex Layout */}
+          <div className="absolute inset-0 z-40 flex flex-col justify-between px-4 pb-16 md:px-8 md:pb-24 pt-12 md:pt-30">
+            {/* Pagination - Top Left */}
+            <div className="flex items-start gap-1">
+              <span className="text-[120px] sm:text-[150px] md:text-[180px] font-normal text-white font-pp-neue-montreal leading-none">01</span>
+              <span className="text-base sm:text-lg md:text-xl font-normal text-white font-pp-neue-montreal pt-6">/3</span>
             </div>
-          )}
+            
+            {/* Content - Bottom Right */}
+            {content1 && (
+              <div className="flex justify-end items-end">
+                <div className="text-right max-w-lg w-full sm:max-w-xl md:max-w-lg text-white font-pp-neue-montreal">
+                  <div className="w-full h-px bg-white mb-2 md:mb-3"></div>
+                  {content1}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Section 2 (middle) */}
@@ -108,11 +122,24 @@ const PinnedClipPathAnimation = ({
               sizes="100vw"
             />
           )}
-          {content2 && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-4 text-center text-white font-pp-neue-montreal backdrop-blur-[2px]">
-              {content2}
+          {/* Content Container - Flex Layout */}
+          <div className="absolute inset-0 z-40 flex flex-col justify-between px-4 pb-16 md:px-8 md:pb-24 pt-12 md:pt-30">
+            {/* Pagination - Top Left */}
+            <div className="flex items-start gap-1">
+              <span className="text-[120px] sm:text-[150px] md:text-[180px] font-normal text-white font-pp-neue-montreal leading-none">02</span>
+              <span className="text-base sm:text-lg md:text-xl font-normal text-white font-pp-neue-montreal pt-6">/3</span>
             </div>
-          )}
+            
+            {/* Content - Bottom Right */}
+            {content2 && (
+              <div className="flex justify-end items-end">
+                <div className="text-right max-w-lg w-full sm:max-w-xl md:max-w-lg text-white font-pp-neue-montreal">
+                  <div className="w-full h-px bg-white mb-2 md:mb-3"></div>
+                  {content2}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div
@@ -128,11 +155,24 @@ const PinnedClipPathAnimation = ({
               sizes="100vw"
             />
           )}
-          {content3 && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/30 px-4 text-center text-white font-pp-neue-montreal backdrop-blur-[2px]">
-              {content3}
+          {/* Content Container - Flex Layout */}
+          <div className="absolute inset-0 z-40 flex flex-col justify-between px-4 pb-16 md:px-8 md:pb-24 pt-12 md:pt-30">
+            {/* Pagination - Top Left */}
+            <div className="flex items-start gap-1">
+              <span className="text-[120px] sm:text-[150px] md:text-[180px] font-normal text-white font-pp-neue-montreal leading-none">03</span>
+              <span className="text-base sm:text-lg md:text-xl font-normal text-white font-pp-neue-montreal pt-6">/3</span>
             </div>
-          )}
+            
+            {/* Content - Bottom Right */}
+            {content3 && (
+              <div className="flex justify-end items-end">
+                <div className="text-right max-w-lg w-full sm:max-w-xl md:max-w-lg text-white font-pp-neue-montreal">
+                  <div className="w-full h-px bg-white mb-2 md:mb-3"></div>
+                  {content3}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>

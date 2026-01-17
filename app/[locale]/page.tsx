@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { CircleArrowRight } from "lucide-react";
 import AnimatedText from "../components/AnimatedText3";
 import PartnersTicker from "../components/PartnersTicker";
 import AnimatedButton from "../components/AnimatedButton";
@@ -8,6 +9,7 @@ import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
 import AnimatedCopy from "../components/AnimatedCopy";
 import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
 import NeoCultureMouseMove from "../components/NeoCultureMouseMove";
+import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -17,20 +19,19 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
-      <PartnersTicker />
 
       {/* Combined Section - AnimatedCopy */}
-      <section className="relative w-full min-h-screen bg-black py-20 px-4 md:px-8">
-        <div className="text-3xl md:text-3xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
-          <AnimatedCopy
-            colorInitial="#333333"
-            colorAccent="#8202FF"
-            colorFinal="#ffffff"
-          >
+      <section className="relative w-full min-h-screen bg-black py-10 px-4 md:px-8">
+        <div className="w-full h-px bg-white mb-4"></div>
+        <div className="text-3xl md:text-4xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
+        <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
+            <p className="text-lg md:text-lg mb-10 ">
+              From AI startups to global tech leaders
+            </p>
             <h2>
-              <span className="opacity-0 select-none pointer-events-none">
-                Invisible text{" "}
-              </span>
+              {/* <span className="opacity-0 select-none pointer-events-none">
+                Invisible text
+              </span> */}
               From AI startups to global tech leaders, we help turn complexity
               into clarity, making revolutionary ideas feel inevitable.
             </h2>
@@ -44,14 +45,15 @@ export default async function Home() {
             <AnimatedButton delay={0.2}>
               <Link
                 href="/contact"
-                className="inline-block px-6 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded cursor-pointer"
+                className="inline-flex items-center gap-3 px-6 py-3 bg-[var(--primary)] text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] cursor-pointer"
               >
-                Get in Touch
+                View all solutions
+                <CircleArrowRight className="w-7 h-7 text-white" strokeWidth={1} />
               </Link>
             </AnimatedButton>
           </div>
         </div>
-        <div className="text-7xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
+        {/* <div className="text-7xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
           <AnimatedCopy
             colorInitial="#333333"
             colorAccent="#8202FF"
@@ -59,48 +61,83 @@ export default async function Home() {
           >
             <h2>
               <span className="opacity-0 select-none pointer-events-none">
-                Invisible text{" "}
+                Invisible text
               </span>
               From AI startups to global tech leaders, we help turn complexity
               into clarity, making revolutionary ideas feel inevitable.
             </h2>
           </AnimatedCopy>
-        </div>
+        </div> */}
+      </section>
+
+      <PartnersTicker />
+
+
+      {/* Laser Border Cards Section */}
+      <section className="relative w-full bg-black py-20 px-4 md:px-8">
+        <LaserBorderCardsRow
+          cards={[
+            {
+              title: "Maximum, automated throughput",
+              description: "Terminal delivers maximum data accuracy and optimal throughput to keep your operations humming and material moving.",
+              statValue: "50%",
+              statLabel: "data accuracy",
+              animationDuration: 4,
+            },
+            {
+              title: "Always Available",
+              description: "Enterprise-grade reliability for mission-critical operations.",
+              statValue: "99.9%",
+              statLabel: "uptime guaranteed",
+              animationDuration: 4,
+            },
+            {
+              title: "Dual Processing",
+              description: "Parallel pipelines for maximum efficiency.",
+              statValue: "2x",
+              statLabel: "faster processing",
+              animationDuration: 4,
+            },
+          ]}
+          className="py-10"
+        />
       </section>
 
       {/* Pinned Clip Path Animation Section */}
       <PinnedClipPathAnimation
-        image1="/img-1.jpg"
-        image2="/img-2.jpg"
-        image3="/img-3.jpg"
+        image1="/alev-takil.jpg"
+        image2="/channel-82.jpg"
+        image3="/campaign-creators.jpg"
         alt1="First section image"
         alt2="Second section image"
         alt3="Third section image"
         content1={
-          <div className="text-center">
-            <h2 className="text-5xl md:text-7xl font-medium mb-4">
-              Innovation
+          <div className="text-left">
+            <h2 className="text-3xl md:text-4xl font-normal leading-tight mb-4">
+              Number of vehicles
             </h2>
-            <p className="text-xl md:text-2xl opacity-90">
-              Transforming ideas into reality
+            <p className="text-base text-white">
+              New capabilities such as camera, lidar, radar and ultrasonic-based technologies are exponentially increasing the complexity of repairing today&apos;s vehicles.
             </p>
           </div>
         }
         content2={
-          <div className="text-center">
-            <h2 className="text-5xl md:text-7xl font-medium mb-4">
-              Excellence
+          <div className="text-left">
+            <h2 className="text-3xl md:text-4xl font-normal leading-tight mb-4">
+              Technology integration
             </h2>
-            <p className="text-xl md:text-2xl opacity-90">
-              Delivering world-class solutions
+            <p className="text-base text-white">
+              Our enterprise-grade systems ensure reliable performance and seamless integration of cutting-edge technologies across all operational environments.
             </p>
           </div>
         }
         content3={
-          <div className="text-center">
-            <h2 className="text-5xl md:text-7xl font-medium mb-4">Impact</h2>
-            <p className="text-xl md:text-2xl opacity-90">
-              Building the future together
+          <div className="text-left">
+            <h2 className="text-3xl md:text-4xl font-normal leading-tight mb-4">
+              Intelligent systems
+            </h2>
+            <p className="text-base text-white">
+              We&apos;re revolutionizing the way vehicles are maintained and repaired, creating sustainable solutions that drive the industry forward.
             </p>
           </div>
         }
@@ -177,7 +214,7 @@ export default async function Home() {
       </section>
 
       {/* NeoCulture Mouse Move Section */}
-      <section className="relative w-full h-svh bg-black">
+      {/* <section className="relative w-full h-svh bg-black">
         <NeoCultureMouseMove
           gradientColors={{
             initial: "#8202FF",
@@ -185,7 +222,7 @@ export default async function Home() {
             final: "#FF02FF",
           }}
         />
-      </section>
+      </section> */}
     </div>
   );
 }
