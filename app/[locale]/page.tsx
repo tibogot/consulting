@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { CircleArrowRight } from "lucide-react";
+import { CircleArrowRight, ArrowRight } from "lucide-react";
 import AnimatedText from "../components/AnimatedText3";
 import PartnersTicker from "../components/PartnersTicker";
 import AnimatedButton from "../components/AnimatedButton";
@@ -10,6 +10,7 @@ import AnimatedCopy from "../components/AnimatedCopy";
 import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
 import NeoCultureMouseMove from "../components/NeoCultureMouseMove";
 import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
+import Cards from "../components/Cards";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -21,10 +22,10 @@ export default async function Home() {
 
 
       {/* Combined Section - AnimatedCopy */}
-      <section className="relative w-full min-h-screen bg-black py-10 px-4 md:px-8">
+      <section className="relative w-full  bg-black py-10 px-4 md:px-8">
         <div className="w-full h-px bg-white mb-4"></div>
         <div className="text-3xl md:text-4xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
-        <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
+          <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
             <p className="text-lg md:text-lg mb-10 ">
               From AI startups to global tech leaders
             </p>
@@ -42,15 +43,51 @@ export default async function Home() {
             </p>
           </AnimatedCopy>
           <div className="mt-8">
-            <AnimatedButton delay={0.2}>
+            {/* <AnimatedButton delay={0.2}>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-3 px-6 py-3 bg-[var(--primary)] text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] cursor-pointer"
+                className="inline-flex items-center gap-3 px-6 py-3 bg-primary text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] cursor-pointer"
               >
                 View all solutions
                 <CircleArrowRight className="w-7 h-7 text-white" strokeWidth={1} />
               </Link>
+            </AnimatedButton> */}
+            <AnimatedButton delay={0.2}>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-3 text-white text-base font-pp-neue-montreal hover:opacity-80 transition-opacity cursor-pointer"
+              >
+                View all solutions
+                <ArrowRight className="w-5 h-5 text-white" strokeWidth={1} />
+              </Link>
             </AnimatedButton>
+          </div>
+        </div>
+
+        <div className="flex gap-8 md:gap-12 mt-16">
+          {/* Left Column - Bigger Width */}
+          <div className="flex-[2]">
+            <div className="w-full h-px bg-white mb-4"></div>
+            <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
+              From AI startups to global tech leaders
+            </h3>
+            <p className="text-base md:text-lg text-white/80 font-pp-neue-montreal">
+              From AI startups to global tech leaders, we help turn complexity
+              into clarity, making revolutionary ideas feel inevitable. Millions of visits or millions raised, our work is built for
+              impact. We transform complex challenges into clear, actionable
+              solutions that drive real results.
+            </p>
+          </div>
+          
+          {/* Right Column - Smaller Width */}
+          <div className="flex-1">
+            <div className="w-full h-px bg-white mb-4"></div>
+            <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
+              Our approach
+            </h3>
+            <p className="text-base md:text-lg text-white/80 font-pp-neue-montreal">
+              We transform complex challenges into clear, actionable solutions.
+            </p>
           </div>
         </div>
         {/* <div className="text-7xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
@@ -70,11 +107,14 @@ export default async function Home() {
         </div> */}
       </section>
 
+      {/* Cards Section */}
+      <Cards />
+
       <PartnersTicker />
 
 
       {/* Laser Border Cards Section */}
-      <section className="relative w-full bg-black py-20 px-4 md:px-8">
+      {/* <section className="relative w-full bg-black py-20 px-4 md:px-8">
         <LaserBorderCardsRow
           cards={[
             {
@@ -101,7 +141,7 @@ export default async function Home() {
           ]}
           className="py-10"
         />
-      </section>
+      </section> */}
 
       {/* Pinned Clip Path Animation Section */}
       <PinnedClipPathAnimation
@@ -178,7 +218,7 @@ export default async function Home() {
       </section> */}
 
       {/* Newsletter Section */}
-      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
@@ -211,7 +251,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section>
+      </section> */}
 
       {/* NeoCulture Mouse Move Section */}
       {/* <section className="relative w-full h-svh bg-black">

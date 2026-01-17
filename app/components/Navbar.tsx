@@ -2,8 +2,256 @@
 
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, ComponentProps } from "react";
 import { ChevronDown } from "lucide-react";
+
+type AppPathname = ComponentProps<typeof Link>["href"];
+
+// Custom hook for hover with delayed close
+function useHoverWithDelay(delay = 200) {
+  const [isHovered, setIsHovered] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const onMouseEnter = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setIsHovered(true);
+  }, []);
+
+  const onMouseLeave = useCallback(() => {
+    timeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, delay);
+  }, [delay]);
+
+  const closeImmediately = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setIsHovered(false);
+  }, []);
+
+  return { isHovered, onMouseEnter, onMouseLeave, closeImmediately };
+}
+
+// Arrow icon component
+function ArrowIcon() {
+  return (
+    <svg
+      className="w-4 h-4 text-black"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9 5l7 7-7 7"
+      />
+    </svg>
+  );
+}
+
+// Dropdown menu item type
+type SubmenuItem = {
+  href: AppPathname;
+  label: string;
+  description: string;
+};
+
+// Desktop dropdown menu component
+function DropdownMenu({
+  items,
+  image,
+  title,
+  titleHref,
+  isOpen,
+  onMouseEnter,
+  onMouseLeave,
+  navbarWidth,
+  pathname,
+}: {
+  items: SubmenuItem[];
+  image: string;
+  title: string;
+  titleHref?: AppPathname;
+  isOpen: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  navbarWidth: string;
+  pathname: string;
+}) {
+  if (!isOpen) return null;
+
+  const firstColumn = items.slice(0, Math.ceil(items.length / 2));
+  const secondColumn = items.slice(Math.ceil(items.length / 2));
+
+  return (
+    <>
+      {/* Invisible bridge to connect button to dropdown */}
+      <div
+        className="fixed top-8 left-1/2 -translate-x-1/2 z-40 h-20"
+        style={{ width: navbarWidth }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+      <div
+        className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pt-2"
+        style={{ width: navbarWidth }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <div className="w-full bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
+        {/* Left Image Section */}
+        <div className="w-96 h-full relative flex-shrink-0 p-4">
+          <div className="w-full h-full relative overflow-hidden rounded-lg">
+            <img
+              src={image}
+              alt={title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div className="absolute bottom-4 left-4 text-white z-10">
+              {title}
+            </div>
+            {titleHref && (
+              <Link
+                href={titleHref}
+                className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
+              >
+                <ArrowIcon />
+              </Link>
+            )}
+          </div>
+        </div>
+        {/* Right Columns Section */}
+        <div className="flex p-6 gap-8">
+          {[firstColumn, secondColumn].map((column, colIndex) => (
+            <div key={colIndex} className="space-y-6 min-w-[180px]">
+              {column.map((item) => (
+                <Link
+                  key={item.href as string}
+                  href={item.href}
+                  className={`block text-sm transition-colors ${
+                    pathname === item.href
+                      ? "text-white"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  <div className="mb-2">{item.label}</div>
+                  <p className="text-sm text-white/60 leading-relaxed">
+                    {item.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    </>
+  );
+}
+
+// Mobile accordion component
+function MobileAccordion({
+  title,
+  items,
+  isOpen,
+  onToggle,
+  onLinkClick,
+  pathname,
+  isActive,
+  isLanguage = false,
+  locale,
+}: {
+  title: string;
+  items: { href: string; label: string; code?: string }[];
+  isOpen: boolean;
+  onToggle: () => void;
+  onLinkClick: () => void;
+  pathname: string;
+  isActive: boolean;
+  isLanguage?: boolean;
+  locale?: string;
+}) {
+  return (
+    <div>
+      <button
+        onClick={onToggle}
+        className={`w-full flex items-center justify-between text-lg transition-colors ${
+          isActive ? "text-white" : "text-white/90 hover:text-white/60"
+        }`}
+      >
+        <span>{title}</span>
+        <ChevronDown
+          className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      {isOpen && (
+        <div className="ml-4 mt-2 space-y-2">
+          {items.map((item) => (
+            <Link
+              key={item.href + (item.code || "")}
+              href={item.href as AppPathname}
+              {...(isLanguage && item.code ? { locale: item.code as "fr" | "en" | "nl" } : {})}
+              onClick={onLinkClick}
+              className={`block text-sm transition-colors ${
+                isLanguage
+                  ? locale === item.code
+                    ? "text-white"
+                    : "text-white/80 hover:text-white/60"
+                  : pathname === item.href
+                    ? "text-white"
+                    : "text-white/80 hover:text-white/60"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Nav button with dropdown trigger
+function NavDropdownButton({
+  label,
+  isHovered,
+  isActive,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  label: string;
+  isHovered: boolean;
+  isActive: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
+  return (
+    <div
+      className="relative"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <button
+        className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+          isActive ? "text-white" : "text-white/90 hover:text-white/60"
+        }`}
+      >
+        {label}
+        <ChevronDown
+          className={`w-4 h-4 transition-transform ${isHovered ? "rotate-180" : ""}`}
+        />
+      </button>
+    </div>
+  );
+}
 
 export default function Navbar() {
   const t = useTranslations("nav");
@@ -13,26 +261,18 @@ export default function Navbar() {
   const tCareers = useTranslations("careers");
   const locale = useLocale();
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isServicesHovered, setIsServicesHovered] = useState(false);
-  const [isHubsHovered, setIsHubsHovered] = useState(false);
-  const [isAboutHovered, setIsAboutHovered] = useState(false);
-  const [isCareersHovered, setIsCareersHovered] = useState(false);
-  const [isLanguageHovered, setIsLanguageHovered] = useState(false);
-  
-  // Mobile submenu states
-  const [isServicesMobileOpen, setIsServicesMobileOpen] = useState(false);
-  const [isHubsMobileOpen, setIsHubsMobileOpen] = useState(false);
-  const [isAboutMobileOpen, setIsAboutMobileOpen] = useState(false);
-  const [isCareersMobileOpen, setIsCareersMobileOpen] = useState(false);
-  const [isLanguageMobileOpen, setIsLanguageMobileOpen] = useState(false);
 
-  // Timeout refs for delayed closing
-  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const hubsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const careersTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const languageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Mobile submenu states
+  const [mobileOpenMenu, setMobileOpenMenu] = useState<string | null>(null);
+
+  // Desktop hover states
+  const services = useHoverWithDelay();
+  const hubs = useHoverWithDelay();
+  const about = useHoverWithDelay();
+  const careers = useHoverWithDelay();
+  const language = useHoverWithDelay();
 
   // Ref to measure navbar width
   const navbarRef = useRef<HTMLElement>(null);
@@ -51,144 +291,106 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", updateNavbarWidth);
   }, []);
 
-  const handleServicesMouseEnter = () => {
-    if (servicesTimeoutRef.current) {
-      clearTimeout(servicesTimeoutRef.current);
-      servicesTimeoutRef.current = null;
-    }
-    setIsServicesHovered(true);
+  // Close all dropdowns immediately when pathname changes (navigation occurs)
+  useEffect(() => {
+    services.closeImmediately();
+    hubs.closeImmediately();
+    about.closeImmediately();
+    careers.closeImmediately();
+    language.closeImmediately();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  // Menu configurations
+  const menuConfigs = {
+    services: {
+      image: "/slide-1.jpg",
+      titleHref: "/services" as const,
+      items: [
+        {
+          href: "/services/search-selection" as const,
+          label: t("servicesSubmenu.searchSelection"),
+          description: tServices("searchSelection.description"),
+        },
+        {
+          href: "/services/consulting" as const,
+          label: t("servicesSubmenu.consulting"),
+          description: tServices("consulting.description"),
+        },
+        {
+          href: "/services/managed" as const,
+          label: t("servicesSubmenu.managed"),
+          description: tServices("managed.description"),
+        },
+      ],
+    },
+    hubs: {
+      image: "/slide-2.jpg",
+      titleHref: "/hubs" as const,
+      items: [
+        {
+          href: "/hubs/technology" as const,
+          label: t("hubsSubmenu.technology"),
+          description: tHubs("technology.description"),
+        },
+        {
+          href: "/hubs/engineering" as const,
+          label: t("hubsSubmenu.engineering"),
+          description: tHubs("engineering.description"),
+        },
+        {
+          href: "/hubs/business-operations" as const,
+          label: t("hubsSubmenu.businessOperations"),
+          description: tHubs("businessOperations.description"),
+        },
+      ],
+    },
+    about: {
+      image: "/img-1.jpg",
+      titleHref: "/about" as const,
+      items: [
+        {
+          href: "/about/us" as const,
+          label: t("aboutSubmenu.us"),
+          description: tAbout("us.description"),
+        },
+        {
+          href: "/about/mission" as const,
+          label: t("aboutSubmenu.mission"),
+          description: tAbout("mission.description"),
+        },
+        {
+          href: "/about/team" as const,
+          label: t("aboutSubmenu.team"),
+          description: tAbout("team.description"),
+        },
+      ],
+    },
+    careers: {
+      image: "/img-2.jpg",
+      titleHref: "/careers" as const,
+      items: [
+        {
+          href: "/careers/find-job" as const,
+          label: t("careersSubmenu.findJob"),
+          description: tCareers("findJob.description"),
+        },
+        {
+          href: "/careers/work-at-sparagus" as const,
+          label: t("careersSubmenu.workAtSparagus"),
+          description: tCareers("workAtSparagus.description"),
+        },
+      ],
+    },
+    language: {
+      image: "/img-3.jpg",
+      items: [
+        { href: pathname, label: "FR", code: "fr" },
+        { href: pathname, label: "EN", code: "en" },
+        { href: pathname, label: "NL", code: "nl" },
+      ],
+    },
   };
-
-  const handleServicesMouseLeave = () => {
-    servicesTimeoutRef.current = setTimeout(() => {
-      setIsServicesHovered(false);
-    }, 200);
-  };
-
-  const handleHubsMouseEnter = () => {
-    if (hubsTimeoutRef.current) {
-      clearTimeout(hubsTimeoutRef.current);
-      hubsTimeoutRef.current = null;
-    }
-    setIsHubsHovered(true);
-  };
-
-  const handleHubsMouseLeave = () => {
-    hubsTimeoutRef.current = setTimeout(() => {
-      setIsHubsHovered(false);
-    }, 200);
-  };
-
-  const handleAboutMouseEnter = () => {
-    if (aboutTimeoutRef.current) {
-      clearTimeout(aboutTimeoutRef.current);
-      aboutTimeoutRef.current = null;
-    }
-    setIsAboutHovered(true);
-  };
-
-  const handleAboutMouseLeave = () => {
-    aboutTimeoutRef.current = setTimeout(() => {
-      setIsAboutHovered(false);
-    }, 200);
-  };
-
-  const handleCareersMouseEnter = () => {
-    if (careersTimeoutRef.current) {
-      clearTimeout(careersTimeoutRef.current);
-      careersTimeoutRef.current = null;
-    }
-    setIsCareersHovered(true);
-  };
-
-  const handleCareersMouseLeave = () => {
-    careersTimeoutRef.current = setTimeout(() => {
-      setIsCareersHovered(false);
-    }, 200);
-  };
-
-  const handleLanguageMouseEnter = () => {
-    if (languageTimeoutRef.current) {
-      clearTimeout(languageTimeoutRef.current);
-      languageTimeoutRef.current = null;
-    }
-    setIsLanguageHovered(true);
-  };
-
-  const handleLanguageMouseLeave = () => {
-    languageTimeoutRef.current = setTimeout(() => {
-      setIsLanguageHovered(false);
-    }, 200);
-  };
-
-  const servicesSubmenu = [
-    {
-      href: "/services/search-selection" as const,
-      label: t("servicesSubmenu.searchSelection"),
-      description: tServices("searchSelection.description"),
-    },
-    {
-      href: "/services/consulting" as const,
-      label: t("servicesSubmenu.consulting"),
-      description: tServices("consulting.description"),
-    },
-    {
-      href: "/services/managed" as const,
-      label: t("servicesSubmenu.managed"),
-      description: tServices("managed.description"),
-    },
-  ];
-
-  const hubsSubmenu = [
-    {
-      href: "/hubs/technology" as const,
-      label: t("hubsSubmenu.technology"),
-      description: tHubs("technology.description"),
-    },
-    {
-      href: "/hubs/engineering" as const,
-      label: t("hubsSubmenu.engineering"),
-      description: tHubs("engineering.description"),
-    },
-    {
-      href: "/hubs/business-operations" as const,
-      label: t("hubsSubmenu.businessOperations"),
-      description: tHubs("businessOperations.description"),
-    },
-  ];
-
-  const aboutSubmenu = [
-    {
-      href: "/about/us" as const,
-      label: t("aboutSubmenu.us"),
-      description: tAbout("us.description"),
-    },
-    {
-      href: "/about/mission" as const,
-      label: t("aboutSubmenu.mission"),
-      description: tAbout("mission.description"),
-    },
-    {
-      href: "/about/team" as const,
-      label: t("aboutSubmenu.team"),
-      description: tAbout("team.description"),
-    },
-  ];
-
-  const careersSubmenu = [
-    {
-      href: "/careers/find-job" as const,
-      label: t("careersSubmenu.findJob"),
-      description: tCareers("findJob.description"),
-    },
-    {
-      href: "/careers/work-at-sparagus" as const,
-      label: t("careersSubmenu.workAtSparagus"),
-      description: tCareers("workAtSparagus.description"),
-    },
-  ];
-
-  const navigation = [{ href: "/blog" as const, label: t("blog") }];
 
   const languages = [
     { code: "fr", label: "FR" },
@@ -196,13 +398,18 @@ export default function Navbar() {
     { code: "nl", label: "NL" },
   ];
 
-  // Check if any submenu is open - if so, remove backdrop-blur from navbar to fix nested backdrop-filter issue
   const isAnySubmenuOpen =
-    isServicesHovered ||
-    isHubsHovered ||
-    isAboutHovered ||
-    isCareersHovered ||
-    isLanguageHovered;
+    services.isHovered ||
+    hubs.isHovered ||
+    about.isHovered ||
+    careers.isHovered ||
+    language.isHovered;
+
+  const toggleMobileMenu = (menu: string) => {
+    setMobileOpenMenu(mobileOpenMenu === menu ? null : menu);
+  };
+
+  const closeMobileMenu = () => setIsMenuOpen(false);
 
   return (
     <nav
@@ -229,486 +436,131 @@ export default function Navbar() {
             {/* Services Dropdown */}
             <div
               className="relative"
-              onMouseEnter={handleServicesMouseEnter}
-              onMouseLeave={handleServicesMouseLeave}
+              onMouseEnter={services.onMouseEnter}
+              onMouseLeave={services.onMouseLeave}
             >
-              <button
-                className={`text-sm  transition-colors flex items-center gap-1 cursor-pointer ${
-                  pathname.startsWith("/services")
-                    ? "text-white"
-                    : "text-white/90 hover:text-white/60"
-                }`}
-              >
-                {t("services")}
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    isServicesHovered ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {isServicesHovered && (
-                <div
-                  className="fixed top-20 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
-                  onMouseEnter={handleServicesMouseEnter}
-                  onMouseLeave={handleServicesMouseLeave}
-                >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-                    {/* Left Image Section */}
-                    <div className="w-96 h-full relative flex-shrink-0 p-4">
-                      <div className="w-full h-full relative overflow-hidden rounded-lg">
-                        <img
-                          src="/slide-1.jpg"
-                          alt="Services"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 text-white z-10">
-                          {t("services")}
-                        </div>
-                        <Link
-                          href="/services"
-                          className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
-                        >
-                        <svg
-                          className="w-4 h-4 text-black"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                        </Link>
-                      </div>
-                    </div>
-                    {/* Right Two Columns Section */}
-                    <div className="flex p-6 gap-8">
-                      <div className="space-y-6 min-w-[180px]">
-                        {servicesSubmenu
-                          .slice(0, Math.ceil(servicesSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                      <div className="space-y-6 min-w-[180px]">
-                        {servicesSubmenu
-                          .slice(Math.ceil(servicesSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <NavDropdownButton
+                label={t("services")}
+                isHovered={services.isHovered}
+                isActive={pathname.startsWith("/services")}
+                onMouseEnter={services.onMouseEnter}
+                onMouseLeave={services.onMouseLeave}
+              />
+              <DropdownMenu
+                items={menuConfigs.services.items}
+                image={menuConfigs.services.image}
+                title={t("services")}
+                titleHref={menuConfigs.services.titleHref}
+                isOpen={services.isHovered}
+                onMouseEnter={services.onMouseEnter}
+                onMouseLeave={services.onMouseLeave}
+                navbarWidth={navbarWidth}
+                pathname={pathname}
+              />
             </div>
 
             {/* Hubs Dropdown */}
             <div
               className="relative"
-              onMouseEnter={handleHubsMouseEnter}
-              onMouseLeave={handleHubsMouseLeave}
+              onMouseEnter={hubs.onMouseEnter}
+              onMouseLeave={hubs.onMouseLeave}
             >
-              <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
-                  pathname.startsWith("/hubs")
-                    ? "text-white"
-                    : "text-white/90 hover:text-white/60"
-                }`}
-              >
-                {t("hubs")}
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    isHubsHovered ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {isHubsHovered && (
-                <div
-                  className="fixed top-20 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
-                  onMouseEnter={handleHubsMouseEnter}
-                  onMouseLeave={handleHubsMouseLeave}
-                >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-                    {/* Left Image Section */}
-                    <div className="w-96 h-full relative flex-shrink-0 p-4">
-                      <div className="w-full h-full relative overflow-hidden rounded-lg">
-                        <img
-                          src="/slide-2.jpg"
-                          alt="Hubs"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 text-white z-10">
-                          {t("hubs")}
-                        </div>
-                        <Link
-                          href="/hubs"
-                          className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
-                        >
-                        <svg
-                          className="w-4 h-4 text-black"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                        </Link>
-                      </div>
-                    </div>
-                    {/* Right Two Columns Section */}
-                    <div className="flex p-6 gap-8">
-                      <div className="space-y-6 min-w-[180px]">
-                        {hubsSubmenu
-                          .slice(0, Math.ceil(hubsSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                      <div className="space-y-6 min-w-[180px]">
-                        {hubsSubmenu
-                          .slice(Math.ceil(hubsSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <NavDropdownButton
+                label={t("hubs")}
+                isHovered={hubs.isHovered}
+                isActive={pathname.startsWith("/hubs")}
+                onMouseEnter={hubs.onMouseEnter}
+                onMouseLeave={hubs.onMouseLeave}
+              />
+              <DropdownMenu
+                items={menuConfigs.hubs.items}
+                image={menuConfigs.hubs.image}
+                title={t("hubs")}
+                titleHref={menuConfigs.hubs.titleHref}
+                isOpen={hubs.isHovered}
+                onMouseEnter={hubs.onMouseEnter}
+                onMouseLeave={hubs.onMouseLeave}
+                navbarWidth={navbarWidth}
+                pathname={pathname}
+              />
             </div>
 
             {/* About Dropdown */}
             <div
               className="relative"
-              onMouseEnter={handleAboutMouseEnter}
-              onMouseLeave={handleAboutMouseLeave}
+              onMouseEnter={about.onMouseEnter}
+              onMouseLeave={about.onMouseLeave}
             >
-              <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
-                  pathname.startsWith("/about")
-                    ? "text-white"
-                    : "text-white/90 hover:text-white/60"
-                }`}
-              >
-                {t("about")}
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    isAboutHovered ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {isAboutHovered && (
-                <div
-                  className="fixed top-20 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
-                  onMouseEnter={handleAboutMouseEnter}
-                  onMouseLeave={handleAboutMouseLeave}
-                >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-                    {/* Left Image Section */}
-                    <div className="w-96 h-full relative flex-shrink-0 p-4">
-                      <div className="w-full h-full relative overflow-hidden rounded-lg">
-                        <img
-                          src="/img-1.jpg"
-                          alt="About"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 text-white z-10">
-                          {t("about")}
-                        </div>
-                        <Link
-                          href="/about"
-                          className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
-                        >
-                        <svg
-                          className="w-4 h-4 text-black"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                        </Link>
-                      </div>
-                    </div>
-                    {/* Right Two Columns Section */}
-                    <div className="flex p-6 gap-8">
-                      <div className="space-y-6 min-w-[180px]">
-                        {aboutSubmenu
-                          .slice(0, Math.ceil(aboutSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                      <div className="space-y-6 min-w-[180px]">
-                        {aboutSubmenu
-                          .slice(Math.ceil(aboutSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <NavDropdownButton
+                label={t("about")}
+                isHovered={about.isHovered}
+                isActive={pathname.startsWith("/about")}
+                onMouseEnter={about.onMouseEnter}
+                onMouseLeave={about.onMouseLeave}
+              />
+              <DropdownMenu
+                items={menuConfigs.about.items}
+                image={menuConfigs.about.image}
+                title={t("about")}
+                titleHref={menuConfigs.about.titleHref}
+                isOpen={about.isHovered}
+                onMouseEnter={about.onMouseEnter}
+                onMouseLeave={about.onMouseLeave}
+                navbarWidth={navbarWidth}
+                pathname={pathname}
+              />
             </div>
 
             {/* Careers Dropdown */}
             <div
               className="relative"
-              onMouseEnter={handleCareersMouseEnter}
-              onMouseLeave={handleCareersMouseLeave}
+              onMouseEnter={careers.onMouseEnter}
+              onMouseLeave={careers.onMouseLeave}
             >
-              <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
-                  pathname.startsWith("/careers")
-                    ? "text-white"
-                    : "text-white/90 hover:text-white/60"
-                }`}
-              >
-                {t("careers")}
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    isCareersHovered ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {isCareersHovered && (
-                <div
-                  className="fixed top-20 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
-                  onMouseEnter={handleCareersMouseEnter}
-                  onMouseLeave={handleCareersMouseLeave}
-                >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-                    {/* Left Image Section */}
-                    <div className="w-96 h-full relative flex-shrink-0 p-4">
-                      <div className="w-full h-full relative overflow-hidden rounded-lg">
-                        <img
-                          src="/img-2.jpg"
-                          alt="Careers"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 text-white z-10">
-                          {t("careers")}
-                        </div>
-                        <Link
-                          href="/careers"
-                          className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
-                        >
-                        <svg
-                          className="w-4 h-4 text-black"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                        </Link>
-                      </div>
-                    </div>
-                    {/* Right Two Columns Section */}
-                    <div className="flex p-6 gap-8">
-                      <div className="space-y-6 min-w-[180px]">
-                        {careersSubmenu
-                          .slice(0, Math.ceil(careersSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                      <div className="space-y-6 min-w-[180px]">
-                        {careersSubmenu
-                          .slice(Math.ceil(careersSubmenu.length / 2))
-                          .map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block text-sm transition-colors ${
-                                pathname === item.href
-                                  ? "text-white"
-                                  : "text-white/90 hover:text-white"
-                              }`}
-                            >
-                              <div className="mb-2">
-                                {item.label}
-                              </div>
-                              <p className="text-sm text-white/60 leading-relaxed">
-                                {item.description}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <NavDropdownButton
+                label={t("careers")}
+                isHovered={careers.isHovered}
+                isActive={pathname.startsWith("/careers")}
+                onMouseEnter={careers.onMouseEnter}
+                onMouseLeave={careers.onMouseLeave}
+              />
+              <DropdownMenu
+                items={menuConfigs.careers.items}
+                image={menuConfigs.careers.image}
+                title={t("careers")}
+                titleHref={menuConfigs.careers.titleHref}
+                isOpen={careers.isHovered}
+                onMouseEnter={careers.onMouseEnter}
+                onMouseLeave={careers.onMouseLeave}
+                navbarWidth={navbarWidth}
+                pathname={pathname}
+              />
             </div>
 
-            {/* Other Navigation Items */}
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm transition-colors ${
-                  pathname === item.href
-                    ? "text-white"
-                    : "text-white/90 hover:text-white/60"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {/* Blog Link */}
+            <Link
+              href="/blog"
+              className={`text-sm transition-colors ${
+                pathname === "/blog"
+                  ? "text-white"
+                  : "text-white/90 hover:text-white/60"
+              }`}
+            >
+              {t("blog")}
+            </Link>
           </div>
 
           {/* Language Switcher, Contact & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
-            {/* Language Switcher Dropdown - Hidden on mobile when menu is closed */}
+            {/* Language Switcher Dropdown */}
             <div
               className="relative hidden md:block"
-              onMouseEnter={handleLanguageMouseEnter}
-              onMouseLeave={handleLanguageMouseLeave}
+              onMouseEnter={language.onMouseEnter}
+              onMouseLeave={language.onMouseLeave}
             >
               <button
                 className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
-                  isLanguageHovered
+                  language.isHovered
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
                 }`}
@@ -716,21 +568,28 @@ export default function Navbar() {
                 {languages.find((lang) => lang.code === locale)?.label || "EN"}
                 <ChevronDown
                   className={`w-4 h-4 transition-transform ${
-                    isLanguageHovered ? "rotate-180" : ""
+                    language.isHovered ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
-              {/* Dropdown Menu */}
-              {isLanguageHovered && (
-                <div
-                  className="fixed top-20 left-1/2 -translate-x-1/2 z-50"
-                  style={{ width: navbarWidth }}
-                  onMouseEnter={handleLanguageMouseEnter}
-                  onMouseLeave={handleLanguageMouseLeave}
-                >
-                  <div className="w-full bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-                    {/* Left Image Section */}
+              {/* Language Dropdown Menu */}
+              {language.isHovered && (
+                <>
+                  {/* Invisible bridge to connect button to dropdown */}
+                  <div
+                    className="fixed top-8 left-1/2 -translate-x-1/2 z-40 h-20"
+                    style={{ width: navbarWidth }}
+                    onMouseEnter={language.onMouseEnter}
+                    onMouseLeave={language.onMouseLeave}
+                  />
+                  <div
+                    className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pt-2"
+                    style={{ width: navbarWidth }}
+                    onMouseEnter={language.onMouseEnter}
+                    onMouseLeave={language.onMouseLeave}
+                  >
+                    <div className="w-full bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
                     <div className="w-96 h-full relative flex-shrink-0 p-4">
                       <div className="w-full h-full relative overflow-hidden rounded-lg">
                         <img
@@ -744,7 +603,6 @@ export default function Navbar() {
                         </div>
                       </div>
                     </div>
-                    {/* Right Two Columns Section */}
                     <div className="flex p-6 gap-8">
                       <div className="space-y-2 min-w-[180px]">
                         {languages.map((lang) => (
@@ -765,10 +623,11 @@ export default function Navbar() {
                     </div>
                   </div>
                 </div>
+                </>
               )}
             </div>
 
-            {/* Contact Link - Hidden on mobile when menu is closed */}
+            {/* Contact Link */}
             <Link
               href="/contact"
               className={`hidden md:block px-6 py-2 bg-[var(--primary)] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] ${
@@ -807,206 +666,73 @@ export default function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-white/10">
             <div className="flex flex-col space-y-4">
-              {/* Services with Submenu in Mobile */}
-              <div>
-                <button
-                  onClick={() => setIsServicesMobileOpen(!isServicesMobileOpen)}
-                  className={`w-full flex items-center justify-between text-lg transition-colors ${
-                    pathname.startsWith("/services")
-                      ? "text-white"
-                      : "text-white/90 hover:text-white/60"
-                  }`}
-                >
-                  <span>{t("services")}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${
-                      isServicesMobileOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isServicesMobileOpen && (
-                  <div className="ml-4 mt-2 space-y-2">
-                    {servicesSubmenu.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white"
-                            : "text-white/80 hover:text-white/60"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <MobileAccordion
+                title={t("services")}
+                items={menuConfigs.services.items.map((i) => ({ href: i.href, label: i.label }))}
+                isOpen={mobileOpenMenu === "services"}
+                onToggle={() => toggleMobileMenu("services")}
+                onLinkClick={closeMobileMenu}
+                pathname={pathname}
+                isActive={pathname.startsWith("/services")}
+              />
 
-              {/* Hubs with Submenu in Mobile */}
-              <div>
-                <button
-                  onClick={() => setIsHubsMobileOpen(!isHubsMobileOpen)}
-                  className={`w-full flex items-center justify-between text-lg transition-colors ${
-                    pathname.startsWith("/hubs")
-                      ? "text-white"
-                      : "text-white/90 hover:text-white/60"
-                  }`}
-                >
-                  <span>{t("hubs")}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${
-                      isHubsMobileOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isHubsMobileOpen && (
-                  <div className="ml-4 mt-2 space-y-2">
-                    {hubsSubmenu.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white"
-                            : "text-white/80 hover:text-white/60"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <MobileAccordion
+                title={t("hubs")}
+                items={menuConfigs.hubs.items.map((i) => ({ href: i.href, label: i.label }))}
+                isOpen={mobileOpenMenu === "hubs"}
+                onToggle={() => toggleMobileMenu("hubs")}
+                onLinkClick={closeMobileMenu}
+                pathname={pathname}
+                isActive={pathname.startsWith("/hubs")}
+              />
 
-              {/* About with Submenu in Mobile */}
-              <div>
-                <button
-                  onClick={() => setIsAboutMobileOpen(!isAboutMobileOpen)}
-                  className={`w-full flex items-center justify-between text-lg transition-colors ${
-                    pathname.startsWith("/about")
-                      ? "text-white"
-                      : "text-white/90 hover:text-white/60"
-                  }`}
-                >
-                  <span>{t("about")}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${
-                      isAboutMobileOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isAboutMobileOpen && (
-                  <div className="ml-4 mt-2 space-y-2">
-                    {aboutSubmenu.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white"
-                            : "text-white/80 hover:text-white/60"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <MobileAccordion
+                title={t("about")}
+                items={menuConfigs.about.items.map((i) => ({ href: i.href, label: i.label }))}
+                isOpen={mobileOpenMenu === "about"}
+                onToggle={() => toggleMobileMenu("about")}
+                onLinkClick={closeMobileMenu}
+                pathname={pathname}
+                isActive={pathname.startsWith("/about")}
+              />
 
-              {/* Careers with Submenu in Mobile */}
-              <div>
-                <button
-                  onClick={() => setIsCareersMobileOpen(!isCareersMobileOpen)}
-                  className={`w-full flex items-center justify-between text-lg transition-colors ${
-                    pathname.startsWith("/careers")
-                      ? "text-white"
-                      : "text-white/90 hover:text-white/60"
-                  }`}
-                >
-                  <span>{t("careers")}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${
-                      isCareersMobileOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isCareersMobileOpen && (
-                  <div className="ml-4 mt-2 space-y-2">
-                    {careersSubmenu.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block text-sm transition-colors ${
-                          pathname === item.href
-                            ? "text-white"
-                            : "text-white/80 hover:text-white/60"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <MobileAccordion
+                title={t("careers")}
+                items={menuConfigs.careers.items.map((i) => ({ href: i.href, label: i.label }))}
+                isOpen={mobileOpenMenu === "careers"}
+                onToggle={() => toggleMobileMenu("careers")}
+                onLinkClick={closeMobileMenu}
+                pathname={pathname}
+                isActive={pathname.startsWith("/careers")}
+              />
 
-              {navigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`text-lg transition-colors ${
-                    pathname === item.href
-                      ? "text-white"
-                      : "text-white/90 hover:text-white/60"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <Link
+                href="/blog"
+                onClick={closeMobileMenu}
+                className={`text-lg transition-colors ${
+                  pathname === "/blog"
+                    ? "text-white"
+                    : "text-white/90 hover:text-white/60"
+                }`}
+              >
+                {t("blog")}
+              </Link>
 
-              {/* Language with Submenu in Mobile */}
-              <div>
-                <button
-                  onClick={() => setIsLanguageMobileOpen(!isLanguageMobileOpen)}
-                  className="w-full flex items-center justify-between text-lg text-white/90"
-                >
-                  <span>Language</span>
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${
-                      isLanguageMobileOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isLanguageMobileOpen && (
-                  <div className="ml-4 mt-2 space-y-2">
-                    {languages.map((lang) => (
-                      <Link
-                        key={lang.code}
-                        href={pathname}
-                        locale={lang.code as "fr" | "en" | "nl"}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block text-sm transition-colors ${
-                          locale === lang.code
-                            ? "text-white"
-                            : "text-white/80 hover:text-white/60"
-                        }`}
-                      >
-                        {lang.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <MobileAccordion
+                title="Language"
+                items={languages.map((l) => ({ href: pathname, label: l.label, code: l.code }))}
+                isOpen={mobileOpenMenu === "language"}
+                onToggle={() => toggleMobileMenu("language")}
+                onLinkClick={closeMobileMenu}
+                pathname={pathname}
+                isActive={false}
+                isLanguage={true}
+                locale={locale}
+              />
 
               <Link
                 href="/contact"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className={`px-6 py-2 bg-[var(--primary)] text-white text-lg font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] inline-block ${
                   pathname === "/contact" ? "bg-[#6a02cc]" : ""
                 }`}

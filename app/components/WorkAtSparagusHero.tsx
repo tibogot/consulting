@@ -384,7 +384,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         )}
 
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40 z-0" />
+        <div className="absolute inset-0 bg-black/20 z-0" />
         {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
         <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.5)] rounded-[inherit]" />
       </div>

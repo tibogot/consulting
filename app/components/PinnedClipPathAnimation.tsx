@@ -1,8 +1,9 @@
 "use client";
 
-import { useGSAP, gsap } from "@/lib/gsapConfig";
+import { useGSAP, gsap, ScrollTrigger } from "@/lib/gsapConfig";
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactNode, useRef, useEffect } from "react";
+import { useLenis } from "lenis/react";
 
 interface PinnedClipPathAnimationProps {
   image1?: string;
@@ -31,51 +32,107 @@ const PinnedClipPathAnimation = ({
   className = "",
   scrollEnd = "+=2000",
 }: PinnedClipPathAnimationProps) => {
-  useGSAP(() => {
-    // Timeline for clip-path animations
-    const tl2 = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".bigimg-wrapper",
-        start: "top top",
-        end: scrollEnd,
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Get Lenis instance from ReactLenis provider
+  const lenis = useLenis();
+
+  // Integrate Lenis with GSAP ScrollTrigger for smooth unpinning
+  useEffect(() => {
+    if (!lenis) return;
+
+    // Set up scrollerProxy for proper integration
+    // This ensures ScrollTrigger uses Lenis's scroll position instead of native scroll
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length && value !== undefined) {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return lenis.scroll;
       },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.body.style.transform ? "transform" : "fixed",
     });
 
-    // Image Scale
-    // gsap.to(".section1", {
-    //   scale: 1,
-    //   ease: "none",
-    //   scrollTrigger: {
-    //     trigger: ".section1",
-    //     start: "top 90%",
-    //     end: "bottom 90%",
-    //     scrub: true,
-    //   },
-    // });
+    // Update ScrollTrigger on Lenis scroll events
+    const handleScroll = () => ScrollTrigger.update();
+    lenis.on("scroll", handleScroll);
 
-    // Images Clip-Path
-    tl2.to(".section2", {
-      clipPath: "inset(0% 0% 0% 0%)",
-      ease: "power1.out",
-    });
+    // Sync Lenis RAF with GSAP ticker
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
 
-    tl2.to(".section3", {
-      clipPath: "inset(0% 0% 0% 0%)",
-      ease: "power1.out",
-    });
+    return () => {
+      // Cleanup: Remove event listeners
+      lenis.off("scroll", handleScroll);
+      gsap.ticker.remove(tickerCallback);
+      // Clear scrollerProxy
+      ScrollTrigger.scrollerProxy(document.body, {});
+      // Refresh ScrollTrigger to clear any cached values
+      ScrollTrigger.refresh();
+    };
+  }, [lenis]);
 
-      // Cleanup function
-      return () => {
-        tl2.kill();
-        // gsap.killTweensOf(".section1");
-      };
-  }, []);
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      const wrapper = containerRef.current.querySelector(".bigimg-wrapper");
+      if (!wrapper) return;
+
+      // Timeline for clip-path animations
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top top",
+          end: scrollEnd,
+          scrub: true,
+          pin: true,
+          // anticipatePin: 1,
+          invalidateOnRefresh: true, // Better responsive behavior
+          // markers: false, // Enable for debugging
+        },
+      });
+
+      // Images Clip-Path animations
+      const section2 = containerRef.current.querySelector(".section2");
+      const section3 = containerRef.current.querySelector(".section3");
+
+      if (section2) {
+        tl2.to(section2, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "power1.out",
+        });
+      }
+
+      if (section3) {
+        tl2.to(section3, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          ease: "power1.out",
+        });
+      }
+
+      // useGSAP automatically handles cleanup via gsap.context()
+      // No manual cleanup needed unless you have custom event listeners
+    },
+    {
+      scope: containerRef, // Scopes selectors to this container for better performance
+      dependencies: [scrollEnd], // Recreate animation when scrollEnd changes
+    }
+  );
 
   return (
-    <div className={`p-0 ${className}`}>
+    <div ref={containerRef} className={`p-0 ${className}`}>
       <section className="bigimg-wrapper relative h-screen w-full overflow-hidden flex flex-col justify-between">
         <div className="section1 absolute inset-0 z-30 origin-center">
           {/* scale-75 */}
