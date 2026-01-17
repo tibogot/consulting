@@ -1,0 +1,23 @@
+/* Laser Border Card Animation */
+@keyframes :global(travel) {
+  0% {
+    top: -50px;
+    left: -50px;
+  }
+  25% {
+    top: -50px;
+    left: calc(100% - 50px);
+  }
+  50% {
+    top: calc(100% - 50px);
+    left: calc(100% - 50px);
+  }
+  75% {
+    top: calc(100% - 50px);
+    left: -50px;
+  }
+  100% {
+    top: -50px;
+    left: -50px;
+  }
+}

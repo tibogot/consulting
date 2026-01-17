@@ -12,9 +12,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-switzer: var(--font-switzer);
   --font-pp-neue-montreal: var(--font-pp-neue-montreal);
 }
 
@@ -38,10 +35,6 @@ html.lenis {
   height: auto;
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
@@ -54,11 +47,11 @@ html.lenis {
   pointer-events: none;
 }
 
-body {
+/* body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-switzer);
-}
+  font-family: var(--font-pp-neue-montreal);
+} */
 /* Prevent FOUC - hide content until GSAP initializes */
 [data-text-reveal],
 [data-logo-reveal] {
@@ -68,28 +61,4 @@ body {
 /* AnimatedCopy character transition */
 .char {
   transition: color 150ms ease-out;
-}
-
-/* Laser Border Card Animation */
-@keyframes travel {
-  0% {
-    top: -50px;
-    left: -50px;
-  }
-  25% {
-    top: -50px;
-    left: calc(100% - 50px);
-  }
-  50% {
-    top: calc(100% - 50px);
-    left: calc(100% - 50px);
-  }
-  75% {
-    top: calc(100% - 50px);
-    left: -50px;
-  }
-  100% {
-    top: -50px;
-    left: -50px;
-  }
 }

@@ -94,21 +94,21 @@ export default async function Home() {
             </p>
           </div>
         </div>
-        {/* <div className="text-7xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
+        <div className="md:text-7xl text-4xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
           <AnimatedCopy
             colorInitial="#333333"
-            colorAccent="#8202FF"
+            colorAccent="#F5A3FB"
             colorFinal="#ffffff"
           >
             <h2>
               <span className="opacity-0 select-none pointer-events-none">
                 Invisible text
               </span>
-              From AI startups to global tech leaders, we help turn complexity
-              into clarity, making revolutionary ideas feel inevitable.
+              From startups to global enterprises, we help turn complexity
+              into clarity, making strategic transformation feel achievable.
             </h2>
           </AnimatedCopy>
-        </div> */}
+        </div>
       </section>
 
       {/* Cards Section */}
@@ -147,44 +147,7 @@ export default async function Home() {
       </section> */}
 
       {/* Pinned Clip Path Animation Section */}
-      <PinnedClipPathAnimation
-        image1="/alev-takil.jpg"
-        image2="/channel-82.jpg"
-        image3="/campaign-creators.jpg"
-        alt1="First section image"
-        alt2="Second section image"
-        alt3="Third section image"
-        content1={
-          <div className="text-left">
-            <h2 className="text-3xl md:text-4xl font-normal leading-tight mb-4">
-              Number of vehicles
-            </h2>
-            <p className="text-base text-white">
-              New capabilities such as camera, lidar, radar and ultrasonic-based technologies are exponentially increasing the complexity of repairing today&apos;s vehicles.
-            </p>
-          </div>
-        }
-        content2={
-          <div className="text-left">
-            <h2 className="text-3xl md:text-4xl font-normal leading-tight mb-4">
-              Technology integration
-            </h2>
-            <p className="text-base text-white">
-              Our enterprise-grade systems ensure reliable performance and seamless integration of cutting-edge technologies across all operational environments.
-            </p>
-          </div>
-        }
-        content3={
-          <div className="text-left">
-            <h2 className="text-3xl md:text-4xl font-normal leading-tight mb-4">
-              Intelligent systems
-            </h2>
-            <p className="text-base text-white">
-              We&apos;re revolutionizing the way vehicles are maintained and repaired, creating sustainable solutions that drive the industry forward.
-            </p>
-          </div>
-        }
-      />
+      <PinnedClipPathAnimation />
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
       {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
@@ -221,7 +184,7 @@ export default async function Home() {
       </section> */}
 
       {/* Newsletter Section */}
-      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
@@ -254,7 +217,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section>
+      </section> */}
 
       {/* NeoCulture Mouse Move Section */}
       {/* <section className="relative w-full h-svh bg-black">

@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './LaserBorderCard.module.css';
 
 export interface LaserBorderCardProps {
   title: string;
