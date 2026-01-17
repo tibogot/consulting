@@ -23,19 +23,12 @@ export default function AnimatedCopy({
 }: AnimatedCopyProps) {
   const containerRef = useRef<HTMLElement | null>(null);
   const splitRefs = useRef<SplitTextRef[]>([]);
-  const lastScrollProgress = useRef<number>(0);
-  const colorTransitionTimers = useRef<Map<number, NodeJS.Timeout>>(new Map());
-  const completedChars = useRef<Set<number>>(new Set());
 
   useGSAP(
     () => {
       if (!containerRef.current) return;
 
-      // Reset state
       splitRefs.current = [];
-      lastScrollProgress.current = 0;
-      colorTransitionTimers.current.clear();
-      completedChars.current.clear();
 
       // Determine which elements to split
       let elements: Element[] = [];
@@ -65,84 +58,44 @@ export default function AnimatedCopy({
         ({ charSplit }) => charSplit.chars
       );
 
-      // Set initial color for all characters
+      // Set initial color
       gsap.set(allChars, { color: colorInitial });
 
-      // Schedule final color transition with delay
-      const scheduleFinalTransition = (char: Element, index: number) => {
-        if (colorTransitionTimers.current.has(index)) {
-          clearTimeout(colorTransitionTimers.current.get(index)!);
-        }
-
-        const timer = setTimeout(() => {
-          if (!completedChars.current.has(index)) {
-            gsap.to(char, {
-              duration: 0.1,
-              ease: "none",
-              color: colorFinal,
-              onComplete: () => {
-                completedChars.current.add(index);
-              },
-            });
-          }
-          colorTransitionTimers.current.delete(index);
-        }, 100);
-
-        colorTransitionTimers.current.set(index, timer);
-      };
-
-      // Create scroll trigger
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top 90%",
-        end: "top 10%",
-        scrub: 1,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const totalChars = allChars.length;
-          const isScrollingDown = progress >= lastScrollProgress.current;
-          const currentCharIndex = Math.floor(progress * totalChars);
-
-          allChars.forEach((char, index) => {
-            // Handle scroll up - reset characters
-            if (!isScrollingDown && index >= currentCharIndex) {
-              if (colorTransitionTimers.current.has(index)) {
-                clearTimeout(colorTransitionTimers.current.get(index)!);
-                colorTransitionTimers.current.delete(index);
-              }
-              completedChars.current.delete(index);
-              gsap.set(char, { color: colorInitial });
-              return;
-            }
-
-            // Skip if already completed
-            if (completedChars.current.has(index)) {
-              return;
-            }
-
-            // Apply accent color and schedule final transition
-            if (index <= currentCharIndex) {
-              gsap.set(char, { color: colorAccent });
-              if (!colorTransitionTimers.current.has(index)) {
-                scheduleFinalTransition(char, index);
-              }
-            } else {
-              gsap.set(char, { color: colorInitial });
-            }
-          });
-
-          lastScrollProgress.current = progress;
+      // Create a timeline for the color animation
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 90%",
+          end: "top 10%",
+          scrub: 1,
         },
       });
 
+      // Animate to accent color with stagger, then to final color
+      tl.to(allChars, {
+        color: colorAccent,
+        duration: 0.5,
+        stagger: {
+          each: 0.02,
+          from: "start",
+        },
+        ease: "none",
+      }).to(
+        allChars,
+        {
+          color: colorFinal,
+          duration: 0.3,
+          stagger: {
+            each: 0.02,
+            from: "start",
+          },
+          ease: "none",
+        },
+        0.1 // small overlap so accent flashes briefly before final
+      );
+
       // Cleanup function
       return () => {
-        // Clear all timers
-        colorTransitionTimers.current.forEach((timer) => clearTimeout(timer));
-        colorTransitionTimers.current.clear();
-        completedChars.current.clear();
-
-        // Revert SplitText instances
         splitRefs.current.forEach(({ wordSplit, charSplit }) => {
           if (charSplit) charSplit.revert();
           if (wordSplit) wordSplit.revert();

@@ -1,9 +1,8 @@
 "use client";
 
-import { useGSAP, gsap, ScrollTrigger } from "@/lib/gsapConfig";
+import { useGSAP, gsap } from "@/lib/gsapConfig";
 import Image from "next/image";
-import { ReactNode, useRef, useEffect } from "react";
-import { useLenis } from "lenis/react";
+import { ReactNode, useRef } from "react";
 
 interface PinnedClipPathAnimationProps {
   image1?: string;
@@ -33,55 +32,6 @@ const PinnedClipPathAnimation = ({
   scrollEnd = "+=2000",
 }: PinnedClipPathAnimationProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Get Lenis instance from ReactLenis provider
-  const lenis = useLenis();
-
-  // Integrate Lenis with GSAP ScrollTrigger for smooth unpinning
-  useEffect(() => {
-    if (!lenis) return;
-
-    // Set up scrollerProxy for proper integration
-    // This ensures ScrollTrigger uses Lenis's scroll position instead of native scroll
-    ScrollTrigger.scrollerProxy(document.body, {
-      scrollTop(value) {
-        if (arguments.length && value !== undefined) {
-          lenis.scrollTo(value, { immediate: true });
-        }
-        return lenis.scroll;
-      },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
-      pinType: document.body.style.transform ? "transform" : "fixed",
-    });
-
-    // Update ScrollTrigger on Lenis scroll events
-    const handleScroll = () => ScrollTrigger.update();
-    lenis.on("scroll", handleScroll);
-
-    // Sync Lenis RAF with GSAP ticker
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      // Cleanup: Remove event listeners
-      lenis.off("scroll", handleScroll);
-      gsap.ticker.remove(tickerCallback);
-      // Clear scrollerProxy
-      ScrollTrigger.scrollerProxy(document.body, {});
-      // Refresh ScrollTrigger to clear any cached values
-      ScrollTrigger.refresh();
-    };
-  }, [lenis]);
 
   useGSAP(
     () => {
