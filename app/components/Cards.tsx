@@ -3,9 +3,9 @@
 export default function Cards() {
   return (
     <div className="w-full bg-black px-4 md:px-8 py-8">
-      <div className="flex flex-row gap-4 w-full">
+      <div className="flex flex-col md:flex-row gap-4 w-full">
         <div 
-          className="flex-1 h-[32rem] p-6 flex flex-col justify-end items-start text-white relative bg-cover bg-center bg-no-repeat"
+          className="flex-1 h-96 md:h-128 p-6 flex flex-col justify-end items-start text-white relative bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/img-1.jpg)' }}
         >
           <div className="relative z-10">
@@ -17,7 +17,7 @@ export default function Cards() {
           <div className="absolute inset-0 bg-black/40 z-0"></div>
         </div>
         <div 
-          className="flex-1 h-[32rem] p-6 flex flex-col justify-end items-start text-white relative bg-cover bg-center bg-no-repeat"
+          className="flex-1 h-96 md:h-128 p-6 flex flex-col justify-end items-start text-white relative bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/img-2.jpg)' }}
         >
           <div className="relative z-10">
@@ -29,7 +29,7 @@ export default function Cards() {
           <div className="absolute inset-0 bg-black/40 z-0"></div>
         </div>
         <div 
-          className="flex-1 h-[32rem] p-6 flex flex-col justify-end items-start text-white relative bg-cover bg-center bg-no-repeat"
+          className="flex-1 h-96 md:h-128 p-6 flex flex-col justify-end items-start text-white relative bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/img-3.jpg)' }}
         >
           <div className="relative z-10">

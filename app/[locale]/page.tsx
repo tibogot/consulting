@@ -64,9 +64,9 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="flex gap-8 md:gap-12 mt-16">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 mt-16">
           {/* Left Column - Bigger Width */}
-          <div className="flex-[2]">
+          <div className="flex-1 md:flex-2">
             <div className="w-full h-px bg-white mb-4"></div>
             <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
               From AI startups to global tech leaders
