@@ -11,6 +11,7 @@ function LenisGSAPSync() {
   useEffect(() => {
     if (!lenis) return;
 
+    // Configure ScrollTrigger to use Lenis scroll values
     ScrollTrigger.scrollerProxy(document.body, {
       scrollTop(value) {
         if (arguments.length && value !== undefined) {
@@ -29,18 +30,26 @@ function LenisGSAPSync() {
       pinType: "fixed",
     });
 
+    // Update ScrollTrigger whenever Lenis scrolls
     const handleScroll = () => ScrollTrigger.update();
     lenis.on("scroll", handleScroll);
 
-    const tickerCallback = (time: number) => lenis.raf(time * 1000);
+    // Drive Lenis animation via GSAP ticker (since autoRaf is false)
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000); // GSAP time is in seconds, Lenis expects milliseconds
+    };
     gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(0); // Disable lag smoothing for better sync
 
+    // Initial refresh to ensure ScrollTrigger calculates correctly
     ScrollTrigger.refresh();
 
+    // Cleanup: remove event listeners and ticker callback
     return () => {
       lenis.off("scroll", handleScroll);
       gsap.ticker.remove(tickerCallback);
+      // Clear scrollerProxy on unmount
+      ScrollTrigger.scrollerProxy(document.body, {});
     };
   }, [lenis]);
 
@@ -56,11 +65,12 @@ export default function LenisProvider({ children }: LenisProviderProps) {
     <ReactLenis
       root
       options={{
-        lerp: 0.1,
-        duration: 1.5,
-        smoothWheel: true,
-        touchMultiplier: 2,
+        lerp: 0.1, // Linear interpolation factor (lower = smoother/slower)
+        smoothWheel: true, // Enable smooth scrolling for mouse wheel
+        touchMultiplier: 2, // Touch scroll sensitivity multiplier
+        // Note: duration is ignored when lerp is set
       }}
+      autoRaf={false} // CRITICAL: Disable auto RAF since we're using GSAP ticker
     >
       <LenisGSAPSync />
       {children}
