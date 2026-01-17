@@ -20,15 +20,18 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
+      <PartnersTicker />
+
+
 
       {/* Combined Section - AnimatedCopy */}
       <section className="relative w-full  bg-black py-10 px-4 md:px-8">
-        <div className="w-full h-px bg-white mb-4"></div>
+        {/* <div className="w-full h-px bg-white mb-4"></div> */}
         <div className="text-3xl md:text-4xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
           <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
-            <p className="text-lg md:text-lg mb-10 ">
+            {/* <p className="text-lg md:text-lg mb-10 ">
               Strategic consulting expertise
-            </p>
+            </p> */}
             <h2>
               {/* <span className="opacity-0 select-none pointer-events-none">
                 Invisible text
@@ -111,7 +114,6 @@ export default async function Home() {
       {/* Cards Section */}
       <Cards />
 
-      <PartnersTicker />
 
 
       {/* Laser Border Cards Section */}
@@ -219,7 +221,7 @@ export default async function Home() {
       </section> */}
 
       {/* Newsletter Section */}
-      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
@@ -252,7 +254,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section> */}
+      </section>
 
       {/* NeoCulture Mouse Move Section */}
       {/* <section className="relative w-full h-svh bg-black">

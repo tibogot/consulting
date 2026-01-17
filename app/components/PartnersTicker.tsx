@@ -142,7 +142,7 @@ export default function PartnersTicker({
   };
 
   return (
-    <div className="w-full relative py-20 px-4 md:px-8">
+    <div className="w-full relative py-10 px-4 md:px-8">
       <div
         ref={containerRef}
         className="w-full overflow-hidden relative"

@@ -8,7 +8,7 @@ import { ChevronDown } from "lucide-react";
 type AppPathname = ComponentProps<typeof Link>["href"];
 
 // Custom hook for hover with delayed close
-function useHoverWithDelay(delay = 200) {
+function useHoverWithDelay(delay = 150) {
   const [isHovered, setIsHovered] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -63,7 +63,7 @@ type SubmenuItem = {
   description: string;
 };
 
-// Desktop dropdown menu component
+// Desktop dropdown menu component - inline expansion like mobile
 function DropdownMenu({
   items,
   image,
@@ -72,7 +72,6 @@ function DropdownMenu({
   isOpen,
   onMouseEnter,
   onMouseLeave,
-  navbarWidth,
   pathname,
 }: {
   items: SubmenuItem[];
@@ -82,78 +81,81 @@ function DropdownMenu({
   isOpen: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
-  navbarWidth: string;
   pathname: string;
 }) {
-  if (!isOpen) return null;
-
   const firstColumn = items.slice(0, Math.ceil(items.length / 2));
   const secondColumn = items.slice(Math.ceil(items.length / 2));
 
   return (
-    <>
-      {/* Invisible bridge to connect button to dropdown */}
+    <div
+      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+        isOpen
+          ? "max-h-[500px] opacity-100 translate-y-0"
+          : "max-h-0 opacity-0 -translate-y-2"
+      }`}
+    >
+      {/* Invisible bridge to maintain hover state - connects button to dropdown */}
       <div
-        className="fixed top-8 left-1/2 -translate-x-1/2 z-40 h-20"
-        style={{ width: navbarWidth }}
+        className={`transition-all duration-300 ease-in-out ${
+          isOpen ? "h-4 opacity-0" : "h-0 opacity-0"
+        }`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       />
-      <div
-        className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pt-2"
-        style={{ width: navbarWidth }}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        <div className="w-full bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-        {/* Left Image Section */}
-        <div className="w-96 h-full relative flex-shrink-0 p-4">
-          <div className="w-full h-full relative overflow-hidden rounded-lg">
-            <img
-              src={image}
-              alt={title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-            <div className="absolute bottom-4 left-4 text-white z-10">
-              {title}
-            </div>
-            {titleHref && (
-              <Link
-                href={titleHref}
-                className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
-              >
-                <ArrowIcon />
-              </Link>
-            )}
-          </div>
-        </div>
-        {/* Right Columns Section */}
-        <div className="flex p-6 gap-8">
-          {[firstColumn, secondColumn].map((column, colIndex) => (
-            <div key={colIndex} className="space-y-6 min-w-[180px]">
-              {column.map((item) => (
+      <div className="pt-0 pb-2">
+        <div
+          className="rounded-lg overflow-hidden flex h-96 p-4"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        >
+          {/* Left Image Section */}
+          <div className="w-96 h-full relative flex-shrink-0 p-4">
+            <div className="w-full h-full relative overflow-hidden rounded-lg">
+              <img
+                src={image}
+                alt={title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-white z-10">
+                {title}
+              </div>
+              {titleHref && (
                 <Link
-                  key={item.href as string}
-                  href={item.href}
-                  className={`block text-sm transition-colors ${
-                    pathname === item.href
-                      ? "text-white"
-                      : "text-white/90 hover:text-white"
-                  }`}
+                  href={titleHref}
+                  className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
                 >
-                  <div className="mb-2">{item.label}</div>
-                  <p className="text-sm text-white/60 leading-relaxed">
-                    {item.description}
-                  </p>
+                  <ArrowIcon />
                 </Link>
-              ))}
+              )}
             </div>
-          ))}
+          </div>
+          {/* Right Columns Section */}
+          <div className="flex p-6 gap-8">
+            {[firstColumn, secondColumn].map((column, colIndex) => (
+              <div key={colIndex} className="space-y-6 min-w-[180px]">
+                {column.map((item) => (
+                  <Link
+                    key={item.href as string}
+                    href={item.href}
+                    className={`block text-sm transition-colors ${
+                      pathname === item.href
+                        ? "text-white"
+                        : "text-white/90 hover:text-white"
+                    }`}
+                  >
+                    <div className="mb-2">{item.label}</div>
+                    <p className="text-sm text-white/60 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-    </>
   );
 }
 
@@ -274,22 +276,47 @@ export default function Navbar() {
   const careers = useHoverWithDelay();
   const language = useHoverWithDelay();
 
-  // Ref to measure navbar width
-  const navbarRef = useRef<HTMLElement>(null);
-  const [navbarWidth, setNavbarWidth] = useState<string>("80%");
+  // Wrapper functions to close all other menus when opening a new one
+  const handleServicesEnter = useCallback(() => {
+    hubs.closeImmediately();
+    about.closeImmediately();
+    careers.closeImmediately();
+    language.closeImmediately();
+    services.onMouseEnter();
+  }, [services, hubs, about, careers, language]);
 
-  useEffect(() => {
-    const updateNavbarWidth = () => {
-      if (navbarRef.current) {
-        const width = navbarRef.current.offsetWidth;
-        setNavbarWidth(`${width}px`);
-      }
-    };
+  const handleHubsEnter = useCallback(() => {
+    services.closeImmediately();
+    about.closeImmediately();
+    careers.closeImmediately();
+    language.closeImmediately();
+    hubs.onMouseEnter();
+  }, [services, hubs, about, careers, language]);
 
-    updateNavbarWidth();
-    window.addEventListener("resize", updateNavbarWidth);
-    return () => window.removeEventListener("resize", updateNavbarWidth);
-  }, []);
+  const handleAboutEnter = useCallback(() => {
+    services.closeImmediately();
+    hubs.closeImmediately();
+    careers.closeImmediately();
+    language.closeImmediately();
+    about.onMouseEnter();
+  }, [services, hubs, about, careers, language]);
+
+  const handleCareersEnter = useCallback(() => {
+    services.closeImmediately();
+    hubs.closeImmediately();
+    about.closeImmediately();
+    language.closeImmediately();
+    careers.onMouseEnter();
+  }, [services, hubs, about, careers, language]);
+
+  const handleLanguageEnter = useCallback(() => {
+    services.closeImmediately();
+    hubs.closeImmediately();
+    about.closeImmediately();
+    careers.closeImmediately();
+    language.onMouseEnter();
+  }, [services, hubs, about, careers, language]);
+
 
   // Close all dropdowns immediately when pathname changes (navigation occurs)
   useEffect(() => {
@@ -413,10 +440,9 @@ export default function Navbar() {
 
   return (
     <nav
-      ref={navbarRef}
-      className={`fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 ${
-        isAnySubmenuOpen ? "" : "backdrop-blur-xl"
-      } border-b border-white/10 rounded-lg font-pp-neue-montreal`}
+      className={`fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10 rounded-lg font-pp-neue-montreal transition-all duration-300 ${
+        isAnySubmenuOpen ? "rounded-b-none" : ""
+      }`}
     >
       <div className="px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-16">
@@ -434,106 +460,46 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {/* Services Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={services.onMouseEnter}
-              onMouseLeave={services.onMouseLeave}
-            >
+            <div className="relative">
               <NavDropdownButton
                 label={t("services")}
                 isHovered={services.isHovered}
                 isActive={pathname.startsWith("/services")}
-                onMouseEnter={services.onMouseEnter}
+                onMouseEnter={handleServicesEnter}
                 onMouseLeave={services.onMouseLeave}
-              />
-              <DropdownMenu
-                items={menuConfigs.services.items}
-                image={menuConfigs.services.image}
-                title={t("services")}
-                titleHref={menuConfigs.services.titleHref}
-                isOpen={services.isHovered}
-                onMouseEnter={services.onMouseEnter}
-                onMouseLeave={services.onMouseLeave}
-                navbarWidth={navbarWidth}
-                pathname={pathname}
               />
             </div>
 
             {/* Hubs Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={hubs.onMouseEnter}
-              onMouseLeave={hubs.onMouseLeave}
-            >
+            <div className="relative">
               <NavDropdownButton
                 label={t("hubs")}
                 isHovered={hubs.isHovered}
                 isActive={pathname.startsWith("/hubs")}
-                onMouseEnter={hubs.onMouseEnter}
+                onMouseEnter={handleHubsEnter}
                 onMouseLeave={hubs.onMouseLeave}
-              />
-              <DropdownMenu
-                items={menuConfigs.hubs.items}
-                image={menuConfigs.hubs.image}
-                title={t("hubs")}
-                titleHref={menuConfigs.hubs.titleHref}
-                isOpen={hubs.isHovered}
-                onMouseEnter={hubs.onMouseEnter}
-                onMouseLeave={hubs.onMouseLeave}
-                navbarWidth={navbarWidth}
-                pathname={pathname}
               />
             </div>
 
             {/* About Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={about.onMouseEnter}
-              onMouseLeave={about.onMouseLeave}
-            >
+            <div className="relative">
               <NavDropdownButton
                 label={t("about")}
                 isHovered={about.isHovered}
                 isActive={pathname.startsWith("/about")}
-                onMouseEnter={about.onMouseEnter}
+                onMouseEnter={handleAboutEnter}
                 onMouseLeave={about.onMouseLeave}
-              />
-              <DropdownMenu
-                items={menuConfigs.about.items}
-                image={menuConfigs.about.image}
-                title={t("about")}
-                titleHref={menuConfigs.about.titleHref}
-                isOpen={about.isHovered}
-                onMouseEnter={about.onMouseEnter}
-                onMouseLeave={about.onMouseLeave}
-                navbarWidth={navbarWidth}
-                pathname={pathname}
               />
             </div>
 
             {/* Careers Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={careers.onMouseEnter}
-              onMouseLeave={careers.onMouseLeave}
-            >
+            <div className="relative">
               <NavDropdownButton
                 label={t("careers")}
                 isHovered={careers.isHovered}
                 isActive={pathname.startsWith("/careers")}
-                onMouseEnter={careers.onMouseEnter}
+                onMouseEnter={handleCareersEnter}
                 onMouseLeave={careers.onMouseLeave}
-              />
-              <DropdownMenu
-                items={menuConfigs.careers.items}
-                image={menuConfigs.careers.image}
-                title={t("careers")}
-                titleHref={menuConfigs.careers.titleHref}
-                isOpen={careers.isHovered}
-                onMouseEnter={careers.onMouseEnter}
-                onMouseLeave={careers.onMouseLeave}
-                navbarWidth={navbarWidth}
-                pathname={pathname}
               />
             </div>
 
@@ -555,7 +521,7 @@ export default function Navbar() {
             {/* Language Switcher Dropdown */}
             <div
               className="relative hidden md:block"
-              onMouseEnter={language.onMouseEnter}
+              onMouseEnter={handleLanguageEnter}
               onMouseLeave={language.onMouseLeave}
             >
               <button
@@ -572,59 +538,6 @@ export default function Navbar() {
                   }`}
                 />
               </button>
-
-              {/* Language Dropdown Menu */}
-              {language.isHovered && (
-                <>
-                  {/* Invisible bridge to connect button to dropdown */}
-                  <div
-                    className="fixed top-8 left-1/2 -translate-x-1/2 z-40 h-20"
-                    style={{ width: navbarWidth }}
-                    onMouseEnter={language.onMouseEnter}
-                    onMouseLeave={language.onMouseLeave}
-                  />
-                  <div
-                    className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pt-2"
-                    style={{ width: navbarWidth }}
-                    onMouseEnter={language.onMouseEnter}
-                    onMouseLeave={language.onMouseLeave}
-                  >
-                    <div className="w-full bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex h-96 p-4">
-                    <div className="w-96 h-full relative flex-shrink-0 p-4">
-                      <div className="w-full h-full relative overflow-hidden rounded-lg">
-                        <img
-                          src="/img-3.jpg"
-                          alt="Language"
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute bottom-4 left-4 text-white z-10">
-                          Language
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex p-6 gap-8">
-                      <div className="space-y-2 min-w-[180px]">
-                        {languages.map((lang) => (
-                          <Link
-                            key={lang.code}
-                            href={pathname}
-                            locale={lang.code as "fr" | "en" | "nl"}
-                            className={`block text-sm transition-colors ${
-                              locale === lang.code
-                                ? "text-white"
-                                : "text-white/90 hover:text-white"
-                            }`}
-                          >
-                            {lang.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </>
-              )}
             </div>
 
             {/* Contact Link */}
@@ -659,6 +572,99 @@ export default function Navbar() {
                 )}
               </svg>
             </button>
+          </div>
+        </div>
+
+        {/* Desktop Dropdown Menus - Inline Expansion (always rendered, animated via CSS) */}
+        <div className="hidden md:block px-4 sm:px-6 lg:px-8">
+          {/* Services Dropdown */}
+          <DropdownMenu
+            items={menuConfigs.services.items}
+            image={menuConfigs.services.image}
+            title={t("services")}
+            titleHref={menuConfigs.services.titleHref}
+            isOpen={services.isHovered}
+            onMouseEnter={handleServicesEnter}
+            onMouseLeave={services.onMouseLeave}
+            pathname={pathname}
+          />
+
+          {/* Hubs Dropdown */}
+          <DropdownMenu
+            items={menuConfigs.hubs.items}
+            image={menuConfigs.hubs.image}
+            title={t("hubs")}
+            titleHref={menuConfigs.hubs.titleHref}
+            isOpen={hubs.isHovered}
+            onMouseEnter={handleHubsEnter}
+            onMouseLeave={hubs.onMouseLeave}
+            pathname={pathname}
+          />
+
+          {/* About Dropdown */}
+          <DropdownMenu
+            items={menuConfigs.about.items}
+            image={menuConfigs.about.image}
+            title={t("about")}
+            titleHref={menuConfigs.about.titleHref}
+            isOpen={about.isHovered}
+            onMouseEnter={handleAboutEnter}
+            onMouseLeave={about.onMouseLeave}
+            pathname={pathname}
+          />
+
+          {/* Careers Dropdown */}
+          <DropdownMenu
+            items={menuConfigs.careers.items}
+            image={menuConfigs.careers.image}
+            title={t("careers")}
+            titleHref={menuConfigs.careers.titleHref}
+            isOpen={careers.isHovered}
+            onMouseEnter={handleCareersEnter}
+            onMouseLeave={careers.onMouseLeave}
+            pathname={pathname}
+          />
+
+          {/* Language Dropdown */}
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              language.isHovered
+                ? "max-h-[200px] opacity-100 translate-y-0"
+                : "max-h-0 opacity-0 -translate-y-2"
+            }`}
+          >
+            {/* Invisible bridge to maintain hover state */}
+            <div
+              className={`transition-all duration-300 ease-in-out ${
+                language.isHovered ? "h-4 opacity-0" : "h-0 opacity-0"
+              }`}
+              onMouseEnter={handleLanguageEnter}
+              onMouseLeave={language.onMouseLeave}
+            />
+            <div className="pt-0 pb-2">
+              <div
+                className="rounded-lg p-6"
+                onMouseEnter={handleLanguageEnter}
+                onMouseLeave={language.onMouseLeave}
+              >
+                <div className="space-y-2">
+                  {languages.map((lang) => (
+                    <Link
+                      key={lang.code}
+                      href={pathname}
+                      locale={lang.code as "fr" | "en" | "nl"}
+                      className={`block text-sm transition-colors ${
+                        locale === lang.code
+                          ? "text-white"
+                          : "text-white/90 hover:text-white"
+                      }`}
+                    >
+                      {lang.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
