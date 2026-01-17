@@ -27,19 +27,18 @@ export default async function Home() {
         <div className="text-3xl md:text-4xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
           <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
             <p className="text-lg md:text-lg mb-10 ">
-              From AI startups to global tech leaders
+              Strategic consulting expertise
             </p>
             <h2>
               {/* <span className="opacity-0 select-none pointer-events-none">
                 Invisible text
               </span> */}
-              From AI startups to global tech leaders, we help turn complexity
-              into clarity, making revolutionary ideas feel inevitable.
+              We partner with forward-thinking organizations to navigate
+              complex business challenges and unlock transformative growth opportunities.
             </h2>
             <p className="text-lg md:text-xl mt-6 opacity-80">
-              Millions of visits or millions raised, our work is built for
-              impact. We transform complex challenges into clear, actionable
-              solutions that drive real results.
+              Our data-driven approach combines deep industry expertise with innovative
+              strategies to deliver measurable results that drive sustainable success.
             </p>
           </AnimatedCopy>
           <div className="mt-8">
@@ -66,16 +65,16 @@ export default async function Home() {
 
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 mt-16">
           {/* Left Column - Bigger Width */}
-          <div className="flex-1 md:flex-2">
+          <div className="flex-1 md:flex-[2]">
             <div className="w-full h-px bg-white mb-4"></div>
             <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
-              From AI startups to global tech leaders
+              Industry expertise
             </h3>
             <p className="text-base md:text-lg text-white/80 font-pp-neue-montreal">
-              From AI startups to global tech leaders, we help turn complexity
-              into clarity, making revolutionary ideas feel inevitable. Millions of visits or millions raised, our work is built for
-              impact. We transform complex challenges into clear, actionable
-              solutions that drive real results.
+              With years of experience across diverse sectors, we bring deep
+              industry knowledge and proven methodologies to every engagement. Our consultants
+              understand the unique challenges you face and deliver tailored solutions
+              that align with your strategic objectives and market dynamics.
             </p>
           </div>
           
@@ -83,10 +82,12 @@ export default async function Home() {
           <div className="flex-1">
             <div className="w-full h-px bg-white mb-4"></div>
             <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
-              Our approach
+              Our methodology
             </h3>
             <p className="text-base md:text-lg text-white/80 font-pp-neue-montreal">
-              We transform complex challenges into clear, actionable solutions.
+              We combine rigorous analysis with collaborative problem-solving to
+              identify opportunities, mitigate risks, and create actionable roadmaps
+              for sustainable growth.
             </p>
           </div>
         </div>

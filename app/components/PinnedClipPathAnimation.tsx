@@ -46,7 +46,7 @@ const PinnedClipPathAnimation = ({
           trigger: wrapper,
           start: "top top",
           end: scrollEnd,
-          scrub: true,
+          scrub: 1,
           pin: true,
           // anticipatePin: 1,
           invalidateOnRefresh: true, // Better responsive behavior
