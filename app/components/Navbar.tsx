@@ -294,42 +294,44 @@ export default function Navbar() {
                         {servicesSubmenu
                           .slice(0, Math.ceil(servicesSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                       <div className="space-y-6 min-w-[180px]">
                         {servicesSubmenu
                           .slice(Math.ceil(servicesSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                     </div>
@@ -406,42 +408,44 @@ export default function Navbar() {
                         {hubsSubmenu
                           .slice(0, Math.ceil(hubsSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                       <div className="space-y-6 min-w-[180px]">
                         {hubsSubmenu
                           .slice(Math.ceil(hubsSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                     </div>
@@ -518,42 +522,44 @@ export default function Navbar() {
                         {aboutSubmenu
                           .slice(0, Math.ceil(aboutSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                       <div className="space-y-6 min-w-[180px]">
                         {aboutSubmenu
                           .slice(Math.ceil(aboutSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                     </div>
@@ -630,42 +636,44 @@ export default function Navbar() {
                         {careersSubmenu
                           .slice(0, Math.ceil(careersSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                       <div className="space-y-6 min-w-[180px]">
                         {careersSubmenu
                           .slice(Math.ceil(careersSubmenu.length / 2))
                           .map((item) => (
-                            <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={`block text-sm transition-colors mb-2 ${
-                                  pathname === item.href
-                                    ? "text-white"
-                                    : "text-white/90 hover:text-white"
-                                }`}
-                              >
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className={`block text-sm transition-colors ${
+                                pathname === item.href
+                                  ? "text-white"
+                                  : "text-white/90 hover:text-white"
+                              }`}
+                            >
+                              <div className="mb-2">
                                 {item.label}
-                              </Link>
+                              </div>
                               <p className="text-sm text-white/60 leading-relaxed">
                                 {item.description}
                               </p>
-                            </div>
+                            </Link>
                           ))}
                       </div>
                     </div>
