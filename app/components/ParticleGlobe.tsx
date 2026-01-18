@@ -46,6 +46,8 @@ export default function ParticleGlobe({
       start: THREE.Vector3;
       end: THREE.Vector3;
       dot?: THREE.Sprite;
+      baseLineOpacity: number;
+      baseDotOpacity: number;
     }>
   >([]);
 
@@ -693,6 +695,8 @@ export default function ParticleGlobe({
           start: brusselsPos.clone(),
           end: endPos.clone(),
           dot: pulse,
+          baseLineOpacity: material.opacity,
+          baseDotOpacity: pulseMat.opacity,
         });
       });
     }
@@ -751,7 +755,7 @@ export default function ParticleGlobe({
 
       // Animate location markers (pulsing/ripple effect)
       if (locationMarkersRef.current) {
-        const camPos = camera.position;
+        const camDir = camera.position.clone().normalize();
         const time = Date.now() * 0.001; // Current time in seconds
         locationMarkersRef.current.children.forEach((marker) => {
           interface MarkerWithData extends THREE.Group {
@@ -764,10 +768,10 @@ export default function ParticleGlobe({
           }
           const animData = (marker as MarkerWithData).animationData;
           if (animData) {
-            // Hide markers on the back hemisphere (otherwise they show "through" the globe and feel off)
-            const isFront = animData.basePosition.dot(camPos) > 0;
-            marker.visible = isFront;
-            if (!isFront) return;
+            // Same "front/back fade" concept as particles (opacity variation instead of hide)
+            const facing = animData.basePosition.clone().normalize().dot(camDir); // -1..1
+            const fade = THREE.MathUtils.smoothstep(facing, -0.65, 0.35);
+            const fadeAlpha = THREE.MathUtils.lerp(0.18, 1.0, fade);
 
             const t = time + animData.time;
             const pulse = Math.sin(t * 1.8) * 0.5 + 0.5; // 0..1
@@ -775,10 +779,10 @@ export default function ParticleGlobe({
             // Minimal breathing: tiny change in halo opacity (and very slight dot opacity)
             const haloOpacity = 0.14 + pulse * 0.06; // 0.14..0.20
             if (animData.halo.material instanceof THREE.SpriteMaterial) {
-              animData.halo.material.opacity = haloOpacity;
+              animData.halo.material.opacity = haloOpacity * fadeAlpha;
             }
             if (animData.dot.material instanceof THREE.MeshBasicMaterial) {
-              animData.dot.material.opacity = 0.90 + pulse * 0.06; // 0.90..0.96
+              animData.dot.material.opacity = (0.90 + pulse * 0.06) * fadeAlpha; // 0.90..0.96
             }
           }
         });
@@ -786,16 +790,21 @@ export default function ParticleGlobe({
 
       // Animate route arcs (moving dashes + traveling pulse), and hide when endpoints are on the back
       if (routesRef.current.length) {
-        const camPos = camera.position;
+        const camDir = camera.position.clone().normalize();
         const t = performance.now() * 0.001;
         for (let i = 0; i < routesRef.current.length; i++) {
           const r = routesRef.current[i];
-          const startFront = r.start.dot(camPos) > 0;
-          const endFront = r.end.dot(camPos) > 0;
-          const visible = startFront && endFront;
-          r.line.visible = visible;
-          if (r.dot) r.dot.visible = visible;
-          if (!visible) continue;
+
+          // Fade arcs as they go behind the globe (instead of hiding)
+          const startFacing = r.start.clone().normalize().dot(camDir);
+          const endFacing = r.end.clone().normalize().dot(camDir);
+          const facing = Math.min(startFacing, endFacing);
+          const fade = THREE.MathUtils.smoothstep(facing, -0.65, 0.35);
+          const fadeAlpha = THREE.MathUtils.lerp(0.12, 1.0, fade);
+          r.material.opacity = r.baseLineOpacity * fadeAlpha;
+          if (r.dot && r.dot.material instanceof THREE.SpriteMaterial) {
+            r.dot.material.opacity = r.baseDotOpacity * fadeAlpha;
+          }
 
           // Move the dashed pattern (via onBeforeCompile uniform)
           const shader = r.material.userData.shader as
