@@ -4,14 +4,14 @@ import { Plus } from "lucide-react";
 
 export default function Cards() {
   return (
-    <div className="w-full bg-black">
-      <div className="flex w-full flex-col md:flex-row">
+    <div className="w-full bg-black px-4 py-8 md:px-8">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 md:flex-row">
         <div
-          className="relative flex h-[600px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-6 text-white md:flex-1 md:h-[700px]"
+          className="relative flex h-96 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-128 md:flex-1"
           style={{ backgroundImage: "url(/img-1.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 break-words font-pp-neue-montreal text-xl">
+          <h3 className="relative z-10 wrap-break-word font-pp-neue-montreal text-xl">
             Innovation and Cutting-Edge Technology Solutions
           </h3>
           <div className="relative z-10 flex items-end justify-between">
@@ -25,7 +25,7 @@ export default function Cards() {
           </div>
         </div>
         <div
-          className="relative flex h-[600px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-6 text-white md:flex-1 md:h-[700px]"
+          className="relative flex h-96 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-128 md:flex-1"
           style={{ backgroundImage: "url(/img-2.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
@@ -43,7 +43,7 @@ export default function Cards() {
           </div>
         </div>
         <div
-          className="relative flex h-[600px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-6 text-white md:flex-1 md:h-[700px]"
+          className="relative flex h-96 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-128 md:flex-1"
           style={{ backgroundImage: "url(/img-3.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>

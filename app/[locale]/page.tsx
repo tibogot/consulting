@@ -11,6 +11,10 @@ import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
 import NeoCultureMouseMove from "../components/NeoCultureMouseMove";
 import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 import Cards from "../components/Cards";
+import WhiteSection from "../components/WhiteSection";
+import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
+import ParticleGlobe from "../components/ParticleGlobe";
+import HolographicGlobe from "../components/HolographicGlobe";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -39,10 +43,10 @@ export default async function Home() {
               We partner with forward-thinking organizations to navigate
               complex business challenges and unlock transformative growth opportunities.
             </h2>
-            <p className="text-lg md:text-xl mt-6 opacity-80">
+            {/* <p className="text-lg md:text-lg mt-6 opacity-80 max-w-lg">
               Our data-driven approach combines deep industry expertise with innovative
               strategies to deliver measurable results that drive sustainable success.
-            </p>
+            </p> */}
           </AnimatedCopy>
           <div className="mt-8">
             {/* <AnimatedButton delay={0.2}>
@@ -54,7 +58,7 @@ export default async function Home() {
                 <CircleArrowRight className="w-7 h-7 text-white" strokeWidth={1} />
               </Link>
             </AnimatedButton> */}
-            <AnimatedButton delay={0.2}>
+            {/* <AnimatedButton delay={0.2}>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-3 text-white text-base font-pp-neue-montreal hover:opacity-80 transition-opacity cursor-pointer"
@@ -62,9 +66,12 @@ export default async function Home() {
                 View all solutions
                 <ArrowRight className="w-5 h-5 text-white" strokeWidth={1} />
               </Link>
-            </AnimatedButton>
+            </AnimatedButton> */}
           </div>
         </div>
+
+              {/* Cards Section */}
+
 
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 mt-16">
           {/* Left Column - Bigger Width */}
@@ -97,8 +104,8 @@ export default async function Home() {
         <div className="md:text-7xl text-4xl font-normal text-right font-pp-neue-montreal max-w-7xl leading-tight mt-20 ml-auto">
           <AnimatedCopy
             colorInitial="#333333"
-            colorAccent="#F5A3FB"
-            colorFinal="#ffffff"
+            colorAccent="#8B5FFB"
+            colorFinal="#000000"
           >
             <h2>
               <span className="opacity-0 select-none pointer-events-none">
@@ -111,10 +118,11 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Cards Section */}
+
       <Cards />
 
-
+      {/* White Section */}
+      <WhiteSection />
 
       {/* Laser Border Cards Section */}
       {/* <section className="relative w-full bg-black py-20 px-4 md:px-8">
@@ -148,6 +156,15 @@ export default async function Home() {
 
       {/* Pinned Clip Path Animation Section */}
       <PinnedClipPathAnimation />
+
+      {/* Animated Vertical Lines Section */}
+      <AnimatedVerticalLines
+        title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
+        description="Partner with forward-thinking organizations."
+        lineHeight={300}
+        animationDuration={3}
+        primaryColor="#8202FF"
+      />
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
       {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
@@ -229,6 +246,16 @@ export default async function Home() {
           }}
         />
       </section> */}
+
+      {/* Particle Globe Section */}
+      <section className="relative w-full h-[100svh]">
+        <ParticleGlobe className="w-full h-full" />
+      </section>
+
+      {/* Holographic Globe Section */}
+      <section className="relative w-full h-[100svh]">
+        <HolographicGlobe className="w-full h-full" />
+      </section>
     </div>
   );
 }

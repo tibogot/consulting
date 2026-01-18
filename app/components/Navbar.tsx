@@ -102,9 +102,9 @@ function DropdownMenu({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       />
-      <div className="pt-0 pb-2">
+      <div className="pt-0 pb-0">
         <div
-          className="rounded-lg flex min-h-96 p-4"
+          className="flex min-h-96 p-4 pb-6"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
@@ -145,7 +145,7 @@ function DropdownMenu({
                     }`}
                   >
                     <div className="mb-2">{item.label}</div>
-                    <p className="text-sm text-white/60 leading-relaxed">
+                    <p className="text-sm text-white/60">
                       {item.description}
                     </p>
                   </Link>
@@ -440,9 +440,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10 rounded-lg font-pp-neue-montreal transition-all duration-300 ${
-        isAnySubmenuOpen ? "rounded-b-none" : ""
-      }`}
+      className="fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10 rounded-lg font-pp-neue-montreal transition-all duration-300"
     >
       <div className="px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-16">
@@ -670,7 +668,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-white/10">
+          <div className="md:hidden py-4 pb-6 border-t border-white/10">
             <div className="flex flex-col space-y-4">
               <MobileAccordion
                 title={t("services")}

@@ -120,6 +120,11 @@ export default function CssGradientTailwind() {
     scale: { value: 1.0, min: 0.1, max: 5.0, step: 0.1, label: "Scale" },
   });
 
+  // Leva controls for background color
+  const backgroundColor = useControls("Background", {
+    color: { value: "#000000", label: "Background Color" },
+  });
+
   useEffect(() => {
     // Initialize mouse position based on Leva controls
     if (typeof window !== "undefined") {
@@ -188,6 +193,14 @@ export default function CssGradientTailwind() {
 
   return (
     <>
+      {/* Base background color layer */}
+      <div
+        className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+        style={{
+          background: backgroundColor.color,
+        }}
+      />
+
       {/* Gradient background layer */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-1 overflow-hidden">
         <div

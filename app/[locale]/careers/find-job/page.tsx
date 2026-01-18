@@ -115,20 +115,20 @@ export default async function FindJobPage() {
         <div className="relative z-10 w-full max-w-4xl pt-32 md:pt-40 ">
           <AnimatedText
             isHero
-            className="text-4xl md:text-7xl  font-light overflow-visible  text-white text-left"
+            className="text-4xl md:text-7xl  font-light overflow-visible  text-black text-left"
           >
-            <h1>Engineering the future of aging medicine.</h1>
+            <h1>Discover your next career opportunity.</h1>
           </AnimatedText>
         </div>
         <div className="absolute bottom-8 left-4 md:left-8 w-full max-w-xl">
           <AnimatedText
             isHero
             delay={0.5}
-            className="text-white/80 text-sm md:text-lg text-left"
+            className="text-black/80 text-sm md:text-lg text-left"
           >
             <p>
-              We connect top talent with high-impact opportunities across
-              technology, engineering, and business operations.
+              Explore exciting roles and join a team that values innovation,
+              creativity, and professional growth.
             </p>
           </AnimatedText>
         </div>
