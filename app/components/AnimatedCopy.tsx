@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsapConfig";
+import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
 
 interface AnimatedCopyProps {
   children: React.ReactNode;
@@ -67,7 +67,7 @@ export default function AnimatedCopy({
           trigger: containerRef.current,
           start: "top 90%",
           end: "top 10%",
-          scrub: 1,
+          scrub: true,
         },
       });
 
@@ -108,39 +108,7 @@ export default function AnimatedCopy({
     }
   );
 
-  // Handle single child - clone with ref
-  // Filter out text nodes and fragments to get only valid React elements
-  const validChildren = React.Children.toArray(children).filter(
-    (child) => React.isValidElement(child)
-  );
-
-  if (validChildren.length === 1) {
-    const child = validChildren[0] as React.ReactElement;
-    // Create ref callback that merges with existing ref
-    const mergedRefCallback = (node: HTMLElement | null) => {
-      containerRef.current = node;
-      // Forward ref if child already has one
-      const originalRef = (child as any).ref;
-      if (originalRef) {
-        if (typeof originalRef === "function") {
-          originalRef(node);
-        } else if (originalRef && "current" in originalRef) {
-          originalRef.current = node;
-        }
-      }
-    };
-
-    // Clone element with merged ref - TypeScript requires casting for ref prop
-    return React.cloneElement(
-      child,
-      {
-        ...(child.props as Record<string, unknown>),
-        ref: mergedRefCallback,
-      } as React.Attributes & { ref: (node: HTMLElement | null) => void }
-    );
-  }
-
-  // Handle multiple children - wrap in container
+  // Always wrap: avoids cloning children / ref-merging (which trips React/ESLint rules)
   return (
     <div ref={containerRef as React.Ref<HTMLDivElement>} data-copy-wrapper="true">
       {children}

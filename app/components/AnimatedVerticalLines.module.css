@@ -62,30 +62,30 @@
 
 @keyframes travelTop {
   0% {
-    transform: translateX(-50%) translateY(var(--beam-start, 20px));
+    transform: translateY(var(--beam-start, 20px));
     opacity: 0.7;
   }
   50% {
-    transform: translateX(-50%) translateY(var(--beam-end, 230px));
+    transform: translateY(var(--beam-end, 230px));
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) translateY(var(--beam-start, 20px));
+    transform: translateY(var(--beam-start, 20px));
     opacity: 0.7;
   }
 }
 
 @keyframes travelBottom {
   0% {
-    transform: translateX(-50%) translateY(calc(-1 * var(--beam-start, 20px)));
+    transform: translateY(calc(-1 * var(--beam-start, 20px)));
     opacity: 0.7;
   }
   50% {
-    transform: translateX(-50%) translateY(calc(-1 * var(--beam-end, 230px)));
+    transform: translateY(calc(-1 * var(--beam-end, 230px)));
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) translateY(calc(-1 * var(--beam-start, 20px)));
+    transform: translateY(calc(-1 * var(--beam-start, 20px)));
     opacity: 0.7;
   }
 }

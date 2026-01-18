@@ -67,7 +67,8 @@ export default function ParticleGlobe({
 
     // Initialize scene
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a12);
+    // Transparent scene background (let the parent DOM background show through)
+    scene.background = null;
     sceneRef.current = scene;
 
     const camera = new THREE.PerspectiveCamera(
@@ -77,7 +78,7 @@ export default function ParticleGlobe({
       1000
     );
     // Tilt the default view toward Europe (so it sits nearer the center vertically)
-    const cameraDistance = 200;
+    const cameraDistance = 250;
     const europeCenterLatDeg = 30;
     const europeCenterLatRad = THREE.MathUtils.degToRad(europeCenterLatDeg);
     camera.position.set(
@@ -88,12 +89,13 @@ export default function ParticleGlobe({
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     const initialRect = containerEl.getBoundingClientRect();
     const initialWidth = Math.max(1, Math.floor(initialRect.width));
     const initialHeight = Math.max(1, Math.floor(initialRect.height));
     renderer.setSize(initialWidth, initialHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
     containerEl.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
@@ -104,11 +106,13 @@ export default function ParticleGlobe({
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.autoRotate = autoRotateRef.current;
-    controls.autoRotateSpeed = autoRotateSpeed;
+    // Slow idle rotation when not interacting
+    controls.autoRotate = true;
+    // OrbitControls autoRotateSpeed is a different "unit" than our old globe rotation.
+    // Scale it so the default (0.001) is still visibly slow.
+    controls.autoRotateSpeed = autoRotateSpeed * 600;
     controls.enablePan = false; // Disable panning (only rotate)
-    controls.minDistance = 50; // Allow closer zoom to see locations better
-    controls.maxDistance = 400;
+    controls.enableZoom = false; // Disable scroll/pinch zoom
 
     // Constrain mouse rotation to a "globe spin":
     // - allow infinite left/right spin (azimuth / world Y)
@@ -118,6 +122,15 @@ export default function ParticleGlobe({
     const lockedPolar = controls.getPolarAngle();
     controls.minPolarAngle = lockedPolar;
     controls.maxPolarAngle = lockedPolar;
+
+    const handleControlsStart = () => {
+      controls.autoRotate = false;
+    };
+    const handleControlsEnd = () => {
+      controls.autoRotate = true;
+    };
+    controls.addEventListener("start", handleControlsStart);
+    controls.addEventListener("end", handleControlsEnd);
     controlsRef.current = controls;
 
     // Raycast helpers (initialized after globe is created)
@@ -462,6 +475,8 @@ export default function ParticleGlobe({
     interactionSphere = new THREE.Mesh(interactionSphereGeometry, interactionSphereMaterial);
     scene.add(interactionSphere);
 
+    const clock = new THREE.Clock();
+
     // Atmosphere glow
     const glowGeometry = new THREE.SphereGeometry(globeRadius * 1.08, 64, 64);
     const glowMaterial = new THREE.ShaderMaterial({
@@ -751,7 +766,7 @@ export default function ParticleGlobe({
       material.uniforms.uTime.value = performance.now() * 0.001;
 
       // Update OrbitControls (required for damping)
-      controls.update();
+      controls.update(clock.getDelta());
 
       // Animate location markers (pulsing/ripple effect)
       if (locationMarkersRef.current) {
@@ -912,6 +927,8 @@ export default function ParticleGlobe({
       // No need to manually remove them as the canvas will be destroyed
       
       if (controls) {
+        controls.removeEventListener("start", handleControlsStart);
+        controls.removeEventListener("end", handleControlsEnd);
         controls.dispose();
       }
 
@@ -966,7 +983,7 @@ export default function ParticleGlobe({
   return (
     <div
       ref={containerRef}
-      className={`w-full h-full overflow-hidden bg-[#000000] ${className}`}
+      className={`w-full h-full overflow-hidden bg-transparent ${className}`}
     />
   );
 }

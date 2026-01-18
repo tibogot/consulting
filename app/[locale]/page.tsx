@@ -163,7 +163,7 @@ export default async function Home() {
         description="Partner with forward-thinking organizations."
         lineHeight={300}
         animationDuration={3}
-        primaryColor="#8202FF"
+        primaryColor="#ff2dff"
       />
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
