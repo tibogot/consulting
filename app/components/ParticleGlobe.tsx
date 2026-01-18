@@ -17,10 +17,10 @@ interface ParticleGlobeProps {
 export default function ParticleGlobe({
   className = "",
   globeRadius = 100,
-  targetParticles = 80000,
+  targetParticles = 110000,
   autoRotateSpeed = 0.001,
   repulsionStrength = 3.5,
-  repulsionRadius = 0.1,
+  repulsionRadius = 0.16,
   returnSpeed = 0.045,
 }: ParticleGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -39,175 +39,15 @@ export default function ParticleGlobe({
   const originalPositionsRef = useRef<Array<{ x: number; y: number; z: number }>>([]);
   const velocitiesRef = useRef<Array<{ x: number; y: number; z: number }>>([]);
   const locationMarkersRef = useRef<THREE.Group | null>(null);
-
-  // Continent data (no longer used - now using image map)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _continentData = {
-    // Canada (more accurate shape)
-    canada: [
-      [-141, 60], [-135, 59], [-130, 55], [-125, 54], [-120, 52], [-115, 50], [-110, 50],
-      [-105, 49], [-100, 49], [-95, 49], [-90, 49], [-85, 49], [-80, 49], [-75, 49],
-      [-70, 50], [-68, 51], [-68, 54], [-70, 56], [-75, 58], [-80, 60], [-85, 62],
-      [-90, 64], [-95, 66], [-100, 68], [-105, 70], [-110, 72], [-120, 75], [-130, 75],
-      [-135, 72], [-141, 69], [-141, 60],
-    ],
-    // USA (Continental US - better shape)
-    usaMain: [
-      [-125, 49], [-120, 49], [-115, 49], [-110, 49], [-105, 49], [-100, 49], [-95, 49],
-      [-90, 49], [-85, 49], [-80, 48], [-75, 45], [-70, 43], [-70, 41], [-75, 40],
-      [-80, 38], [-85, 35], [-90, 32], [-95, 30], [-98, 28], [-100, 27], [-105, 27],
-      [-110, 32], [-117, 33], [-120, 35], [-123, 40], [-125, 45], [-125, 49],
-    ],
-    // Alaska
-    alaska: [
-      [-168, 54], [-165, 56], [-160, 58], [-155, 60], [-150, 61], [-145, 60],
-      [-140, 58], [-135, 56], [-130, 54], [-135, 52], [-140, 50], [-145, 51],
-      [-150, 53], [-155, 55], [-160, 55], [-165, 55], [-168, 54],
-    ],
-    // North America combined (for better coverage)
-    northAmerica: [
-      [-168, 65], [-166, 60], [-143, 60], [-140, 70], [-156, 71], [-157, 72], [-152, 78],
-      [-120, 76], [-86, 78], [-82, 83], [-62, 83], [-62, 78], [-68, 75], [-73, 78], [-80, 73],
-      [-87, 68], [-92, 68], [-94, 72], [-96, 76], [-109, 78], [-117, 76], [-130, 70], [-141, 69],
-      [-143, 70], [-168, 65],
-    ],
-    northAmericaMain: [
-      [-130, 55], [-125, 50], [-124, 40], [-117, 33], [-110, 32], [-104, 29], [-100, 28],
-      [-97, 26], [-97, 28], [-95, 29], [-90, 30], [-88, 30], [-83, 29], [-81, 25], [-80, 25],
-      [-82, 28], [-81, 31], [-75, 35], [-76, 37], [-73, 40], [-70, 41], [-70, 44], [-67, 45],
-      [-67, 47], [-70, 47], [-64, 45], [-66, 43], [-60, 46], [-55, 47], [-55, 52], [-60, 53],
-      [-66, 50], [-70, 47], [-75, 45], [-80, 45], [-83, 46], [-88, 48], [-90, 48], [-94, 49],
-      [-102, 49], [-115, 49], [-123, 49], [-125, 50], [-130, 55],
-    ],
-    centralAmerica: [
-      [-117, 33], [-110, 32], [-104, 29], [-100, 28], [-97, 26], [-97, 22], [-96, 19], [-94, 18],
-      [-92, 15], [-88, 16], [-84, 16], [-83, 15], [-83, 10], [-80, 9], [-78, 9], [-77, 8],
-      [-82, 8], [-84, 11], [-86, 12], [-88, 13], [-90, 14], [-92, 15], [-94, 16], [-96, 17],
-      [-97, 22], [-100, 22], [-105, 20], [-110, 23], [-117, 28], [-117, 33],
-    ],
-    southAmerica: [
-      [-80, 9], [-78, 9], [-77, 8], [-77, 5], [-80, 2], [-80, -3], [-75, -5], [-70, -4],
-      [-70, -15], [-75, -18], [-70, -22], [-67, -22], [-58, -24], [-55, -22], [-55, -25],
-      [-58, -28], [-56, -30], [-58, -32], [-58, -38], [-62, -38], [-64, -40], [-65, -42],
-      [-65, -46], [-70, -46], [-72, -50], [-74, -52], [-70, -55], [-65, -55], [-58, -52],
-      [-55, -50], [-52, -45], [-50, -40], [-48, -30], [-46, -24], [-48, -20], [-42, -18],
-      [-40, -15], [-35, -10], [-35, -5], [-50, 0], [-52, 4], [-60, 6], [-62, 10], [-68, 12],
-      [-72, 11], [-75, 10], [-78, 9], [-80, 9],
-    ],
-    europe: [
-      [-10, 36], [-6, 37], [-5, 36], [0, 38], [3, 43], [7, 44], [9, 41], [13, 45], [14, 42],
-      [17, 43], [20, 40], [22, 37], [26, 35], [26, 40], [29, 41], [32, 42], [34, 43], [38, 44],
-      [40, 43], [35, 46], [33, 48], [32, 52], [30, 55], [28, 60], [25, 60], [22, 55], [18, 55],
-      [14, 54], [12, 55], [8, 54], [5, 52], [4, 53], [7, 58], [10, 58], [12, 57], [11, 60],
-      [14, 65], [18, 68], [20, 70], [26, 71], [28, 70], [32, 70], [40, 67], [50, 68], [60, 68],
-      [68, 77], [60, 80], [40, 82], [10, 82], [-10, 78], [-22, 72], [-20, 66], [-14, 66],
-      [-13, 65], [-24, 64], [-22, 62], [-15, 63], [-14, 58], [-8, 58], [-10, 52], [-5, 50],
-      [-6, 54], [-8, 58], [-5, 59], [0, 61], [3, 57], [0, 51], [-5, 50], [-8, 48], [-3, 44],
-      [-8, 44], [-10, 40], [-10, 36],
-    ],
-    africa: [
-      [-17, 15], [-16, 13], [-12, 15], [-9, 15], [-5, 14], [0, 15], [3, 13], [10, 13],
-      [15, 13], [20, 15], [25, 22], [25, 29], [28, 31], [32, 31], [35, 30], [38, 27], [43, 11],
-      [48, 8], [50, 2], [42, -5], [40, -11], [38, -17], [35, -22], [32, -26], [28, -33],
-      [22, -35], [18, -34], [15, -30], [12, -25], [12, -18], [14, -12], [12, -6], [10, -4],
-      [8, -5], [5, 5], [1, 5], [-3, 5], [-8, 5], [-8, 8], [-15, 11], [-17, 15],
-    ],
-    asiaMain: [
-      [26, 35], [26, 40], [29, 41], [32, 42], [34, 43], [38, 44], [40, 43], [42, 41], [45, 40],
-      [50, 37], [52, 36], [55, 37], [58, 38], [60, 36], [62, 35], [67, 37], [70, 38], [72, 35],
-      [75, 30], [72, 22], [75, 18], [78, 15], [80, 10], [82, 8], [88, 15], [90, 22], [92, 21],
-      [95, 20], [98, 23], [100, 22], [103, 18], [105, 20], [107, 18], [110, 20], [117, 23],
-      [120, 22], [122, 25], [125, 30], [128, 33], [130, 35], [132, 35], [135, 35], [140, 40],
-      [144, 44], [142, 50], [140, 55], [138, 52], [133, 48], [130, 43], [128, 42], [120, 52],
-      [100, 55], [85, 55], [73, 55], [68, 58], [60, 56], [55, 55], [50, 55], [45, 53], [40, 55],
-      [33, 48], [32, 52], [30, 55], [28, 60], [25, 60], [22, 55], [18, 55], [14, 54], [12, 55],
-      [8, 54], [5, 52], [4, 53], [7, 58], [10, 58], [12, 57], [11, 60], [14, 65], [18, 68],
-      [20, 70], [26, 71], [28, 70], [32, 70], [40, 67], [50, 68], [60, 68], [68, 70], [75, 72],
-      [90, 72], [100, 75], [110, 78], [130, 72], [145, 60], [155, 62], [165, 66], [180, 65],
-      [180, 70], [170, 72], [160, 70], [150, 60], [143, 50], [145, 44], [140, 40], [135, 35],
-      [130, 35], [140, 52], [155, 58], [162, 60], [172, 60], [180, 65],
-    ],
-    russia: [
-      [28, 70], [32, 70], [40, 67], [50, 68], [60, 68], [68, 70], [75, 72], [90, 72], [100, 75],
-      [110, 78], [130, 72], [145, 60], [155, 62], [165, 66], [180, 65], [180, 72], [170, 75],
-      [150, 75], [120, 78], [90, 78], [60, 78], [40, 75], [30, 73], [28, 70],
-    ],
-    middleEast: [
-      [26, 35], [30, 32], [35, 30], [38, 27], [42, 28], [45, 29], [48, 30], [52, 26], [55, 25],
-      [55, 22], [52, 20], [50, 18], [48, 15], [44, 13], [43, 11], [48, 8], [50, 2], [55, 0],
-      [60, 2], [62, 5], [60, 10], [58, 15], [55, 18], [57, 22], [60, 25], [64, 25], [67, 27],
-      [70, 25], [72, 22], [75, 18], [78, 15], [75, 15], [70, 20], [65, 22], [60, 22], [57, 20],
-      [55, 18], [52, 20], [52, 25], [48, 30], [45, 32], [42, 35], [38, 37], [35, 35], [30, 35],
-      [26, 35],
-    ],
-    india: [
-      [72, 35], [75, 30], [72, 22], [75, 18], [78, 15], [80, 10], [82, 8], [85, 10], [88, 15],
-      [90, 22], [92, 21], [88, 24], [88, 27], [85, 28], [80, 30], [78, 32], [75, 33], [72, 35],
-    ],
-    seAsia: [
-      [92, 21], [95, 20], [98, 23], [100, 22], [103, 18], [105, 20], [107, 18], [110, 20],
-      [108, 15], [107, 10], [105, 8], [103, 5], [100, 2], [105, 0], [110, -5], [115, -8],
-      [120, -8], [127, -8], [130, -3], [135, -5], [140, -6], [142, -10], [145, -15], [148, -20],
-      [152, -23], [154, -25], [150, -35], [144, -38], [140, -36], [135, -35], [130, -32],
-      [124, -35], [117, -35], [115, -33], [115, -25], [120, -20], [125, -15], [122, -10],
-      [118, -8], [115, -5], [112, 0], [108, 2], [105, 5], [103, 2], [100, 5], [98, 7], [100, 12],
-      [102, 15], [105, 18], [103, 20], [100, 22], [98, 23], [95, 20], [92, 21],
-    ],
-    japan: [
-      [130, 32], [132, 34], [135, 35], [137, 35], [140, 38], [141, 43], [145, 44], [144, 42],
-      [142, 40], [140, 36], [137, 34], [135, 33], [130, 32],
-    ],
-    australia: [
-      [115, -35], [117, -35], [120, -35], [124, -35], [127, -32], [130, -32], [133, -32],
-      [136, -35], [140, -36], [145, -38], [150, -37], [153, -28], [150, -23], [148, -20],
-      [145, -15], [142, -10], [140, -11], [138, -12], [136, -14], [132, -12], [129, -15],
-      [125, -14], [122, -18], [117, -20], [115, -22], [114, -26], [115, -30], [115, -35],
-    ],
-    newZealand: [
-      [172, -34], [175, -37], [178, -38], [177, -42], [174, -42], [168, -45], [167, -46],
-      [168, -47], [171, -45], [173, -40], [172, -34],
-    ],
-    indonesia: [
-      [95, 5], [100, 2], [105, 0], [108, -2], [105, -6], [107, -8], [112, -8], [115, -8],
-      [120, -8], [125, -8], [130, -5], [135, -3], [140, -3], [141, -5], [140, -8], [135, -8],
-      [130, -8], [125, -8], [120, -10], [115, -8], [112, -8], [108, -8], [105, -6], [100, -2],
-      [95, 2], [95, 5],
-    ],
-    greenland: [
-      [-45, 60], [-43, 65], [-35, 66], [-25, 70], [-20, 73], [-22, 78], [-30, 80], [-45, 82],
-      [-55, 82], [-65, 80], [-70, 78], [-68, 75], [-60, 70], [-50, 65], [-45, 60],
-    ],
-    uk: [
-      [-10, 52], [-5, 50], [-6, 54], [-8, 58], [-5, 59], [0, 61], [2, 58], [0, 51], [-5, 50],
-      [-10, 52],
-    ],
-    madagascar: [
-      [44, -12], [48, -13], [50, -18], [50, -24], [47, -25], [44, -24], [43, -18], [44, -12],
-    ],
-    sriLanka: [
-      [80, 10], [82, 8], [82, 6], [80, 6], [80, 10],
-    ],
-    philippines: [
-      [117, 5], [120, 10], [122, 15], [125, 18], [127, 15], [125, 10], [122, 8], [119, 5],
-      [117, 5],
-    ],
-    taiwan: [
-      [120, 22], [122, 25], [122, 22], [120, 22],
-    ],
-    korea: [
-      [125, 33], [127, 35], [129, 37], [130, 38], [128, 42], [125, 40], [125, 37], [125, 33],
-    ],
-    cuba: [
-      [-85, 22], [-80, 23], [-75, 20], [-78, 20], [-82, 22], [-85, 22],
-    ],
-    iceland: [
-      [-24, 64], [-22, 66], [-15, 66], [-13, 65], [-15, 63], [-22, 62], [-24, 64],
-    ],
-    scandinavia: [
-      [5, 58], [10, 58], [12, 60], [14, 65], [18, 68], [20, 70], [26, 71], [28, 70], [30, 70],
-      [28, 65], [25, 62], [22, 60], [18, 58], [12, 57], [8, 58], [5, 58],
-    ],
-  };
+  const routesRef = useRef<
+    Array<{
+      line: THREE.Line;
+      material: THREE.LineDashedMaterial;
+      start: THREE.Vector3;
+      end: THREE.Vector3;
+      dot?: THREE.Sprite;
+    }>
+  >([]);
 
   const colorPalette = [
     new THREE.Color(0x9b59b6),
@@ -230,18 +70,33 @@ export default function ParticleGlobe({
 
     const camera = new THREE.PerspectiveCamera(
       60,
-      window.innerWidth / window.innerHeight,
+      1,
       0.1,
       1000
     );
-    camera.position.z = 200; // Closer initial position
+    // Tilt the default view toward Europe (so it sits nearer the center vertically)
+    const cameraDistance = 200;
+    const europeCenterLatDeg = 30;
+    const europeCenterLatRad = THREE.MathUtils.degToRad(europeCenterLatDeg);
+    camera.position.set(
+      0,
+      cameraDistance * Math.sin(europeCenterLatRad),
+      cameraDistance * Math.cos(europeCenterLatRad)
+    );
+    camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const initialRect = containerEl.getBoundingClientRect();
+    const initialWidth = Math.max(1, Math.floor(initialRect.width));
+    const initialHeight = Math.max(1, Math.floor(initialRect.height));
+    renderer.setSize(initialWidth, initialHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerEl.appendChild(renderer.domElement);
     rendererRef.current = renderer;
+
+    camera.aspect = initialWidth / initialHeight;
+    camera.updateProjectionMatrix();
 
     // Initialize OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -252,7 +107,24 @@ export default function ParticleGlobe({
     controls.enablePan = false; // Disable panning (only rotate)
     controls.minDistance = 50; // Allow closer zoom to see locations better
     controls.maxDistance = 400;
+
+    // Constrain mouse rotation to a "globe spin":
+    // - allow infinite left/right spin (azimuth / world Y)
+    // - prevent up/down tilt (polar) by locking it to the current angle
+    controls.minAzimuthAngle = -Infinity;
+    controls.maxAzimuthAngle = Infinity;
+    const lockedPolar = controls.getPolarAngle();
+    controls.minPolarAngle = lockedPolar;
+    controls.maxPolarAngle = lockedPolar;
     controlsRef.current = controls;
+
+    // Raycast helpers (initialized after globe is created)
+    let interactionSphereGeometry: THREE.SphereGeometry | null = null;
+    let interactionSphereMaterial: THREE.MeshBasicMaterial | null = null;
+    let interactionSphere: THREE.Mesh | null = null;
+    const raycaster = new THREE.Raycaster();
+    const hitWorld = new THREE.Vector3();
+    const hitLocal = new THREE.Vector3();
 
     // Load world map image for accurate continent shapes
     const loadWorldMap = async (): Promise<ImageData> => {
@@ -283,7 +155,8 @@ export default function ParticleGlobe({
           reject(new Error("Failed to load world map image"));
         };
         // Load image from public folder
-        img.src = "/vecteezy_high-resolution-map-of-the-world-split-into-individual_.jpg";
+        // This mask uses transparent ocean + opaque land (black)
+        img.src = "/Equirectangular_projection_world_map_without_borders.svg.png";
       });
     };
 
@@ -309,14 +182,61 @@ export default function ParticleGlobe({
       const y = Math.floor(((90 - lat) / 180) * mapHeight);
       if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight) return false;
       const index = (y * mapWidth + x) * 4;
-      // Image has white land and black ocean - check if pixel is bright enough
-      // Using average of RGB channels for grayscale detection
-      const r = data[index];
-      const g = data[index + 1];
-      const b = data[index + 2];
-      const brightness = (r + g + b) / 3;
-      return brightness > 128; // White/light pixels are land
+      // Mask uses transparent ocean + opaque land (black)
+      const a = data[index + 3];
+      return a > 10;
     };
+
+      // If a location falls on a border/anti-aliased pixel, snap it to the nearest land pixel
+      // so markers sit on top of the particle continents.
+      const snapToLand = (lon: number, lat: number, maxRadiusPx: number = 12) => {
+        const lonLatToPixel = (lo: number, la: number) => {
+          const x = Math.floor(((lo + 180) / 360) * mapWidth);
+          const y = Math.floor(((90 - la) / 180) * mapHeight);
+          return { x, y };
+        };
+
+        const pixelToLonLat = (x: number, y: number) => {
+          const lo = (x / mapWidth) * 360 - 180;
+          const la = 90 - (y / mapHeight) * 180;
+          return { lon: lo, lat: la };
+        };
+
+        const isLandPixel = (x: number, y: number) => {
+          if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight) return false;
+          const index = (y * mapWidth + x) * 4;
+          const a = data[index + 3];
+          return a > 10;
+        };
+
+        const { x: x0, y: y0 } = lonLatToPixel(lon, lat);
+        if (isLandPixel(x0, y0)) return { lon, lat };
+
+        for (let r = 1; r <= maxRadiusPx; r++) {
+          // Scan the perimeter of a square ring (cheap + good enough at this scale)
+          for (let dx = -r; dx <= r; dx++) {
+            const xTop = x0 + dx;
+            const yTop = y0 - r;
+            if (isLandPixel(xTop, yTop)) return pixelToLonLat(xTop, yTop);
+
+            const xBottom = x0 + dx;
+            const yBottom = y0 + r;
+            if (isLandPixel(xBottom, yBottom)) return pixelToLonLat(xBottom, yBottom);
+          }
+          for (let dy = -r + 1; dy <= r - 1; dy++) {
+            const xLeft = x0 - r;
+            const yLeft = y0 + dy;
+            if (isLandPixel(xLeft, yLeft)) return pixelToLonLat(xLeft, yLeft);
+
+            const xRight = x0 + r;
+            const yRight = y0 + dy;
+            if (isLandPixel(xRight, yRight)) return pixelToLonLat(xRight, yRight);
+          }
+        }
+
+        // Fallback: leave it unchanged if no land found nearby
+        return { lon, lat };
+      };
 
       // Check if a point is near a continent edge (improves visibility)
       const isNearEdge = (lon: number, lat: number, threshold: number = 0.5) => {
@@ -374,11 +294,10 @@ export default function ParticleGlobe({
 
         particleColors.push(color.r, color.g, color.b);
         
-        // Larger particle sizes - increased from 0.5-1.4 to 2.0-4.0
-        // Make edge particles slightly larger for better continent visibility
+        // Smaller particles; keep edge particles slightly larger for definition
         const nearEdge = isNearEdge(lon, lat, 0.8);
-        const baseSize = nearEdge ? 2.5 : 2.0;
-        sizes.push(Math.random() * 2.0 + baseSize);
+        const baseSize = nearEdge ? 1.6 : 1.3;
+        sizes.push(Math.random() * 1.1 + baseSize);
         velocities.push({ x: 0, y: 0, z: 0 });
 
         count++;
@@ -406,7 +325,7 @@ export default function ParticleGlobe({
             colorJ.multiplyScalar(0.7 + Math.random() * 0.5);
             
             particleColors.push(colorJ.r, colorJ.g, colorJ.b);
-            sizes.push(Math.random() * 2.0 + 2.5);
+            sizes.push(Math.random() * 1.1 + 1.6);
             velocities.push({ x: 0, y: 0, z: 0 });
             
             count++;
@@ -431,19 +350,67 @@ export default function ParticleGlobe({
 
     const vertexShader = `
       attribute float size;
+      uniform float uTime;
+      uniform float uWobbleAmp;
       varying vec3 vColor;
+      varying float vFacing;
+      varying float vFade;
+
+      // Small, fast per-particle jitter (GPU-side) to avoid a static look
+      float hash(vec3 p) {
+        return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453123);
+      }
+      vec3 hash3(vec3 p) {
+        return vec3(
+          hash(p),
+          hash(p + vec3(1.0, 0.0, 0.0)),
+          hash(p + vec3(0.0, 1.0, 0.0))
+        );
+      }
       
       void main() {
         vColor = color;
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-        // Increased from 170.0 to 280.0 for larger visible particles
-        gl_PointSize = size * (280.0 / -mvPosition.z);
+
+        // Fast micro-jitter ("insect-like" motion) that stays on/near the surface.
+        // Mostly tangential to preserve the landmass silhouette.
+        vec3 nObj = normalize(position);
+        vec3 up = (abs(nObj.y) > 0.9) ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0);
+        vec3 t1 = normalize(cross(up, nObj));
+        vec3 t2 = cross(nObj, t1);
+
+        float t = uTime * 8.0; // jitter frequency
+        float i0 = floor(t);
+        float f = fract(t);
+        float s = f * f * (3.0 - 2.0 * f); // smoothstep
+
+        // Per-particle seed based on position; interpolate between two random offsets
+        vec3 j0 = hash3(position * 0.05 + i0) - 0.5;
+        vec3 j1 = hash3(position * 0.05 + i0 + 1.0) - 0.5;
+        vec3 j = mix(j0, j1, s);
+
+        vec3 jitterVec = (t1 * j.x + t2 * j.y + nObj * (j.z * 0.15));
+        vec3 wobblePos = position + jitterVec * uWobbleAmp;
+
+        vec4 mvPosition = modelViewMatrix * vec4(wobblePos, 1.0);
+        
+        // Front/back discrimination (planet-like shading)
+        // vFacing: +1 = facing camera, -1 = facing away (back side)
+        vec3 viewDir = normalize(-mvPosition.xyz);
+        vec3 n = normalize(normalMatrix * wobblePos);
+        vFacing = dot(n, viewDir);
+        // Smooth fade for the back hemisphere (keeps volume without "disappearing" backface)
+        vFade = smoothstep(-0.65, 0.35, vFacing);
+
+        // Point sprite size (smaller overall, still readable)
+        gl_PointSize = size * (240.0 / -mvPosition.z) * mix(0.80, 1.0, vFade);
         gl_Position = projectionMatrix * mvPosition;
       }
     `;
 
     const fragmentShader = `
       varying vec3 vColor;
+      varying float vFacing;
+      varying float vFade;
       
       void main() {
         float dist = length(gl_PointCoord - vec2(0.5));
@@ -451,12 +418,26 @@ export default function ParticleGlobe({
         
         float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
         alpha = pow(alpha, 1.2) * 0.85;
-        
-        gl_FragColor = vec4(vColor * 1.15, alpha);
+
+        // Darken + de-emphasize the back hemisphere (keep it clearly visible)
+        float backDarken = mix(0.65, 1.0, vFade);
+        float backAlpha = mix(0.40, 1.0, vFade);
+
+        // Subtle "terminator" band around the limb for depth
+        float rim = 1.0 - clamp(vFacing, 0.0, 1.0);
+        float rimBoost = pow(rim, 2.0) * 0.10;
+
+        vec3 color = vColor * (1.15 * backDarken + rimBoost);
+        gl_FragColor = vec4(color, alpha * backAlpha);
       }
     `;
 
     const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        // Scale wobble with globe radius (keeps it subtle if you change radius)
+        uWobbleAmp: { value: globeRadius * 0.0022 },
+      },
       vertexShader,
       fragmentShader,
       transparent: true,
@@ -468,6 +449,16 @@ export default function ParticleGlobe({
     const globe = new THREE.Points(geometry, material);
     scene.add(globe);
     globeRef.current = globe;
+
+    // Raycast target for precise repulsion (cheap: one sphere intersection)
+    interactionSphereGeometry = new THREE.SphereGeometry(globeRadius * 1.005, 48, 32);
+    interactionSphereMaterial = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+    });
+    interactionSphere = new THREE.Mesh(interactionSphereGeometry, interactionSphereMaterial);
+    scene.add(interactionSphere);
 
     // Atmosphere glow
     const glowGeometry = new THREE.SphereGeometry(globeRadius * 1.08, 64, 64);
@@ -502,14 +493,14 @@ export default function ParticleGlobe({
 
     // Location markers - office locations (verified coordinates)
     const locations = [
-      { name: "Brussels", lon: 4.3517, lat: 50.8503, color: 0xff00ff }, // Belgium
+      { name: "Brussels", lon: 4.3517, lat: 50.8503, color: 0x39ff14 }, // Belgium (neon green for contrast)
       { name: "London", lon: -0.1276, lat: 51.5074, color: 0x00ffff }, // UK
       { name: "Casablanca", lon: -7.6112, lat: 33.5731, color: 0xffff00 }, // Morocco
-      { name: "Paris", lon: 2.3522, lat: 48.8566, color: 0xff00ff }, // France
+      { name: "Paris", lon: 2.3522, lat: 48.8566, color: 0x39ff14 }, // France
       { name: "Amsterdam", lon: 4.9041, lat: 52.3676, color: 0x00ffff }, // Netherlands
-      { name: "Luxembourg", lon: 6.1319, lat: 49.6116, color: 0xff00ff }, // Luxembourg
+      { name: "Luxembourg", lon: 6.1319, lat: 49.6116, color: 0x39ff14 }, // Luxembourg
       { name: "Aberdeen", lon: -2.0943, lat: 57.1497, color: 0x00ffff }, // UK Scotland
-      { name: "Lisbon", lon: -9.1393, lat: 38.7223, color: 0xff00ff }, // Portugal
+      { name: "Lisbon", lon: -9.1393, lat: 38.7223, color: 0x39ff14 }, // Portugal
       { name: "Dubai", lon: 55.2708, lat: 25.2048, color: 0xffff00 }, // UAE
     ];
 
@@ -531,76 +522,82 @@ export default function ParticleGlobe({
     const markersGroup = new THREE.Group();
     locationMarkersRef.current = markersGroup;
 
-    locations.forEach((location) => {
-      const pos = latLonToPosition(location.lon, location.lat);
+    // Minimal "beacon" marker: tiny dot + subtle soft halo (shared texture)
+    const haloTexture = (() => {
+      const size = 64;
+      const c = document.createElement("canvas");
+      c.width = size;
+      c.height = size;
+      const ctx = c.getContext("2d");
+      if (!ctx) return null;
 
-      // Create pulsing marker with multiple rings for ripple effect
+      const g = ctx.createRadialGradient(
+        size / 2,
+        size / 2,
+        0,
+        size / 2,
+        size / 2,
+        size / 2
+      );
+      g.addColorStop(0.0, "rgba(255,255,255,0.22)");
+      g.addColorStop(0.35, "rgba(255,255,255,0.12)");
+      g.addColorStop(1.0, "rgba(255,255,255,0.0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, size, size);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = false;
+      return tex;
+    })();
+
+    const markerPositions = new Map<string, THREE.Vector3>();
+
+    locations.forEach((location) => {
+      const snapped = snapToLand(location.lon, location.lat);
+      const pos = latLonToPosition(snapped.lon, snapped.lat);
+      markerPositions.set(location.name, pos.clone());
+
+      // Minimal "beacon": small dot + subtle halo (no ripples)
       const markerGroup = new THREE.Group();
 
-      // Outer ripple ring 1
-      const ringGeometry1 = new THREE.RingGeometry(1.5, 2.5, 32);
-      const ringMaterial1 = new THREE.MeshBasicMaterial({
-        color: location.color,
-        transparent: true,
-        opacity: 0.6,
-        side: THREE.DoubleSide,
-      });
-      const ring1 = new THREE.Mesh(ringGeometry1, ringMaterial1);
-      ring1.lookAt(pos.clone().normalize().multiplyScalar(-1));
-      ring1.position.copy(pos);
-      markerGroup.add(ring1);
-
-      // Outer ripple ring 2
-      const ringGeometry2 = new THREE.RingGeometry(1.0, 1.8, 32);
-      const ringMaterial2 = new THREE.MeshBasicMaterial({
-        color: location.color,
-        transparent: true,
-        opacity: 0.8,
-        side: THREE.DoubleSide,
-      });
-      const ring2 = new THREE.Mesh(ringGeometry2, ringMaterial2);
-      ring2.lookAt(pos.clone().normalize().multiplyScalar(-1));
-      ring2.position.copy(pos);
-      markerGroup.add(ring2);
-
-      // Inner pulsing dot
-      const dotGeometry = new THREE.CircleGeometry(0.8, 16);
+      // Tiny solid dot (3D so it reads from any angle)
+      const dotGeometry = new THREE.SphereGeometry(0.45, 10, 10);
       const dotMaterial = new THREE.MeshBasicMaterial({
         color: location.color,
         transparent: true,
-        opacity: 1.0,
-        side: THREE.DoubleSide,
+        opacity: 0.95,
+        depthWrite: false,
       });
       const dot = new THREE.Mesh(dotGeometry, dotMaterial);
-      dot.lookAt(pos.clone().normalize().multiplyScalar(-1));
       dot.position.copy(pos);
       markerGroup.add(dot);
 
-      // Glow sphere
-      const glowSphereGeometry = new THREE.SphereGeometry(1.2, 16, 16);
-      const glowSphereMaterial = new THREE.MeshBasicMaterial({
+      // Soft halo (sprite that always faces camera)
+      const haloMaterial = new THREE.SpriteMaterial({
+        map: haloTexture ?? undefined,
         color: location.color,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.16,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
       });
-      const glowSphere = new THREE.Mesh(glowSphereGeometry, glowSphereMaterial);
-      glowSphere.position.copy(pos);
-      markerGroup.add(glowSphere);
+      const halo = new THREE.Sprite(haloMaterial);
+      halo.position.copy(pos);
+      halo.scale.set(6, 6, 1);
+      markerGroup.add(halo);
 
       // Store animation data
       interface MarkerAnimationData {
-        ring1: THREE.Mesh;
-        ring2: THREE.Mesh;
         dot: THREE.Mesh;
-        glowSphere: THREE.Mesh;
+        halo: THREE.Sprite;
         time: number;
         basePosition: THREE.Vector3;
       }
       (markerGroup as THREE.Group & { animationData: MarkerAnimationData }).animationData = {
-        ring1,
-        ring2,
         dot,
-        glowSphere,
+        halo,
         time: Math.random() * Math.PI * 2, // Random phase offset
         basePosition: pos.clone(),
       };
@@ -608,12 +605,109 @@ export default function ParticleGlobe({
       markersGroup.add(markerGroup);
     });
 
+    // Curved arcs from each location to Brussels (moving dashed line + small traveling pulse)
+    const routesGroup = new THREE.Group();
+    routesRef.current = [];
+
+    const brusselsPos = markerPositions.get("Brussels");
+    if (brusselsPos) {
+      const makeArcPoints = (start: THREE.Vector3, end: THREE.Vector3, segments = 160) => {
+        const v0 = start.clone().normalize();
+        const v1 = end.clone().normalize();
+        const angle = v0.angleTo(v1);
+        const sinAngle = Math.sin(angle) || 1e-6;
+        const baseRadius = (start.length() + end.length()) * 0.5;
+        const arcHeight = globeRadius * 0.14;
+
+        const pts: THREE.Vector3[] = [];
+        for (let i = 0; i <= segments; i++) {
+          const t = i / segments;
+          // Great-circle interpolation (slerp) between directions
+          const a = Math.sin((1 - t) * angle) / sinAngle;
+          const b = Math.sin(t * angle) / sinAngle;
+          const dir = v0
+            .clone()
+            .multiplyScalar(a)
+            .add(v1.clone().multiplyScalar(b))
+            .normalize();
+
+          // Lift the middle of the arc away from the surface
+          const h = Math.sin(Math.PI * t) * arcHeight;
+          pts.push(dir.multiplyScalar(baseRadius + h));
+        }
+        return pts;
+      };
+
+      locations.forEach((loc) => {
+        if (loc.name === "Brussels") return;
+        const endPos = markerPositions.get(loc.name);
+        if (!endPos) return;
+
+        const points = makeArcPoints(brusselsPos, endPos);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        const material = new THREE.LineDashedMaterial({
+          color: loc.color,
+          transparent: true,
+          opacity: 0.55,
+          dashSize: 2.2,
+          gapSize: 1.6,
+          depthWrite: false,
+        });
+
+        // Animate dashed pattern (three@0.182 doesn't expose `dashOffset`)
+        material.onBeforeCompile = (shader) => {
+          shader.uniforms.dashOffset = { value: 0 };
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "#include <common>",
+            "#include <common>\nuniform float dashOffset;"
+          );
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "mod( vLineDistance, totalSize )",
+            "mod( vLineDistance + dashOffset, totalSize )"
+          );
+          material.userData.shader = shader;
+        };
+
+        const line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
+
+        // Small pulse traveling along the arc
+        const pulseMat = new THREE.SpriteMaterial({
+          map: haloTexture ?? undefined,
+          color: loc.color,
+          transparent: true,
+          opacity: 0.35,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        });
+        const pulse = new THREE.Sprite(pulseMat);
+        pulse.scale.set(3.2, 3.2, 1);
+        pulse.position.copy(points[0]);
+
+        routesGroup.add(line);
+        routesGroup.add(pulse);
+        routesRef.current.push({
+          line,
+          material,
+          start: brusselsPos.clone(),
+          end: endPos.clone(),
+          dot: pulse,
+        });
+      });
+    }
+
+    scene.add(routesGroup);
     scene.add(markersGroup);
 
     // Mouse tracking for particle repulsion (keep this for mouse interaction with particles)
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      // Map mouse coordinates to NDC relative to the actual canvas rect
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      mouseRef.current.x = x * 2 - 1;
+      mouseRef.current.y = -(y * 2 - 1);
       
       // Update auto-rotate state based on controls
       if (controls) {
@@ -628,9 +722,12 @@ export default function ParticleGlobe({
 
     const handleResize = () => {
       if (!camera || !renderer) return;
-      camera.aspect = window.innerWidth / window.innerHeight;
+      const rect = containerEl.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(w, h);
     };
 
     // Attach mouse tracking for particle repulsion
@@ -646,103 +743,133 @@ export default function ParticleGlobe({
 
       animationRef.current = requestAnimationFrame(animate);
 
+      // Drive subtle idle wobble in the particle shader
+      material.uniforms.uTime.value = performance.now() * 0.001;
+
       // Update OrbitControls (required for damping)
       controls.update();
 
-      // Sync globe rotation with camera orbit (OrbitControls rotates the camera, we rotate the globe)
-      // We need to calculate the rotation based on camera position
-      if (globe && glowMesh) {
-        // Get the angle from camera position
-        const cameraDir = new THREE.Vector3();
-        camera.getWorldDirection(cameraDir);
-        const angle = Math.atan2(cameraDir.x, cameraDir.z);
-        
-        // Rotate globe opposite to camera orbit
-        globe.rotation.y = -angle;
-        glowMesh.rotation.y = -angle;
-      }
-
       // Animate location markers (pulsing/ripple effect)
       if (locationMarkersRef.current) {
+        const camPos = camera.position;
         const time = Date.now() * 0.001; // Current time in seconds
         locationMarkersRef.current.children.forEach((marker) => {
           interface MarkerWithData extends THREE.Group {
             animationData?: {
-              ring1: THREE.Mesh;
-              ring2: THREE.Mesh;
               dot: THREE.Mesh;
-              glowSphere: THREE.Mesh;
+              halo: THREE.Sprite;
               time: number;
               basePosition: THREE.Vector3;
             };
           }
           const animData = (marker as MarkerWithData).animationData;
           if (animData) {
+            // Hide markers on the back hemisphere (otherwise they show "through" the globe and feel off)
+            const isFront = animData.basePosition.dot(camPos) > 0;
+            marker.visible = isFront;
+            if (!isFront) return;
+
             const t = time + animData.time;
-            const pulse = Math.sin(t * 2) * 0.5 + 0.5; // 0 to 1
-            
-            // Animate rings (ripple effect)
-            animData.ring1.scale.set(1 + pulse * 0.5, 1 + pulse * 0.5, 1);
-            if (animData.ring1.material instanceof THREE.MeshBasicMaterial) {
-              animData.ring1.material.opacity = (1 - pulse) * 0.6;
+            const pulse = Math.sin(t * 1.8) * 0.5 + 0.5; // 0..1
+
+            // Minimal breathing: tiny change in halo opacity (and very slight dot opacity)
+            const haloOpacity = 0.14 + pulse * 0.06; // 0.14..0.20
+            if (animData.halo.material instanceof THREE.SpriteMaterial) {
+              animData.halo.material.opacity = haloOpacity;
             }
-            
-            animData.ring2.scale.set(1 + pulse * 0.3, 1 + pulse * 0.3, 1);
-            if (animData.ring2.material instanceof THREE.MeshBasicMaterial) {
-              animData.ring2.material.opacity = (1 - pulse * 0.5) * 0.8;
+            if (animData.dot.material instanceof THREE.MeshBasicMaterial) {
+              animData.dot.material.opacity = 0.90 + pulse * 0.06; // 0.90..0.96
             }
-            
-            // Animate dot (pulsing)
-            animData.dot.scale.set(1 + pulse * 0.2, 1 + pulse * 0.2, 1);
-            
-            // Animate glow sphere (breathing effect)
-            animData.glowSphere.scale.set(
-              1 + pulse * 0.3,
-              1 + pulse * 0.3,
-              1 + pulse * 0.3
-            );
-            if (animData.glowSphere.material instanceof THREE.MeshBasicMaterial) {
-              animData.glowSphere.material.opacity = 0.3 + pulse * 0.2;
-            }
-            
-            // Update ring orientations to face camera
-            const normal = animData.basePosition.clone().normalize();
-            animData.ring1.lookAt(normal.multiplyScalar(-1));
-            animData.ring2.lookAt(normal.clone().multiplyScalar(-1));
-            animData.dot.lookAt(normal.clone().multiplyScalar(-1));
           }
         });
       }
 
+      // Animate route arcs (moving dashes + traveling pulse), and hide when endpoints are on the back
+      if (routesRef.current.length) {
+        const camPos = camera.position;
+        const t = performance.now() * 0.001;
+        for (let i = 0; i < routesRef.current.length; i++) {
+          const r = routesRef.current[i];
+          const startFront = r.start.dot(camPos) > 0;
+          const endFront = r.end.dot(camPos) > 0;
+          const visible = startFront && endFront;
+          r.line.visible = visible;
+          if (r.dot) r.dot.visible = visible;
+          if (!visible) continue;
+
+          // Move the dashed pattern (via onBeforeCompile uniform)
+          const shader = r.material.userData.shader as
+            | { uniforms?: { dashOffset?: { value: number } } }
+            | undefined;
+          if (shader?.uniforms?.dashOffset) {
+            shader.uniforms.dashOffset.value = -(t * 2.0);
+          }
+
+          // Move pulse along the line based on time
+          if (r.dot) {
+            const geom = r.line.geometry as THREE.BufferGeometry;
+            const posAttr = geom.getAttribute("position") as THREE.BufferAttribute;
+            const count = posAttr.count;
+            const u = (t * 0.22 + i * 0.13) % 1; // per-route phase
+            const idx = Math.min(count - 1, Math.floor(u * count));
+            r.dot.position.set(
+              posAttr.getX(idx),
+              posAttr.getY(idx),
+              posAttr.getZ(idx)
+            );
+          }
+        }
+      }
+
       const posArray = geometry.attributes.position.array as Float32Array;
+
+      // Compute the surface point under the cursor (front-most intersection)
+      let hasHit = false;
+      if (
+        interactionSphere &&
+        Math.abs(mouseRef.current.x) <= 1 &&
+        Math.abs(mouseRef.current.y) <= 1
+      ) {
+        raycaster.setFromCamera(mouseRef.current, camera);
+        const hits = raycaster.intersectObject(interactionSphere, false);
+        if (hits.length) {
+          hitWorld.copy(hits[0].point);
+          hitLocal.copy(hitWorld);
+          globe.worldToLocal(hitLocal);
+          hasHit = true;
+        }
+      }
+
+      // Repulsion radius in world units (scaled to globe size)
+      const repulseRadiusWorld = globeRadius * repulsionRadius;
 
       for (let i = 0; i < originalPositionsRef.current.length; i++) {
         const i3 = i * 3;
         const orig = originalPositionsRef.current[i];
         const vel = velocitiesRef.current[i];
 
-        // Project particle to screen
-        const pos = new THREE.Vector3(posArray[i3], posArray[i3 + 1], posArray[i3 + 2]);
-        pos.applyMatrix4(globe.matrixWorld);
-        const screenPos = pos.clone().project(camera);
+        // Repulse only near the hit point on the globe surface (prevents far-side repulsion)
+        if (hasHit) {
+          // Extra guard: only affect the camera-facing hemisphere (prevents "second" repulse patch near the limb)
+          const frontDot =
+            posArray[i3] * camera.position.x +
+            posArray[i3 + 1] * camera.position.y +
+            posArray[i3 + 2] * camera.position.z;
+          if (frontDot > 0) {
+          const dx = posArray[i3] - hitLocal.x;
+          const dy = posArray[i3 + 1] - hitLocal.y;
+          const dz = posArray[i3 + 2] - hitLocal.z;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-        // Only interact with front-facing particles
-        if (screenPos.z < 1) {
-          const dx = screenPos.x - mouseRef.current.x;
-          const dy = screenPos.y - mouseRef.current.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < repulsionRadius) {
-            const force = Math.pow(1 - dist / repulsionRadius, 2) * repulsionStrength;
-            const pushDir = new THREE.Vector3(
-              posArray[i3],
-              posArray[i3 + 1],
-              posArray[i3 + 2]
-            ).normalize();
-
-            vel.x += pushDir.x * force * 0.06;
-            vel.y += pushDir.y * force * 0.06;
-            vel.z += pushDir.z * force * 0.06;
+          if (dist < repulseRadiusWorld) {
+            const force =
+              Math.pow(1 - dist / repulseRadiusWorld, 2) * repulsionStrength;
+            const inv = 1 / (dist + 1e-6);
+            // Push away from the cursor-hit point (more intuitive than pure radial push)
+            vel.x += dx * inv * force * 0.06;
+            vel.y += dy * inv * force * 0.06;
+            vel.z += dz * inv * force * 0.06;
+          }
           }
         }
 
@@ -796,6 +923,24 @@ export default function ParticleGlobe({
         geometryRef.current.dispose();
       }
 
+      if (interactionSphere) {
+        scene.remove(interactionSphere);
+      }
+      interactionSphereGeometry?.dispose();
+      interactionSphereMaterial?.dispose();
+
+      // Dispose route geometries/materials
+      if (routesRef.current.length) {
+        routesRef.current.forEach((r) => {
+          r.line.geometry.dispose();
+          r.material.dispose();
+          if (r.dot && r.dot.material instanceof THREE.SpriteMaterial) {
+            r.dot.material.dispose();
+          }
+        });
+        routesRef.current = [];
+      }
+
       // Note: material and glow materials are disposed automatically when geometry is disposed
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -812,7 +957,7 @@ export default function ParticleGlobe({
   return (
     <div
       ref={containerRef}
-      className={`w-full h-full overflow-hidden bg-[#0a0a12] ${className}`}
+      className={`w-full h-full overflow-hidden bg-[#000000] ${className}`}
     />
   );
 }

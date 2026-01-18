@@ -59,9 +59,9 @@ export default function HolographicGlobe({
     varying vec3 vNormal;
     varying vec2 vUv;
     
-    // Edge detection function (Sobel-like)
+    // Edge detection function (Sobel-like) - optimized for thin lines
     float edgeDetection(vec2 uv, sampler2D tex) {
-      float texelSize = 1.0 / 512.0; // Adjust based on texture size
+      float texelSize = 1.0 / 1024.0; // Smaller texel for more precision
       
       // Sample surrounding pixels
       float tl = length(texture2D(tex, uv + vec2(-texelSize, -texelSize)).rgb);
@@ -79,7 +79,8 @@ export default function HolographicGlobe({
       float gy = -tl - 2.0 * tm - tr + bl + 2.0 * bm + br;
       float edge = sqrt(gx * gx + gy * gy);
       
-      return clamp(edge * 2.0, 0.0, 1.0);
+      // Higher amplification to get stronger edges that can be thresholded precisely
+      return clamp(edge * 5.0, 0.0, 1.0);
     }
     
     void main() {
@@ -87,9 +88,10 @@ export default function HolographicGlobe({
       vec3 baseColor = texture2D(uGlobeTexture, vUv).rgb;
       float baseLuminance = length(baseColor);
       
-      // Edge detection for continent outlines (X-ray wireframe) - thinner edges
+      // Edge detection for continent outlines (X-ray wireframe) - extremely thin edges
       float edge = edgeDetection(vUv, uGlobeTexture);
-      float edgeBrightness = smoothstep(0.5, 0.55, edge); // Narrower range for thinner lines
+      // Use very high threshold with narrow smoothstep for ultra-thin lines
+      float edgeBrightness = smoothstep(0.92, 0.95, edge); // Only the very strongest edge pixels
       
       // Wireframe grid using UV coordinates - thinner grid lines
       vec2 grid = abs(fract(vUv * 32.0) - 0.5);
@@ -107,15 +109,16 @@ export default function HolographicGlobe({
       scanline = pow(scanline, 4.0) * uScanlineIntensity * 0.2;
       
       // X-ray wireframe color - emphasize edges and grid, not filled areas
-      vec3 wireframeColor = uColor;
+      vec3 wireframeColor = uColor; // Dark purple for grid
+      vec3 edgeColor = uGlowColor; // Bright purple for edges
       
       // Combine: edges are bright, grid is visible, base is very dim (X-ray effect)
       vec3 color = vec3(0.0);
       
-      // Add edge lines (bright)
-      color += vec3(edgeBrightness) * wireframeColor * 1.5;
+      // Add edge lines (bright purple, very thin)
+      color += vec3(edgeBrightness) * edgeColor * 1.8;
       
-      // Add grid lines (moderate brightness)
+      // Add grid lines (darker purple, moderate brightness)
       color += vec3(gridLine) * wireframeColor * 0.8;
       
       // Very subtle base texture (X-ray transparency)
@@ -182,7 +185,7 @@ export default function HolographicGlobe({
           uniforms: {
             uGlobeTexture: { value: texture },
             uTime: { value: 0 },
-            uColor: { value: new THREE.Color(0x8202ff) }, // Purple wireframe color
+            uColor: { value: new THREE.Color(0x4c1d95) }, // Dark purple wireframe color
             uGlowColor: { value: new THREE.Color(0xa855f7) }, // Bright purple for glow
             uFresnelPower: { value: 3.0 },
             uScanlineDensity: { value: 8.0 },
@@ -209,7 +212,7 @@ export default function HolographicGlobe({
         // Create wireframe overlay using EdgesGeometry
         const edgesGeometry = new THREE.EdgesGeometry(geometry, 1.0);
         const wireframeMaterial = new THREE.LineBasicMaterial({
-          color: 0x8202ff,
+          color: 0x4c1d95,
           transparent: true,
           opacity: 0.3,
         });

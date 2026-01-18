@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React from "react";
 import styles from './AnimatedVerticalLines.module.css';
 
 export interface AnimatedVerticalLinesProps {
@@ -21,79 +21,25 @@ export default function AnimatedVerticalLines({
   className = '',
 }: AnimatedVerticalLinesProps) {
   const primaryColor80 = `${primaryColor}80`; // ~50% opacity
-  const primaryColor20 = `${primaryColor}20`; // ~12% opacity
-
-  // Create unique animation names based on lineHeight to avoid conflicts
-  const animationId = `line-${lineHeight}`;
-  const travelTopAnimation = `travelTop-${animationId}`;
-  const travelBottomAnimation = `travelBottom-${animationId}`;
 
   // Gap from edges (in pixels)
   const edgeGap = 20;
 
-  // Inject keyframes dynamically to ensure they work on refresh
-  useEffect(() => {
-    const styleId = `animated-vertical-lines-${animationId}`;
-    let styleElement = document.getElementById(styleId) as HTMLStyleElement;
-
-    if (!styleElement) {
-      styleElement = document.createElement('style');
-      styleElement.id = styleId;
-      document.head.appendChild(styleElement);
-    }
-
-    // Calculate the animation range with gaps from edges
-    const startY = edgeGap;
-    const endY = lineHeight - edgeGap;
-
-    styleElement.textContent = `
-      @keyframes ${travelTopAnimation} {
-        0% {
-          transform: translateX(-50%) translateY(${startY}px);
-          opacity: 0.7;
-        }
-        50% {
-          transform: translateX(-50%) translateY(${endY}px);
-          opacity: 1;
-        }
-        100% {
-          transform: translateX(-50%) translateY(${startY}px);
-          opacity: 0.7;
-        }
-      }
-      
-      @keyframes ${travelBottomAnimation} {
-        0% {
-          transform: translateX(-50%) translateY(-${startY}px);
-          opacity: 0.7;
-        }
-        50% {
-          transform: translateX(-50%) translateY(-${endY}px);
-          opacity: 1;
-        }
-        100% {
-          transform: translateX(-50%) translateY(-${startY}px);
-          opacity: 0.7;
-        }
-      }
-    `;
-
-    return () => {
-      // Cleanup on unmount
-      const element = document.getElementById(styleId);
-      if (element) {
-        element.remove();
-      }
-    };
-  }, [animationId, travelTopAnimation, travelBottomAnimation, lineHeight, edgeGap]);
+  // Use CSS variables instead of dynamically injected keyframes.
+  // This avoids race conditions where another instance unmounts and removes shared styles.
+  const beamStart = `${edgeGap}px`;
+  const beamEnd = `${Math.max(edgeGap, lineHeight - edgeGap)}px`;
 
   return (
     <div
       className={`relative flex flex-col items-center justify-center w-full bg-black ${className}`}
       style={{ 
         height: '100svh',
-        '--line-height': `${lineHeight}px`,
         '--animation-duration': `${animationDuration}s`,
+        '--beam-start': beamStart,
+        '--beam-end': beamEnd,
+        '--beam-color': primaryColor,
+        '--beam-color-80': primaryColor80,
       } as React.CSSProperties}
     >
       {/* Top vertical line */}
@@ -113,10 +59,8 @@ export default function AnimatedVerticalLines({
             height: '60px',
             background: `linear-gradient(to bottom, transparent, ${primaryColor}, ${primaryColor}, transparent)`,
             left: '50%',
-            transform: 'translateX(-50%)',
             top: '-30px',
             zIndex: 1,
-            animation: `${travelTopAnimation} ${animationDuration}s ease-in-out infinite`,
             boxShadow: `0 0 6px ${primaryColor}, 0 0 12px ${primaryColor80}`,
           }}
         />
@@ -139,10 +83,8 @@ export default function AnimatedVerticalLines({
             height: '60px',
             background: `linear-gradient(to top, transparent, ${primaryColor}, ${primaryColor}, transparent)`,
             left: '50%',
-            transform: 'translateX(-50%)',
             bottom: '-30px',
             zIndex: 1,
-            animation: `${travelBottomAnimation} ${animationDuration}s ease-in-out infinite`,
             boxShadow: `0 0 6px ${primaryColor}, 0 0 12px ${primaryColor80}`,
           }}
         />

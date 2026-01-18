@@ -253,9 +253,9 @@ export default async function Home() {
       </section>
 
       {/* Holographic Globe Section */}
-      <section className="relative w-full h-[100svh]">
+      {/* <section className="relative w-full h-[100svh]">
         <HolographicGlobe className="w-full h-full" />
-      </section>
+      </section> */}
     </div>
   );
 }

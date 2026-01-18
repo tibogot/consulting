@@ -1,2 +1,125 @@
 /* Animated Vertical Lines Component */
 /* The animations are defined inline in the component for dynamic values */
+
+/* Core beam styling shared by top/bottom */
+.beamTop,
+.beamBottom {
+  will-change: transform, opacity, filter;
+  /* makes additive-looking glow pop without affecting the whole page */
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 0 6px var(--beam-color, #8202ff))
+    drop-shadow(0 0 18px var(--beam-color-80, rgba(130, 2, 255, 0.5)));
+}
+
+/* Soft aura layer (bloom) */
+.beamTop::before,
+.beamBottom::before {
+  content: "";
+  position: absolute;
+  inset: -18px -10px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 55% at 50% 50%,
+      var(--beam-color-80, rgba(130, 2, 255, 0.45)) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+  filter: blur(10px);
+  opacity: 0.9;
+}
+
+/* Moving highlight so the beam doesn't feel flat */
+.beamTop::after,
+.beamBottom::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 220% 100%;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  animation: beamSheen 1.35s linear infinite;
+}
+
+.beamTop {
+  animation:
+    travelTop var(--animation-duration, 3s) ease-in-out infinite,
+    beamFlicker 2.8s steps(18, end) infinite;
+}
+
+.beamBottom {
+  animation:
+    travelBottom var(--animation-duration, 3s) ease-in-out infinite,
+    beamFlicker 3.3s steps(22, end) infinite;
+}
+
+@keyframes travelTop {
+  0% {
+    transform: translateX(-50%) translateY(var(--beam-start, 20px));
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-50%) translateY(var(--beam-end, 230px));
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(var(--beam-start, 20px));
+    opacity: 0.7;
+  }
+}
+
+@keyframes travelBottom {
+  0% {
+    transform: translateX(-50%) translateY(calc(-1 * var(--beam-start, 20px)));
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-50%) translateY(calc(-1 * var(--beam-end, 230px)));
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(calc(-1 * var(--beam-start, 20px)));
+    opacity: 0.7;
+  }
+}
+
+@keyframes beamSheen {
+  0% {
+    background-position: -110% 50%;
+  }
+  100% {
+    background-position: 110% 50%;
+  }
+}
+
+@keyframes beamFlicker {
+  0%,
+  100% {
+    opacity: 0.85;
+    filter:
+      drop-shadow(0 0 6px var(--beam-color, #8202ff))
+      drop-shadow(0 0 18px var(--beam-color-80, rgba(130, 2, 255, 0.5)));
+  }
+  50% {
+    opacity: 1;
+    filter:
+      drop-shadow(0 0 9px var(--beam-color, #8202ff))
+      drop-shadow(0 0 28px var(--beam-color-80, rgba(130, 2, 255, 0.5)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beamTop,
+  .beamBottom,
+  .beamTop::after,
+  .beamBottom::after {
+    animation: none !important;
+  }
+}
