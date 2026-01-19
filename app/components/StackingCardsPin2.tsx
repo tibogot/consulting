@@ -47,17 +47,27 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
       const cardEls = gsap.utils.toArray<HTMLElement>("[data-stacking-card]");
       if (cardEls.length === 0) return;
 
-      const lastCard = cardEls[cardEls.length - 1] as HTMLElement;
+      cardEls.forEach((card, index) => {
+        // Scale animation as card approaches top
+        gsap.to(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom-=100",
+            end: "top top+=40",
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+          ease: "none",
+          scale: 1 - (cardEls.length - index) * 0.025,
+        });
 
-      cardEls.forEach((card) => {
-        // Pin each card at the exact same position (top: 80px)
+        // Pin each card when it reaches the top
         ScrollTrigger.create({
           trigger: card,
           start: "top top+=80",
           pin: true,
           pinSpacing: false,
-          endTrigger: lastCard, // All cards wait for the last card
-          end: "top top+=80", // Unpin when last card reaches the pin position
+          end: "max",
           invalidateOnRefresh: true,
           // markers: true,
         });
@@ -68,8 +78,8 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
 
   return (
     <section ref={sectionRef} className={`relative w-full bg-black ${className}`}>
-      <div className="relative w-full py-24 ">
-        <div className=" px-4 md:px-8">
+      <div className="relative w-full py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="font-pp-neue-montreal max-w-3xl mb-14">
             <p className="text-white/60 uppercase tracking-wide text-xs md:text-sm">
               GSAP Pin / Stacking Cards

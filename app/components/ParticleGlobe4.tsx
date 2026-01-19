@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
@@ -14,81 +14,6 @@ interface ParticleGlobeProps {
   returnSpeed?: number;
 }
 
-type GlobeLocation = {
-  name: string;
-  lon: number;
-  lat: number;
-  color: number;
-  description: string;
-};
-
-// Keep this outside the component so it stays stable (and can be used for both UI + 3D).
-const LOCATIONS: GlobeLocation[] = [
-  {
-    name: "Brussels",
-    lon: 4.3517,
-    lat: 50.8503,
-    color: 0x39ff14,
-    description: "Main hub — project delivery, strategy, and coordination across markets.",
-  },
-  {
-    name: "London",
-    lon: -0.1276,
-    lat: 51.5074,
-    color: 0x00ffff,
-    description: "Client collaboration and delivery for UK-based programs.",
-  },
-  {
-    name: "Casablanca",
-    lon: -7.6112,
-    lat: 33.5731,
-    color: 0xffff00,
-    description: "Regional delivery and operational support across North Africa.",
-  },
-  {
-    name: "Paris",
-    lon: 2.3522,
-    lat: 48.8566,
-    color: 0x39ff14,
-    description: "Consulting delivery for France and cross-border initiatives.",
-  },
-  {
-    name: "Amsterdam",
-    lon: 4.9041,
-    lat: 52.3676,
-    color: 0x00ffff,
-    description: "Benelux delivery and stakeholder workshops.",
-  },
-  {
-    name: "Luxembourg",
-    lon: 6.1319,
-    lat: 49.6116,
-    color: 0x39ff14,
-    description: "Financial services delivery and transformation support.",
-  },
-  {
-    name: "Aberdeen",
-    lon: -2.0943,
-    lat: 57.1497,
-    color: 0x00ffff,
-    description: "Operations and on-site program support.",
-  },
-  {
-    name: "Lisbon",
-    lon: -9.1393,
-    lat: 38.7223,
-    color: 0x39ff14,
-    description: "Delivery support and execution for Iberia-based projects.",
-  },
-  {
-    name: "Dubai",
-    lon: 55.2708,
-    lat: 25.2048,
-    color: 0xffff00,
-    description: "Regional partnerships and delivery across the Middle East.",
-  },
-];
-
 export default function ParticleGlobe({
   className = "",
   globeRadius = 100,
@@ -98,8 +23,6 @@ export default function ParticleGlobe({
   repulsionRadius = 0.16,
   returnSpeed = 0.045,
 }: ParticleGlobeProps) {
-  const locations = useMemo(() => LOCATIONS, []);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -116,22 +39,6 @@ export default function ParticleGlobe({
   const originalPositionsRef = useRef<Array<{ x: number; y: number; z: number }>>([]);
   const velocitiesRef = useRef<Array<{ x: number; y: number; z: number }>>([]);
   const locationMarkersRef = useRef<THREE.Group | null>(null);
-  const markerDirectionsRef = useRef<Map<string, THREE.Vector3>>(new Map());
-  const activeLocationNameRef = useRef<string | null>(null);
-
-  const [listHoverLocation, setListHoverLocation] = useState<string | null>(null);
-  const [globeHoverLocation, setGlobeHoverLocation] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-
-  const activeLocationName = selectedLocation ?? listHoverLocation ?? globeHoverLocation;
-  const activeLocation = useMemo(
-    () => locations.find((l) => l.name === activeLocationName) ?? null,
-    [activeLocationName, locations]
-  );
-
-  // Hover computed inside the animation loop; store refs to avoid noisy re-renders.
-  const globeHoverLocationRef = useRef<string | null>(null);
-  const lastGlobeHoverUpdateRef = useRef<number>(0);
   const routesRef = useRef<
     Array<{
       line: THREE.Line;
@@ -141,7 +48,6 @@ export default function ParticleGlobe({
       dot?: THREE.Sprite;
       baseLineOpacity: number;
       baseDotOpacity: number;
-      locName: string;
     }>
   >([]);
 
@@ -154,10 +60,6 @@ export default function ParticleGlobe({
     new THREE.Color(0x9400d3),
     new THREE.Color(0xba55d3),
   ];
-
-  useEffect(() => {
-    activeLocationNameRef.current = activeLocationName;
-  }, [activeLocationName]);
 
   useEffect(() => {
     const containerEl = containerRef.current;
@@ -606,6 +508,19 @@ export default function ParticleGlobe({
     scene.add(glowMesh);
     glowMeshRef.current = glowMesh;
 
+    // Location markers - office locations (verified coordinates)
+    const locations = [
+      { name: "Brussels", lon: 4.3517, lat: 50.8503, color: 0x39ff14 }, // Belgium (neon green for contrast)
+      { name: "London", lon: -0.1276, lat: 51.5074, color: 0x00ffff }, // UK
+      { name: "Casablanca", lon: -7.6112, lat: 33.5731, color: 0xffff00 }, // Morocco
+      { name: "Paris", lon: 2.3522, lat: 48.8566, color: 0x39ff14 }, // France
+      { name: "Amsterdam", lon: 4.9041, lat: 52.3676, color: 0x00ffff }, // Netherlands
+      { name: "Luxembourg", lon: 6.1319, lat: 49.6116, color: 0x39ff14 }, // Luxembourg
+      { name: "Aberdeen", lon: -2.0943, lat: 57.1497, color: 0x00ffff }, // UK Scotland
+      { name: "Lisbon", lon: -9.1393, lat: 38.7223, color: 0x39ff14 }, // Portugal
+      { name: "Dubai", lon: 55.2708, lat: 25.2048, color: 0xffff00 }, // UAE
+    ];
+
     // Convert lat/lon to 3D position on sphere (using same formula as particles for alignment)
     const latLonToPosition = (lon: number, lat: number) => {
       // Use EXACT same conversion as particles to ensure markers align with continent shapes
@@ -655,13 +570,11 @@ export default function ParticleGlobe({
     })();
 
     const markerPositions = new Map<string, THREE.Vector3>();
-    markerDirectionsRef.current = new Map();
 
     locations.forEach((location) => {
       const snapped = snapToLand(location.lon, location.lat);
       const pos = latLonToPosition(snapped.lon, snapped.lat);
       markerPositions.set(location.name, pos.clone());
-      markerDirectionsRef.current.set(location.name, pos.clone().normalize());
 
       // Minimal "beacon": small dot + subtle halo (no ripples)
       const markerGroup = new THREE.Group();
@@ -704,11 +617,6 @@ export default function ParticleGlobe({
         halo,
         time: Math.random() * Math.PI * 2, // Random phase offset
         basePosition: pos.clone(),
-      };
-
-      markerGroup.userData = {
-        ...(markerGroup.userData ?? {}),
-        name: location.name,
       };
 
       markersGroup.add(markerGroup);
@@ -804,7 +712,6 @@ export default function ParticleGlobe({
           dot: pulse,
           baseLineOpacity: material.opacity,
           baseDotOpacity: pulseMat.opacity,
-          locName: loc.name,
         });
       });
     }
@@ -830,10 +737,6 @@ export default function ParticleGlobe({
     const handleMouseLeave = () => {
       mouseRef.current.x = 9999;
       mouseRef.current.y = 9999;
-      if (globeHoverLocationRef.current !== null) {
-        globeHoverLocationRef.current = null;
-        setGlobeHoverLocation(null);
-      }
     };
 
     const handleResize = () => {
@@ -880,9 +783,6 @@ export default function ParticleGlobe({
           }
           const animData = (marker as MarkerWithData).animationData;
           if (animData) {
-            const markerName = (marker as THREE.Group).userData?.name as string | undefined;
-            const isActive = !!markerName && activeLocationNameRef.current === markerName;
-
             // Same "front/back fade" concept as particles (opacity variation instead of hide)
             const facing = animData.basePosition.clone().normalize().dot(camDir); // -1..1
             const fade = THREE.MathUtils.smoothstep(facing, -0.65, 0.35);
@@ -892,21 +792,13 @@ export default function ParticleGlobe({
             const pulse = Math.sin(t * 1.8) * 0.5 + 0.5; // 0..1
 
             // Minimal breathing: tiny change in halo opacity (and very slight dot opacity)
-            const haloOpacityBase = 0.14 + pulse * 0.06; // 0.14..0.20
-            const haloOpacity = Math.min(0.55, haloOpacityBase * (isActive ? 2.2 : 1.0));
+            const haloOpacity = 0.14 + pulse * 0.06; // 0.14..0.20
             if (animData.halo.material instanceof THREE.SpriteMaterial) {
               animData.halo.material.opacity = haloOpacity * fadeAlpha;
             }
             if (animData.dot.material instanceof THREE.MeshBasicMaterial) {
-              const dotOpacity = Math.min(1.0, (0.90 + pulse * 0.06) * (isActive ? 1.15 : 1.0));
-              animData.dot.material.opacity = dotOpacity * fadeAlpha; // 0.90..0.96 (+ active boost)
+              animData.dot.material.opacity = (0.90 + pulse * 0.06) * fadeAlpha; // 0.90..0.96
             }
-
-            // Active emphasis: slightly larger beacon
-            const dotScale = isActive ? 1.65 : 1.0;
-            animData.dot.scale.setScalar(dotScale);
-            const haloScale = isActive ? 1.28 : 1.0;
-            animData.halo.scale.set(6 * haloScale, 6 * haloScale, 1);
           }
         });
       }
@@ -924,11 +816,9 @@ export default function ParticleGlobe({
           const facing = Math.min(startFacing, endFacing);
           const fade = THREE.MathUtils.smoothstep(facing, -0.65, 0.35);
           const fadeAlpha = THREE.MathUtils.lerp(0.12, 1.0, fade);
-          const isActive = activeLocationNameRef.current !== null && activeLocationNameRef.current === r.locName;
-          const boost = isActive ? 1.75 : 1.0;
-          r.material.opacity = Math.min(1.0, r.baseLineOpacity * fadeAlpha * boost);
+          r.material.opacity = r.baseLineOpacity * fadeAlpha;
           if (r.dot && r.dot.material instanceof THREE.SpriteMaterial) {
-            r.dot.material.opacity = Math.min(1.0, r.baseDotOpacity * fadeAlpha * boost);
+            r.dot.material.opacity = r.baseDotOpacity * fadeAlpha;
           }
 
           // Move the dashed pattern (via onBeforeCompile uniform)
@@ -936,7 +826,7 @@ export default function ParticleGlobe({
             | { uniforms?: { dashOffset?: { value: number } } }
             | undefined;
           if (shader?.uniforms?.dashOffset) {
-            shader.uniforms.dashOffset.value = -(t * (isActive ? 3.2 : 2.0));
+            shader.uniforms.dashOffset.value = -(t * 2.0);
           }
 
           // Move pulse along the line based on time
@@ -971,44 +861,6 @@ export default function ParticleGlobe({
           hitLocal.copy(hitWorld);
           globe.worldToLocal(hitLocal);
           hasHit = true;
-        }
-      }
-
-      // Globe-driven hover: find nearest marker to the hit point direction (cheap + stable).
-      // Throttle updates to keep React renders calm.
-      const now = performance.now();
-      if (now - lastGlobeHoverUpdateRef.current > 50) {
-        lastGlobeHoverUpdateRef.current = now;
-
-        let nextHover: string | null = null;
-        if (hasHit && markerDirectionsRef.current.size) {
-          const hitDir = hitLocal.clone().normalize();
-
-          let bestName: string | null = null;
-          let bestAngle = Infinity;
-          markerDirectionsRef.current.forEach((dir, name) => {
-            const dot = THREE.MathUtils.clamp(hitDir.dot(dir), -1, 1);
-            const angle = Math.acos(dot);
-            if (angle < bestAngle) {
-              bestAngle = angle;
-              bestName = name;
-            }
-          });
-
-          const enterAngle = 0.06; // ~3.4°
-          const exitAngle = 0.085; // ~4.9°
-          const current = globeHoverLocationRef.current;
-
-          if (current && bestName === current) {
-            nextHover = bestAngle < exitAngle ? current : null;
-          } else {
-            nextHover = bestAngle < enterAngle ? bestName : null;
-          }
-        }
-
-        if (nextHover !== globeHoverLocationRef.current) {
-          globeHoverLocationRef.current = nextHover;
-          setGlobeHoverLocation(nextHover);
         }
       }
 
@@ -1129,78 +981,9 @@ export default function ParticleGlobe({
   ]);
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
-      <div
-        ref={containerRef}
-        className="absolute inset-0 w-full h-full overflow-hidden bg-transparent"
-      />
-
-      {/* Left-side locations list (drives the globe highlight) */}
-      <div
-        className="absolute left-4 top-4 z-10 pointer-events-auto font-pp-neue-montreal text-white md:left-8 md:top-8"
-        onMouseLeave={() => setListHoverLocation(null)}
-      >
-        <div className="w-[min(360px,calc(100vw-2rem))] rounded-[2px] border border-white/10 bg-black/20 p-4 backdrop-blur-sm">
-          <div className="text-xs tracking-[0.18em] uppercase text-white/60">
-            Locations
-          </div>
-
-          <div className="mt-3 flex flex-col gap-1.5">
-            {locations.map((loc) => {
-              const isActive = activeLocationName === loc.name;
-              const isSelected = selectedLocation === loc.name;
-
-              return (
-                <button
-                  key={loc.name}
-                  type="button"
-                  className={[
-                    "group flex w-full items-center justify-between text-left",
-                    "text-base md:text-lg leading-tight",
-                    "transition-colors",
-                    isActive ? "text-white" : "text-white/60 hover:text-white/90",
-                  ].join(" ")}
-                  onMouseEnter={() => setListHoverLocation(loc.name)}
-                  onClick={() =>
-                    setSelectedLocation((prev) => (prev === loc.name ? null : loc.name))
-                  }
-                  aria-pressed={isSelected}
-                >
-                  <span>{loc.name}</span>
-                  <span
-                    className={[
-                      "text-[11px] uppercase tracking-[0.16em]",
-                      isSelected ? "text-white/70" : "text-white/30 group-hover:text-white/50",
-                    ].join(" ")}
-                  >
-                    {isSelected ? "Pinned" : "Hover"}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="mt-4 h-px w-full bg-white/10" />
-
-          <div className="mt-4">
-            {activeLocation ? (
-              <>
-                <div className="text-sm text-white/90">{activeLocation.name}</div>
-                <div className="mt-1 text-sm leading-relaxed text-white/70">
-                  {activeLocation.description}
-                </div>
-                <div className="mt-3 text-[11px] tracking-[0.16em] uppercase text-white/40">
-                  Click to pin
-                </div>
-              </>
-            ) : (
-              <div className="text-sm leading-relaxed text-white/50">
-                Hover a location (or a marker) to highlight it on the globe.
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <div
+      ref={containerRef}
+      className={`w-full h-full overflow-hidden bg-transparent ${className}`}
+    />
   );
 }

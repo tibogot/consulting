@@ -38,7 +38,7 @@ export default function PartnersTicker({
   direction = "left",
   pauseOnHover = true,
   gap = 16,
-  logoHeight = 80,
+  logoHeight = 64,
 }: PartnersTickerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<HTMLDivElement>(null);
@@ -46,6 +46,16 @@ export default function PartnersTicker({
 
   // Duplicate logos array to create seamless loop (need at least 2 copies)
   const duplicatedLogos = [...partnerLogos, ...partnerLogos, ...partnerLogos];
+
+  // Keep padding proportional so very small `logoHeight` values still work well.
+  // Ensure we always leave at least ~8px of content height for the image.
+  const paddingY = Math.min(
+    Math.max(4, Math.round(logoHeight * 0.2)),
+    Math.max(4, Math.floor((logoHeight - 8) / 2))
+  );
+  const paddingX = Math.max(8, Math.round(logoHeight * 0.3));
+  // Scale the actual logo artwork within the tile (not the tile itself).
+  const logoScale = 0.72;
 
   useGSAP(
     () => {
@@ -166,10 +176,11 @@ export default function PartnersTicker({
             return (
               <div
                 key={`${logo}-${index}`}
-                className="partner-logo shrink-0 flex items-center justify-center px-6 py-4"
+                className="partner-logo shrink-0 flex items-center justify-center"
                 style={{
                   height: `${logoHeight}px`,
                   width: `${logoHeight * 2.5}px`,
+                  padding: `${paddingY}px ${paddingX}px`,
                 }}
               >
                 <Image
@@ -182,6 +193,8 @@ export default function PartnersTicker({
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
+                    maxWidth: `${Math.round(logoScale * 100)}%`,
+                    maxHeight: `${Math.round(logoScale * 100)}%`,
                   }}
                   unoptimized={logo.endsWith(".svg")}
                 />

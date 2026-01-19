@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import StackingCardsPin from '@/app/components/StackingCardsPin';
+import AnimatedCopyLoop from '@/app/components/AnimatedCopyLoop';
 
 export default async function AboutUsPage() {
   const t = await getTranslations('about.us');
@@ -18,6 +19,28 @@ export default async function AboutUsPage() {
           <p className="mt-4 font-pp-neue-montreal text-white/70 text-base md:text-lg max-w-3xl">
             {t('description')}
           </p>
+        </div>
+      </section>
+
+      {/* Looping copy section (no scroll trigger) */}
+      <section className="relative w-full border-t border-white/10">
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-8 py-20 md:py-28">
+          <AnimatedCopyLoop>
+            <p className="font-pp-neue-montreal text-white/60 uppercase tracking-wide text-xs md:text-sm">
+              How we work
+            </p>
+            <h2 className="mt-3 font-pp-neue-montreal text-4xl md:text-6xl font-normal leading-tight">
+              Clarity, momentum, and a system that scales.
+            </h2>
+            <p className="mt-6 font-pp-neue-montreal text-white/85 text-base md:text-lg leading-relaxed max-w-3xl">
+              We build operating models that keep teams aligned when reality changes—without
+              slowing them down.
+            </p>
+            <p className="mt-4 font-pp-neue-montreal text-white/75 text-base md:text-lg leading-relaxed max-w-3xl">
+              Strategy becomes execution through simple rituals, explicit ownership, and
+              feedback loops you can actually see.
+            </p>
+          </AnimatedCopyLoop>
         </div>
       </section>
 

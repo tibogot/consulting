@@ -7,11 +7,11 @@ export default function Cards() {
     <div className="w-full bg-black px-4 py-8 md:px-8">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 md:flex-row">
         <div
-          className="relative flex h-96 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-128 md:flex-1"
+          className="relative flex h-80 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-112 md:flex-1"
           style={{ backgroundImage: "url(/img-1.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 wrap-break-word font-pp-neue-montreal text-xl">
+          <h3 className="relative z-10 max-w-[26ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
             Innovation and Cutting-Edge Technology Solutions
           </h3>
           <div className="relative z-10 flex items-end justify-between">
@@ -19,17 +19,17 @@ export default function Cards() {
               Driving cutting-edge solutions that transform industries and
               redefine possibilities.
             </p> */}
-            <div className="ml-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary">
+            <div className="ml-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary">
               <Plus className="h-6 w-6 text-white" strokeWidth={2} />
             </div>
           </div>
         </div>
         <div
-          className="relative flex h-96 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-128 md:flex-1"
+          className="relative flex h-80 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-112 md:flex-1"
           style={{ backgroundImage: "url(/img-2.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 break-words font-pp-neue-montreal text-xl">
+          <h3 className="relative z-10 max-w-[26ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
             Excellence and Unmatched Quality Delivery
           </h3>
           <div className="relative z-10 flex items-end justify-between">
@@ -37,17 +37,17 @@ export default function Cards() {
               Delivering unmatched quality and precision in every project we
               undertake.
             </p> */}
-            <div className="ml-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary">
+            <div className="ml-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary">
               <Plus className="h-6 w-6 text-white" strokeWidth={2} />
             </div>
           </div>
         </div>
         <div
-          className="relative flex h-96 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-128 md:flex-1"
+          className="relative flex h-80 w-full flex-col justify-between overflow-hidden rounded-sm bg-cover bg-center bg-no-repeat p-6 text-white md:h-112 md:flex-1"
           style={{ backgroundImage: "url(/img-3.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 break-words font-pp-neue-montreal text-xl">
+          <h3 className="relative z-10 max-w-[26ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
             Impact and Meaningful Change Creation
           </h3>
           <div className="relative z-10 flex items-end justify-between">
@@ -55,7 +55,7 @@ export default function Cards() {
               Creating meaningful change that resonates with audiences and
               drives results.
             </p> */}
-            <div className="ml-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary">
+            <div className="ml-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary">
               <Plus className="h-6 w-6 text-white" strokeWidth={2} />
             </div>
           </div>

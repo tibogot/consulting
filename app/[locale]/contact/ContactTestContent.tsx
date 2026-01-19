@@ -2,25 +2,34 @@
 
 import { useTranslations } from "next-intl";
 import AnimatedText from "@/app/components/AnimatedText3";
+import HomeLeadForm from "@/app/components/HomeLeadForm";
 
 export default function ContactTestContent() {
   const t = useTranslations("contact");
 
   return (
     <div className="w-full">
-      {/* Hero Section - Using isHero prop like old project */}
-      <section className="relative min-h-screen bg-black flex items-center justify-center px-4 md:px-8">
-        <div className="mx-auto text-center">
-          <AnimatedText isHero>
-            <h1 className="mx-auto mb-6 text-white max-w-4xl text-6xl">
-              {t("hero.title")}
-            </h1>
-          </AnimatedText>
-          <AnimatedText isHero delay={0.0} stagger={0.3}>
-            <p className=" mx-auto max-w-2xl text-lg">
-              {t("hero.subtitle")}
-            </p>
-          </AnimatedText>
+      {/* First section: 50/50 title + form */}
+      <section className="relative min-h-screen bg-black px-4 md:px-8 py-20 md:py-28 flex items-center">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
+            <div className="lg:w-1/2">
+              <AnimatedText isHero>
+                <h1 className="font-pp-neue-montreal text-white text-5xl md:text-7xl font-normal leading-[1.02]">
+                  {t("hero.title")}
+                </h1>
+              </AnimatedText>
+              <AnimatedText isHero delay={0.0} stagger={0.3}>
+                <p className="mt-6 font-pp-neue-montreal text-white/75 text-base md:text-lg leading-relaxed max-w-xl">
+                  {t("hero.subtitle")}
+                </p>
+              </AnimatedText>
+            </div>
+
+            <div className="lg:w-1/2 w-full">
+              <HomeLeadForm />
+            </div>
+          </div>
         </div>
       </section>
 

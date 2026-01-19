@@ -1,20 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { CircleArrowRight, ArrowRight } from "lucide-react";
-import AnimatedText from "../components/AnimatedText3";
 import PartnersTicker from "../components/PartnersTicker";
-import AnimatedButton from "../components/AnimatedButton";
-import FractalGradient from "../components/FractalGradient2";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
-import AnimatedCopy from "../components/AnimatedCopy";
 import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
-import NeoCultureMouseMove from "../components/NeoCultureMouseMove";
-import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 import Cards from "../components/Cards";
-import WhiteSection from "../components/WhiteSection";
 import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
 import ParticleGlobe from "../components/ParticleGlobe";
-import HolographicGlobe from "../components/HolographicGlobe";
+import StackingCardsPin from "../components/StackingCardsPin";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -26,56 +18,41 @@ export default async function Home() {
 
       <PartnersTicker />
 
+      <section className="relative w-full bg-black py-20 px-4 md:px-8">
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal text-white tracking-[-0.02em] max-w-5xl">
+          Trusted by teams who move fast and build for impact.
+        </h2>
+      </section>
+
 
 
       {/* Combined Section - AnimatedCopy */}
-      <section className="relative w-full  bg-black py-10 px-4 md:px-8">
-        {/* <div className="w-full h-px bg-white mb-4"></div> */}
+      {/* <section className="relative w-full  bg-black py-10 px-4 md:px-8">
+        <div className="w-full h-px bg-white mb-4"></div>
         <div className="text-3xl md:text-4xl leading-tight font-normal text-left font-pp-neue-montreal max-w-2xl">
           <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
-            {/* <p className="text-lg md:text-lg mb-10 ">
+            <p className="text-lg md:text-lg mb-10 ">
               Strategic consulting expertise
-            </p> */}
+            </p>
             <h2>
-              {/* <span className="opacity-0 select-none pointer-events-none">
+              <span className="opacity-0 select-none pointer-events-none">
                 Invisible text
-              </span> */}
+              </span>
               We partner with forward-thinking organizations to navigate
               complex business challenges and unlock transformative growth opportunities.
             </h2>
-            {/* <p className="text-lg md:text-lg mt-6 opacity-80 max-w-lg">
+            <p className="text-lg md:text-lg mt-6 opacity-80 max-w-lg">
               Our data-driven approach combines deep industry expertise with innovative
               strategies to deliver measurable results that drive sustainable success.
-            </p> */}
+            </p>
           </AnimatedCopy>
-          <div className="mt-8">
-            {/* <AnimatedButton delay={0.2}>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 px-6 py-3 bg-primary text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] cursor-pointer"
-              >
-                View all solutions
-                <CircleArrowRight className="w-7 h-7 text-white" strokeWidth={1} />
-              </Link>
-            </AnimatedButton> */}
-            {/* <AnimatedButton delay={0.2}>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-3 text-white text-base font-pp-neue-montreal hover:opacity-80 transition-opacity cursor-pointer"
-              >
-                View all solutions
-                <ArrowRight className="w-5 h-5 text-white" strokeWidth={1} />
-              </Link>
-            </AnimatedButton> */}
-          </div>
+          
         </div>
 
-              {/* Cards Section */}
 
 
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 mt-16">
-          {/* Left Column - Bigger Width */}
-          <div className="flex-1 md:flex-[2]">
+          <div className="flex-1 md:flex-2">
             <div className="w-full h-px bg-white mb-4"></div>
             <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
               Industry expertise
@@ -88,7 +65,6 @@ export default async function Home() {
             </p>
           </div>
           
-          {/* Right Column - Smaller Width */}
           <div className="flex-1">
             <div className="w-full h-px bg-white mb-4"></div>
             <h3 className="text-lg md:text-lg mb-4 font-pp-neue-montreal text-white">
@@ -116,13 +92,115 @@ export default async function Home() {
             </h2>
           </AnimatedCopy>
         </div>
-      </section>
+      </section> */}
 
 
       <Cards />
 
+      <section className="relative w-full bg-black py-20 px-4 md:px-8">
+        <div className="w-full">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
+            Strategy that ships. Systems that scale. Results you can measure.
+          </h2>
+
+          <div className="mt-12 h-px w-full bg-white/20" />
+
+          <p className="pt-6 text-white text-sm md:text-base font-pp-neue-montreal">
+            Built for modern teams
+          </p>
+
+          <div className="mt-10 flex flex-col md:flex-row gap-10">
+            <div className="hidden md:block md:w-1/2" />
+
+            <div className="md:w-1/2">
+              <div>
+                <p className="text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                  We work side-by-side with your team to define the real problem
+                  (not just the symptoms), align on success metrics, and map a
+                  path that your organization can actually execute. That means
+                  clarifying scope, identifying constraints early, and turning
+                  scattered inputs into a focused plan with clear owners,
+                  milestones, and trade-offs. The goal is simple: ship meaningful
+                  improvements fast, without compromising quality or creating
+                  future maintenance debt.
+                </p>
+                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                  From discovery to delivery, we turn ambiguity into clear
+                  priorities, aligned stakeholders, and momentum you can sustain
+                  long after launch. We de-risk the critical decisions,
+                  pressure-test assumptions with real users and real data, and
+                  design solutions that fit your tech stack, your timelines, and
+                  your team’s capabilities. Whether you need a new product
+                  direction, a service redesign, or a stronger go-to-market
+                  story, we help you move with confidence—and keep moving when
+                  the scope gets complex.
+                </p>
+                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                  Depending on the engagement, that can include stakeholder
+                  workshops, a measurable roadmap, end-to-end customer journeys,
+                  or a data strategy that supports the decisions you need to
+                  make. When it’s time to build, we translate strategy into
+                  concrete deliverables: requirements engineers can trust,
+                  designs that consider edge cases, and implementation plans
+                  that reduce surprises. The output isn’t a deck that gathers
+                  dust—it’s a set of artifacts your team can execute, iterate,
+                  and own.
+                </p>
+
+                <Link
+                  href="/services"
+                  className="mt-8 inline-flex items-center gap-2 text-white hover:opacity-80 transition-opacity text-sm md:text-base font-pp-neue-montreal"
+                >
+                  Explore services <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div>
+              <div className="h-px w-full bg-white/20" />
+              <div className="pt-6">
+                <h3 className="text-white text-sm md:text-base font-pp-neue-montreal">
+                  Clarity, fast
+                </h3>
+                <p className="mt-4 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                  Sharp research, practical strategy, and decision-ready
+                  artifacts—so your team stops debating and starts building.
+                </p>
+                <Link
+                  href="/services"
+                  className="mt-6 inline-flex items-center gap-2 text-white hover:opacity-80 transition-opacity text-sm md:text-base font-pp-neue-montreal"
+                >
+                  See how we work <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+
+            <div>
+              <div className="h-px w-full bg-white/20" />
+              <div className="pt-6">
+                <h3 className="text-white text-sm md:text-base font-pp-neue-montreal">
+                  Delivery you can trust
+                </h3>
+                <p className="mt-4 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                  Clean execution, predictable cadence, and measurable progress—
+                  built with maintainability and long-term ownership in mind.
+                </p>
+                <Link
+                  href="/services"
+                  className="mt-6 inline-flex items-center gap-2 text-white hover:opacity-80 transition-opacity text-sm md:text-base font-pp-neue-montreal"
+                >
+                  View case studies <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* White Section */}
-      <WhiteSection />
+      {/* <WhiteSection /> */}
 
       {/* Laser Border Cards Section */}
       {/* <section className="relative w-full bg-black py-20 px-4 md:px-8">
@@ -160,7 +238,7 @@ export default async function Home() {
       {/* Animated Vertical Lines Section */}
       <AnimatedVerticalLines
         title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
-        description="Partner with forward-thinking organizations."
+        description="Forward-thinking organizations."
         lineHeight={300}
         animationDuration={3}
         primaryColor="#ff2dff"
@@ -248,7 +326,7 @@ export default async function Home() {
       </section> */}
 
       {/* Particle Globe Section */}
-      <section className="relative w-full h-[100svh]">
+      <section className="relative w-full h-svh">
         <ParticleGlobe className="w-full h-full" />
       </section>
 
@@ -256,6 +334,9 @@ export default async function Home() {
       {/* <section className="relative w-full h-[100svh]">
         <HolographicGlobe className="w-full h-full" />
       </section> */}
+
+      {/* Stacking Cards Pin Section */}
+      <StackingCardsPin />
     </div>
   );
 }

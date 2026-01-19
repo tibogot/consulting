@@ -384,7 +384,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         )}
 
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/10 z-0" />
+        <div className="absolute inset-0 bg-black/20 z-0" />
         {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
         <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.5)] rounded-[inherit]" />
       </div>
@@ -395,13 +395,13 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         <div className="max-w-3xl">
           <h1
             ref={titleRef}
-            className="text-4xl md:text-7xl font-normal text-white mb-4 md:mb-6 font-pp-neue-montreal text-left opacity-0"
+            className="text-4xl md:text-7xl font-normal text-white mb-4 md:mb-6 font-pp-neue-montreal text-left opacity-0 tracking-[-0.02em]"
           >
             {title}
           </h1>
           <p
             ref={descriptionRef}
-            className="text-base md:text-lg text-white/80 font-pp-neue-montreal max-w-lg opacity-0"
+            className="text-base md:text-lg text-white font-pp-neue-montreal max-w-lg opacity-0"
           >
             Join our team of innovators, designers, and engineers building
             exceptional digital experiences.

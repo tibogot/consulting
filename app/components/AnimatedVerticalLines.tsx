@@ -102,7 +102,7 @@ export default function AnimatedVerticalLines({
         <h1 className="text-white text-4xl md:text-6xl font-normal mb-6 font-pp-neue-montreal">
           {title}
         </h1>
-        <p className="text-gray-300 text-sm md:text-base font-pp-neue-montreal uppercase">
+        <p className="text-gray-300 text-sm md:text-sm font-pp-neue-montreal uppercase">
           {description}
         </p>
       </div>
