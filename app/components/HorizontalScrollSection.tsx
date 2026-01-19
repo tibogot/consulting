@@ -38,6 +38,15 @@ export default function HorizontalScrollSection({
   useGSAP(() => {
     if (!containerRef.current) return;
 
+    // This component was originally tuned for 2 slides. Make all distances and
+    // translate values depend on the number of slides so it behaves consistently.
+    const slidesCount = Math.max(slides.length, 1);
+    const totalPanels = slidesCount + 1; // spacer + slides
+    const wrapperEndXPercent = -(slidesCount / totalPanels) * 100;
+    const pinnedImageEndXPercent = -slidesCount * 100;
+    const pinDistanceMultiplier = 2.5; // 2 slides => 5vh * innerHeight
+    const updateDistanceMultiplier = 2.75; // 2 slides => 5.5vh * innerHeight
+
     const lightColor = getComputedStyle(document.documentElement)
       .getPropertyValue("--light")
       .trim() || "#edf1e8";
@@ -117,7 +126,7 @@ export default function HorizontalScrollSection({
     ScrollTrigger.create({
       trigger: ".horizontal-scroll",
       start: "top top",
-      end: () => `+=${window.innerHeight * 5}`,
+      end: () => `+=${window.innerHeight * pinDistanceMultiplier * slidesCount}`,
       pin: true,
     });
 
@@ -132,7 +141,8 @@ export default function HorizontalScrollSection({
     ScrollTrigger.create({
       trigger: ".horizontal-scroll",
       start: "top 50%",
-      end: () => `+=${window.innerHeight * 5.5}`,
+      end: () =>
+        `+=${window.innerHeight * updateDistanceMultiplier * slidesCount}`,
       onEnter: () => {
         if (
           pinnedMarqueeImgCloneRef.current &&
@@ -178,7 +188,8 @@ export default function HorizontalScrollSection({
     ScrollTrigger.create({
       trigger: ".horizontal-scroll",
       start: "top 50%",
-      end: () => `+=${window.innerHeight * 5.5}`,
+      end: () =>
+        `+=${window.innerHeight * updateDistanceMultiplier * slidesCount}`,
       onUpdate: (self) => {
         const progress = self.progress;
 
@@ -216,16 +227,14 @@ export default function HorizontalScrollSection({
 
           const horizontalProgress = (progress - 0.2) / 0.75;
 
-          const wrapperTranslateX = -66.67 * horizontalProgress;
+          const wrapperTranslateX = wrapperEndXPercent * horizontalProgress;
           gsap.set(".horizontal-scroll-wrapper", {
             x: `${wrapperTranslateX}%`,
           });
 
-          const slideMovement = (66.67 / 100) * 3 * horizontalProgress;
-          const imageTranslateX = -slideMovement * 100;
           if (pinnedMarqueeImgCloneRef.current) {
             gsap.set(pinnedMarqueeImgCloneRef.current, {
-              x: `${imageTranslateX}%`,
+              x: `${pinnedImageEndXPercent * horizontalProgress}%`,
             });
           }
         } else if (progress > 0.95) {
@@ -234,11 +243,11 @@ export default function HorizontalScrollSection({
           }
           if (pinnedMarqueeImgCloneRef.current) {
             gsap.set(pinnedMarqueeImgCloneRef.current, {
-              x: "-200%",
+              x: `${pinnedImageEndXPercent}%`,
             });
           }
           gsap.set(".horizontal-scroll-wrapper", {
-            x: "-66.67%",
+            x: `${wrapperEndXPercent}%`,
           });
         }
       },

@@ -1,19 +1,33 @@
-import { getTranslations } from 'next-intl/server';
 import SearchSelectionHero from '@/app/components/SearchSelectionHero';
-import HorizontalScrollFeatures from '@/app/components/HorizontalScrollFeatures';
+import HorizontalScrollSection from '@/app/components/HorizontalScrollSection';
 import StackingBenefits from '@/app/components/StackingBenefits';
 import ProcessTimeline from '@/app/components/ProcessTimeline';
 
 export default async function SearchSelectionPage() {
-  const t = await getTranslations('services.searchSelection');
-
   return (
     <div className="w-full min-h-screen bg-black">
       {/* Hero with Pin Animation */}
       <SearchSelectionHero />
 
-      {/* Horizontal Scroll Features */}
-      <HorizontalScrollFeatures />
+      {/* Horizontal Scroll Section */}
+      <HorizontalScrollSection
+        heroText="A search process built for clarity, speed, and confident decisions."
+        slides={[
+          {
+            text: "Deep market intelligence and targeted sourcing to surface leaders who can deliver—not just interview well.",
+            image: "/slide-1.jpg",
+          },
+          {
+            text: "Rigorous assessment and stakeholder alignment so the shortlist is smaller, sharper, and truly comparable.",
+            image: "/slide-2.jpg",
+          },
+          {
+            text: "Confidential, end-to-end coordination—from outreach to offer—designed to protect your brand and candidate experience.",
+            image: "/img-3.jpg",
+          },
+        ]}
+        outroText="From first brief to signed offer, we keep momentum high and quality uncompromised."
+      />
 
       {/* Stacking Benefits Cards */}
       <StackingBenefits />

@@ -49,9 +49,12 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
 
       const lastCard = cardEls[cardEls.length - 1] as HTMLElement;
 
+      // Store ScrollTrigger instances for explicit cleanup
+      const scrollTriggers: ScrollTrigger[] = [];
+
       cardEls.forEach((card) => {
         // Pin each card at the exact same position (top: 80px)
-        ScrollTrigger.create({
+        const st = ScrollTrigger.create({
           trigger: card,
           start: "top top+=80",
           pin: true,
@@ -61,7 +64,14 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
           invalidateOnRefresh: true,
           // markers: true,
         });
+
+        scrollTriggers.push(st);
       });
+
+      // Cleanup function - explicitly kill all ScrollTrigger instances
+      return () => {
+        scrollTriggers.forEach((st) => st.kill());
+      };
     },
     { scope: sectionRef, dependencies: [cards.length] }
   );

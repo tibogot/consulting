@@ -47,12 +47,14 @@ const PinnedClipPathAnimation = () => {
         });
       }
 
-      // useGSAP automatically handles cleanup via gsap.context()
-      // No manual cleanup needed unless you have custom event listeners
+      // Cleanup function - kills timeline and its associated ScrollTrigger (including pin spacer)
+      return () => {
+        tl2.kill();
+      };
     },
     {
       scope: containerRef, // Scopes selectors to this container for better performance
-      dependencies: [scrollEnd], // Recreate animation when scrollEnd changes
+      dependencies: [], // scrollEnd is a constant, no need to recreate animation
     }
   );
 

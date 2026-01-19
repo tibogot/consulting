@@ -131,6 +131,14 @@ export default function PartnersTicker({
           // the next set is already in view creating a seamless infinite loop
         });
       }
+
+      // Cleanup function - kills animation when component unmounts or dependencies change
+      return () => {
+        if (animationRef.current) {
+          animationRef.current.kill();
+          animationRef.current = null;
+        }
+      };
     },
     {
       scope: containerRef,

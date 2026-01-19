@@ -339,6 +339,28 @@ export default async function Home() {
       {/* Stacking Cards Pin Section */}
       <StackingCardsPin />
 
+      {/* Blue Section (same layout as About/Us) */}
+      <section className="relative w-full h-svh bg-blue-700 text-white">
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-8 h-full flex items-center">
+          <div className="font-pp-neue-montreal max-w-3xl">
+            <p className="text-white/70 uppercase tracking-wide text-xs md:text-sm">
+              Next
+            </p>
+            <h2 className="mt-3 text-4xl md:text-6xl font-normal leading-tight">
+              A partner that ships
+            </h2>
+            <p className="mt-5 text-white/85 text-base md:text-lg leading-relaxed">
+              From discovery to delivery, we work side-by-side with your team to turn
+              ambiguity into clear priorities and real momentum.
+            </p>
+            <p className="mt-4 text-white/75 text-base md:text-lg leading-relaxed">
+              The goal is simple: move faster with confidence—without sacrificing quality,
+              maintainability, or long-term ownership.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Closing Loop Section */}
       <section className="relative w-full h-[80vh] bg-black border-t border-white/10 flex items-center justify-center px-4 md:px-8">
         <div className="w-full max-w-6xl mx-auto text-center">
