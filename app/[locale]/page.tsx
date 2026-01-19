@@ -7,6 +7,7 @@ import Cards from "../components/Cards";
 import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
 import ParticleGlobe from "../components/ParticleGlobe";
 import StackingCardsPin from "../components/StackingCardsPin";
+import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -337,6 +338,27 @@ export default async function Home() {
 
       {/* Stacking Cards Pin Section */}
       <StackingCardsPin />
+
+      {/* Closing Loop Section */}
+      <section className="relative w-full h-[80vh] bg-black border-t border-white/10 flex items-center justify-center px-4 md:px-8">
+        <div className="w-full max-w-6xl mx-auto text-center">
+        <AnimatedCopyLoop
+          colorInitial="#777777"
+          colorAccent="#8202FF"
+          colorFinal="#ffffff"
+          staggerEach={0.008}
+          // durationToAccent={0.25}
+          // durationToFinal={0.2}
+          // durationToInitial={0.25}
+          // repeatDelay={0.3}
+>
+            <h2 className="font-pp-neue-montreal font-normal text-[#777777] text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-[-0.02em]">
+              Ready to build something that moves fast, scales clean, and feels
+              inevitable?
+            </h2>
+          </AnimatedCopyLoop>
+        </div>
+      </section>
     </div>
   );
 }

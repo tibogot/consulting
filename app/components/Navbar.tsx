@@ -194,13 +194,22 @@ function MobileAccordion({
           className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
-      {isOpen && (
-        <div className="ml-4 mt-2 space-y-2">
+      <div
+        className={`ml-4 overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen
+            ? "max-h-[400px] opacity-100 translate-y-0 mt-2"
+            : "max-h-0 opacity-0 -translate-y-1 mt-0 pointer-events-none"
+        }`}
+        aria-hidden={!isOpen}
+      >
+        <div className="space-y-2">
           {items.map((item) => (
             <Link
               key={item.href + (item.code || "")}
               href={item.href as AppPathname}
-              {...(isLanguage && item.code ? { locale: item.code as "fr" | "en" | "nl" } : {})}
+              {...(isLanguage && item.code
+                ? { locale: item.code as "fr" | "en" | "nl" }
+                : {})}
               onClick={onLinkClick}
               className={`block text-sm transition-colors ${
                 isLanguage
@@ -216,7 +225,7 @@ function MobileAccordion({
             </Link>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -433,10 +442,13 @@ export default function Navbar() {
     language.isHovered;
 
   const toggleMobileMenu = (menu: string) => {
-    setMobileOpenMenu(mobileOpenMenu === menu ? null : menu);
+    setMobileOpenMenu((current) => (current === menu ? null : menu));
   };
 
-  const closeMobileMenu = () => setIsMenuOpen(false);
+  const closeMobileMenu = () => {
+    setIsMenuOpen(false);
+    setMobileOpenMenu(null);
+  };
 
   return (
     <nav
@@ -550,7 +562,12 @@ export default function Navbar() {
 
             {/* Mobile Menu Button */}
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() =>
+                setIsMenuOpen((open) => {
+                  if (open) setMobileOpenMenu(null);
+                  return !open;
+                })
+              }
               className="md:hidden p-2 text-white/90 hover:text-white"
               aria-label="Toggle menu"
             >
@@ -666,9 +683,16 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 pb-6 border-t border-white/10">
+        {/* Mobile Navigation (keep mounted so it can animate) */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen
+              ? "max-h-[900px] opacity-100 translate-y-0 border-t border-white/10"
+              : "max-h-0 opacity-0 -translate-y-2 border-t border-transparent pointer-events-none"
+          }`}
+          aria-hidden={!isMenuOpen}
+        >
+          <div className="py-4 pb-6">
             <div className="flex flex-col space-y-4">
               <MobileAccordion
                 title={t("services")}
@@ -745,7 +769,7 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
