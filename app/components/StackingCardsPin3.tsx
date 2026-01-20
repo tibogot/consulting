@@ -21,19 +21,19 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
         kicker: "Strategy",
         title: "Align the narrative",
         body: "A pinned moment that turns scrolling into structure. Cards stack with precise spacing, then release back to the page.",
-        imageSrc: "/images/cards/charlesdeluvio.jpg",
+        imageSrc: "/img-7.jpg",
       },
       {
         kicker: "Execution",
         title: "Build the system",
         body: "Each card translates upward into a clean stack. Smooth, predictable pin behavior (Lenis + ScrollTrigger compatible).",
-        imageSrc: "/images/cards/clay.jpg",
+        imageSrc: "/img-11.jpg",
       },
       {
         kicker: "Outcome",
         title: "Ship with clarity",
         body: "At the end of the pinned range, the stack is complete and the section unpins so you can continue scrolling naturally.",
-        imageSrc: "/images/cards/malte.jpg",
+        imageSrc: "/img-3.jpg",
       },
     ],
     []
@@ -56,11 +56,11 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
         // Pin each card at the exact same position (top: 80px)
         const st = ScrollTrigger.create({
           trigger: card,
-          start: "top top+=100",
+          start: "top top+=80",
           pin: true,
           pinSpacing: false,
           endTrigger: lastCard, // All cards wait for the last card
-          end: "top top+=100", // Unpin when last card reaches the pin position
+          end: "top top+=80", // Unpin when last card reaches the pin position
           invalidateOnRefresh: true,
           // markers: true,
         });
@@ -93,7 +93,7 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
           </div>
 
           {/* Cards container */}
-          <div ref={cardsContainerRef} className="flex justify-center pt-16 ">
+          <div ref={cardsContainerRef} className="flex justify-center">
             <div className="w-[92%] md:w-[70%]">
               {cards.map((card, index) => (
                 <article
@@ -101,8 +101,8 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
                   data-stacking-card
                   className="w-full overflow-hidden rounded-sm border border-white/10 bg-white/5 mb-12"
                   style={{
-                    height: '600px',
-                    // top: `${40 + index * 5}px`, // Small offset like the example (40px, 45px, 50px)
+                    height: '500px',
+                    top: `${40 + index * 5}px`, // Small offset like the example (40px, 45px, 50px)
                   }}
                 >
                   <div className="relative w-full h-full">
