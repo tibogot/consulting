@@ -33,6 +33,13 @@ export const routing = defineRouting({
       en: '/services/managed',
       nl: '/diensten/beheerd',
     },
+
+    // Clamp test page
+    '/clamptest': {
+      fr: '/clamptest',
+      en: '/clamptest',
+      nl: '/clamptest',
+    },
     
     // Hubs
     '/hubs': {
