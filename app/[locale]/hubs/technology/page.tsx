@@ -1,4 +1,5 @@
 import Image from "next/image";
+import TalentFlowMorph from "@/app/components/TalentFlowMorph";
 
 export default function TechnologyHubPage() {
   return (
@@ -22,6 +23,10 @@ export default function TechnologyHubPage() {
         <p className="mt-8 text-white/80 font-pp-neue-montreal text-base md:text-lg leading-relaxed max-w-3xl">
           We design and build scalable digital products, modern platforms, and automated workflows.
         </p>
+      </section>
+
+      <section className="w-full">
+        <TalentFlowMorph className="w-full" />
       </section>
     </div>
   );
