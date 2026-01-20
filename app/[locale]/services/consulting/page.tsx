@@ -10,7 +10,7 @@ export default async function ConsultingPage() {
       <ManagedServicesHero
         title={t("title")}
         description={t("description")}
-        imageSrc="/behnam-norouzi.jpg"
+        imageSrc="/paul-mocan.jpg"
         imageAlt="Consulting Services Hero"
       />
     </div>

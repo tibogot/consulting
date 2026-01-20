@@ -1,13 +1,21 @@
-import SearchSelectionHero from '@/app/components/SearchSelectionHero';
-import HorizontalScrollSection from '@/app/components/HorizontalScrollSection';
-import StackingBenefits from '@/app/components/StackingBenefits';
-import ProcessTimeline from '@/app/components/ProcessTimeline';
+import { getTranslations } from "next-intl/server";
+import ManagedServicesHero from "@/app/components/ManagedServicesHero";
+import HorizontalScrollSection from "@/app/components/HorizontalScrollSection";
+import StackingBenefits from "@/app/components/StackingBenefits";
+import ProcessTimeline from "@/app/components/ProcessTimeline";
 
 export default async function SearchSelectionPage() {
+  const t = await getTranslations("services.searchSelection");
+
   return (
     <div className="w-full min-h-screen bg-black">
-      {/* Hero with Pin Animation */}
-      <SearchSelectionHero />
+      {/* Hero (same concept as Managed Services / Consulting) */}
+      <ManagedServicesHero
+        title={t("title")}
+        description={t("description")}
+        imageSrc="/mike-kononov.jpg"
+        imageAlt="Search & Selection Hero"
+      />
 
       {/* Horizontal Scroll Section */}
       <HorizontalScrollSection
