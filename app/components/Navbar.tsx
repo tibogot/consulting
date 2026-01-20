@@ -109,7 +109,7 @@ function DropdownMenu({
           onMouseLeave={onMouseLeave}
         >
           {/* Left Image Section */}
-          <div className="w-96 h-full relative flex-shrink-0 p-4 overflow-hidden rounded-lg">
+          <div className="w-96 h-96 relative flex-shrink-0 p-4 overflow-hidden rounded-lg">
             <div className="w-full h-full relative overflow-hidden rounded-lg">
               <img
                 src={image}
@@ -340,7 +340,7 @@ export default function Navbar() {
   // Menu configurations
   const menuConfigs = {
     services: {
-      image: "/slide-1.jpg",
+      image: "/images/cards/clay.jpg",
       titleHref: "/services" as const,
       items: [
         {
@@ -361,7 +361,7 @@ export default function Navbar() {
       ],
     },
     hubs: {
-      image: "/slide-2.jpg",
+      image: "/images/cards/malte.jpg",
       titleHref: "/hubs" as const,
       items: [
         {
@@ -382,7 +382,7 @@ export default function Navbar() {
       ],
     },
     about: {
-      image: "/img-1.jpg",
+      image: "/images/cards/charlesdeluvio.jpg",
       titleHref: "/about" as const,
       items: [
         {
@@ -403,7 +403,7 @@ export default function Navbar() {
       ],
     },
     careers: {
-      image: "/img-2.jpg",
+      image: "/images/cards/zac-wolff.jpg",
       titleHref: "/careers" as const,
       items: [
         {
