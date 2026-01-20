@@ -129,6 +129,13 @@ export const routing = defineRouting({
       en: '/cookies',
       nl: '/cookies',
     },
+
+    // Gradients (demo page)
+    '/gradients': {
+      fr: '/gradients',
+      en: '/gradients',
+      nl: '/gradients',
+    },
     
     // Demo routes
     '/gta-scroll-demo': {
