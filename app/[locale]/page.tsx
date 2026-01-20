@@ -19,8 +19,8 @@ export default async function Home() {
 
       <PartnersTicker />
 
-      <section className="relative w-full bg-black py-20 px-4 md:px-8">
-        <h2 className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal text-white tracking-[-0.02em] max-w-5xl">
+      <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
+        <h2 className="text-5xl md:text-5xl   text-left font-pp-neue-montreal text-white tracking-[-0.02em] max-w-3xl">
           Trusted by teams who move fast and build for impact.
         </h2>
       </section>
@@ -279,41 +279,6 @@ export default async function Home() {
         <StickyCards3D2 />
       </section> */}
 
-      {/* Newsletter Section */}
-      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
-        <FractalGradient zIndex={10} position="absolute" />
-        <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
-          <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
-            <h2>Stay Updated</h2>
-          </AnimatedText>
-          <AnimatedText
-            delay={0.2}
-            className="text-base md:text-lg text-white font-pp-neue-montreal mb-8 md:mb-10 max-w-2xl"
-          >
-            <p>
-              Subscribe to our newsletter to stay informed about the latest
-              insights, innovations, and opportunities in technology and
-              business.
-            </p>
-          </AnimatedText>
-          <AnimatedButton delay={0.4}>
-            <form className="w-full max-w-md flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                required
-                className="flex-1 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 font-pp-neue-montreal focus:outline-none focus:border-[#8202FF] transition-colors"
-              />
-              <button
-                type="submit"
-                className="px-8 py-3 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </form>
-          </AnimatedButton>
-        </div>
-      </section> */}
 
       {/* NeoCulture Mouse Move Section */}
       {/* <section className="relative w-full h-svh bg-black">
@@ -360,6 +325,42 @@ export default async function Home() {
           </div>
         </div>
       </section>
+            {/* Newsletter Section */}
+      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+        <FractalGradient zIndex={10} position="absolute" />
+        <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
+          <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
+            <h2>Stay Updated</h2>
+          </AnimatedText>
+          <AnimatedText
+            delay={0.2}
+            className="text-base md:text-lg text-white font-pp-neue-montreal mb-8 md:mb-10 max-w-2xl"
+          >
+            <p>
+              Subscribe to our newsletter to stay informed about the latest
+              insights, innovations, and opportunities in technology and
+              business.
+            </p>
+          </AnimatedText>
+          <AnimatedButton delay={0.4}>
+            <form className="w-full max-w-md flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                className="flex-1 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 font-pp-neue-montreal focus:outline-none focus:border-[#8202FF] transition-colors"
+              />
+              <button
+                type="submit"
+                className="px-8 py-3 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          </AnimatedButton>
+        </div>
+      </section> */}
+
 
       {/* Closing Loop Section */}
       <section className="relative w-full h-[80vh] bg-black border-t border-white/10 flex items-center justify-center px-4 md:px-8">

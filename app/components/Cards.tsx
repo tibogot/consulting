@@ -7,11 +7,11 @@ export default function Cards() {
     <div className="w-full bg-black">
       <div className="flex w-full flex-col md:flex-row">
         <div
-          className="relative flex h-[560px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-6 text-white md:flex-1 md:h-[640px]"
-          style={{ backgroundImage: "url(/img-1.jpg)" }}
+          className="relative flex h-[560px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-8 text-white md:flex-1 md:h-[640px]"
+          style={{ backgroundImage: "url(/images/cards/charlesdeluvio.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 max-w-[26ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
+          <h3 className="relative z-10 max-w-[24ch] md:max-w-[20ch] lg:max-w-[18ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
             Innovation and Cutting-Edge Technology Solutions
           </h3>
           <div className="relative z-10 flex items-end justify-between">
@@ -25,11 +25,11 @@ export default function Cards() {
           </div>
         </div>
         <div
-          className="relative flex h-[560px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-6 text-white md:flex-1 md:h-[640px]"
-          style={{ backgroundImage: "url(/img-2.jpg)" }}
+          className="relative flex h-[560px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-8 text-white md:flex-1 md:h-[640px]"
+          style={{ backgroundImage: "url(/images/cards/clay.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 max-w-[26ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
+          <h3 className="relative z-10 max-w-[24ch] md:max-w-[20ch] lg:max-w-[18ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
             Excellence and Unmatched Quality Delivery
           </h3>
           <div className="relative z-10 flex items-end justify-between">
@@ -43,11 +43,11 @@ export default function Cards() {
           </div>
         </div>
         <div
-          className="relative flex h-[560px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-6 text-white md:flex-1 md:h-[640px]"
-          style={{ backgroundImage: "url(/img-3.jpg)" }}
+          className="relative flex h-[560px] w-full flex-col justify-between overflow-hidden bg-cover bg-center bg-no-repeat p-8 text-white md:flex-1 md:h-[640px]"
+          style={{ backgroundImage: "url(/images/cards/malte.jpg)" }}
         >
           <div className="absolute inset-0 z-0 bg-black/10"></div>
-          <h3 className="relative z-10 max-w-[26ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
+          <h3 className="relative z-10 max-w-[24ch] md:max-w-[20ch] lg:max-w-[18ch] wrap-break-word font-pp-neue-montreal text-xl leading-tight">
             Impact and Meaningful Change Creation
           </h3>
           <div className="relative z-10 flex items-end justify-between">
