@@ -9,6 +9,12 @@ import ParticleGlobe from "../components/ParticleGlobe";
 import StackingCardsPin from "../components/StackingCardsPin";
 import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 
+
+import AnimatedText from "../components/AnimatedText3";
+import AnimatedButton from "../components/AnimatedButton";
+import FractalGradient from "../components/FractalGradient2";
+
+
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
 
@@ -115,7 +121,7 @@ export default async function Home() {
 
             <div className="md:w-1/2">
               <div>
-                <p className="text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                <p className="text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg">
                   We work side-by-side with your team to define the real problem
                   (not just the symptoms), align on success metrics, and map a
                   path that your organization can actually execute. That means
@@ -125,7 +131,7 @@ export default async function Home() {
                   improvements fast, without compromising quality or creating
                   future maintenance debt.
                 </p>
-                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg">
                   From discovery to delivery, we turn ambiguity into clear
                   priorities, aligned stakeholders, and momentum you can sustain
                   long after launch. We de-risk the critical decisions,
@@ -136,7 +142,7 @@ export default async function Home() {
                   story, we help you move with confidence—and keep moving when
                   the scope gets complex.
                 </p>
-                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal">
+                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg">
                   Depending on the engagement, that can include stakeholder
                   workshops, a measurable roadmap, end-to-end customer journeys,
                   or a data strategy that supports the decisions you need to
@@ -326,7 +332,7 @@ export default async function Home() {
         </div>
       </section>
             {/* Newsletter Section */}
-      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
@@ -359,7 +365,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section> */}
+      </section>
 
 
       {/* Closing Loop Section */}
