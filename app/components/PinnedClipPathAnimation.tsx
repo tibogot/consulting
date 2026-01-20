@@ -71,7 +71,6 @@ const PinnedClipPathAnimation = () => {
             sizes="100vw"
             placeholder="blur"
             blurDataURL={blurPlaceholders["alev-takil"]}
-            quality={70}
           />
           {/* Content Container - Flex Layout */}
           <div className="absolute inset-0 z-40 flex flex-col justify-between px-4 pb-16 md:px-8 md:pb-24 pt-30 md:pt-30">
@@ -111,7 +110,6 @@ const PinnedClipPathAnimation = () => {
             sizes="100vw"
             placeholder="blur"
             blurDataURL={blurPlaceholders["channel-82"]}
-            quality={70}
           />
           {/* Content Container - Flex Layout */}
           <div className="absolute inset-0 z-40 flex flex-col justify-between px-4 pb-16 md:px-8 md:pb-24 pt-30 md:pt-30">
@@ -150,7 +148,6 @@ const PinnedClipPathAnimation = () => {
             sizes="100vw"
             placeholder="blur"
             blurDataURL={blurPlaceholders["campaign-creators"]}
-            quality={70}
           />
           {/* Content Container - Flex Layout */}
           <div className="absolute inset-0 z-40 flex flex-col justify-between px-4 pb-16 md:px-8 md:pb-24 pt-30 md:pt-30">
