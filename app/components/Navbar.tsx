@@ -104,7 +104,7 @@ function DropdownMenu({
       />
       <div className="pt-0 pb-0">
         <div
-          className="flex min-h-96 p-4 pb-6"
+          className="flex min-h-96 pb-6"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
@@ -591,7 +591,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Dropdown Menus - Inline Expansion (always rendered, animated via CSS) */}
-        <div className="hidden md:block px-4 sm:px-6 lg:px-8">
+        <div className="hidden md:block">
           {/* Services Dropdown */}
           <DropdownMenu
             items={menuConfigs.services.items}

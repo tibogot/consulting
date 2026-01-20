@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { useGSAP, gsap } from "@/lib/gsapConfig";
+import ManagedServicesHero from "@/app/components/ManagedServicesHero";
 import PinnedClipPathAnimation from "@/app/components/PinnedClipPathAnimation";
 import StackingCardsPin from "@/app/components/StackingCardsPin";
 
@@ -38,51 +39,11 @@ export default function ManagedServicesPage() {
 
   return (
     <div className="w-full min-h-screen bg-black">
-      {/* Hero Section - Full Screen with BG Image */}
-      <section className="relative w-full h-[100svh] overflow-hidden">
-        <Image
-          src="/behnam-norouzi.jpg"
-          alt="Managed Services Hero"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
-
-        <div className="absolute inset-0 flex flex-col justify-between px-4 md:px-8 py-16 md:py-24">
-          <div className="flex items-start gap-1">
-            <span className="text-[100px] sm:text-[120px] md:text-[150px] font-normal text-white font-pp-neue-montreal leading-none">
-              MS
-            </span>
-          </div>
-
-          <div className="max-w-4xl">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal text-white font-pp-neue-montreal leading-[1.05] tracking-[-0.02em]">
-              Managed Services
-            </h1>
-            <p className="mt-6 text-white/90 text-lg md:text-xl font-pp-neue-montreal max-w-2xl">
-              End-to-end operations management. From infrastructure to delivery,
-              we handle the complexity so your team can focus on what matters.
-            </p>
-            <div className="mt-8 h-px w-full bg-white/20" />
-            <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              <Link
-                href="#overview"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-black font-pp-neue-montreal text-sm md:text-base hover:bg-white/90 transition-colors"
-              >
-                Explore services
-              </Link>
-              <Link
-                href="#contact"
-                className="inline-flex items-center justify-center px-8 py-4 border border-white text-white font-pp-neue-montreal text-sm md:text-base hover:bg-white/10 transition-colors"
-              >
-                Get in touch
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <ManagedServicesHero
+        title="Managed Services"
+        description="End-to-end operations management. From infrastructure to delivery, we handle the complexity so your team can focus on what matters."
+      />
 
       {/* Overview Section */}
       <section id="overview" className="relative w-full bg-black py-24 px-4 md:px-8">

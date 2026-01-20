@@ -22,7 +22,7 @@ const PinnedClipPathAnimation = () => {
           trigger: wrapper,
           start: "top top",
           end: scrollEnd,
-          scrub: true,
+          scrub: 1,
           pin: true,
           // anticipatePin: 1,
           invalidateOnRefresh: true, // Better responsive behavior
@@ -40,9 +40,9 @@ const PinnedClipPathAnimation = () => {
       const img3 = section3?.querySelector("img");
 
       // Set initial scales
-      if (img1) gsap.set(img1, { scale: 1.3 });
-      if (img2) gsap.set(img2, { scale: 1.3 });
-      if (img3) gsap.set(img3, { scale: 1.3 });
+      if (img1) gsap.set(img1, { scale: 1 });
+      if (img2) gsap.set(img2, { scale: 1 });
+      if (img3) gsap.set(img3, { scale: 1 });
 
       if (section2 && img1 && img2) {
         tl2.to(
