@@ -1,16 +1,26 @@
-import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
-export default async function EngineeringHubPage() {
-  const t = await getTranslations("hubs.engineering");
-
+export default function EngineeringHubPage() {
   return (
     <div className="w-full min-h-screen bg-black">
-      <section className="mx-auto w-full max-w-6xl px-4 md:px-8 py-20">
-        <h1 className="text-white font-pp-neue-montreal font-normal text-4xl md:text-6xl leading-tight tracking-[-0.02em]">
-          {t("title")}
+      <section className=" w-full px-4 md:px-8 pt-64 pb-20">
+        <h1 className="text-left text-white font-pp-neue-montreal font-normal text-5xl md:text-7xl max-w-3xl tracking-[-0.02em]">
+          Engineering
         </h1>
-        <p className="mt-6 text-white/80 font-pp-neue-montreal text-base md:text-lg leading-relaxed max-w-3xl">
-          {t("description")}
+
+        <div className="mt-20 relative h-[80vh] w-full -mx-4 md:-mx-8 overflow-hidden">
+          <Image
+            src="/thisisengineering.jpg"
+            alt="Engineering"
+            fill
+            priority
+            className="object-cover"
+            sizes="(min-width: 768px) 1024px, 100vw"
+          />
+        </div>
+
+        <p className="mt-8 text-white/80 font-pp-neue-montreal text-base md:text-lg leading-relaxed max-w-3xl">
+          We design and build reliable systems, from prototypes to production-grade infrastructure.
         </p>
       </section>
     </div>
