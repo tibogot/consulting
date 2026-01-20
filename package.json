@@ -19,8 +19,10 @@
     "lucide-react": "^0.562.0",
     "next": "16.1.2",
     "next-intl": "^4.6.1",
+    "plaiceholder": "^3.0.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "sharp": "^0.34.5",
     "three": "^0.182.0"
   },
   "devDependencies": {
@@ -37,7 +39,9 @@
     "typescript": "^5"
   },
   "prettier": {
-    "plugins": ["prettier-plugin-tailwindcss"],
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
     "tailwindStylesheet": "./app/globals.css"
   }
 }
