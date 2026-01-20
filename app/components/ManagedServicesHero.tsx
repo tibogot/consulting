@@ -7,6 +7,8 @@ import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
 interface ManagedServicesHeroProps {
   title: string;
   description: string;
+  imageSrc?: string;
+  imageAlt?: string;
 }
 
 // Animation timing config
@@ -17,7 +19,12 @@ const ANIMATION_CONFIG = {
   ctaOverlap: 0.4,
 };
 
-export default function ManagedServicesHero({ title, description }: ManagedServicesHeroProps) {
+export default function ManagedServicesHero({
+  title,
+  description,
+  imageSrc = "/campaign-creators.jpg",
+  imageAlt = "Managed Services Hero",
+}: ManagedServicesHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -213,8 +220,8 @@ export default function ManagedServicesHero({ title, description }: ManagedServi
         style={{ willChange: "clip-path, transform" }}
       >
         <Image
-          src="/campaign-creators.jpg"
-          alt="Managed Services Hero"
+          src={imageSrc}
+          alt={imageAlt}
           fill
           priority
           className="object-cover"

@@ -1,12 +1,18 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
+import ManagedServicesHero from "@/app/components/ManagedServicesHero";
 
 export default async function ConsultingPage() {
-  const t = await getTranslations('services.consulting');
-  
+  const t = await getTranslations("services.consulting");
+
   return (
-    <div className="min-h-screen py-16 px-8">
-      <h1 className="text-4xl font-bold mb-8">{t('title')}</h1>
-      <p className="text-lg">{t('description')}</p>
+    <div className="w-full min-h-screen bg-black">
+      {/* Hero Section (same concept as Managed Services) */}
+      <ManagedServicesHero
+        title={t("title")}
+        description={t("description")}
+        imageSrc="/behnam-norouzi.jpg"
+        imageAlt="Consulting Services Hero"
+      />
     </div>
   );
 }
