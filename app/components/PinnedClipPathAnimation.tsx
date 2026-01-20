@@ -30,22 +30,72 @@ const PinnedClipPathAnimation = () => {
         },
       });
 
-      // Images Clip-Path animations
+      // Images Clip-Path and Scale animations
+      const section1 = containerRef.current.querySelector(".section1");
       const section2 = containerRef.current.querySelector(".section2");
       const section3 = containerRef.current.querySelector(".section3");
 
-      if (section2) {
-        tl2.to(section2, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "power1.out",
-        });
+      const img1 = section1?.querySelector("img");
+      const img2 = section2?.querySelector("img");
+      const img3 = section3?.querySelector("img");
+
+      // Set initial scales
+      if (img1) gsap.set(img1, { scale: 1.3 });
+      if (img2) gsap.set(img2, { scale: 1.3 });
+      if (img3) gsap.set(img3, { scale: 1.3 });
+
+      if (section2 && img1 && img2) {
+        tl2.to(
+          section2,
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "power1.out",
+          },
+          0
+        );
+        tl2.to(
+          img1,
+          {
+            scale: 1,
+            ease: "power1.out",
+          },
+          0
+        );
+        tl2.to(
+          img2,
+          {
+            scale: 1,
+            ease: "power1.out",
+          },
+          0
+        );
       }
 
-      if (section3) {
-        tl2.to(section3, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "power1.out",
-        });
+      if (section3 && img2 && img3) {
+        tl2.to(
+          section3,
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            ease: "power1.out",
+          },
+          1
+        );
+        tl2.to(
+          img2,
+          {
+            scale: 1,
+            ease: "power1.out",
+          },
+          1
+        );
+        tl2.to(
+          img3,
+          {
+            scale: 1,
+            ease: "power1.out",
+          },
+          1
+        );
       }
 
       // Cleanup function - kills timeline and its associated ScrollTrigger (including pin spacer)
