@@ -108,9 +108,11 @@ export default async function Home() {
 
       <section className="relative w-full bg-black py-20 px-4 md:px-8">
         <div className="w-full">
+          <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
             Strategy that ships. Systems that scale. Results you can measure.
           </h2>
+          </AnimatedCopy>
 
           <div className="mt-12 h-px w-full bg-white/20" />
 
@@ -118,42 +120,29 @@ export default async function Home() {
             Built for modern teams
           </p>
 
-          <div className="mt-10 flex flex-col md:flex-row gap-10">
-            <div className="hidden md:block md:w-1/2" />
+          <div className="mt-14 md:mt-32 flex flex-col md:flex-row gap-10">
+            <div className="hidden md:block md:w-1/2">
+              <h3 className="text-white text-2xl font-normal font-pp-neue-montreal leading-tight max-w-md">
+                How we work
+              </h3>
+            </div>
 
             <div className="md:w-1/2">
               <div>
-                <p className="text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg">
-                  We work side-by-side with your team to define the real problem
-                  (not just the symptoms), align on success metrics, and map a
-                  path that your organization can actually execute. That means
-                  clarifying scope, identifying constraints early, and turning
-                  scattered inputs into a focused plan with clear owners,
-                  milestones, and trade-offs. The goal is simple: ship meaningful
-                  improvements fast, without compromising quality or creating
-                  future maintenance debt.
+                <p className="text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg pb-6 border-b border-white/20">
+                  We partner with your team to define the real problem, agree on
+                  success metrics, and shape an executable plan—scope,
+                  constraints, owners, milestones, and trade-offs.
                 </p>
-                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg">
+                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg pb-6 border-b border-white/20">
                   From discovery to delivery, we turn ambiguity into clear
-                  priorities, aligned stakeholders, and momentum you can sustain
-                  long after launch. We de-risk the critical decisions,
-                  pressure-test assumptions with real users and real data, and
-                  design solutions that fit your tech stack, your timelines, and
-                  your team’s capabilities. Whether you need a new product
-                  direction, a service redesign, or a stronger go-to-market
-                  story, we help you move with confidence—and keep moving when
-                  the scope gets complex.
+                  priorities and momentum. We validate assumptions with users
+                  and data, and design within your stack, timelines, and team.
                 </p>
-                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg">
-                  Depending on the engagement, that can include stakeholder
-                  workshops, a measurable roadmap, end-to-end customer journeys,
-                  or a data strategy that supports the decisions you need to
-                  make. When it’s time to build, we translate strategy into
-                  concrete deliverables: requirements engineers can trust,
-                  designs that consider edge cases, and implementation plans
-                  that reduce surprises. The output isn’t a deck that gathers
-                  dust—it’s a set of artifacts your team can execute, iterate,
-                  and own.
+                <p className="mt-6 text-white text-sm md:text-base leading-relaxed font-pp-neue-montreal max-w-lg pb-6 border-b border-white/20">
+                  You get practical artifacts your team can use: a measurable
+                  roadmap, clear requirements, and a build plan that reduces
+                  surprises and supports long-term ownership.
                 </p>
 
                 <Link
@@ -166,7 +155,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="mt-32 grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <div className="h-px w-full bg-white/20" />
               <div className="pt-6">
