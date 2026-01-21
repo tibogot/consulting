@@ -214,9 +214,10 @@ export default function ManagedServicesHero({
       className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden bg-black"
     >
       {/* Image Background Container with Clip Path */}
+      {/* Initially invisible via CSS to prevent FOUC - JS sets visibility after clip-path is applied */}
       <div
         ref={imageContainerRef}
-        className="absolute inset-0 z-0 origin-center will-change-transform backface-hidden"
+        className="absolute inset-0 z-0 origin-center will-change-transform backface-hidden invisible"
         style={{ willChange: "clip-path, transform" }}
       >
         <Image

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import AnimatedCopy from "../../components/AnimatedCopy";
 
 export default function AnimatedCopyDemo() {
@@ -7,12 +8,13 @@ export default function AnimatedCopyDemo() {
       <section className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden bg-black">
         {/* Image Background */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/videohero-poster.jpg"
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="eager"
-            fetchPriority="high"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
           />
           {/* Overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40 z-0" />
@@ -223,7 +225,8 @@ export default function AnimatedCopyDemo() {
               </code>
               <p className="text-base">
                 The initial color of characters before scrolling. Default:
-                "#dddddd"
+                {" "}
+                <code className="font-mono text-white/90">{'"#dddddd"'}</code>
               </p>
             </div>
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">
@@ -232,7 +235,8 @@ export default function AnimatedCopyDemo() {
               </code>
               <p className="text-base">
                 The accent color shown when a character is revealed. Default:
-                "#abff02"
+                {" "}
+                <code className="font-mono text-white/90">{'"#abff02"'}</code>
               </p>
             </div>
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">
@@ -241,7 +245,8 @@ export default function AnimatedCopyDemo() {
               </code>
               <p className="text-base">
                 The final color after the reveal animation completes. Default:
-                "#000000"
+                {" "}
+                <code className="font-mono text-white/90">{'"#000000"'}</code>
               </p>
             </div>
             <div className="bg-white/5 p-6 rounded-lg border border-white/10">

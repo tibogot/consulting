@@ -259,13 +259,6 @@ function AnimatedText({
             // Apply the fixMask function to prevent clipping of descenders
             if (split.lines && split.lines.length > 0) {
               fixMask({ elements: [child], masks: split.lines });
-              
-              // Standard fix for descender clipping: add padding-bottom to line elements
-              split.lines.forEach((line) => {
-                const lineElement = line as HTMLElement;
-                lineElement.style.paddingBottom = "0.15em";
-                lineElement.style.overflow = "visible";
-              });
             }
 
             // Verify the split was successful

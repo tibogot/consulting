@@ -12,23 +12,12 @@ export default function PageTransition({ children }: PageTransitionProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const prevPathname = useRef<string>(pathname);
-  const isFirstRender = useRef(true);
+  const hasAnimated = useRef(false);
 
+  // Track navigation (runs on pathname change)
   useEffect(() => {
-    // On first render, just mark as complete
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      // Check if we came from a navigation
-      const navigatedFlag = sessionStorage.getItem("navigated");
-      if (navigatedFlag !== "true") {
-        // Initial load - no transition needed
-        sessionStorage.removeItem("navigated");
-      }
-      return;
-    }
-
-    // Navigation detected
-    if (pathname !== prevPathname.current) {
+    if (prevPathname.current !== pathname) {
+      // This is a navigation - set flag for next page
       sessionStorage.setItem("navigated", "true");
       prevPathname.current = pathname;
     }
@@ -37,28 +26,33 @@ export default function PageTransition({ children }: PageTransitionProps) {
   useGSAP(
     () => {
       if (!overlayRef.current || !contentRef.current) return;
+      if (hasAnimated.current) return; // Prevent re-running on same mount
+      hasAnimated.current = true;
 
-      // Check if this is a navigation (not initial load)
-      const navigatedFlag = sessionStorage.getItem("navigated");
+      // Check if this is a navigation (flag set by previous page before unmount)
+      const isNavigation = sessionStorage.getItem("navigated") === "true";
 
-      if (navigatedFlag === "true" && !isFirstRender.current) {
-        // Animate in the new page
-        gsap.set(overlayRef.current, {
-          yPercent: 0,
-        });
+      // Clear previous transition complete class (from previous page)
+      document.documentElement.classList.remove("page-transition-complete");
 
-        gsap.set(contentRef.current, {
-          opacity: 0,
-        });
+      if (isNavigation) {
+        // Clear the flag immediately so refreshes work correctly
+        sessionStorage.removeItem("navigated");
 
+        // Navigation: Overlay covers screen, content hidden
+        // Set initial state with immediateRender to prevent flash
+        gsap.set(overlayRef.current, { yPercent: 0 });
+        gsap.set(contentRef.current, { opacity: 0 });
+
+        // Animate overlay out and content in
         const tl = gsap.timeline({
           onComplete: () => {
-            // Dispatch event when transition completes
+            // Mark as complete and dispatch event
+            document.documentElement.classList.add("page-transition-complete");
             window.dispatchEvent(new Event("pageTransitionComplete"));
           },
         });
 
-        // Slide overlay out and fade in content
         tl.to(overlayRef.current, {
           yPercent: -100,
           duration: 0.6,
@@ -73,28 +67,24 @@ export default function PageTransition({ children }: PageTransitionProps) {
           "-=0.2"
         );
       } else {
-        // Initial load - no transition, just show content
-        gsap.set(overlayRef.current, {
-          yPercent: -100,
-        });
-        gsap.set(contentRef.current, {
-          opacity: 1,
-        });
-        // Still dispatch the event for components waiting on it
-        setTimeout(() => {
-          window.dispatchEvent(new Event("pageTransitionComplete"));
-        }, 100);
+        // Initial load: No animation, just show content immediately
+        gsap.set(overlayRef.current, { yPercent: -100 });
+        gsap.set(contentRef.current, { opacity: 1 });
+
+        // Mark as complete and dispatch event
+        document.documentElement.classList.add("page-transition-complete");
+        window.dispatchEvent(new Event("pageTransitionComplete"));
       }
     },
-    { dependencies: [pathname] }
+    { dependencies: [] } // Empty deps - only run once on mount
   );
 
   return (
     <>
-      {/* Transition overlay */}
+      {/* Transition overlay - DEBUG: using red to see it */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-[9998] bg-black pointer-events-none"
+        className="fixed inset-0 z-[9998] bg-red-500 pointer-events-none"
         style={{ willChange: "transform" }}
       />
 

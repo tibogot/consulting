@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
-import { ArrowDown } from "lucide-react";
 
 interface WorkAtSparagusHeroProps {
   title: string;
@@ -78,8 +77,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
   const [animationReady, setAnimationReady] = useState(false);
   const { isMobile, shouldLoadVideo } = useClientMediaState();
 
-  // Set initial clip-path immediately on mount (before loader completes)
-  // This ensures the rectangle is visible the moment the page is revealed
+  // Set initial clip-path immediately on mount (matches ManagedServicesHero approach)
   useEffect(() => {
     if (!sectionRef.current || !videoContainerRef.current) return;
 
@@ -94,7 +92,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
     const initialInsetLeft = (sectionWidth - initialSize) / 2;
     const initialBorderRadius = initialSize / 2;
 
-    // Apply initial clip-path immediately
+    // Apply initial clip-path using direct DOM (like ManagedServicesHero)
     videoContainer.style.clipPath = `inset(${initialInsetTop}px ${initialInsetLeft}px ${initialInsetTop}px ${initialInsetLeft}px)`;
     videoContainer.style.borderRadius = `${initialBorderRadius}px`;
     videoContainer.style.transform = "rotate(-10deg) scale(1)";
@@ -102,28 +100,49 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
     videoContainer.style.visibility = "visible";
   }, []);
 
-  // Setup animation timeline (paused) and listen for loader
+  // Listen for the right event to start animation
+  // - Initial load: wait for PageLoader (clip-path animates while loader slides up)
+  // - Navigation: wait for PageTransition (clip-path animates after overlay slides away)
   useEffect(() => {
-    const handlePageLoaderComplete = () => {
-      // Wait for the specified delay after loader completes
-      // This ensures the Lottie animation finishes before this animation starts
+    let hasStarted = false;
+
+    const startAnimation = () => {
+      if (hasStarted) return; // Prevent double-triggering
+      hasStarted = true;
       setTimeout(() => {
         setAnimationReady(true);
       }, ANIMATION_CONFIG.animationStartDelay * 1000);
     };
 
-    // Check if PageLoader is already complete
-    if (document.documentElement.classList.contains("page-loader-complete")) {
-      handlePageLoaderComplete();
-    } else {
-      // Listen for PageLoader completion (fires when Lottie animation finishes)
-      window.addEventListener("pageLoaderComplete", handlePageLoaderComplete);
+    // Check if this is a navigation (PageLoader already completed previously)
+    const isNavigation = document.documentElement.classList.contains("page-loader-complete");
 
+    if (isNavigation) {
+      // Navigation: check if PageTransition already completed (race condition fix)
+      if (document.documentElement.classList.contains("page-transition-complete")) {
+        // Already completed, start immediately
+        startAnimation();
+        return;
+      }
+
+      // Wait for PageTransition to complete
+      const handlePageTransitionComplete = () => {
+        startAnimation();
+      };
+
+      window.addEventListener("pageTransitionComplete", handlePageTransitionComplete);
       return () => {
-        window.removeEventListener(
-          "pageLoaderComplete",
-          handlePageLoaderComplete
-        );
+        window.removeEventListener("pageTransitionComplete", handlePageTransitionComplete);
+      };
+    } else {
+      // Initial load: wait for PageLoader to complete
+      const handlePageLoaderComplete = () => {
+        startAnimation();
+      };
+
+      window.addEventListener("pageLoaderComplete", handlePageLoaderComplete);
+      return () => {
+        window.removeEventListener("pageLoaderComplete", handlePageLoaderComplete);
       };
     }
   }, []);
@@ -209,7 +228,8 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         scale: initialScale,
       };
 
-      // Set initial state for video container
+      // Set initial state with GSAP (syncs with GSAP's internal state before animating)
+      // This matches ManagedServicesHero approach
       gsap.set(videoContainer, {
         clipPath: `inset(${initialInsetTop}px ${initialInsetRight}px ${initialInsetBottom}px ${initialInsetLeft}px)`,
         borderRadius: `${initialBorderRadius}px`,
@@ -332,9 +352,10 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
       className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden bg-black"
     >
       {/* Video Background Container with Clip Path */}
+      {/* Initially invisible via CSS to prevent FOUC - JS sets visibility after clip-path is applied */}
       <div
         ref={videoContainerRef}
-        className="absolute inset-0 z-0 origin-center will-change-transform backface-hidden"
+        className="absolute inset-0 z-0 origin-center will-change-transform backface-hidden invisible"
         style={{ willChange: "clip-path, transform" }}
       >
         {/* Poster image - loads immediately, improves LCP */}
@@ -366,7 +387,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
               console.warn("Video failed to load, using poster image", e);
             }}
           >
-            {/* Mobile: Use smaller 480p version */}
             {isMobile ? (
               <>
                 <source src="/videohero-mobile.webm" type="video/webm" />
@@ -374,9 +394,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
               </>
             ) : (
               <>
-                {/* Desktop: Use 720p version - WebM first (smaller) */}
                 <source src="/videohero.webm" type="video/webm" />
-                {/* MP4 fallback - for broader browser support */}
                 <source src="/videohero.mp4" type="video/mp4" />
               </>
             )}

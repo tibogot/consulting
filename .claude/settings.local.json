@@ -3,7 +3,12 @@
     "allow": [
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__evaluate_script",
+      "Bash(git checkout:*)"
     ]
   }
 }

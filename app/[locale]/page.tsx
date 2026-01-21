@@ -8,6 +8,7 @@ import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
 import ParticleGlobe from "../components/ParticleGlobe";
 import StackingCardsPin from "../components/StackingCardsPin";
 import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
+import AnimatedCopy from "../components/AnimatedCopy";
 
 
 import AnimatedText from "../components/AnimatedText3";
@@ -26,9 +27,10 @@ export default async function Home() {
       <PartnersTicker />
 
       <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
-        <h2 className="text-5xl md:text-5xl   text-left font-pp-neue-montreal text-white tracking-[-0.02em] max-w-3xl">
+      <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">        <h2 className="text-5xl md:text-5xl   text-left font-pp-neue-montreal text-white tracking-[-0.02em] max-w-3xl">
           Trusted by teams who move fast and build for impact.
         </h2>
+        </AnimatedCopy>
       </section>
 
 
@@ -243,13 +245,13 @@ export default async function Home() {
       <PinnedClipPathAnimation />
 
       {/* Animated Vertical Lines Section */}
-      <AnimatedVerticalLines
+      {/* <AnimatedVerticalLines
         title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
         description="Forward-thinking organizations."
         lineHeight={300}
         animationDuration={3}
         primaryColor="#ff2dff"
-      />
+      /> */}
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
       {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
@@ -298,9 +300,9 @@ export default async function Home() {
       </section> */}
 
       {/* Particle Globe Section */}
-      <section className="relative w-full h-svh">
+      {/* <section className="relative w-full h-svh">
         <ParticleGlobe className="w-full h-full" />
-      </section>
+      </section> */}
 
       {/* Holographic Globe Section */}
       {/* <section className="relative w-full h-[100svh]">
@@ -332,7 +334,7 @@ export default async function Home() {
         </div>
       </section>
             {/* Newsletter Section */}
-      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
@@ -365,11 +367,11 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section>
+      </section> */}
 
 
       {/* Closing Loop Section */}
-      <section className="relative w-full h-[80vh] bg-black border-t border-white/10 flex items-center justify-center px-4 md:px-8">
+      {/* <section className="relative w-full h-[80vh] bg-black border-t border-white/10 flex items-center justify-center px-4 md:px-8">
         <div className="w-full max-w-6xl mx-auto text-center">
         <AnimatedCopyLoop
           colorInitial="#777777"
@@ -387,7 +389,7 @@ export default async function Home() {
             </h2>
           </AnimatedCopyLoop>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

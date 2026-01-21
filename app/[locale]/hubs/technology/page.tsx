@@ -1,5 +1,4 @@
 import Image from "next/image";
-import TalentFlowMorph from "@/app/components/TalentFlowMorph";
 import AnimatedText from "@/app/components/AnimatedText3";
 
 export default function TechnologyHubPage() {
@@ -27,15 +26,10 @@ export default function TechnologyHubPage() {
 
         <div className="px-4 md:px-8">
           <p className="mt-8 text-white/80 font-pp-neue-montreal text-base md:text-lg leading-relaxed max-w-3xl">
-            We design and build scalable digital products, modern platforms, and automated workflows.
+            We build modern, scalable technology solutions that help businesses move faster and adapt to change.
           </p>
         </div>
-      </section>
-
-      <section className="w-full">
-        <TalentFlowMorph className="w-full" />
       </section>
     </div>
   );
 }
-

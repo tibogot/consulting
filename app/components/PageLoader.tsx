@@ -84,14 +84,15 @@ export default function PageLoader() {
     if (hasTriggeredExit.current || !loaderRef.current) return;
     hasTriggeredExit.current = true;
 
-    // Immediately dispatch the event so other components can start
+    // Unlock scroll when animation starts exiting
+    unlockScroll();
+
+    // Dispatch event IMMEDIATELY so clip-path animation starts
+    // while the loader is sliding up (creates seamless transition)
     document.documentElement.classList.add("page-loader-complete");
     window.dispatchEvent(new Event("pageLoaderComplete"));
 
-    // Unlock scroll immediately when animation starts exiting
-    unlockScroll();
-
-    // Start slide-out animation immediately
+    // Start slide-out animation
     gsap.to(loaderRef.current, {
       yPercent: -100,
       duration: 0.5,
