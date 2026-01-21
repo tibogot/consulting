@@ -9,6 +9,7 @@ import ParticleGlobe from "../components/ParticleGlobe";
 import StackingCardsPin from "../components/StackingCardsPin";
 import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 import AnimatedCopy from "../components/AnimatedCopy";
+// import WhiteSection from "../components/WhiteSection";
 
 
 import AnimatedText from "../components/AnimatedText3";
@@ -27,8 +28,8 @@ export default async function Home() {
       <PartnersTicker />
 
       <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
-      <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">        <h2 className="text-5xl md:text-5xl   text-left font-pp-neue-montreal text-white tracking-[-0.02em] max-w-3xl">
-          Trusted by teams who move fast and build for impact.
+      <AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
+      Trusted by teams who move fast and build for impact.
         </h2>
         </AnimatedCopy>
       </section>
@@ -108,8 +109,7 @@ export default async function Home() {
 
       <section className="relative w-full bg-black py-20 px-4 md:px-8">
         <div className="w-full">
-          <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
+        <AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
             Strategy that ships. Systems that scale. Results you can measure.
           </h2>
           </AnimatedCopy>
