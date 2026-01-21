@@ -5,10 +5,6 @@ import { useTranslations } from 'next-intl';
 
 export default function Footer() {
   const t = useTranslations('nav');
-  const tServices = useTranslations('services');
-  const tHubs = useTranslations('hubs');
-  const tAbout = useTranslations('about');
-  const tCareers = useTranslations('careers');
 
   const footerLinks = {
     services: [
@@ -17,18 +13,18 @@ export default function Footer() {
       { href: '/services/managed' as const, label: t('servicesSubmenu.managed') },
     ],
     hubs: [
-      { href: '/hubs/technology' as const, label: tHubs('technology.title') },
-      { href: '/hubs/engineering' as const, label: tHubs('engineering.title') },
-      { href: '/hubs/business-operations' as const, label: tHubs('businessOperations.title') },
+      { href: '/hubs/technology' as const, label: t('hubsSubmenu.technology') },
+      { href: '/hubs/engineering' as const, label: t('hubsSubmenu.engineering') },
+      { href: '/hubs/business-operations' as const, label: t('hubsSubmenu.businessOperations') },
     ],
     about: [
-      { href: '/about/us' as const, label: tAbout('us.title') },
-      { href: '/about/mission' as const, label: tAbout('mission.title') },
-      { href: '/about/team' as const, label: tAbout('team.title') },
+      { href: '/about/us' as const, label: t('aboutSubmenu.us') },
+      { href: '/about/mission' as const, label: t('aboutSubmenu.mission') },
+      { href: '/about/team' as const, label: t('aboutSubmenu.team') },
     ],
     careers: [
-      { href: '/careers/find-job' as const, label: tCareers('findJob.title') },
-      { href: '/careers/work-at-sparagus' as const, label: tCareers('workAtSparagus.title') },
+      { href: '/careers/find-job' as const, label: t('careersSubmenu.findJob') },
+      { href: '/careers/work-at-sparagus' as const, label: t('careersSubmenu.workAtSparagus') },
     ],
   };
 

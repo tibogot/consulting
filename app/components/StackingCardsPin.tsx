@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
+import AnimatedCopy from "../components/AnimatedCopy";
 
 type StackingCard = {
   kicker: string;
@@ -81,6 +82,7 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
       <div className="relative w-full py-24 ">
         <div className=" px-4 md:px-8">
           <div className="font-pp-neue-montreal max-w-3xl mb-14">
+            <AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">
             <p className="text-white/60 uppercase tracking-wide text-xs md:text-sm">
               GSAP Pin / Stacking Cards
             </p>
@@ -90,6 +92,7 @@ export default function StackingCardsPin({ className = "" }: { className?: strin
             <p className="mt-4 text-white/70 text-base md:text-lg">
               Section pins, cards stack, then unpins to next section.
             </p>
+            </AnimatedCopy>
           </div>
 
           {/* Cards container */}
