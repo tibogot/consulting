@@ -1,42 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { useGSAP, gsap } from "@/lib/gsapConfig";
+import HorizontalServices from "@/app/components/HorizontalServices";
 import ManagedServicesHero from "@/app/components/ManagedServicesHero";
 import PinnedClipPathAnimation from "@/app/components/PinnedClipPathAnimation";
 import StackingCardsPin from "@/app/components/StackingCardsPin";
 
 export default function ManagedServicesPage() {
-  const horizontalScrollRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const container = horizontalScrollRef.current;
-      if (!container) return;
-
-      const panels = gsap.utils.toArray<HTMLElement>(".panel");
-      if (panels.length === 0) return;
-
-      const totalWidth = panels.reduce((acc, panel) => acc + panel.offsetWidth, 0);
-      const scrollDistance = totalWidth - window.innerWidth;
-
-      gsap.to(panels, {
-        xPercent: -100 * (panels.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          pin: true,
-          scrub: 1,
-          end: () => `+=${scrollDistance}`,
-          invalidateOnRefresh: true,
-        },
-      });
-    },
-    { scope: horizontalScrollRef, dependencies: [] }
-  );
-
   return (
     <div className="w-full min-h-screen bg-black">
       {/* Hero Section */}
@@ -47,7 +17,7 @@ export default function ManagedServicesPage() {
 
       {/* Overview Section */}
       <section id="overview" className="relative w-full bg-black py-24 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="">
           <div className="flex flex-col md:flex-row gap-12">
             <div className="md:w-1/2">
               <p className="text-white/60 uppercase tracking-wide text-xs md:text-sm font-pp-neue-montreal">
@@ -76,121 +46,11 @@ export default function ManagedServicesPage() {
       </section>
 
       {/* Horizontal Scroll Section */}
-      <section
-        ref={horizontalScrollRef}
-        className="relative w-full h-screen bg-black overflow-hidden"
-      >
-        <div className="flex h-full">
-          {/* Panel 1 */}
-          <div className="panel flex-shrink-0 w-screen h-full flex items-center justify-center px-8 md:px-16">
-            <div className="max-w-2xl">
-              <div className="h-px w-20 bg-white/40 mb-6" />
-              <h3 className="text-4xl md:text-5xl font-normal text-white font-pp-neue-montreal leading-tight">
-                Infrastructure Management
-              </h3>
-              <p className="mt-6 text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                Cloud architecture, server management, database optimization, and
-                network security. We handle provisioning, scaling, backups, and
-                disaster recovery—so your infrastructure is always available,
-                performant, and cost-effective.
-              </p>
-              <div className="mt-8 flex gap-4 flex-wrap">
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  AWS / Azure / GCP
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  Kubernetes
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  Terraform
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Panel 2 */}
-          <div className="panel flex-shrink-0 w-screen h-full flex items-center justify-center px-8 md:px-16 bg-zinc-950">
-            <div className="max-w-2xl">
-              <div className="h-px w-20 bg-white/40 mb-6" />
-              <h3 className="text-4xl md:text-5xl font-normal text-white font-pp-neue-montreal leading-tight">
-                Application Support
-              </h3>
-              <p className="mt-6 text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                Continuous monitoring, performance tuning, security patching, and
-                incident response. We proactively identify issues before they impact
-                users, and resolve them fast when they do.
-              </p>
-              <div className="mt-8 flex gap-4 flex-wrap">
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  24/7 Monitoring
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  SLA Guarantees
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  Incident Response
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Panel 3 */}
-          <div className="panel flex-shrink-0 w-screen h-full flex items-center justify-center px-8 md:px-16">
-            <div className="max-w-2xl">
-              <div className="h-px w-20 bg-white/40 mb-6" />
-              <h3 className="text-4xl md:text-5xl font-normal text-white font-pp-neue-montreal leading-tight">
-                DevOps & Automation
-              </h3>
-              <p className="mt-6 text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                CI/CD pipelines, automated testing, deployment orchestration, and
-                infrastructure as code. We streamline your delivery process and
-                eliminate manual bottlenecks.
-              </p>
-              <div className="mt-8 flex gap-4 flex-wrap">
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  GitHub Actions
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  Jenkins
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  ArgoCD
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Panel 4 */}
-          <div className="panel flex-shrink-0 w-screen h-full flex items-center justify-center px-8 md:px-16 bg-zinc-950">
-            <div className="max-w-2xl">
-              <div className="h-px w-20 bg-white/40 mb-6" />
-              <h3 className="text-4xl md:text-5xl font-normal text-white font-pp-neue-montreal leading-tight">
-                Security & Compliance
-              </h3>
-              <p className="mt-6 text-white/75 text-base md:text-lg font-pp-enue-montreal leading-relaxed">
-                Threat monitoring, vulnerability management, access controls, and
-                compliance audits. We ensure your systems meet industry standards
-                and protect against emerging threats.
-              </p>
-              <div className="mt-8 flex gap-4 flex-wrap">
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  SOC 2
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  ISO 27001
-                </span>
-                <span className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 text-sm font-pp-neue-montreal">
-                  GDPR
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HorizontalServices />
 
       {/* Stats Section */}
       <section className="relative w-full bg-black py-24 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
               <div className="h-px w-full bg-white/20 mb-6" />
@@ -228,7 +88,7 @@ export default function ManagedServicesPage() {
 
       {/* How We Work Section */}
       <section className="relative w-full bg-black py-24 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-white font-pp-neue-montreal leading-tight mb-16">
             How we work
           </h2>
