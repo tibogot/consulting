@@ -99,7 +99,13 @@
     "description": "Op maat gemaakte oplossingen nodig? Laten we praten",
     "hero": {
       "title": "Neem contact met ons op",
-      "subtitle": "Kom in contact met ons team"
+      "subtitle": "Vertel ons wat je wil bereiken — timing, context en hoe succes eruitziet. We bekijken je bericht en komen bij je terug met de volgende stappen."
+    },
+    "details": {
+      "email": "hello@sparagus.com",
+      "phone": "+32 000 00 00 00",
+      "addressLine1": "Voorbeeldstraat 123",
+      "addressLine2": "1000 Brussel, België"
     },
     "section1": {
       "title": "Standaard scroll-animatie",

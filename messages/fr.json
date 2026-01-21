@@ -99,7 +99,13 @@
     "description": "Besoin de solutions sur mesure ? Parlons-en",
     "hero": {
       "title": "Contactez-nous",
-      "subtitle": "Entrez en contact avec notre équipe"
+      "subtitle": "Dites-nous ce que vous cherchez à accomplir — délais, contexte et ce à quoi ressemble le succès. Nous lirons votre message et reviendrons vers vous avec les prochaines étapes."
+    },
+    "details": {
+      "email": "hello@sparagus.com",
+      "phone": "+32 000 00 00 00",
+      "addressLine1": "Avenue Exemple 123",
+      "addressLine2": "1000 Bruxelles, Belgique"
     },
     "section1": {
       "title": "Animation de défilement par défaut",
