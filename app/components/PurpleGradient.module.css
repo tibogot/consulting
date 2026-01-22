@@ -11,23 +11,23 @@
 
 .gradientBlob {
   position: absolute;
-  width: 1200px;
+  width: 2000px;
   height: 1200px;
   border-radius: 50%;
   /* Purple gradient using #8202FF and #EA02FF */
   background: radial-gradient(
-    circle at center,
-    rgba(130, 2, 255, 0.4) 0%,
-    rgba(234, 2, 255, 0.35) 30%,
-    rgba(130, 2, 255, 0.25) 50%,
-    rgba(234, 2, 255, 0.15) 70%,
+    ellipse at center,
+    rgba(130, 2, 255, 0.15) 0%,
+    rgba(234, 2, 255, 0.12) 30%,
+    rgba(130, 2, 255, 0.08) 50%,
+    rgba(234, 2, 255, 0.05) 70%,
     transparent 100%
   );
   /* Very heavy blur for maximum softness */
   filter: blur(150px);
   transform: translate(-50%, -50%);
-  left: 30%;
-  top: 50%;
+  left: 130%;
+  top: 100%;
 }
 
 .noiseOverlay {

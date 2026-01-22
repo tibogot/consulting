@@ -15,6 +15,7 @@ import AnimatedCopy from "../components/AnimatedCopy";
 import AnimatedText from "../components/AnimatedText3";
 import AnimatedButton from "../components/AnimatedButton";
 import FractalGradient from "../components/FractalGradient2";
+import PurpleGradient from "../components/PurpleGradient";
 
 
 export default async function Home() {
@@ -322,7 +323,59 @@ export default async function Home() {
           </div>
         </div>
       </section>
-            {/* Newsletter Section */}
+
+      {/* Purple Gradient Section */}
+      <section
+        className="relative h-screen flex items-center px-4 md:px-8 overflow-hidden"
+        style={{
+          background:
+            "linear-gradient(180deg, #f8f9fa 0%, #f5f7fa 50%, #f2f5f8 100%)",
+        }}
+      >
+        {/* PurpleGradient Background */}
+        <div className="absolute inset-0">
+          <PurpleGradient />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <div className="flex flex-col">
+            {/* Title */}
+            <div>
+              <AnimatedCopy colorInitial="#cccccc" colorAccent="#8202FF" colorFinal="#1a0a2a">
+                <h1 className="font-pp-neue-montreal text-4xl md:text-6xl lg:text-7xl font-normal leading-tight tracking-[-0.02em]">
+                  <span className="opacity-0 select-none pointer-events-none">
+                    Invisible text{" "}
+                  </span>
+                  Innovation meets
+                  <span className="block text-[#8202FF]">excellence</span>
+                </h1>
+              </AnimatedCopy>
+            </div>
+
+            {/* Paragraphs */}
+            <div className="font-pp-neue-montreal max-w-lg mt-16">
+              <AnimatedCopy colorInitial="#cccccc" colorAccent="#8202FF" colorFinal="#1a0a2a">
+                <p className="text-base md:text-lg leading-relaxed mb-6">
+                  We combine cutting-edge technology with deep expertise to deliver
+                  solutions that transform businesses and drive meaningful impact.
+                </p>
+                <p className="text-base md:text-lg leading-relaxed mb-6">
+                  Our approach is built on collaboration, innovation, and a commitment
+                  to excellence that sets new standards in the industry.
+                </p>
+                <p className="text-base md:text-lg leading-relaxed">
+                  Every project is an opportunity to push boundaries, challenge
+                  conventions, and create value that extends far beyond the immediate
+                  deliverables.
+                </p>
+              </AnimatedCopy>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
       {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">

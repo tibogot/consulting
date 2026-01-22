@@ -12,10 +12,10 @@ export default function PurpleGradient() {
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Initialize mouse position to center-right
+    // Initialize gradient position to bottom-right
     if (typeof window !== 'undefined') {
-      mouseX.current = window.innerWidth * 0.3;
-      mouseY.current = window.innerHeight * 0.5;
+      mouseX.current = window.innerWidth * 1.3;
+      mouseY.current = window.innerHeight * 1.0;
       currentX.current = mouseX.current;
       currentY.current = mouseY.current;
     }
@@ -26,8 +26,8 @@ export default function PurpleGradient() {
     };
 
     const animate = () => {
-      // Very slow lerp for super smooth, subtle movement
-      const ease = 0.04;
+      // Very slow lerp for subtle, barely noticeable movement
+      const ease = 0.005;
       currentX.current += (mouseX.current - currentX.current) * ease;
       currentY.current += (mouseY.current - currentY.current) * ease;
 
