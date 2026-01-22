@@ -211,7 +211,7 @@ function MobileAccordion({
                 ? { locale: item.code as "fr" | "en" | "nl" }
                 : {})}
               onClick={onLinkClick}
-              className={`block text-sm transition-colors ${
+              className={`block text-base transition-colors ${
                 isLanguage
                   ? locale === item.code
                     ? "text-white"

@@ -1,6 +1,7 @@
 import CssGradient from "@/app/components/CssGradient";
 import CssGradientTailwind from "@/app/components/CssGradientTailwind";
 import LightGradient from "@/app/components/LightGradient";
+import PurpleGradient from "@/app/components/PurpleGradient";
 import AnimatedText from "@/app/components/AnimatedText3";
 
 export default function GradientsPage() {
@@ -123,6 +124,52 @@ export default function GradientsPage() {
               and professional growth.
             </p>
           </AnimatedText>
+        </div>
+      </section>
+
+      {/* Fourth Section with Purple Gradient */}
+      <section
+        className="relative h-screen flex items-center px-4 md:px-8 overflow-hidden"
+        style={{
+          background:
+            "linear-gradient(180deg, #f8f9fa 0%, #f5f7fa 50%, #f2f5f8 100%)",
+        }}
+      >
+        {/* PurpleGradient Background */}
+        <div className="absolute inset-0">
+          <PurpleGradient />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+            {/* Left Column */}
+            <div className="flex-1">
+              <h1 className="font-pp-neue-montreal text-4xl md:text-6xl lg:text-7xl font-normal leading-tight text-[#1a0a2a] tracking-[-0.02em]">
+                Innovation meets
+                <span className="block text-[#8202FF]">excellence</span>
+              </h1>
+            </div>
+
+            {/* Right Column */}
+            <div className="flex-1 flex flex-col justify-center">
+              <div className="font-pp-neue-montreal max-w-lg">
+                <p className="text-[#1a0a2a]/85 text-base md:text-lg leading-relaxed mb-6">
+                  We combine cutting-edge technology with deep expertise to deliver
+                  solutions that transform businesses and drive meaningful impact.
+                </p>
+                <p className="text-[#1a0a2a]/85 text-base md:text-lg leading-relaxed mb-6">
+                  Our approach is built on collaboration, innovation, and a commitment
+                  to excellence that sets new standards in the industry.
+                </p>
+                <p className="text-[#1a0a2a]/75 text-base md:text-lg leading-relaxed">
+                  Every project is an opportunity to push boundaries, challenge
+                  conventions, and create value that extends far beyond the immediate
+                  deliverables.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

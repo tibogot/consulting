@@ -3,6 +3,30 @@
 import { useTranslations } from "next-intl";
 import AnimatedText from "@/app/components/AnimatedText3";
 import ContactLeadForm from "@/app/components/ContactLeadForm";
+import FAQ, { FAQItem } from "@/app/components/FAQ";
+
+const FAQ_ITEMS: FAQItem[] = [
+  {
+    question: "What services do you offer?",
+    answer: "We provide comprehensive infrastructure management, application support, DevOps automation, and security compliance services. Our team handles everything from cloud architecture to 24/7 monitoring and incident response.",
+  },
+  {
+    question: "How quickly can you respond to incidents?",
+    answer: "We offer 24/7 monitoring with guaranteed SLA response times. Our team is always available to address critical issues and ensure minimal downtime for your systems.",
+  },
+  {
+    question: "Do you work with specific cloud providers?",
+    answer: "Yes, we have expertise across all major cloud platforms including AWS, Azure, and GCP. We can help you choose the right platform for your needs or manage multi-cloud environments.",
+  },
+  {
+    question: "What is your approach to security and compliance?",
+    answer: "We implement comprehensive security measures including threat monitoring, vulnerability management, and access controls. We ensure your systems meet industry standards like SOC 2, ISO 27001, and GDPR compliance.",
+  },
+  {
+    question: "Can you help with existing infrastructure?",
+    answer: "Absolutely. We can take over management of your existing infrastructure, optimize current setups, and help migrate to more efficient solutions. Our team works seamlessly with your current technology stack.",
+  },
+];
 
 export default function ContactPage() {
   const t = useTranslations("contact");
@@ -64,6 +88,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      
+      <FAQ items={FAQ_ITEMS} />
     </div>
   );
 }
