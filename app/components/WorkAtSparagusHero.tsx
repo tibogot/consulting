@@ -359,13 +359,13 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         style={{ willChange: "clip-path, transform" }}
       >
         {/* Poster image - loads immediately, improves LCP */}
-        <Image
-          src="/videoherodark-poster.jpg"
+        {/* <Image
+          src="/videohero-poster.jpg"
           alt=""
           fill
           priority
           className="object-cover"
-        />
+        /> */}
 
         {/* Video - conditionally loaded based on device/connection */}
         {shouldLoadVideo && (
@@ -377,7 +377,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             playsInline
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
-            poster="/videoherodark-poster.jpg"
+            poster="/videohero-poster.jpg"
             onCanPlay={(e) => {
               // Fade in video once it's ready to play
               e.currentTarget.style.opacity = "1";
@@ -389,13 +389,13 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
           >
             {isMobile ? (
               <>
-                <source src="/videoherodark-mobile.webm" type="video/webm" />
-                <source src="/videoherodark-mobile.mp4" type="video/mp4" />
+                <source src="/videohero-mobile.webm" type="video/webm" />
+                <source src="/videohero-mobile.mp4" type="video/mp4" />
               </>
             ) : (
               <>
-                <source src="/videoherodark.webm" type="video/webm" />
-                <source src="/videoherodark.mp4" type="video/mp4" />
+                <source src="/videohero.webm" type="video/webm" />
+                <source src="/videohero.mp4" type="video/mp4" />
               </>
             )}
           </video>
