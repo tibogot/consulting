@@ -72,6 +72,7 @@ function DropdownMenu({
   isOpen,
   onMouseEnter,
   onMouseLeave,
+  onLinkClick,
   pathname,
 }: {
   items: SubmenuItem[];
@@ -81,6 +82,7 @@ function DropdownMenu({
   isOpen: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  onLinkClick: () => void;
   pathname: string;
 }) {
   const firstColumn = items.slice(0, Math.ceil(items.length / 2));
@@ -123,6 +125,7 @@ function DropdownMenu({
               {titleHref && (
                 <Link
                   href={titleHref}
+                  onClick={onLinkClick}
                   className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
                 >
                   <ArrowIcon />
@@ -138,6 +141,7 @@ function DropdownMenu({
                   <Link
                     key={item.href as string}
                     href={item.href}
+                    onClick={onLinkClick}
                     className={`block text-sm transition-colors ${
                       pathname === item.href
                         ? "text-white"
@@ -457,7 +461,7 @@ export default function Navbar() {
       <div className="px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center h-full">
+          <Link href="/" onClick={closeMobileMenu} className="flex items-center h-full">
             <img
               src="/images/logosvg.svg"
               alt="Sparagus Logo"
@@ -601,6 +605,7 @@ export default function Navbar() {
             isOpen={services.isHovered}
             onMouseEnter={handleServicesEnter}
             onMouseLeave={services.onMouseLeave}
+            onLinkClick={services.closeImmediately}
             pathname={pathname}
           />
 
@@ -613,6 +618,7 @@ export default function Navbar() {
             isOpen={hubs.isHovered}
             onMouseEnter={handleHubsEnter}
             onMouseLeave={hubs.onMouseLeave}
+            onLinkClick={hubs.closeImmediately}
             pathname={pathname}
           />
 
@@ -625,6 +631,7 @@ export default function Navbar() {
             isOpen={about.isHovered}
             onMouseEnter={handleAboutEnter}
             onMouseLeave={about.onMouseLeave}
+            onLinkClick={about.closeImmediately}
             pathname={pathname}
           />
 
@@ -637,6 +644,7 @@ export default function Navbar() {
             isOpen={careers.isHovered}
             onMouseEnter={handleCareersEnter}
             onMouseLeave={careers.onMouseLeave}
+            onLinkClick={careers.closeImmediately}
             pathname={pathname}
           />
 
@@ -668,6 +676,7 @@ export default function Navbar() {
                       key={lang.code}
                       href={pathname}
                       locale={lang.code as "fr" | "en" | "nl"}
+                      onClick={language.closeImmediately}
                       className={`block text-sm transition-colors ${
                         locale === lang.code
                           ? "text-white"
