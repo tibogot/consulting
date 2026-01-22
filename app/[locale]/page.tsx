@@ -29,8 +29,9 @@ export default async function Home() {
       <PartnersTicker />
 
       <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
-      <AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
-      Trusted by teams who move fast and build for impact.
+      <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">   
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
+           Trusted by teams who move fast and build for impact.
         </h2>
         </AnimatedCopy>
       </section>
