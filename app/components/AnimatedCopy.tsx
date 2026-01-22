@@ -89,7 +89,7 @@ export default function AnimatedCopy({
         trigger: containerRef.current,
         start: "top 90%",
         end: "top 10%",
-        scrub: 1,
+        scrub: 0.5,
         onUpdate: (self) => {
           const progress = self.progress;
           const totalChars = allChars.length;
