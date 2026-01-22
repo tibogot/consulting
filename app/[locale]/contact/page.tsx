@@ -4,6 +4,8 @@ import { useTranslations } from "next-intl";
 import AnimatedText from "@/app/components/AnimatedText3";
 import ContactLeadForm from "@/app/components/ContactLeadForm";
 import FAQ, { FAQItem } from "@/app/components/FAQ";
+import ParticleGlobe from "@/app/components/ParticleGlobe";
+
 
 const FAQ_ITEMS: FAQItem[] = [
   {
@@ -88,6 +90,11 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+            {/* Particle Globe Section */}
+      <section className="relative w-full h-svh">
+        <ParticleGlobe className="w-full h-full" />
+      </section>
+
       
       <FAQ items={FAQ_ITEMS} />
     </div>
