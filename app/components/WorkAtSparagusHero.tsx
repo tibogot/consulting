@@ -73,7 +73,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  // const ctaRef = useRef<HTMLDivElement>(null);
   const [animationReady, setAnimationReady] = useState(false);
   const { isMobile, shouldLoadVideo } = useClientMediaState();
 
@@ -185,7 +185,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
       const videoContainer = videoContainerRef.current;
       const titleElement = titleRef.current;
       const descriptionElement = descriptionRef.current;
-      const ctaElement = ctaRef.current;
+      // const ctaElement = ctaRef.current;
 
       // Ensure section has white background
       gsap.set(section, {
@@ -360,7 +360,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
       >
         {/* Poster image - loads immediately, improves LCP */}
         <Image
-          src="/videohero-poster.jpg"
+          src="/videoherodark-poster.jpg"
           alt=""
           fill
           priority
@@ -377,7 +377,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             playsInline
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
-            poster="/videohero-poster.jpg"
+            poster="/videoherodark-poster.jpg"
             onCanPlay={(e) => {
               // Fade in video once it's ready to play
               e.currentTarget.style.opacity = "1";
@@ -389,20 +389,20 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
           >
             {isMobile ? (
               <>
-                <source src="/videohero-mobile.webm" type="video/webm" />
-                <source src="/videohero-mobile.mp4" type="video/mp4" />
+                <source src="/videoherodark-mobile.webm" type="video/webm" />
+                <source src="/videoherodark-mobile.mp4" type="video/mp4" />
               </>
             ) : (
               <>
-                <source src="/videohero.webm" type="video/webm" />
-                <source src="/videohero.mp4" type="video/mp4" />
+                <source src="/videoherodark.webm" type="video/webm" />
+                <source src="/videoherodark.mp4" type="video/mp4" />
               </>
             )}
           </video>
         )}
 
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/20 z-0" />
+        {/* <div className="absolute inset-0 bg-black/20 z-0" /> */}
         {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
         <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.5)] rounded-[inherit]" />
       </div>
