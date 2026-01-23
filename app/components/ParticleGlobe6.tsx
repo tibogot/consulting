@@ -92,7 +92,7 @@ const LOCATIONS: GlobeLocation[] = [
 export default function ParticleGlobe({
   className = "",
   globeRadius = 100,
-  targetParticles = 60000, // Reduced from 110000 for better performance
+  targetParticles = 110000,
   autoRotateSpeed = 0.001,
   repulsionStrength = 3.5,
   repulsionRadius = 0.16,
@@ -107,6 +107,7 @@ export default function ParticleGlobe({
   const globeRef = useRef<THREE.Points | null>(null);
   const glowMeshRef = useRef<THREE.Mesh | null>(null);
   const geometryRef = useRef<THREE.BufferGeometry | null>(null);
+  const animationRef = useRef<number | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
 
   const mouseRef = useRef<THREE.Vector2>(new THREE.Vector2(9999, 9999));
@@ -192,9 +193,7 @@ export default function ParticleGlobe({
     const initialWidth = Math.max(1, Math.floor(initialRect.width));
     const initialHeight = Math.max(1, Math.floor(initialRect.height));
     renderer.setSize(initialWidth, initialHeight);
-    // Lower pixel ratio on mobile for better performance
-    const isMobile = window.innerWidth < 768;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
     containerEl.appendChild(renderer.domElement);
     rendererRef.current = renderer;
@@ -238,6 +237,8 @@ export default function ParticleGlobe({
     let interactionSphereMaterial: THREE.MeshBasicMaterial | null = null;
     let interactionSphere: THREE.Mesh | null = null;
     const raycaster = new THREE.Raycaster();
+    const hitWorld = new THREE.Vector3();
+    const hitLocal = new THREE.Vector3();
 
     // Load world map image for accurate continent shapes
     const loadWorldMap = async (): Promise<ImageData> => {
@@ -450,36 +451,21 @@ export default function ParticleGlobe({
 
     console.log(`Created ${count} particles`);
 
-    // Store original positions and velocities (velocities kept for potential future use)
+    // Store original positions and velocities
     originalPositionsRef.current = originalPositions;
     velocitiesRef.current = velocities;
 
-    // Create geometry with original positions as attribute for GPU-based spring-back
+    // Create geometry
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    // Store original positions as attribute so GPU can access them
-    const originalPositionsArray = new Float32Array(positions.length);
-    for (let i = 0; i < originalPositions.length; i++) {
-      originalPositionsArray[i * 3] = originalPositions[i].x;
-      originalPositionsArray[i * 3 + 1] = originalPositions[i].y;
-      originalPositionsArray[i * 3 + 2] = originalPositions[i].z;
-    }
-    geometry.setAttribute("originalPosition", new THREE.Float32BufferAttribute(originalPositionsArray, 3));
     geometry.setAttribute("color", new THREE.Float32BufferAttribute(particleColors, 3));
     geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
     geometryRef.current = geometry;
 
     const vertexShader = `
       attribute float size;
-      attribute vec3 originalPosition;
       uniform float uTime;
       uniform float uWobbleAmp;
-      uniform vec3 uHitPoint;
-      uniform float uHitActive;
-      uniform float uRepulsionStrength;
-      uniform float uRepulsionRadius;
-      uniform float uReturnSpeed;
-      uniform vec3 uCameraPosition;
       varying vec3 vColor;
       varying float vFacing;
       varying float vFade;
@@ -499,13 +485,9 @@ export default function ParticleGlobe({
       void main() {
         vColor = color;
 
-        // Use position attribute directly (which gets updated by CPU for repulsion)
-        // This allows displacement to persist across frames
-        vec3 currentPos = position;
-
         // Fast micro-jitter ("insect-like" motion) that stays on/near the surface.
         // Mostly tangential to preserve the landmass silhouette.
-        vec3 nObj = normalize(currentPos);
+        vec3 nObj = normalize(position);
         vec3 up = (abs(nObj.y) > 0.9) ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0);
         vec3 t1 = normalize(cross(up, nObj));
         vec3 t2 = cross(nObj, t1);
@@ -516,12 +498,12 @@ export default function ParticleGlobe({
         float s = f * f * (3.0 - 2.0 * f); // smoothstep
 
         // Per-particle seed based on position; interpolate between two random offsets
-        vec3 j0 = hash3(currentPos * 0.05 + i0) - 0.5;
-        vec3 j1 = hash3(currentPos * 0.05 + i0 + 1.0) - 0.5;
+        vec3 j0 = hash3(position * 0.05 + i0) - 0.5;
+        vec3 j1 = hash3(position * 0.05 + i0 + 1.0) - 0.5;
         vec3 j = mix(j0, j1, s);
 
         vec3 jitterVec = (t1 * j.x + t2 * j.y + nObj * (j.z * 0.15));
-        vec3 wobblePos = currentPos + jitterVec * uWobbleAmp;
+        vec3 wobblePos = position + jitterVec * uWobbleAmp;
 
         vec4 mvPosition = modelViewMatrix * vec4(wobblePos, 1.0);
         
@@ -569,13 +551,6 @@ export default function ParticleGlobe({
         uTime: { value: 0 },
         // Scale wobble with globe radius (keeps it subtle if you change radius)
         uWobbleAmp: { value: globeRadius * 0.0022 },
-        // GPU-based repulsion uniforms
-        uHitPoint: { value: new THREE.Vector3(0, 0, 0) },
-        uHitActive: { value: 0 },
-        uRepulsionStrength: { value: repulsionStrength },
-        uRepulsionRadius: { value: globeRadius * repulsionRadius },
-        uReturnSpeed: { value: returnSpeed },
-        uCameraPosition: { value: new THREE.Vector3() },
       },
       vertexShader,
       fragmentShader,
@@ -600,16 +575,6 @@ export default function ParticleGlobe({
     scene.add(interactionSphere);
 
     const clock = new THREE.Clock();
-
-    // Pre-allocate reusable vectors to avoid per-frame allocations
-    const _camDir = new THREE.Vector3();
-    const _tempVec = new THREE.Vector3();
-    const _hitLocal = new THREE.Vector3();
-    const _hitWorld = new THREE.Vector3();
-    
-    // Track hit time for accumulation effect
-    let hitStartTime = 0;
-    const lastHitPoint = new THREE.Vector3();
 
     // Atmosphere glow
     const glowGeometry = new THREE.SphereGeometry(globeRadius * 1.08, 64, 64);
@@ -893,6 +858,8 @@ export default function ParticleGlobe({
     const animate = () => {
       if (!scene || !camera || !renderer || !globe || !glowMesh || !geometry || !controls) return;
 
+      animationRef.current = requestAnimationFrame(animate);
+
       // Drive subtle idle wobble in the particle shader
       material.uniforms.uTime.value = performance.now() * 0.001;
 
@@ -901,12 +868,9 @@ export default function ParticleGlobe({
 
       // Animate location markers (pulsing/ripple effect)
       if (locationMarkersRef.current) {
-        _camDir.copy(camera.position).normalize();
+        const camDir = camera.position.clone().normalize();
         const time = Date.now() * 0.001; // Current time in seconds
-        const markers = locationMarkersRef.current.children;
-        const markersLength = markers.length;
-        for (let i = 0; i < markersLength; i++) {
-          const marker = markers[i];
+        locationMarkersRef.current.children.forEach((marker) => {
           interface MarkerWithData extends THREE.Group {
             animationData?: {
               dot: THREE.Mesh;
@@ -921,8 +885,7 @@ export default function ParticleGlobe({
             const isActive = !!markerName && activeLocationNameRef.current === markerName;
 
             // Same "front/back fade" concept as particles (opacity variation instead of hide)
-            _tempVec.copy(animData.basePosition).normalize();
-            const facing = _tempVec.dot(_camDir); // -1..1
+            const facing = animData.basePosition.clone().normalize().dot(camDir); // -1..1
             const fade = THREE.MathUtils.smoothstep(facing, -0.65, 0.35);
             const fadeAlpha = THREE.MathUtils.lerp(0.18, 1.0, fade);
 
@@ -946,23 +909,19 @@ export default function ParticleGlobe({
             const haloScale = isActive ? 1.28 : 1.0;
             animData.halo.scale.set(6 * haloScale, 6 * haloScale, 1);
           }
-        }
+        });
       }
 
       // Animate route arcs (moving dashes + traveling pulse), and hide when endpoints are on the back
       if (routesRef.current.length) {
-        _camDir.copy(camera.position).normalize();
+        const camDir = camera.position.clone().normalize();
         const t = performance.now() * 0.001;
-        const routes = routesRef.current;
-        const routesLength = routes.length;
-        for (let i = 0; i < routesLength; i++) {
-          const r = routes[i];
+        for (let i = 0; i < routesRef.current.length; i++) {
+          const r = routesRef.current[i];
 
           // Fade arcs as they go behind the globe (instead of hiding)
-          _tempVec.copy(r.start).normalize();
-          const startFacing = _tempVec.dot(_camDir);
-          _tempVec.copy(r.end).normalize();
-          const endFacing = _tempVec.dot(_camDir);
+          const startFacing = r.start.clone().normalize().dot(camDir);
+          const endFacing = r.end.clone().normalize().dot(camDir);
           const facing = Math.min(startFacing, endFacing);
           const fade = THREE.MathUtils.smoothstep(facing, -0.65, 0.35);
           const fadeAlpha = THREE.MathUtils.lerp(0.12, 1.0, fade);
@@ -997,12 +956,10 @@ export default function ParticleGlobe({
         }
       }
 
-      // Update camera position uniform for GPU shader
-      material.uniforms.uCameraPosition.value.copy(camera.position);
+      const posArray = geometry.attributes.position.array as Float32Array;
 
       // Compute the surface point under the cursor (front-most intersection)
       let hasHit = false;
-      const currentTime = performance.now();
       if (
         interactionSphere &&
         Math.abs(mouseRef.current.x) <= 1 &&
@@ -1011,52 +968,33 @@ export default function ParticleGlobe({
         raycaster.setFromCamera(mouseRef.current, camera);
         const hits = raycaster.intersectObject(interactionSphere, false);
         if (hits.length) {
-          _hitWorld.copy(hits[0].point);
-          _hitLocal.copy(_hitWorld);
-          globe.worldToLocal(_hitLocal);
+          hitWorld.copy(hits[0].point);
+          hitLocal.copy(hitWorld);
+          globe.worldToLocal(hitLocal);
           hasHit = true;
-          
-          // Check if hit point moved significantly (reset accumulation if it did)
-          const hitMoved = _hitLocal.distanceTo(lastHitPoint) > 1.0;
-          if (hitMoved || hitStartTime === 0) {
-            hitStartTime = currentTime;
-            lastHitPoint.copy(_hitLocal);
-          }
-          
-          // Update GPU uniforms (for potential future use, but repulsion is now CPU-based)
-          material.uniforms.uHitPoint.value.copy(_hitLocal);
-          material.uniforms.uHitActive.value = 1.0;
-        } else {
-          material.uniforms.uHitActive.value = 0.0;
-          hitStartTime = 0;
         }
-      } else {
-        material.uniforms.uHitActive.value = 0.0;
-        hitStartTime = 0;
       }
 
       // Globe-driven hover: find nearest marker to the hit point direction (cheap + stable).
       // Throttle updates to keep React renders calm.
       const now = performance.now();
-      if (now - lastGlobeHoverUpdateRef.current > 100) { // Increased from 50ms to 100ms (10fps check)
+      if (now - lastGlobeHoverUpdateRef.current > 50) {
         lastGlobeHoverUpdateRef.current = now;
 
         let nextHover: string | null = null;
         if (hasHit && markerDirectionsRef.current.size) {
-          _tempVec.copy(_hitLocal).normalize();
+          const hitDir = hitLocal.clone().normalize();
 
           let bestName: string | null = null;
           let bestAngle = Infinity;
-          // Convert forEach to for loop for better performance
-          const markerDirs = markerDirectionsRef.current;
-          for (const [name, dir] of markerDirs) {
-            const dot = THREE.MathUtils.clamp(_tempVec.dot(dir), -1, 1);
+          markerDirectionsRef.current.forEach((dir, name) => {
+            const dot = THREE.MathUtils.clamp(hitDir.dot(dir), -1, 1);
             const angle = Math.acos(dot);
             if (angle < bestAngle) {
               bestAngle = angle;
               bestName = name;
             }
-          }
+          });
 
           const enterAngle = 0.06; // ~3.4°
           const exitAngle = 0.085; // ~4.9°
@@ -1075,120 +1013,58 @@ export default function ParticleGlobe({
         }
       }
 
-      // Hybrid approach: Update position buffer only for particles near hit point
-      // This is much faster than updating all 110k particles, but maintains the visual effect
-      const posArray = geometry.attributes.position.array as Float32Array;
+      // Repulsion radius in world units (scaled to globe size)
       const repulseRadiusWorld = globeRadius * repulsionRadius;
-      
-      if (hasHit) {
-        // Only update particles within repulsion radius (spatial optimization)
-        // This typically affects only ~1000-5000 particles instead of 110k
-        const hitX = _hitLocal.x;
-        const hitY = _hitLocal.y;
-        const hitZ = _hitLocal.z;
-        
-        for (let i = 0; i < originalPositionsRef.current.length; i++) {
-          const i3 = i * 3;
-          const orig = originalPositionsRef.current[i];
-          const vel = velocitiesRef.current[i];
-          
-          // Quick distance check (early exit for most particles)
-          const dx = posArray[i3] - hitX;
-          const dy = posArray[i3 + 1] - hitY;
-          const dz = posArray[i3 + 2] - hitZ;
-          const distSq = dx * dx + dy * dy + dz * dz;
-          
-          // Only process particles within repulsion radius
-          if (distSq < repulseRadiusWorld * repulseRadiusWorld) {
-            // Extra guard: only affect the camera-facing hemisphere
-            const frontDot =
-              posArray[i3] * camera.position.x +
-              posArray[i3 + 1] * camera.position.y +
-              posArray[i3 + 2] * camera.position.z;
-            
-            if (frontDot > 0) {
-              const dist = Math.sqrt(distSq);
-              
-              if (dist < repulseRadiusWorld && dist > 0.001) {
-                const force =
-                  Math.pow(1 - dist / repulseRadiusWorld, 2) * repulsionStrength;
-                const inv = 1 / (dist + 1e-6);
-                // Push away from the cursor-hit point
-                vel.x += dx * inv * force * 0.06;
-                vel.y += dy * inv * force * 0.06;
-                vel.z += dz * inv * force * 0.06;
-              }
-            }
+
+      for (let i = 0; i < originalPositionsRef.current.length; i++) {
+        const i3 = i * 3;
+        const orig = originalPositionsRef.current[i];
+        const vel = velocitiesRef.current[i];
+
+        // Repulse only near the hit point on the globe surface (prevents far-side repulsion)
+        if (hasHit) {
+          // Extra guard: only affect the camera-facing hemisphere (prevents "second" repulse patch near the limb)
+          const frontDot =
+            posArray[i3] * camera.position.x +
+            posArray[i3 + 1] * camera.position.y +
+            posArray[i3 + 2] * camera.position.z;
+          if (frontDot > 0) {
+          const dx = posArray[i3] - hitLocal.x;
+          const dy = posArray[i3 + 1] - hitLocal.y;
+          const dz = posArray[i3 + 2] - hitLocal.z;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+          if (dist < repulseRadiusWorld) {
+            const force =
+              Math.pow(1 - dist / repulseRadiusWorld, 2) * repulsionStrength;
+            const inv = 1 / (dist + 1e-6);
+            // Push away from the cursor-hit point (more intuitive than pure radial push)
+            vel.x += dx * inv * force * 0.06;
+            vel.y += dy * inv * force * 0.06;
+            vel.z += dz * inv * force * 0.06;
           }
-          
-          // Apply velocity and spring back (for all particles, but velocity is only non-zero near hit)
-          posArray[i3] += vel.x;
-          posArray[i3 + 1] += vel.y;
-          posArray[i3 + 2] += vel.z;
-          
-          posArray[i3] += (orig.x - posArray[i3]) * returnSpeed;
-          posArray[i3 + 1] += (orig.y - posArray[i3 + 1]) * returnSpeed;
-          posArray[i3 + 2] += (orig.z - posArray[i3 + 2]) * returnSpeed;
-          
-          vel.x *= 0.93;
-          vel.y *= 0.93;
-          vel.z *= 0.93;
-        }
-        
-        geometry.attributes.position.needsUpdate = true;
-      } else {
-        // When no hit, only update particles that still have velocity (were recently affected)
-        // This is much faster - most particles will have zero velocity
-        let needsUpdate = false;
-        for (let i = 0; i < originalPositionsRef.current.length; i++) {
-          const i3 = i * 3;
-          const orig = originalPositionsRef.current[i];
-          const vel = velocitiesRef.current[i];
-          
-          // Skip if velocity is essentially zero (optimization)
-          const velMagSq = vel.x * vel.x + vel.y * vel.y + vel.z * vel.z;
-          if (velMagSq < 0.0001) {
-            // Still apply spring-back for particles that are displaced
-            const dx = posArray[i3] - orig.x;
-            const dy = posArray[i3 + 1] - orig.y;
-            const dz = posArray[i3 + 2] - orig.z;
-            const dispSq = dx * dx + dy * dy + dz * dz;
-            
-            if (dispSq > 0.0001) {
-              posArray[i3] += (orig.x - posArray[i3]) * returnSpeed;
-              posArray[i3 + 1] += (orig.y - posArray[i3 + 1]) * returnSpeed;
-              posArray[i3 + 2] += (orig.z - posArray[i3 + 2]) * returnSpeed;
-              needsUpdate = true;
-            }
-            continue;
           }
-          
-          needsUpdate = true;
-          
-          // Apply velocity and spring back
-          posArray[i3] += vel.x;
-          posArray[i3 + 1] += vel.y;
-          posArray[i3 + 2] += vel.z;
-          
-          posArray[i3] += (orig.x - posArray[i3]) * returnSpeed;
-          posArray[i3 + 1] += (orig.y - posArray[i3 + 1]) * returnSpeed;
-          posArray[i3 + 2] += (orig.z - posArray[i3 + 2]) * returnSpeed;
-          
-          vel.x *= 0.93;
-          vel.y *= 0.93;
-          vel.z *= 0.93;
         }
-        
-        if (needsUpdate) {
-          geometry.attributes.position.needsUpdate = true;
-        }
+
+        // Apply velocity and spring back
+        posArray[i3] += vel.x;
+        posArray[i3 + 1] += vel.y;
+        posArray[i3 + 2] += vel.z;
+
+        posArray[i3] += (orig.x - posArray[i3]) * returnSpeed;
+        posArray[i3 + 1] += (orig.y - posArray[i3 + 1]) * returnSpeed;
+        posArray[i3 + 2] += (orig.z - posArray[i3 + 2]) * returnSpeed;
+
+        vel.x *= 0.93;
+        vel.y *= 0.93;
+        vel.z *= 0.93;
       }
-      
+
+      geometry.attributes.position.needsUpdate = true;
       renderer.render(scene, camera);
     };
 
-    // Use setAnimationLoop instead of manual requestAnimationFrame (better performance)
-    renderer.setAnimationLoop(animate);
+      animate();
     })(); // End async IIFE
 
     // Cleanup
@@ -1205,9 +1081,8 @@ export default function ParticleGlobe({
         controls.dispose();
       }
 
-      // Stop animation loop
-      if (renderer) {
-        renderer.setAnimationLoop(null);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
 
       if (renderer && containerEl) {
