@@ -106,12 +106,12 @@ function DropdownMenu({
       />
       <div className="pt-0 pb-0">
         <div
-          className="flex min-h-96 pb-6"
+          className="flex flex-col md:flex-row min-h-96 pb-6"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
           {/* Left Image Section */}
-          <div className="w-96 h-96 relative flex-shrink-0 p-4 overflow-hidden rounded-lg">
+          <div className="w-full md:w-64 lg:w-80 xl:w-96 h-64 md:h-96 relative flex-shrink-0 p-3 md:p-4 overflow-hidden rounded-lg">
             <div className="w-full h-full relative overflow-hidden rounded-lg">
               <img
                 src={image}
@@ -119,14 +119,14 @@ function DropdownMenu({
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-              <div className="absolute bottom-4 left-4 text-white z-10">
+              <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white z-10 text-sm md:text-base">
                 {title}
               </div>
               {titleHref && (
                 <Link
                   href={titleHref}
                   onClick={onLinkClick}
-                  className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
+                  className="absolute bottom-3 md:bottom-4 right-3 md:right-4 w-7 h-7 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
                 >
                   <ArrowIcon />
                 </Link>
@@ -134,22 +134,22 @@ function DropdownMenu({
             </div>
           </div>
           {/* Right Columns Section */}
-          <div className="flex p-6 gap-8">
+          <div className="flex p-3 md:p-4 lg:p-6 gap-4 md:gap-6 lg:gap-8">
             {[firstColumn, secondColumn].map((column, colIndex) => (
-              <div key={colIndex} className="space-y-6 min-w-[180px]">
+              <div key={colIndex} className="space-y-4 md:space-y-6 min-w-[140px] md:min-w-[160px] lg:min-w-[180px]">
                 {column.map((item) => (
                   <Link
                     key={item.href as string}
                     href={item.href}
                     onClick={onLinkClick}
-                    className={`block text-sm transition-colors ${
+                    className={`block text-xs md:text-sm transition-colors ${
                       pathname === item.href
                         ? "text-white"
                         : "text-white/90 hover:text-white"
                     }`}
                   >
-                    <div className="mb-2">{item.label}</div>
-                    <p className="text-sm text-white/60">
+                    <div className="mb-1 md:mb-2">{item.label}</div>
+                    <p className="text-xs md:text-sm text-white/60">
                       {item.description}
                     </p>
                   </Link>
@@ -255,13 +255,13 @@ function NavDropdownButton({
       onMouseLeave={onMouseLeave}
     >
       <button
-        className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+        className={`text-xs md:text-sm transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap ${
           isActive ? "text-white" : "text-white/90 hover:text-white/60"
         }`}
       >
         {label}
         <ChevronDown
-          className={`w-4 h-4 transition-transform ${isHovered ? "rotate-180" : ""}`}
+          className={`w-3 h-3 md:w-4 md:h-4 transition-transform flex-shrink-0 ${isHovered ? "rotate-180" : ""}`}
         />
       </button>
     </div>
@@ -456,12 +456,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10 rounded-lg font-pp-neue-montreal transition-all duration-300"
+      className="fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[90%] lg:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10 rounded-lg font-pp-neue-montreal transition-all duration-300"
     >
-      <div className="px-4 sm:px-6 lg:px-8 relative">
+      <div className="px-3 sm:px-4 md:px-5 lg:px-8 relative">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" onClick={closeMobileMenu} className="flex items-center h-full">
+          <Link href="/" onClick={closeMobileMenu} className="flex items-center h-full flex-shrink-0">
             <img
               src="/images/logosvg.svg"
               alt="Sparagus Logo"
@@ -472,9 +472,9 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-6 xl:space-x-8 flex-1 justify-center min-w-0">
             {/* Services Dropdown */}
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               <NavDropdownButton
                 label={t("services")}
                 isHovered={services.isHovered}
@@ -485,7 +485,7 @@ export default function Navbar() {
             </div>
 
             {/* Hubs Dropdown */}
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               <NavDropdownButton
                 label={t("hubs")}
                 isHovered={hubs.isHovered}
@@ -496,7 +496,7 @@ export default function Navbar() {
             </div>
 
             {/* About Dropdown */}
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               <NavDropdownButton
                 label={t("about")}
                 isHovered={about.isHovered}
@@ -507,7 +507,7 @@ export default function Navbar() {
             </div>
 
             {/* Careers Dropdown */}
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               <NavDropdownButton
                 label={t("careers")}
                 isHovered={careers.isHovered}
@@ -520,7 +520,7 @@ export default function Navbar() {
             {/* Blog Link */}
             <Link
               href="/blog"
-              className={`text-sm transition-colors ${
+              className={`text-sm transition-colors whitespace-nowrap flex-shrink-0 ${
                 pathname === "/blog"
                   ? "text-white"
                   : "text-white/90 hover:text-white/60"
@@ -531,15 +531,15 @@ export default function Navbar() {
           </div>
 
           {/* Language Switcher, Contact & Mobile Menu Button */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4 flex-shrink-0">
             {/* Language Switcher Dropdown */}
             <div
-              className="relative hidden md:block"
+              className="relative hidden md:block flex-shrink-0"
               onMouseEnter={handleLanguageEnter}
               onMouseLeave={language.onMouseLeave}
             >
               <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap ${
                   language.isHovered
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -547,7 +547,7 @@ export default function Navbar() {
               >
                 {languages.find((lang) => lang.code === locale)?.label || "EN"}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`w-4 h-4 transition-transform flex-shrink-0 ${
                     language.isHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -557,7 +557,7 @@ export default function Navbar() {
             {/* Contact Link */}
             <Link
               href="/contact"
-              className={`hidden md:block px-6 py-2 bg-[var(--primary)] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] ${
+              className={`hidden md:block px-3 md:px-4 lg:px-6 py-2 bg-[var(--primary)] text-white text-xs md:text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] whitespace-nowrap flex-shrink-0 ${
                 pathname === "/contact" ? "bg-[#6a02cc]" : ""
               }`}
             >
