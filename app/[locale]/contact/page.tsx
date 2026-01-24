@@ -123,7 +123,10 @@ export default function ContactPage() {
           </div>
 
           {/* Rows 2 & 3 – locations */}
-          {(t.raw("getInTouch.locations") as string[]).map((location) => (
+          {(() => {
+            const raw = t.raw("getInTouch.locations");
+            const locations = Array.isArray(raw) ? (raw as string[]) : [];
+            return locations.map((location) => (
             <div
               key={location}
               className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 py-5 md:py-6 border-t border-white/15"
@@ -141,7 +144,8 @@ export default function ContactPage() {
                 {t("getInTouch.col3Time")}
               </div>
             </div>
-          ))}
+          ));
+          })()}
         </div>
       </section>
 

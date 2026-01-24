@@ -119,6 +119,17 @@
     },
     "section3": {
       "description": "Cette section teste la façon dont le composant AnimatedText gère les paragraphes plus longs avec plusieurs lignes. Le composant doit diviser le texte en lignes et animer chaque ligne indépendamment. Cela crée un effet de révélation de texte fluide et professionnel qui fonctionne très bien pour la narration et les expériences utilisateur engageantes."
+    },
+    "getInTouch": {
+      "title": "Restons en contact",
+      "row1": {
+        "col1": "Restons en contact",
+        "col2Label": "Nouveaux projets",
+        "col3": "Rejoignez l'équipe"
+      },
+      "newBusiness": "Nouveaux projets",
+      "col3Time": "10:04",
+      "locations": ["Bruxelles", "Londres"]
     }
   },
   "notFound": {
