@@ -121,6 +121,10 @@ export default function BlogPreview({
 
   return (
     <section className="relative w-full bg-black py-16 md:py-24 px-4 md:px-8">
+      <div className="mb-16 md:mb-24">
+        <div className="w-full h-px bg-white"></div>
+        <h3 className="mt-2 text-sm md:text-base text-white font-pp-neue-montreal">Latest from the blog</h3>
+      </div>
       <div className="">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-16">
           <h2 className="text-4xl md:text-6xl  font-normal text-white font-pp-neue-montreal max-w-sm ">
@@ -130,7 +134,7 @@ export default function BlogPreview({
             href={viewAllHref as "/blog"}
             className="text-white/80 hover:text-white font-pp-neue-montreal text-sm md:text-base transition-colors inline-flex items-center gap-2"
           >
-            View all <span aria-hidden>→</span>
+            View all our articles <span aria-hidden>→</span>
           </Link>
         </div>
 
@@ -179,7 +183,7 @@ export default function BlogPreview({
                   <h3 className="mt-2 text-lg md:text-xl font-normal text-white font-pp-neue-montreal leading-tight line-clamp-2 max-w-[32ch]">
                     {article.title}
                   </h3>
-                  <p className="mt-2 text-white/70 font-pp-neue-montreal text-sm md:text-base leading-relaxed line-clamp-2 max-w-[50ch]">
+                  <p className="mt-2 text-white/70 font-pp-neue-montreal text-sm md:text-base leading-relaxed line-clamp-2 max-w-[40ch]">
                     {article.excerpt}
                   </p>
                   <span className="mt-3 inline-flex items-center gap-1 text-white/80 text-sm font-pp-neue-montreal opacity-0 group-hover:opacity-100 transition-opacity">
@@ -191,9 +195,9 @@ export default function BlogPreview({
           </div>
         </div>
 
-        <p className="mt-6 text-white/40 font-pp-neue-montreal text-xs md:text-sm">
+        {/* <p className="mt-6 text-white/40 font-pp-neue-montreal text-xs md:text-sm">
           Drag horizontally to explore · Placeholder content until CMS is connected
-        </p>
+        </p> */}
       </div>
     </section>
   );
