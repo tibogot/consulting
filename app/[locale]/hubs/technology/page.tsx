@@ -1,5 +1,7 @@
 import AnimatedText from "@/app/components/AnimatedText3";
 import AnimatedClipPathImage from "@/app/components/AnimatedClipPathImage";
+// import ServiceCardsScroll from "@/app/components/ServiceCardsScroll";
+import StickyStackScroll from "@/app/components/StickyStackScroll4";
 
 export default function TechnologyHubPage() {
   return (
@@ -28,6 +30,13 @@ export default function TechnologyHubPage() {
           </p>
         </div>
       </section>
+
+      {/* <ServiceCardsScroll /> */}
+
+      <StickyStackScroll />
+
+      {/* Spacer section for scroll completion */}
+      <section className="h-screen bg-red-500" />
     </div>
   );
 }
