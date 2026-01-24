@@ -1258,7 +1258,7 @@ export default function ParticleGlobe({
     <div className={`relative w-full h-full ${className}`}>
       <div
         ref={containerRef}
-        className="absolute inset-0 w-full h-full overflow-hidden bg-transparent"
+        className={`absolute inset-0 w-full h-full overflow-hidden bg-transparent ${globeHoverLocation ? "cursor-pointer" : ""}`}
       />
 
       {(() => {
@@ -1276,7 +1276,7 @@ export default function ParticleGlobe({
                     key={loc.name}
                     type="button"
                     className={[
-                      "group flex w-full items-center justify-between text-left",
+                      "group flex w-full items-center justify-between text-left cursor-pointer",
                       "text-base md:text-lg leading-tight",
                       "transition-colors",
                       isActive ? "text-white" : "text-white/60 hover:text-white/90",
@@ -1345,7 +1345,7 @@ export default function ParticleGlobe({
               <div className="rounded-[2px] border border-white/10 bg-black/25 backdrop-blur-sm overflow-hidden">
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between gap-3 px-4 py-3"
+                  className="flex w-full items-center justify-between gap-3 px-4 py-3 cursor-pointer"
                   onClick={() => setIsLocationsPanelOpen((v) => !v)}
                   aria-expanded={isLocationsPanelOpen}
                   aria-controls="mobile-locations-panel"

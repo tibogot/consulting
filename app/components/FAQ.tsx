@@ -115,7 +115,6 @@ export default function FAQ({ items, className = "" }: FAQProps) {
       <div className="w-full">
         <div className="flex flex-col md:flex-row gap-10 md:gap-14 items-start">
           <div className="md:w-1/2">
-            <div className="h-px w-20 bg-white/40 mb-6" />
             <h2 className="text-4xl md:text-5xl font-normal text-white font-pp-neue-montreal max-w-lg leading-tight">
               Frequently Asked Questions
             </h2>
