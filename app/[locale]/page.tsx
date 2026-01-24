@@ -305,7 +305,7 @@ export default async function Home() {
       <StackingCardsPin />
 
       {/* Blue Section (same layout as About/Us) */}
-      <section className="relative w-full h-svh bg-primary text-white">
+      {/* <section className="relative w-full h-svh bg-primary text-white">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 h-full flex items-center">
           <div className="font-pp-neue-montreal max-w-3xl">
             <p className="text-white/70 uppercase tracking-wide text-xs md:text-sm">
@@ -324,7 +324,7 @@ export default async function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Purple Gradient Section */}
       {/* <section
