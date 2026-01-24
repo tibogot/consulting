@@ -16,6 +16,7 @@ import AnimatedText from "../components/AnimatedText3";
 import AnimatedButton from "../components/AnimatedButton";
 import FractalGradient from "../components/FractalGradient2";
 import PurpleGradient from "../components/PurpleGradient";
+import BlogPreview from "../components/BlogPreview";
 
 
 export default async function Home() {
@@ -326,22 +327,19 @@ export default async function Home() {
       </section>
 
       {/* Purple Gradient Section */}
-      <section
+      {/* <section
         className="relative h-screen flex items-center px-4 md:px-8 overflow-hidden"
         style={{
           background:
             "linear-gradient(180deg, #f8f9fa 0%, #f5f7fa 50%, #f2f5f8 100%)",
         }}
       >
-        {/* PurpleGradient Background */}
         <div className="absolute inset-0">
           <PurpleGradient />
         </div>
 
-        {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <div className="flex flex-col">
-            {/* Title */}
             <div>
               <AnimatedCopy colorInitial="#cccccc" colorAccent="#8202FF" colorFinal="#1a0a2a">
                 <h1 className="font-pp-neue-montreal text-4xl md:text-6xl lg:text-7xl font-normal leading-tight tracking-[-0.02em]">
@@ -354,7 +352,6 @@ export default async function Home() {
               </AnimatedCopy>
             </div>
 
-            {/* Paragraphs */}
             <div className="font-pp-neue-montreal max-w-lg mt-16">
               <AnimatedCopy colorInitial="#cccccc" colorAccent="#8202FF" colorFinal="#1a0a2a">
                 <p className="text-base md:text-lg leading-relaxed mb-6">
@@ -374,7 +371,9 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <BlogPreview />
 
       {/* Newsletter Section */}
       {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
