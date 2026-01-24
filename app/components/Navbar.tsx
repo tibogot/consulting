@@ -572,24 +572,28 @@ export default function Navbar() {
                   return !open;
                 })
               }
-              className="md:hidden p-2 text-white/90 hover:text-white"
+              className="md:hidden p-2 text-white/90 hover:text-white relative w-6 h-6 flex flex-col justify-center items-center"
               aria-label="Toggle menu"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              <span
+                className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ease-in-out ${
+                  isMenuOpen
+                    ? "rotate-45 translate-y-0"
+                    : "-translate-y-2"
+                }`}
+              />
+              <span
+                className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+                }`}
+              />
+              <span
+                className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ease-in-out ${
+                  isMenuOpen
+                    ? "-rotate-45 translate-y-0"
+                    : "translate-y-2"
+                }`}
+              />
             </button>
           </div>
         </div>
