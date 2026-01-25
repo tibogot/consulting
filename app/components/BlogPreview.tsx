@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { Draggable } from "@/lib/gsapConfig";
 
 export type BlogArticle = {
@@ -70,6 +70,7 @@ export default function BlogPreview({
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const draggableRef = useRef<Draggable | null>(null);
+  const router = useRouter();
 
   // Simplified drag state tracking
   const dragStateRef = useRef({
@@ -100,8 +101,8 @@ export default function BlogPreview({
       activeCursor: "grabbing",
       edgeResistance: 0.85,
       dragResistance: 0,
-      // IMPORTANT: Set to false so links work naturally when not dragging
-      dragClickables: false,
+      // Allow dragging to start on clickable elements (the cards are wrapped in links)
+      dragClickables: true,
       // Higher minimum movement for mobile
       minimumMovement: TAP_THRESHOLD,
       onPress: function(event?: MouseEvent | TouchEvent) {
@@ -132,9 +133,21 @@ export default function BlogPreview({
           dragStateRef.current.isDragging = false;
         }, 50);
       },
-      // Remove onClick handler entirely - let native clicks work
+      onClick: function(event: PointerEvent) {
+        // Only navigate if no movement occurred (genuine tap/click)
+        if (!dragStateRef.current.pointerMoved && !dragStateRef.current.isDragging) {
+          const target = event.target as HTMLElement;
+          const link = target.closest("a");
+          if (link) {
+            const href = link.getAttribute("href");
+            if (href) {
+              router.push(href as "/blog");
+            }
+          }
+        }
+      },
     })[0];
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     setupDraggable();
