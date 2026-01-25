@@ -13,7 +13,7 @@ const servicesData = [
     title: "Search & Selection",
     description:
       "Connecting top talent with business needs through tailored recruitment solutions for permanent, independent, and executive positions.",
-    image: "/images/sticky-cards/stickycard-1.webp",
+    image: "/images/cards/charlesdeluvio.jpg",
     cta: { text: "Explore Search & Selection", href: "/services/search-selection" },
   },
   {
@@ -21,7 +21,7 @@ const servicesData = [
     title: "Consulting Services",
     description:
       "Driving business transformation with expert consulting, customized technological solutions, and agile project delivery.",
-    image: "/images/sticky-cards/stickycard-2.webp",
+    image: "/images/cards/clay.jpg",
     cta: { text: "Explore Consulting", href: "/services/consulting" },
   },
   {
@@ -29,7 +29,7 @@ const servicesData = [
     title: "Managed Services",
     description:
       "Optimizing recruitment and outsourcing operations through personalized managed services that improve efficiency, reduce costs, and ensure compliance.",
-    image: "/images/sticky-cards/stickycard-3.webp",
+    image: "/images/cards/malte.jpg",
     cta: { text: "Explore Managed Services", href: "/services/managed" },
   },
   {
@@ -37,7 +37,7 @@ const servicesData = [
     title: "Technology & Engineering",
     description:
       "Accelerate digital transformation through customized IT solutions in cloud, cybersecurity, data, and agile project management.",
-    image: "/images/sticky-cards/stickycard-4.webp",
+    image: "/images/cards/zac-wolff.jpg",
     cta: { text: "Explore Technology & Engineering", href: "/hubs/technology" },
   },
 ];
@@ -498,7 +498,7 @@ export default function ServicesHero() {
       <div className="relative z-10 flex w-full flex-col items-start justify-center px-4 md:w-1/2 md:px-8">
 
         {/* Stacked titles - all in same position */}
-        <div className="relative mb-8 h-36 w-full max-w-2xl md:h-44">
+        <div className="relative mb-2 h-24 w-full max-w-2xl md:mb-3 md:h-28">
           {servicesData.map((service, index) => (
             <div
               key={`title-${service.id}`}
@@ -515,7 +515,7 @@ export default function ServicesHero() {
         </div>
 
         {/* Stacked descriptions - all in same position */}
-        <div className="relative mb-10 h-32 w-full max-w-xl md:h-28">
+        <div className="relative mb-4 h-32 w-full max-w-xl md:mb-5 md:h-28">
           {servicesData.map((service, index) => (
             <div
               key={`desc-${service.id}`}
