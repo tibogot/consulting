@@ -237,7 +237,7 @@ export default async function Home() {
       <ServicesHero />
 
       {/* Pinned Clip Path Animation Section */}
-      <PinnedClipPathAnimation />
+      {/* <PinnedClipPathAnimation /> */}
 
       {/* Animated Vertical Lines Section */}
       {/* <AnimatedVerticalLines
@@ -305,7 +305,7 @@ export default async function Home() {
       </section> */}
 
       {/* Stacking Cards Pin Section */}
-      <StackingCardsPin />
+      {/* <StackingCardsPin /> */}
 
       {/* Blue Section (same layout as About/Us) */}
       {/* <section className="relative w-full h-svh bg-primary text-white">
@@ -379,7 +379,7 @@ export default async function Home() {
       <BlogPreview />
 
       {/* Newsletter Section */}
-      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
         <FractalGradient zIndex={10} position="absolute" />
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
@@ -412,7 +412,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section>
+      </section> */}
 
 
       {/* Closing Loop Section */}
