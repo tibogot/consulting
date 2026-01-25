@@ -67,6 +67,14 @@ export default function BlogPreview({
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const draggableRef = useRef<Draggable | null>(null);
+  // Track drag state to prevent clicks during/after drag on mobile
+  const dragStateRef = useRef({
+    isDragging: false,
+    hasMoved: false,
+    startX: 0,
+    startY: 0,
+    pressTarget: null as HTMLElement | null,
+  });
 
   const setupDraggable = useCallback(() => {
     const container = containerRef.current;
@@ -90,25 +98,86 @@ export default function BlogPreview({
       edgeResistance: 0.85,
       dragResistance: 0,
       dragClickables: true,
-      minimumMovement: 3,
-      onDragStart: () => {
+      // Increase minimum movement for better mobile detection
+      minimumMovement: 5,
+      onPress: function(event?: MouseEvent | TouchEvent) {
+        // Reset drag state on press
+        dragStateRef.current.isDragging = false;
+        dragStateRef.current.hasMoved = false;
+        // Store initial position to calculate movement
+        dragStateRef.current.startX = this.x;
+        dragStateRef.current.startY = this.y;
+        // Store the target element that was pressed
+        // Try to get from event, fallback to this.target
+        dragStateRef.current.pressTarget = 
+          (event?.target as HTMLElement) || 
+          (this.target as HTMLElement) || 
+          null;
+      },
+      onDragStart: function() {
+        dragStateRef.current.isDragging = true;
+        dragStateRef.current.hasMoved = true;
         container.classList.add("is-dragging");
+      },
+      onDrag: function() {
+        // Mark as moved if we've dragged significantly
+        const deltaX = Math.abs(this.x - dragStateRef.current.startX);
+        const deltaY = Math.abs(this.y - dragStateRef.current.startY);
+        if (deltaX > 5 || deltaY > 5) {
+          dragStateRef.current.hasMoved = true;
+        }
       },
       onDragEnd: () => {
         container.classList.remove("is-dragging");
       },
+      onRelease: function() {
+        // Check if this was a tap (minimal movement) vs a drag
+        const deltaX = Math.abs(this.x - dragStateRef.current.startX);
+        const deltaY = Math.abs(this.y - dragStateRef.current.startY);
+        const totalMovement = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // If it was a genuine tap (minimal movement), handle click
+        // Use a threshold of 8px to account for touch jitter
+        // Only process if we haven't dragged significantly
+        if (totalMovement < 8 && !dragStateRef.current.isDragging) {
+          // Use the stored press target to find the link
+          const target = dragStateRef.current.pressTarget;
+          if (target) {
+            const link = target.closest("a");
+            if (link) {
+              // Small delay to ensure drag state is cleared, then trigger navigation
+              setTimeout(() => {
+                // Double-check we're not in a drag state before clicking
+                if (!dragStateRef.current.isDragging && !dragStateRef.current.hasMoved) {
+                  link.click();
+                }
+              }, 10);
+            }
+          }
+        }
+        
+        // Reset drag state after a short delay to allow click to process
+        setTimeout(() => {
+          dragStateRef.current.isDragging = false;
+          dragStateRef.current.hasMoved = false;
+          dragStateRef.current.pressTarget = null;
+        }, 100);
+      },
       onClick: (event: MouseEvent | TouchEvent) => {
-        // Find the clicked link element
-        const target = event.target as HTMLElement;
-        const link = target.closest("a");
-        if (link) {
-          // Trigger the link's click event - Next.js Link will handle navigation
-          const clickEvent = new MouseEvent("click", {
-            bubbles: true,
-            cancelable: true,
-            view: window,
-          });
-          link.dispatchEvent(clickEvent);
+        // Only handle click if no drag occurred (desktop fallback)
+        // On mobile, onRelease handles the tap detection
+        if (!dragStateRef.current.isDragging && !dragStateRef.current.hasMoved) {
+          const target = event.target as HTMLElement;
+          const link = target.closest("a");
+          if (link) {
+            // Trigger the link's click event - Next.js Link will handle navigation
+            const clickEvent = new MouseEvent("click", {
+              bubbles: true,
+              cancelable: true,
+              view: window,
+            });
+            link.dispatchEvent(clickEvent);
+          }
         }
       },
     })[0];
@@ -154,7 +223,7 @@ export default function BlogPreview({
         <div
           ref={containerRef}
           className="overflow-hidden touch-pan-y cursor-grab select-none [&.is-dragging]:cursor-grabbing"
-          style={{ touchAction: "pan-y pinch-zoom" }}
+          style={{ touchAction: "pan-x pan-y pinch-zoom" }}
         >
           <div
             ref={trackRef}
