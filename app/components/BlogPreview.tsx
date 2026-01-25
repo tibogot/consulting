@@ -3,7 +3,7 @@
 import { useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { gsap, Draggable } from "@/lib/gsapConfig";
+import { Draggable } from "@/lib/gsapConfig";
 
 export type BlogArticle = {
   id: string;
@@ -67,7 +67,6 @@ export default function BlogPreview({
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const draggableRef = useRef<Draggable | null>(null);
-  const hasDraggedRef = useRef(false);
 
   const setupDraggable = useCallback(() => {
     const container = containerRef.current;
@@ -91,12 +90,26 @@ export default function BlogPreview({
       edgeResistance: 0.85,
       dragResistance: 0,
       dragClickables: true,
+      minimumMovement: 3,
       onDragStart: () => {
-        hasDraggedRef.current = true;
         container.classList.add("is-dragging");
       },
       onDragEnd: () => {
         container.classList.remove("is-dragging");
+      },
+      onClick: (event: MouseEvent | TouchEvent) => {
+        // Find the clicked link element
+        const target = event.target as HTMLElement;
+        const link = target.closest("a");
+        if (link) {
+          // Trigger the link's click event - Next.js Link will handle navigation
+          const clickEvent = new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          });
+          link.dispatchEvent(clickEvent);
+        }
       },
     })[0];
   }, []);
@@ -156,12 +169,6 @@ export default function BlogPreview({
                   href={article.slug as "/blog"}
                   className="block"
                   draggable={false}
-                  onClick={(e) => {
-                    if (hasDraggedRef.current) {
-                      e.preventDefault();
-                      hasDraggedRef.current = false;
-                    }
-                  }}
                 >
                   <div className="relative aspect-16/10 overflow-hidden bg-white/5 rounded-sm mb-4">
                     <Image
