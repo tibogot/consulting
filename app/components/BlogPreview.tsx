@@ -73,7 +73,10 @@ export default function BlogPreview({
     hasMoved: false,
     startX: 0,
     startY: 0,
+    startPointerX: 0,
+    startPointerY: 0,
     pressTarget: null as HTMLElement | null,
+    tapHandled: false, // Flag to indicate onRelease handled a tap
   });
 
   const setupDraggable = useCallback(() => {
@@ -104,11 +107,22 @@ export default function BlogPreview({
         // Reset drag state on press
         dragStateRef.current.isDragging = false;
         dragStateRef.current.hasMoved = false;
-        // Store initial position to calculate movement
+        dragStateRef.current.tapHandled = false;
+        // Store initial draggable position
         dragStateRef.current.startX = this.x;
         dragStateRef.current.startY = this.y;
+        // Store initial pointer coordinates (actual screen position)
+        // This is critical for detecting vertical scrolling vs horizontal dragging
+        if (event) {
+          if ('touches' in event && event.touches.length > 0) {
+            dragStateRef.current.startPointerX = event.touches[0].clientX;
+            dragStateRef.current.startPointerY = event.touches[0].clientY;
+          } else if ('clientX' in event) {
+            dragStateRef.current.startPointerX = event.clientX;
+            dragStateRef.current.startPointerY = event.clientY;
+          }
+        }
         // Store the target element that was pressed
-        // Try to get from event, fallback to this.target
         dragStateRef.current.pressTarget = 
           (event?.target as HTMLElement) || 
           (this.target as HTMLElement) || 
@@ -130,16 +144,49 @@ export default function BlogPreview({
       onDragEnd: () => {
         container.classList.remove("is-dragging");
       },
-      onRelease: function() {
-        // Check if this was a tap (minimal movement) vs a drag
-        const deltaX = Math.abs(this.x - dragStateRef.current.startX);
-        const deltaY = Math.abs(this.y - dragStateRef.current.startY);
-        const totalMovement = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      onRelease: function(event?: MouseEvent | TouchEvent) {
+        // Get the current pointer position
+        let currentPointerX = dragStateRef.current.startPointerX;
+        let currentPointerY = dragStateRef.current.startPointerY;
         
-        // If it was a genuine tap (minimal movement), handle click
-        // Use a threshold of 8px to account for touch jitter
-        // Only process if we haven't dragged significantly
-        if (totalMovement < 8 && !dragStateRef.current.isDragging) {
+        if (event) {
+          if ('changedTouches' in event && event.changedTouches.length > 0) {
+            currentPointerX = event.changedTouches[0].clientX;
+            currentPointerY = event.changedTouches[0].clientY;
+          } else if ('clientX' in event) {
+            currentPointerX = event.clientX;
+            currentPointerY = event.clientY;
+          }
+        }
+        
+        // Calculate actual pointer movement (not just draggable position)
+        const pointerDeltaX = Math.abs(currentPointerX - dragStateRef.current.startPointerX);
+        const pointerDeltaY = Math.abs(currentPointerY - dragStateRef.current.startPointerY);
+        
+        // Calculate draggable movement (horizontal only)
+        const draggableDeltaX = Math.abs(this.x - dragStateRef.current.startX);
+        
+        // CRITICAL: If there's ANY vertical movement, it's likely a scroll, not a tap
+        // Only allow clicks if:
+        // 1. Vertical movement is minimal (< 8px) - user wasn't scrolling
+        // 2. Horizontal movement is minimal (< 8px) - user wasn't dragging
+        // 3. No drag was initiated
+        // 4. hasMoved flag is false (from touch event listeners)
+        const isVerticalScroll = pointerDeltaY > 8;
+        const isHorizontalDrag = pointerDeltaX > 8 || draggableDeltaX > 5;
+        const isMinimalMovement = pointerDeltaX < 8 && pointerDeltaY < 8;
+        
+        // Only trigger click if it was a genuine tap (minimal movement in both directions)
+        // AND we haven't detected any movement from touch listeners
+        if (
+          isMinimalMovement && 
+          !isVerticalScroll && 
+          !isHorizontalDrag && 
+          !dragStateRef.current.isDragging &&
+          !dragStateRef.current.hasMoved
+        ) {
+          // Mark that we're handling this tap
+          dragStateRef.current.tapHandled = true;
           // Use the stored press target to find the link
           const target = dragStateRef.current.pressTarget;
           if (target) {
@@ -147,8 +194,13 @@ export default function BlogPreview({
             if (link) {
               // Small delay to ensure drag state is cleared, then trigger navigation
               setTimeout(() => {
-                // Double-check we're not in a drag state before clicking
-                if (!dragStateRef.current.isDragging && !dragStateRef.current.hasMoved) {
+                // Triple-check we're not in a drag state before clicking
+                if (
+                  !dragStateRef.current.isDragging && 
+                  !dragStateRef.current.hasMoved &&
+                  Math.abs(currentPointerX - dragStateRef.current.startPointerX) < 8 &&
+                  Math.abs(currentPointerY - dragStateRef.current.startPointerY) < 8
+                ) {
                   link.click();
                 }
               }, 10);
@@ -164,20 +216,26 @@ export default function BlogPreview({
         }, 100);
       },
       onClick: (event: MouseEvent | TouchEvent) => {
+        // Prevent clicks entirely if there's been any movement
+        // This is a safety net - onRelease should handle most cases
+        if (dragStateRef.current.isDragging || dragStateRef.current.hasMoved) {
+          event.preventDefault?.();
+          event.stopPropagation?.();
+          return;
+        }
+        
         // Only handle click if no drag occurred (desktop fallback)
         // On mobile, onRelease handles the tap detection
-        if (!dragStateRef.current.isDragging && !dragStateRef.current.hasMoved) {
-          const target = event.target as HTMLElement;
-          const link = target.closest("a");
-          if (link) {
-            // Trigger the link's click event - Next.js Link will handle navigation
-            const clickEvent = new MouseEvent("click", {
-              bubbles: true,
-              cancelable: true,
-              view: window,
-            });
-            link.dispatchEvent(clickEvent);
-          }
+        const target = event.target as HTMLElement;
+        const link = target.closest("a");
+        if (link) {
+          // Trigger the link's click event - Next.js Link will handle navigation
+          const clickEvent = new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          });
+          link.dispatchEvent(clickEvent);
         }
       },
     })[0];
@@ -187,14 +245,88 @@ export default function BlogPreview({
     setupDraggable();
 
     const container = containerRef.current;
-    if (!container) return;
+    const track = trackRef.current;
+    if (!container || !track) return;
+
+    // Track touch movement to detect vertical scrolling
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let touchMoved = false;
+    let isVerticalScroll = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchMoved = false;
+        isVerticalScroll = false;
+        dragStateRef.current.hasMoved = false;
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+        const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+        
+        // If there's ANY vertical movement, mark it as potential scroll
+        // If vertical movement is greater than horizontal, it's definitely a scroll
+        if (deltaY > 5) {
+          if (deltaY > deltaX || deltaY > 10) {
+            isVerticalScroll = true;
+          }
+          touchMoved = true;
+          dragStateRef.current.hasMoved = true;
+        } else if (deltaX > 5) {
+          // Horizontal movement - might be a drag
+          touchMoved = true;
+          // Only mark as moved if it's not primarily vertical
+          if (!isVerticalScroll) {
+            dragStateRef.current.hasMoved = true;
+          }
+        }
+      }
+    };
+
+    // Add touch listeners to track movement
+    track.addEventListener('touchstart', handleTouchStart, { passive: true });
+    track.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    // Prevent link clicks if there's been any movement (scrolling or dragging)
+    // This is a safety net - onRelease will handle genuine taps
+    const handleLinkClick = (e: MouseEvent | TouchEvent) => {
+      // Only prevent if we've detected movement or dragging
+      // Allow click if onRelease has marked it as a handled tap
+      if ((dragStateRef.current.hasMoved || dragStateRef.current.isDragging) && !dragStateRef.current.tapHandled) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        return false;
+      }
+    };
+
+    // Add click prevention to all links in the track
+    const links = track.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', handleLinkClick, { capture: true });
+    });
 
     const ro = new ResizeObserver(() => {
       setupDraggable();
+      // Re-attach link handlers after draggable is recreated
+      const newLinks = track.querySelectorAll('a');
+      newLinks.forEach(link => {
+        link.addEventListener('click', handleLinkClick, { capture: true });
+      });
     });
     ro.observe(container);
 
     return () => {
+      track.removeEventListener('touchstart', handleTouchStart);
+      track.removeEventListener('touchmove', handleTouchMove);
+      links.forEach(link => {
+        link.removeEventListener('click', handleLinkClick, { capture: true });
+      });
       ro.disconnect();
       draggableRef.current?.kill();
       draggableRef.current = null;
