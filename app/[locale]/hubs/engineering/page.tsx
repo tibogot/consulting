@@ -1,5 +1,6 @@
 import AnimatedText from "@/app/components/AnimatedText3";
 import AnimatedClipPathImage from "@/app/components/AnimatedClipPathImage";
+import ServicesHero from "@/app/components/ServicesHero";
 
 export default function EngineeringHubPage() {
   return (
@@ -28,6 +29,8 @@ export default function EngineeringHubPage() {
           </p>
         </div>
       </section>
+
+      <ServicesHero />
     </div>
   );
 }

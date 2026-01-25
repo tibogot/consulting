@@ -3,6 +3,7 @@ import Link from "next/link";
 import PartnersTicker from "../components/PartnersTicker";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
 import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
+import ServicesHero from "../components/ServicesHero";
 import Cards from "../components/Cards";
 import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
 import ParticleGlobe from "../components/ParticleGlobe";
@@ -232,6 +233,8 @@ export default async function Home() {
           className="py-10"
         />
       </section> */}
+
+      <ServicesHero />
 
       {/* Pinned Clip Path Animation Section */}
       <PinnedClipPathAnimation />
