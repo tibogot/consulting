@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import PartnersTicker from "../components/PartnersTicker";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
 import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
@@ -10,6 +11,7 @@ import ParticleGlobe from "../components/ParticleGlobe";
 import StackingCardsPin from "../components/StackingCardsPin";
 import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 import AnimatedCopy from "../components/AnimatedCopy";
+import TextAnim from "../components/TextAnim";
 // import WhiteSection from "../components/WhiteSection";
 
 
@@ -30,12 +32,60 @@ export default async function Home() {
 
       <PartnersTicker />
 
-      <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
+      {/* <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
       <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">   
         <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
            Trusted by teams who move fast and build for impact.
         </h2>
         </AnimatedCopy>
+      </section> */}
+      <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
+        {/* <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
+          <span className="opacity-0 select-none pointer-events-none">
+            Invisible text
+          </span>
+          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+            The second method of
+          </TextAnim>
+          <br />
+          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+            creating a sticky footer does not use
+          </TextAnim>
+          <br />
+          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+            the position fixed.
+          </TextAnim>
+        </h2> */}
+<AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">  
+        <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
+          <span className="opacity-0 select-none pointer-events-none">
+            Invisible text
+          </span>
+           
+          The second method of creating a sticky footer does not use  the position fixed.
+        </h2>
+        </AnimatedCopy>
+        <div className="flex w-full mt-42">
+          <div className="w-1/2"></div>
+          <div className="w-1/2">
+          <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">   
+          <p className="text-white font-pp-neue-montreal mb-4 text-lg max-w-lg">
+            The gap between design and development can be vast, often leading to final products that fall short of the original creative vision. Many developers, while technically proficient, lack the designer&apos;s eye for nuance and detail.            </p>
+            <p className="text-white font-pp-neue-montreal mb-4 text-lg max-w-lg">
+            At OMMO, we bridge this gap. We&apos;re committed to creating digital experiences that are not only functional but also true to the designer&apos;s vision. By combining technical expertise with a deep appreciation for design principles, we deliver solutions that preserve your creative intent and resonate with audiences in the ever-evolving digital landscape.          </p>
+            </AnimatedCopy>
+            <Link
+              href="/contact"
+              className="font-pp-neue-montreal bg-secondary text-white hover:bg-secondary/90 group relative z-20 inline-flex items-center gap-3 text-sm transition-all duration-300 md:text-base mt-6"
+            >
+              Get in touch
+              <ArrowRight
+                size={20}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </div>
+        </div>
       </section>
 
 
@@ -109,9 +159,9 @@ export default async function Home() {
       </section> */}
 
 
-      <Cards />
+      {/* <Cards /> */}
 
-      <section className="relative w-full bg-black py-20 px-4 md:px-8">
+      {/* <section className="relative w-full bg-black py-20 px-4 md:px-8">
         <div className="w-full">
         <AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-left font-pp-neue-montreal text-white tracking-[-0.02em] leading-[1.05] max-w-4xl">
             Strategy that ships. Systems that scale. Results you can measure.
@@ -199,7 +249,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* White Section */}
       {/* <WhiteSection /> */}

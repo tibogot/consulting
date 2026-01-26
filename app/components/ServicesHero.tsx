@@ -32,14 +32,6 @@ const servicesData = [
     image: "/images/cards/malte.jpg",
     cta: { text: "Explore Managed Services", href: "/services/managed" },
   },
-  {
-    id: 4,
-    title: "Technology & Engineering",
-    description:
-      "Accelerate digital transformation through customized IT solutions in cloud, cybersecurity, data, and agile project management.",
-    image: "/images/cards/zac-wolff.jpg",
-    cta: { text: "Explore Technology & Engineering", href: "/hubs/technology" },
-  },
 ];
 
 export default function ServicesHero() {
@@ -114,33 +106,37 @@ export default function ServicesHero() {
       });
 
       // Set initial states for wrapper divs
-      gsap.set([titles[1], titles[2], titles[3]], { autoAlpha: 1 });
-      gsap.set([descs[1], descs[2], descs[3]], { autoAlpha: 1 });
+      gsap.set([titles[1], titles[2]], { autoAlpha: 1 });
+      gsap.set([descs[1], descs[2]], { autoAlpha: 1 });
 
       // Set initial states for CTAs (animate like title/desc)
       gsap.set(ctas[0], { yPercent: 0, autoAlpha: 1 });
-      gsap.set([ctas[1], ctas[2], ctas[3]], { yPercent: 100, autoAlpha: 0 });
+      gsap.set([ctas[1], ctas[2]], { yPercent: 100, autoAlpha: 0 });
 
       // Set initial mask states using clip-path on outer wrapper
       // First image fully visible
       gsap.set(images[0], { clipPath: "inset(0% 0% 0% 0%)" });
       // Other images clipped from top (hidden, will reveal from top to bottom)
-      gsap.set([images[1], images[2], images[3]], {
+      gsap.set([images[1], images[2]], {
         clipPath: "inset(100% 0% 0% 0%)",
       });
 
       // Set initial scale states on inner divs
       gsap.set(imageInners[0], { scale: 1 });
-      gsap.set([imageInners[1], imageInners[2], imageInners[3]], {
+      gsap.set([imageInners[1], imageInners[2]], {
         scale: 1.2,
       });
+
+      // Double-check section is still valid and connected before creating timeline
+      const section = sectionRef.current;
+      if (!section || !section.isConnected) return;
 
       // Create main timeline
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: section,
           start: "top top",
-          end: "+=400%", // 4x viewport height for 4 states
+          end: "+=300%", // 3x viewport height for 3 states
           scrub: 1, // Smoother scrub for more fluid feel
           pin: true,
           pinSpacing: true, // Seamless pinning like StickyCards3D
@@ -366,114 +362,7 @@ export default function ServicesHero() {
           "<0.1",
         )
         // Hold state 3 for a bit
-        .to({}, { duration: 0.3 })
-        // Transition from state 3 to state 4
-        // Animate out current title lines
-        .to(titleSplits[2].lines, {
-          yPercent: -100,
-          autoAlpha: 0,
-          duration: 0.4,
-          stagger: 0.05,
-          ease: "power2.inOut",
-        })
-        // Animate out current description lines
-        .to(
-          descSplits[2].lines,
-          {
-            yPercent: -100,
-            autoAlpha: 0,
-            duration: 0.4,
-            stagger: 0.05,
-            ease: "power2.inOut",
-          },
-          "<0.1",
-        )
-        // Animate out current CTA
-        .to(
-          ctas[2],
-          {
-            yPercent: -100,
-            autoAlpha: 0,
-            duration: 0.4,
-            ease: "power2.inOut",
-          },
-          "<0.1",
-        )
-        // Clip current image to the bottom (masking it out from top to bottom)
-        .to(
-          images[2],
-          {
-            clipPath: "inset(0% 0% 100% 0%)",
-            duration: 0.6,
-            ease: "power2.inOut",
-          },
-          "<0.1",
-        )
-        // Scale up the inner div as current image exits
-        .to(
-          imageInners[2],
-          {
-            scale: 1.2,
-            duration: 0.6,
-            ease: "power2.inOut",
-          },
-          "<",
-        )
-        // Reveal new image from top to bottom
-        .to(
-          images[3],
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 0.6,
-            ease: "power2.inOut",
-          },
-          "<",
-        )
-        // Scale down from 1.2 to 1 as it reveals
-        .to(
-          imageInners[3],
-          {
-            scale: 1,
-            duration: 0.6,
-            ease: "power2.inOut",
-          },
-          "<",
-        )
-        // Animate in new title lines
-        .to(
-          titleSplits[3].lines,
-          {
-            yPercent: 0,
-            autoAlpha: 1,
-            duration: 0.4,
-            stagger: 0.05,
-            ease: "power2.out",
-          },
-          "<0.2",
-        )
-        // Animate in new description lines
-        .to(
-          descSplits[3].lines,
-          {
-            yPercent: 0,
-            autoAlpha: 1,
-            duration: 0.4,
-            stagger: 0.05,
-            ease: "power2.out",
-          },
-          "<0.1",
-        )
-        // Animate in new CTA
-        .to(
-          ctas[3],
-          {
-            yPercent: 0,
-            autoAlpha: 1,
-            duration: 0.4,
-            ease: "power2.out",
-          },
-          "<0.1",
-        );
+        .to({}, { duration: 0.3 });
 
       // Refresh ScrollTrigger after timeline is created to prevent pin jumping
       requestAnimationFrame(() => {
