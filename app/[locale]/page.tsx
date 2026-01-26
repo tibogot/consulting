@@ -98,9 +98,9 @@ export default async function Home() {
             end="top 10%"
             scrub={0.5}
           >   
-          <p className="text-white font-pp-neue-montreal mb-4 text-lg max-w-lg">
+          <p className="text-white font-pp-neue-montreal mb-4 text-xl max-w-lg">
             The gap between design and development can be vast, often leading to final products that fall short of the original creative vision. Many developers, while technically proficient, lack the designer&apos;s eye for nuance and detail.            </p>
-            <p className="text-white font-pp-neue-montreal mb-4 text-lg max-w-lg">
+            <p className="text-white font-pp-neue-montreal mb-4 text-xl max-w-lg">
             At OMMO, we bridge this gap. We&apos;re committed to creating digital experiences that are not only functional but also true to the designer&apos;s vision. By combining technical expertise with a deep appreciation for design principles, we deliver solutions that preserve your creative intent and resonate with audiences in the ever-evolving digital landscape.          </p>
             </AnimatedCopy>
             <Link

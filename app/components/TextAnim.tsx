@@ -64,7 +64,7 @@ const TextAnim = ({
         splitRef.current.chars.forEach((char)=>{
           if (char && char.classList) {
             char.classList.remove("text-fade-char");
-            if (char.style) {
+            if (char instanceof HTMLElement && char.style) {
               char.style.animationDelay = "";
             }
           }
@@ -84,7 +84,7 @@ const TextAnim = ({
         void currentElement.offsetHeight;
         // Add animation classes
         splitRef.current.chars.forEach((char,index)=>{
-          if (char && char.style && char.classList) {
+          if (char && char instanceof HTMLElement && char.style && char.classList) {
             char.style.animationDelay = `${index * 0.04}s`;
             char.classList.add("text-fade-char");
           }
