@@ -8,6 +8,9 @@ interface AnimatedCopyProps {
   colorInitial?: string;
   colorAccent?: string;
   colorFinal?: string;
+  start?: string;
+  end?: string;
+  scrub?: number;
 }
 
 interface SplitTextRef {
@@ -20,6 +23,9 @@ export default function AnimatedCopy({
   colorInitial = "#dddddd",
   colorAccent = "#abff02",
   colorFinal = "#000000",
+  start = "top 90%",
+  end = "top 10%",
+  scrub = 0.5,
 }: AnimatedCopyProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const splitRefs = useRef<SplitTextRef[]>([]);
@@ -87,9 +93,9 @@ export default function AnimatedCopy({
 
       ScrollTrigger.create({
         trigger: containerRef.current,
-        start: "top 90%",
-        end: "top 10%",
-        scrub: 0.5,
+        start,
+        end,
+        scrub,
         onUpdate: (self) => {
           const progress = self.progress;
           const totalChars = allChars.length;
@@ -138,7 +144,7 @@ export default function AnimatedCopy({
     },
     {
       scope: containerRef,
-      dependencies: [colorInitial, colorAccent, colorFinal],
+      dependencies: [colorInitial, colorAccent, colorFinal, start, end, scrub],
     }
   );
 

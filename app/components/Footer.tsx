@@ -286,6 +286,13 @@ export default function Footer() {
             >
               Recruitment
             </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/textanimshowcase" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              Textanim Showcase
+            </Link>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import PartnersTicker from "../components/PartnersTicker";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
@@ -39,7 +40,11 @@ export default async function Home() {
         </h2>
         </AnimatedCopy>
       </section> */}
-      <section className="relative w-full bg-black pt-20 pb-40 px-4 md:px-8">
+      <section className="relative w-full bg-black pt-10 pb-40 px-4 md:px-8">
+        <div className="h-px bg-white mb-4  px-4 md:px-8"></div>
+        <h3 className="text-sm md:text-base font-pp-neue-montreal text-white mb-24 ">
+          Our vision
+        </h3>
         {/* <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
           <span className="opacity-0 select-none pointer-events-none">
             Invisible text
@@ -56,7 +61,14 @@ export default async function Home() {
             the position fixed.
           </TextAnim>
         </h2> */}
-<AnimatedCopy colorInitial="#666666" colorAccent="#8202FF" colorFinal="#ffffff">  
+          <AnimatedCopy 
+          colorInitial="#666666" 
+          colorAccent="#8202FF" 
+          colorFinal="#ffffff"
+          start="top 90%"
+          end="top 50%"
+          scrub={0.3}
+        >  
         <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
           <span className="opacity-0 select-none pointer-events-none">
             Invisible text
@@ -66,9 +78,26 @@ export default async function Home() {
         </h2>
         </AnimatedCopy>
         <div className="flex w-full mt-42">
-          <div className="w-1/2"></div>
+          <div className="w-1/2 flex items-end">
+            <div className="relative w-48 h-48 md:w-64 md:h-64">
+              <Image
+                src="/images/cards/charlesdeluvio.jpg"
+                alt="Image"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 192px, 256px"
+              />
+            </div>
+          </div>
           <div className="w-1/2">
-          <AnimatedCopy colorInitial="#444444" colorAccent="#ffffff" colorFinal="#ffffff">   
+          <AnimatedCopy 
+            colorInitial="#444444" 
+            colorAccent="#ffffff" 
+            colorFinal="#ffffff"
+            start="top 60%"
+            end="top 10%"
+            scrub={0.5}
+          >   
           <p className="text-white font-pp-neue-montreal mb-4 text-lg max-w-lg">
             The gap between design and development can be vast, often leading to final products that fall short of the original creative vision. Many developers, while technically proficient, lack the designer&apos;s eye for nuance and detail.            </p>
             <p className="text-white font-pp-neue-montreal mb-4 text-lg max-w-lg">
@@ -284,19 +313,26 @@ export default async function Home() {
         />
       </section> */}
 
+      <div className="px-4 md:px-8">
+        <div className="w-full h-px bg-white mb-4"></div>
+        <h3 className="text-sm md:text-base font-pp-neue-montreal text-white mb-8">
+          Services
+        </h3>
+      </div>
+
       <ServicesHero />
 
       {/* Pinned Clip Path Animation Section */}
       {/* <PinnedClipPathAnimation /> */}
 
       {/* Animated Vertical Lines Section */}
-      {/* <AnimatedVerticalLines
+      <AnimatedVerticalLines
         title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
         description="Forward-thinking organizations."
         lineHeight={300}
         animationDuration={3}
         primaryColor="#ff2dff"
-      /> */}
+      />
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
       {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
@@ -429,8 +465,18 @@ export default async function Home() {
       <BlogPreview />
 
       {/* Newsletter Section */}
-      {/* <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
-        <FractalGradient zIndex={10} position="absolute" />
+      <section className="relative w-full h-[80vh] bg-black overflow-hidden flex items-center justify-center">
+        {/* <FractalGradient zIndex={10} position="absolute" /> */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/maxim-hopman.jpg"
+            alt="Background"
+            fill
+            className="object-cover opacity-80"
+            sizes="100vw"
+            priority
+          />
+        </div>
         <div className="relative z-20 flex flex-col items-center justify-center text-center max-w-3xl px-4 ">
           <AnimatedText className="text-4xl md:text-6xl  font-normal text-white mb-6 md:mb-8 font-pp-neue-montreal">
             <h2>Stay Updated</h2>
@@ -462,7 +508,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section> */}
+      </section>
 
 
       {/* Closing Loop Section */}

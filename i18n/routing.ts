@@ -188,6 +188,11 @@ export const routing = defineRouting({
       en: '/bennett-clive-demo',
       nl: '/bennett-clive-demo',
     },
+    '/textanimshowcase': {
+      fr: '/textanimshowcase',
+      en: '/textanimshowcase',
+      nl: '/textanimshowcase',
+    },
   },
 });
 
