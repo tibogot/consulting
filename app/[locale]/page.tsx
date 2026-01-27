@@ -37,23 +37,23 @@ export default async function Home() {
         <h3 className="mb-24 font-pp-neue-montreal text-sm text-white md:text-base">
           Our services
         </h3>
-        {/* <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
-          <span className="opacity-0 select-none pointer-events-none">
+        <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
+          {/* <span className="opacity-0 select-none pointer-events-none">
             Invisible text
-          </span>
-          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+          </span> */}
+          <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
             The second method of
           </TextAnim>
           <br />
-          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+          <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
             creating a sticky footer does not use
           </TextAnim>
           <br />
-          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+          <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
             the position fixed.
           </TextAnim>
-        </h2> */}
-        <AnimatedCopy
+        </h2>
+        {/* <AnimatedCopy
           colorInitial="#666666"
           colorAccent="#8202FF"
           colorFinal="#ffffff"
@@ -65,11 +65,11 @@ export default async function Home() {
             <span className="pointer-events-none opacity-0 select-none">
               Invisible text
             </span>
-            A Smarter Way to Find, Deploy & Manage the Expertise Your Business Needs          </h2>
-        </AnimatedCopy>
+            A Smarter Way to Find, Deploy & Manage the Expertise Your Business
+            Needs{" "}
+          </h2>
+        </AnimatedCopy> */}
       </section>
-
-      {/* <Cards /> */}
 
       {/* White Section */}
       {/* <WhiteSection /> */}
@@ -167,8 +167,8 @@ export default async function Home() {
               colorFinal="#ffffff"
             >
               {" "}
-              <h2 className="max-w-xl text-left font-pp-neue-montreal text-5xl  font-normal  text-white md:text-6xl ">
-              Built on Expertise. Driven by People.
+              <h2 className="max-w-xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-6xl">
+                Built on Expertise. Driven by People.
               </h2>
             </AnimatedCopy>
           </div>
@@ -182,13 +182,20 @@ export default async function Home() {
 
             <div className="md:w-1/2">
               <div>
-                <p className="max-w-lg  pb-6 font-pp-neue-montreal leading-relaxed text-white/80 text-lg">
-                From our roots as a Belgian recruitment agency to a trusted consulting partner across 11 countries, Sparagus has evolved to meet the real expertise needs of modern business. We help companies fill critical roles, lead complex projects, and manage full-service delivery — without losing the human touch.
+                <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
+                  From our roots as a Belgian recruitment agency to a trusted
+                  consulting partner across 11 countries, Sparagus has evolved
+                  to meet the real expertise needs of modern business. We help
+                  companies fill critical roles, lead complex projects, and
+                  manage full-service delivery — without losing the human touch.
                 </p>
-                <p className="max-w-lg  pb-6 font-pp-neue-montreal leading-relaxed text-white/80 text-lg">
-                With over a decade of experience and 100+ active consultants, our teams combine deep domain knowledge, operational agility, and a commitment to long-term partnerships. At Sparagus, success isn&apos;t about transactions — it&apos;s about impact.
+                <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
+                  With over a decade of experience and 100+ active consultants,
+                  our teams combine deep domain knowledge, operational agility,
+                  and a commitment to long-term partnerships. At Sparagus,
+                  success isn&apos;t about transactions — it&apos;s about
+                  impact.
                 </p>
-                
 
                 <Link
                   href="/services"
@@ -199,8 +206,6 @@ export default async function Home() {
               </div>
             </div>
           </div>
-
-          
 
           {/* <div className="mt-32 grid grid-cols-1 gap-10 md:grid-cols-2">
             <div>
@@ -306,11 +311,6 @@ export default async function Home() {
         <ParticleGlobe className="w-full h-full" />
       </section> */}
 
-      {/* Holographic Globe Section */}
-      {/* <section className="relative w-full h-[100svh]">
-        <HolographicGlobe className="w-full h-full" />
-      </section> */}
-
       {/* Stacking Cards Pin Section */}
       {/* <StackingCardsPin /> */}
 
@@ -383,6 +383,18 @@ export default async function Home() {
         </div>
       </section> */}
 
+            <section className="relative flex h-screen w-full items-center justify-center border-t  bg-white px-4 md:px-8">
+        <div className="mx-auto w-full max-w-5xl text-center">
+          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+            <h2 className="font-pp-neue-montreal leading-tight text-4xl font-normal text-black md:text-7xl">
+The Right Talent. The Right Time. The Right Results            </h2>
+          </TextAnim>
+        </div>
+      </section>
+
+
+      <Cards />
+
       <CaseStudies />
 
       <BlogPreview />
@@ -400,6 +412,8 @@ export default async function Home() {
             priority
           />
         </div>
+
+        
         <div className="relative z-20 flex max-w-3xl flex-col items-center justify-center px-4 text-center">
           <AnimatedText className="mb-6 font-pp-neue-montreal text-4xl font-normal text-white md:mb-8 md:text-6xl">
             <h2>Stay Updated</h2>

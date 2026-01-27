@@ -251,7 +251,7 @@ export default function BlogPreview({
                       src={article.image}
                       alt=""
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(min-width: 1024px) 600px, (min-width: 768px) 520px, 420px"
                       draggable={false}
                     />
