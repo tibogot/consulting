@@ -114,6 +114,13 @@ export const routing = defineRouting({
       nl: '/blog',
     },
     
+    // Case Studies
+    '/case-studies': {
+      fr: '/etudes-de-cas',
+      en: '/case-studies',
+      nl: '/casestudies',
+    },
+    
     // Contact
     '/contact': {
       fr: '/contact',

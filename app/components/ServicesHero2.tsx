@@ -383,37 +383,8 @@ export default function ServicesHero() {
       ref={sectionRef}
       className="relative flex h-screen w-full snap-start snap-always overflow-hidden"
     >
-      {/* Left side - Images stacked on top of each other */}
-      <div className="absolute top-0 left-0 h-full w-full overflow-hidden md:relative md:w-1/2">
-        {servicesData.map((service, index) => (
-          <div
-            key={`image-${service.id}`}
-            ref={(el) => {
-              imageRefs.current[index] = el;
-            }}
-            className="absolute inset-0 h-full w-full overflow-hidden"
-          >
-            <div
-              ref={(el) => {
-                imageInnerRefs.current[index] = el;
-              }}
-              className="relative h-full w-full"
-            >
-              <Image
-                src={service.image}
-                alt={service.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-                priority={index === 0}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Right side - Content */}
-      <div className="relative z-10 flex w-full flex-col items-start justify-center px-4 md:w-1/2 md:pl-16 md:pr-8">
+      {/* Left side - Content */}
+      <div className="relative z-10 flex w-full flex-col items-start justify-center px-4 md:w-1/2 md:px-8">
 
         {/* Stacked titles - all in same position */}
         <div className="relative mb-2 h-24 w-full max-w-2xl md:mb-3 md:h-28">
@@ -472,6 +443,35 @@ export default function ServicesHero() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Right side - Images stacked on top of each other */}
+      <div className="absolute top-0 right-0 h-full w-full overflow-hidden md:relative md:w-1/2">
+        {servicesData.map((service, index) => (
+          <div
+            key={`image-${service.id}`}
+            ref={(el) => {
+              imageRefs.current[index] = el;
+            }}
+            className="absolute inset-0 h-full w-full overflow-hidden"
+          >
+            <div
+              ref={(el) => {
+                imageInnerRefs.current[index] = el;
+              }}
+              className="relative h-full w-full"
+            >
+              <Image
+                src={service.image}
+                alt={service.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                priority={index === 0}
+              />
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Overlay gradient for mobile to ensure text readability */}

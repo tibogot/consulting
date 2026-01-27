@@ -109,7 +109,7 @@ export default function PageLoader() {
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+      className="fixed inset-0 z-9999 bg-black flex items-center justify-center"
       style={{ willChange: "transform" }}
     >
       <div className="w-full max-w-4xl px-4">
