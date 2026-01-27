@@ -40,6 +40,15 @@ const MOCK_CASE_STUDIES: CaseStudy[] = [
     image: "/images/cards/clay.jpg",
     slug: "/case-studies/strategic-innovation",
   },
+  {
+    id: "4",
+    title: "Building future-ready solutions.",
+    description:
+      "We create scalable architectures and modern workflows that adapt to changing business needs while maintaining performance and reliability.",
+    date: "1.10.2026",
+    image: "/images/cards/malte.jpg",
+    slug: "/case-studies/future-ready-solutions",
+  },
 ];
 
 interface CaseStudiesProps {
