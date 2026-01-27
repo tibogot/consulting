@@ -448,7 +448,7 @@ The Right Talent. The Right Time. The Right Results            </h2>
       </section>
 
       {/* Closing Loop Section */}
-      <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
+      {/* <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
         <div className="mx-auto w-full max-w-6xl text-center">
           <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
             <h2 className="font-pp-neue-montreal text-4xl font-normal text-white md:text-7xl">
@@ -457,7 +457,7 @@ The Right Talent. The Right Time. The Right Results            </h2>
             </h2>
           </TextAnim>
         </div>
-      </section>
+      </section> */}
       {/* <section className="relative w-full h-[80vh] bg-black border-t border-white/10 flex items-center justify-center px-4 md:px-8">
         <div className="w-full max-w-6xl mx-auto text-center">
         <AnimatedCopyLoop
