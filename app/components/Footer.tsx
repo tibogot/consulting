@@ -293,6 +293,13 @@ export default function Footer() {
             >
               Textanim Showcase
             </Link>
+            <span className="text-gray-600 text-[10px]">|</span>
+            <Link
+              href={"/cardstest" as const}
+              className="text-gray-600 hover:text-gray-400 text-[10px] transition-colors"
+            >
+              Cards Test
+            </Link>
           </div>
         </div>
       </div>
