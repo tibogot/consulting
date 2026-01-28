@@ -64,9 +64,9 @@ export default function StackingCardsPin3D({ className = "" }: { className?: str
         if (index < cardEls.length - 1) {
           const pinSt = ScrollTrigger.create({
             trigger: card,
-            start: "top top",
+            start: "top top+=100", // Pin earlier to account for navbar
             endTrigger: lastCard,
-            end: "top top",
+            end: "top top+=100", // Unpin when last card reaches the pin position
             pin: true,
             pinSpacing: false,
             invalidateOnRefresh: true,
@@ -80,7 +80,7 @@ export default function StackingCardsPin3D({ className = "" }: { className?: str
             const animSt = ScrollTrigger.create({
               trigger: nextCard,
               start: "top bottom",
-              end: "top top",
+              end: "top top+=100", // Match the pin end position
               onUpdate: (self) => {
                 const progress = self.progress;
                 const scale = 1 - progress * 0.25;
