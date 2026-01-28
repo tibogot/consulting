@@ -442,9 +442,9 @@ export default async function Home() {
       </section>
 
       {/* Particle Globe WebGPU Section */}
-      <section className="relative h-svh w-full">
+      {/* <section className="relative h-svh w-full">
         <ParticleGlobeWebGPU className="h-full w-full" />
-      </section>
+      </section> */}
 
       {/* Closing Loop Section */}
       {/* <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
