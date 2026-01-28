@@ -1,20 +1,19 @@
 import AnimatedText from "@/app/components/AnimatedText3";
 import AnimatedClipPathImage from "@/app/components/AnimatedClipPathImage";
-import ServicesHero from "@/app/components/ServicesHero";
 
 export default function EngineeringHubPage() {
   return (
-    <div className="w-full min-h-screen bg-black overflow-x-hidden">
-      <section className="w-full pt-64 pb-20 overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden bg-black">
+      <section className="w-full overflow-x-hidden pt-64 pb-20">
         <div className="px-4 md:px-8">
           <AnimatedText isHero className="overflow-visible">
-            <h1 className="text-left text-white font-pp-neue-montreal font-normal text-5xl md:text-7xl max-w-3xl tracking-[-0.02em]">
+            <h1 className="max-w-3xl text-left font-pp-neue-montreal text-5xl font-normal tracking-[-0.02em] text-white md:text-7xl">
               From prototype to production.
             </h1>
           </AnimatedText>
         </div>
 
-        <div className="mt-20 relative h-[80vh] w-full overflow-hidden">
+        <div className="relative mt-20 h-[80vh] w-full overflow-hidden">
           <AnimatedClipPathImage
             src="/thisisengineering.jpg"
             alt="Engineering"
@@ -22,16 +21,7 @@ export default function EngineeringHubPage() {
             sizes="(min-width: 768px) 1024px, 100vw"
           />
         </div>
-
-        <div className="px-4 md:px-8">
-          <p className="mt-8 text-white/80 font-pp-neue-montreal text-base md:text-lg leading-relaxed max-w-3xl">
-            We design and build reliable systems, from prototypes to production-grade infrastructure.
-          </p>
-        </div>
       </section>
-
-      <ServicesHero />
     </div>
   );
 }
-
