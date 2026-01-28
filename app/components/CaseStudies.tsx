@@ -107,7 +107,7 @@ export default function CaseStudies({
 
               {/* Column 1: Image Container (wider) with Image (same size) */}
               <div className="shrink-0 w-full md:w-[550px] flex items-center">
-                <div className="relative w-full md:w-96 aspect-video md:aspect-[16/9] overflow-hidden rounded-sm">
+                <div className="relative w-full md:w-96 aspect-video md:aspect-video overflow-hidden rounded-sm">
                   <Image
                     src={caseStudy.image}
                     alt=""
