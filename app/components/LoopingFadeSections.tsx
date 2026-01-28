@@ -241,7 +241,6 @@ export default function LoopingFadeSections() {
     {
       scope: containerRef,
       dependencies: [scheduleNext, clearHoldTimer],
-      revertOnCleanup: true,
     }
   );
 
