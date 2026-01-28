@@ -5,17 +5,32 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
+  "editor.tabCompletion": "on",
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  },
   "prettier.enable": true,
   "prettier.requireConfig": false,
-  "prettier.documentSelectors": ["**/*.{js,jsx,ts,tsx,json,css,scss,md}"],
+  "prettier.documentSelectors": ["**/*.{js,jsx,ts,tsx,json,jsonc,css,scss,md}"],
+  "prettier.useEditorConfig": false,
+  "prettier.configPath": ".prettierrc",
   "eslint.format.enable": false,
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.quoteStyle": "double",
   "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabCompletion": "on"
   },
   "[typescriptreact]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabCompletion": "on",
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }

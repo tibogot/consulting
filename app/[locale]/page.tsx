@@ -9,6 +9,7 @@ import ServicesHero from "../components/ServicesHero";
 import Cards from "../components/Cards";
 import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
 import ParticleGlobe from "../components/ParticleGlobe";
+import ParticleGlobeWebGPU from "../components/ParticleGlobeWebGPU";
 import StackingCardsPin from "../components/StackingCardsPin";
 import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 import AnimatedCopy from "../components/AnimatedCopy";
@@ -37,20 +38,13 @@ export default async function Home() {
         <h3 className="mb-24 font-pp-neue-montreal text-sm text-white md:text-base">
           Our services
         </h3>
-        <h2 className="text-5xl md:text-7xl font-normal text-left font-pp-neue-montreal text-white  max-w-7xl">
+        <h2 className="max-w-5xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-7xl">
           {/* <span className="opacity-0 select-none pointer-events-none">
             Invisible text
           </span> */}
           <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
-            The second method of
-          </TextAnim>
-          <br />
-          <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
-            creating a sticky footer does not use
-          </TextAnim>
-          <br />
-          <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
-            the position fixed.
+            A smarter way to find, deploy & manage the expertise your business
+            needs{" "}
           </TextAnim>
         </h2>
         {/* <AnimatedCopy
@@ -61,6 +55,7 @@ export default async function Home() {
           end="top 50%"
           scrub={0.3}
         >
+          
           <h2 className="max-w-7xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-7xl">
             <span className="pointer-events-none opacity-0 select-none">
               Invisible text
@@ -383,15 +378,15 @@ export default async function Home() {
         </div>
       </section> */}
 
-            <section className="relative flex h-screen w-full items-center justify-center border-t  bg-white px-4 md:px-8">
+      <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
         <div className="mx-auto w-full max-w-5xl text-center">
           <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
-            <h2 className="font-pp-neue-montreal leading-tight text-4xl font-normal text-black md:text-7xl">
-The Right Talent. The Right Time. The Right Results            </h2>
+            <h2 className="font-pp-neue-montreal text-4xl leading-tight font-normal text-black md:text-7xl">
+              The Right Talent. The Right Time. The Right Results{" "}
+            </h2>
           </TextAnim>
         </div>
       </section>
-
 
       <Cards />
 
@@ -413,7 +408,6 @@ The Right Talent. The Right Time. The Right Results            </h2>
           />
         </div>
 
-        
         <div className="relative z-20 flex max-w-3xl flex-col items-center justify-center px-4 text-center">
           <AnimatedText className="mb-6 font-pp-neue-montreal text-4xl font-normal text-white md:mb-8 md:text-6xl">
             <h2>Stay Updated</h2>
@@ -445,6 +439,11 @@ The Right Talent. The Right Time. The Right Results            </h2>
             </form>
           </AnimatedButton>
         </div>
+      </section>
+
+      {/* Particle Globe WebGPU Section */}
+      <section className="relative h-svh w-full">
+        <ParticleGlobeWebGPU className="h-full w-full" />
       </section>
 
       {/* Closing Loop Section */}
