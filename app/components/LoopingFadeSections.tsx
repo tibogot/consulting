@@ -187,7 +187,7 @@ export default function LoopingFadeSections() {
             if (split?.lines?.length) {
               fixMask({ elements: [el], masks: split.lines });
               splits.push(split);
-              allLines.push(...split.lines);
+              allLines.push(...(split.lines as HTMLElement[]));
             }
           } catch {
             /* skip */
