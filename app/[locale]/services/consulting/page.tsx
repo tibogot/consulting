@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import ManagedServicesHero from "@/app/components/ManagedServicesHero";
-import DotMatrix from "@/app/components/DotMatrix";
 
 export default async function ConsultingPage() {
   const t = await getTranslations("services.consulting");

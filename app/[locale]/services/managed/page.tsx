@@ -4,8 +4,6 @@ import Link from "next/link";
 import HorizontalServices from "@/app/components/HorizontalServices";
 import CompanyTimeline from "@/app/components/CompanyTimeline";
 import ManagedServicesHero from "@/app/components/ManagedServicesHero";
-import PinnedClipPathAnimation from "@/app/components/PinnedClipPathAnimation";
-import StackingCardsPin from "@/app/components/StackingCardsPin";
 
 export default function ManagedServicesPage() {
   return (

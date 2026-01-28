@@ -1,7 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import BlackSection from "../../components/BlackSection";
 import GradientTextReveal from "../../components/GradientTextReveal";
-import StickyCards3D from "../../components/StickyCards3D";
 import PartnersTicker from "../../components/PartnersTicker";
 import AnimatedText from "../../components/AnimatedText3";
 import ShaderBackground from "../../components/ShaderBackground4";
@@ -60,14 +58,11 @@ export default async function RecruitmentPage() {
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="font-switzer mt-8 text-left text-5xl font-[400] tracking-[-0.01em] md:text-6xl lg:text-7xl"
+          className="mt-8 text-left font-pp-neue-montreal text-5xl md:text-6xl lg:text-7xl"
         >
           <h2>{t("blackSection.title")}</h2>
         </GradientTextReveal>
       </section>
-
-      {/* Black Section */}
-      <BlackSection />
 
       {/* DotMatrix Section - 100vh */}
       <section className="relative h-screen w-full bg-black">
