@@ -61,7 +61,7 @@ interface CaseStudiesProps {
 
 export default function CaseStudies({
   caseStudies = MOCK_CASE_STUDIES,
-  subtitle = "Every new vehicle digitized",
+  subtitle = "We’re building the future of digital experiences.",
   title = "Case Studies",
   viewAllHref = "/case-studies",
   viewAllText = "View all case studies",
