@@ -1,4 +1,5 @@
 import PinnedClipPathAnimation from "@/app/components/PinnedClipPathAnimation";
+import LoopingFadeSections from "@/app/components/LoopingFadeSections";
 import ServicesHero from "@/app/components/ServicesHero";
 import StackingCardsPin from "@/app/components/StackingCardsPin";
 import StackingCardsPin3D from "@/app/components/StackingCardsPin3D";
@@ -23,6 +24,16 @@ export default function CardstestPage() {
         </h2>
       </section>
       <PinnedClipPathAnimation />
+
+      {/* LoopingFadeSections */}
+      <section className="bg-black px-6 py-16">
+        <h2 className="mb-8 text-center text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
+          LoopingFadeSections
+        </h2>
+      </section>
+      <section className="bg-black px-6 py-16">
+        <LoopingFadeSections />
+      </section>
 
       {/* ServicesHero */}
       <section className="bg-black px-6 py-16">
