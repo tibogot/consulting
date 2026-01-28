@@ -96,18 +96,11 @@ export default function CaseStudies({
             {/* Case Study Item */}
             <Link
               href={caseStudiesRoute}
-              className="group relative flex flex-col md:flex-row items-center gap-4 md:gap-8 py-4 md:py-8"
+              className="group flex flex-col md:flex-row items-center gap-4 md:gap-8 py-4 md:py-8"
             >
-              {/* Read More CTA - Bottom Right */}
-              <div className="absolute bottom-4 md:bottom-8 right-0 shrink-0">
-                <span className="inline-flex items-center gap-1 text-white text-sm font-pp-neue-montreal opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700">
-                  Read more <span aria-hidden>→</span>
-                </span>
-              </div>
-
-              {/* Column 1: Image Container (wider) with Image (same size) */}
-              <div className="shrink-0 w-full md:w-[550px] flex items-center">
-                <div className="relative w-full md:w-96 aspect-video md:aspect-video overflow-hidden rounded-sm">
+              {/* Column 1: Image */}
+              <div className="shrink-0 w-full md:max-w-96">
+                <div className="relative w-full aspect-video overflow-hidden rounded-sm">
                   <Image
                     src={caseStudy.image}
                     alt=""
@@ -135,6 +128,13 @@ export default function CaseStudies({
                 <p className="text-white/70 font-pp-neue-montreal text-sm md:text-base leading-relaxed max-w-sm">
                   {caseStudy.description}
                 </p>
+              </div>
+
+              {/* Column 3: Read More CTA */}
+              <div className="shrink-0 self-end">
+                <span className="inline-flex items-center gap-1 text-white/80 text-sm font-pp-neue-montreal opacity-100 md:opacity-0 translate-y-0 md:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-700">
+                  Read more <span aria-hidden>→</span>
+                </span>
               </div>
             </Link>
 

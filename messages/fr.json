@@ -86,6 +86,11 @@
       "cta": "Contactez-nous"
     }
   },
+  "caseStudies": {
+    "title": "Études de cas",
+    "description": "Découvrez comment nous avons aidé les entreprises à se transformer et à croître grâce à des talents exceptionnels et des solutions stratégiques.",
+    "cta": "Contactez-nous"
+  },
   "flipDemo": {
     "hero": "Transformer les entreprises grâce à des talents exceptionnels et une expertise stratégique. Nous connectons la bonne expertise avec les bonnes opportunités.",
     "outro": "Stimuler l'innovation et la croissance dans tous les secteurs. Votre succès est notre mission, un projet à la fois.",

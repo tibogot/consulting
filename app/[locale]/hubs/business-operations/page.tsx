@@ -1,5 +1,6 @@
 import AnimatedText from "@/app/components/AnimatedText3";
 import AnimatedClipPathImage from "@/app/components/AnimatedClipPathImage";
+import StickyStackScroll from "@/app/components/StickyStackScroll5";
 
 export default function BusinessOperationsHubPage() {
   return (
@@ -28,6 +29,8 @@ export default function BusinessOperationsHubPage() {
           </p>
         </div>
       </section>
+
+      <StickyStackScroll />
     </div>
   );
 }

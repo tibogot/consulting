@@ -87,6 +87,11 @@
       "cta": "Get in Touch"
     }
   },
+  "caseStudies": {
+    "title": "Case Studies",
+    "description": "Discover how we've helped businesses transform and grow through exceptional talent and strategic solutions.",
+    "cta": "Get in Touch"
+  },
   "flipDemo": {
     "hero": "Transforming businesses through exceptional talent and strategic expertise. We connect the right expertise with the right opportunities.",
     "outro": "Driving innovation and growth across industries. Your success is our mission, one project at a time.",

@@ -263,13 +263,13 @@ export default function BlogPreview({
                   >
                     {article.date}
                   </time>
-                  <h3 className="mt-2 text-lg md:text-xl font-normal text-white font-pp-neue-montreal leading-tight line-clamp-2 max-w-[32ch]">
+                  <h3 className="mt-2 text-xl md:text-2xl font-normal text-white font-pp-neue-montreal leading-tight line-clamp-2 max-w-[32ch]">
                     {article.title}
                   </h3>
                   <p className="mt-2 text-white/70 font-pp-neue-montreal text-sm md:text-base leading-relaxed line-clamp-2 max-w-[40ch]">
                     {article.excerpt}
                   </p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-white/80 text-sm font-pp-neue-montreal opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="mt-3 inline-flex items-center gap-1 text-white/80 text-sm font-pp-neue-montreal opacity-100 md:opacity-0 translate-y-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-700">
                     Read more <span aria-hidden>→</span>
                   </span>
                 </Link>
