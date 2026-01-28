@@ -77,7 +77,7 @@ export default function LoopingFadeSections() {
   const textBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
   const numberBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
   const splitRefs = useRef<SectionSplit[]>([]);
-  const holdTimerRef = useRef<gsap.core.DelayedCall | null>(null);
+  const holdTimerRef = useRef<ReturnType<typeof gsap.delayedCall> | null>(null);
   const isTransitioningRef = useRef(false);
   const currentIndexRef = useRef(0);
 

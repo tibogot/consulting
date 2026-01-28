@@ -5,31 +5,32 @@ import StickyCards3D from "../../components/StickyCards3D";
 import PartnersTicker from "../../components/PartnersTicker";
 import AnimatedText from "../../components/AnimatedText3";
 import ShaderBackground from "../../components/ShaderBackground4";
+import DotMatrix from "../../components/DotMatrix";
 
 export default async function RecruitmentPage() {
   const t = await getTranslations("home");
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="min-h-screen w-full">
       {/* Hero Section */}
-      <section className="relative h-svh flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative flex h-svh flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
         {/* Shader Background */}
         <div className="absolute inset-0 -z-10">
           <ShaderBackground />
         </div>
-        <div className="relative z-10 w-full max-w-4xl mx-auto text-center">
+        <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
           <AnimatedText
             isHero
-            className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white"
+            className="text-4xl leading-tight font-light text-white md:text-5xl lg:text-6xl"
           >
             <h1>{t("hero.title")}</h1>
           </AnimatedText>
         </div>
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-lg mx-auto text-center px-4">
+        <div className="absolute bottom-8 left-1/2 mx-auto w-full max-w-lg -translate-x-1/2 transform px-4 text-center">
           <AnimatedText
             isHero
             delay={0.5}
-            className="text-white/80 text-sm md:text-base"
+            className="text-sm text-white/80 md:text-base"
           >
             <p>{t("hero.subtitle")}</p>
           </AnimatedText>
@@ -48,18 +49,18 @@ export default async function RecruitmentPage() {
       </section>
 
       {/* Second Section */}
-      <section className="relative w-full bg-black py-24 px-4 md:px-8">
+      <section className="relative w-full bg-black px-4 py-24 md:px-8">
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-medium text-left font-pp-neue-montreal"
+          className="text-left font-pp-neue-montreal text-5xl font-medium md:text-6xl lg:text-7xl"
         >
           <h2>{t("blackSection.title")}</h2>
         </GradientTextReveal>
         <GradientTextReveal
           startColor="rgb(255, 255, 255, 0.3)"
           endColor="rgb(255, 255, 255)"
-          className="text-5xl md:text-6xl lg:text-7xl font-[400] text-left font-switzer tracking-[-0.01em] mt-8"
+          className="font-switzer mt-8 text-left text-5xl font-[400] tracking-[-0.01em] md:text-6xl lg:text-7xl"
         >
           <h2>{t("blackSection.title")}</h2>
         </GradientTextReveal>
@@ -68,8 +69,10 @@ export default async function RecruitmentPage() {
       {/* Black Section */}
       <BlackSection />
 
-      {/* Sticky Cards 3D Section */}
-      <StickyCards3D />
+      {/* DotMatrix Section - 100vh */}
+      <section className="relative h-screen w-full bg-black">
+        <DotMatrix color="#c084fc" opacity={1} dotSize={3} spacing={8} />
+      </section>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import StackingCardsPin from "@/app/components/StackingCardsPin";
 
 export default function ManagedServicesPage() {
   return (
-    <div className="w-full min-h-screen bg-black">
+    <div className="min-h-screen w-full bg-black">
       {/* Hero Section */}
       <ManagedServicesHero
         title="Managed Services"
@@ -17,29 +17,33 @@ export default function ManagedServicesPage() {
       />
 
       {/* Overview Section */}
-      <section id="overview" className="relative w-full bg-black py-24 px-4 md:px-8">
+      <section
+        id="overview"
+        className="relative w-full bg-black px-4 py-24 md:px-8"
+      >
         <div className="">
-          <div className="flex flex-col md:flex-row gap-12">
+          <div className="flex flex-col gap-12 md:flex-row">
             <div className="md:w-1/2">
-              <p className="text-white/60 uppercase tracking-wide text-xs md:text-sm font-pp-neue-montreal">
+              <p className="font-pp-neue-montreal text-xs tracking-wide text-white/60 uppercase md:text-sm">
                 What we do
               </p>
-              <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-normal text-white font-pp-neue-montreal leading-tight">
+              <h2 className="mt-4 font-pp-neue-montreal text-4xl leading-tight font-normal text-white md:text-5xl lg:text-6xl">
                 Reliable operations, predictable outcomes
               </h2>
             </div>
-            <div className="md:w-1/2 space-y-6">
-              <p className="text-white/80 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                We take ownership of your critical systems and processes—monitoring,
-                maintaining, and optimizing around the clock. Whether it&apos;s
-                infrastructure, applications, or entire platforms, we ensure
-                everything runs smoothly, securely, and at scale.
+            <div className="space-y-6 md:w-1/2">
+              <p className="font-pp-neue-montreal text-base leading-relaxed text-white/80 md:text-lg">
+                We take ownership of your critical systems and
+                processes—monitoring, maintaining, and optimizing around the
+                clock. Whether it&apos;s infrastructure, applications, or entire
+                platforms, we ensure everything runs smoothly, securely, and at
+                scale.
               </p>
-              <p className="text-white/80 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                Our managed services combine deep technical expertise with proactive
-                monitoring, automated workflows, and 24/7 support. You get peace of
-                mind, predictable costs, and the freedom to focus on growth instead
-                of operations.
+              <p className="font-pp-neue-montreal text-base leading-relaxed text-white/80 md:text-lg">
+                Our managed services combine deep technical expertise with
+                proactive monitoring, automated workflows, and 24/7 support. You
+                get peace of mind, predictable costs, and the freedom to focus
+                on growth instead of operations.
               </p>
             </div>
           </div>
@@ -50,33 +54,33 @@ export default function ManagedServicesPage() {
       <HorizontalServices />
 
       {/* Stats Section */}
-      <section className="relative w-full bg-black py-24 px-4 md:px-8">
+      <section className="relative w-full bg-black px-4 py-24 md:px-8">
         <div className="">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
             <div>
-              <div className="h-px w-full bg-white/20 mb-6" />
-              <div className="text-6xl md:text-7xl font-normal text-white font-pp-neue-montreal">
+              <div className="mb-6 h-px w-full bg-white/20" />
+              <div className="font-pp-neue-montreal text-6xl font-normal text-white md:text-7xl">
                 99.9%
               </div>
-              <p className="mt-4 text-white/70 text-base md:text-lg font-pp-neue-montreal">
+              <p className="mt-4 font-pp-neue-montreal text-base text-white/70 md:text-lg">
                 Uptime guarantee across all managed services
               </p>
             </div>
             <div>
-              <div className="h-px w-full bg-white/20 mb-6" />
-              <div className="text-6xl md:text-7xl font-normal text-white font-pp-neue-montreal">
+              <div className="mb-6 h-px w-full bg-white/20" />
+              <div className="font-pp-neue-montreal text-6xl font-normal text-white md:text-7xl">
                 &lt;15min
               </div>
-              <p className="mt-4 text-white/70 text-base md:text-lg font-pp-neue-montreal">
+              <p className="mt-4 font-pp-neue-montreal text-base text-white/70 md:text-lg">
                 Average incident response time, 24/7/365
               </p>
             </div>
             <div>
-              <div className="h-px w-full bg-white/20 mb-6" />
-              <div className="text-6xl md:text-7xl font-normal text-white font-pp-neue-montreal">
+              <div className="mb-6 h-px w-full bg-white/20" />
+              <div className="font-pp-neue-montreal text-6xl font-normal text-white md:text-7xl">
                 40%
               </div>
-              <p className="mt-4 text-white/70 text-base md:text-lg font-pp-neue-montreal">
+              <p className="mt-4 font-pp-neue-montreal text-base text-white/70 md:text-lg">
                 Reduction in operational costs on average
               </p>
             </div>
@@ -84,83 +88,88 @@ export default function ManagedServicesPage() {
         </div>
       </section>
 
-      {/* Pinned Clip Path Animation */}
-      <PinnedClipPathAnimation />
-
       {/* How We Work Section */}
-      <section className="relative w-full bg-black py-24 px-4 md:px-8">
+      <section className="relative w-full bg-black px-4 py-24 md:px-8">
         <div className="">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-white font-pp-neue-montreal leading-tight mb-16">
+          <h2 className="mb-16 font-pp-neue-montreal text-4xl leading-tight font-normal text-white md:text-5xl lg:text-6xl">
             How we work
           </h2>
 
           <div className="space-y-12">
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col gap-8 md:flex-row">
               <div className="md:w-1/4">
-                <div className="text-white/40 text-sm font-pp-neue-montreal">01</div>
+                <div className="font-pp-neue-montreal text-sm text-white/40">
+                  01
+                </div>
               </div>
               <div className="md:w-3/4">
-                <h3 className="text-2xl md:text-3xl font-normal text-white font-pp-neue-montreal mb-4">
+                <h3 className="mb-4 font-pp-neue-montreal text-2xl font-normal text-white md:text-3xl">
                   Discovery & Assessment
                 </h3>
-                <p className="text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                  We start by understanding your current infrastructure, applications,
-                  and operational challenges. We identify gaps, risks, and
-                  opportunities for optimization.
+                <p className="font-pp-neue-montreal text-base leading-relaxed text-white/75 md:text-lg">
+                  We start by understanding your current infrastructure,
+                  applications, and operational challenges. We identify gaps,
+                  risks, and opportunities for optimization.
                 </p>
               </div>
             </div>
 
             <div className="h-px w-full bg-white/10" />
 
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col gap-8 md:flex-row">
               <div className="md:w-1/4">
-                <div className="text-white/40 text-sm font-pp-neue-montreal">02</div>
+                <div className="font-pp-neue-montreal text-sm text-white/40">
+                  02
+                </div>
               </div>
               <div className="md:w-3/4">
-                <h3 className="text-2xl md:text-3xl font-normal text-white font-pp-neue-montreal mb-4">
+                <h3 className="mb-4 font-pp-neue-montreal text-2xl font-normal text-white md:text-3xl">
                   Onboarding & Migration
                 </h3>
-                <p className="text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                  We transition your systems to our management with zero downtime.
-                  Documentation, monitoring setup, access controls, and runbooks are
-                  established for seamless handover.
+                <p className="font-pp-neue-montreal text-base leading-relaxed text-white/75 md:text-lg">
+                  We transition your systems to our management with zero
+                  downtime. Documentation, monitoring setup, access controls,
+                  and runbooks are established for seamless handover.
                 </p>
               </div>
             </div>
 
             <div className="h-px w-full bg-white/10" />
 
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col gap-8 md:flex-row">
               <div className="md:w-1/4">
-                <div className="text-white/40 text-sm font-pp-neue-montreal">03</div>
+                <div className="font-pp-neue-montreal text-sm text-white/40">
+                  03
+                </div>
               </div>
               <div className="md:w-3/4">
-                <h3 className="text-2xl md:text-3xl font-normal text-white font-pp-neue-montreal mb-4">
+                <h3 className="mb-4 font-pp-neue-montreal text-2xl font-normal text-white md:text-3xl">
                   Ongoing Operations
                 </h3>
-                <p className="text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                  24/7 monitoring, proactive maintenance, regular optimization, and
-                  continuous improvement. We handle incidents, deploy updates, and
-                  keep you informed with transparent reporting.
+                <p className="font-pp-neue-montreal text-base leading-relaxed text-white/75 md:text-lg">
+                  24/7 monitoring, proactive maintenance, regular optimization,
+                  and continuous improvement. We handle incidents, deploy
+                  updates, and keep you informed with transparent reporting.
                 </p>
               </div>
             </div>
 
             <div className="h-px w-full bg-white/10" />
 
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col gap-8 md:flex-row">
               <div className="md:w-1/4">
-                <div className="text-white/40 text-sm font-pp-neue-montreal">04</div>
+                <div className="font-pp-neue-montreal text-sm text-white/40">
+                  04
+                </div>
               </div>
               <div className="md:w-3/4">
-                <h3 className="text-2xl md:text-3xl font-normal text-white font-pp-neue-montreal mb-4">
+                <h3 className="mb-4 font-pp-neue-montreal text-2xl font-normal text-white md:text-3xl">
                   Strategic Growth
                 </h3>
-                <p className="text-white/75 text-base md:text-lg font-pp-neue-montreal leading-relaxed">
-                  As your business evolves, we scale with you. Architecture reviews,
-                  capacity planning, and technology recommendations ensure your
-                  infrastructure supports your long-term goals.
+                <p className="font-pp-neue-montreal text-base leading-relaxed text-white/75 md:text-lg">
+                  As your business evolves, we scale with you. Architecture
+                  reviews, capacity planning, and technology recommendations
+                  ensure your infrastructure supports your long-term goals.
                 </p>
               </div>
             </div>
@@ -168,35 +177,32 @@ export default function ManagedServicesPage() {
         </div>
       </section>
 
-      {/* Stacking Cards Pin */}
-      <StackingCardsPin />
-
       {/* Company Timeline Section */}
       <CompanyTimeline />
 
       {/* CTA Section */}
       <section
         id="contact"
-        className="relative w-full bg-black py-32 px-4 md:px-8 border-t border-white/10"
+        className="relative w-full border-t border-white/10 bg-black px-4 py-32 md:px-8"
       >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-normal text-white font-pp-neue-montreal leading-tight">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="font-pp-neue-montreal text-5xl leading-tight font-normal text-white md:text-6xl lg:text-7xl">
             Ready to simplify your operations?
           </h2>
-          <p className="mt-8 text-white/75 text-lg md:text-xl font-pp-neue-montreal max-w-2xl mx-auto">
-            Let&apos;s discuss how managed services can help you focus on growth while
-            we handle the complexity.
+          <p className="mx-auto mt-8 max-w-2xl font-pp-neue-montreal text-lg text-white/75 md:text-xl">
+            Let&apos;s discuss how managed services can help you focus on growth
+            while we handle the complexity.
           </p>
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-10 py-5 bg-white text-black font-pp-neue-montreal text-base md:text-lg hover:bg-white/90 transition-colors"
+              className="inline-flex items-center justify-center bg-white px-10 py-5 font-pp-neue-montreal text-base text-black transition-colors hover:bg-white/90 md:text-lg"
             >
               Schedule a consultation
             </Link>
             <Link
               href="/services"
-              className="inline-flex items-center justify-center px-10 py-5 border border-white text-white font-pp-neue-montreal text-base md:text-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center border border-white px-10 py-5 font-pp-neue-montreal text-base text-white transition-colors hover:bg-white/10 md:text-lg"
             >
               View all services
             </Link>
