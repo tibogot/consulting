@@ -24,7 +24,7 @@
       "findJob": "Trouvez un emploi",
       "workAtSparagus": "Travaillez chez Sparagus"
     },
-    "blog": "Blog",
+    "blog": "Ressources",
     "contact": "Contact",
     "legal": "Informations légales",
     "cookies": "Cookies"
@@ -73,6 +73,10 @@
       "title": "L'équipe de direction",
       "description": "Visionnaire, motivée et pragmatique, notre équipe de direction défend une culture de confiance, d'excellence et d'agilité."
     }
+  },
+  "blog": {
+    "title": "Insights & Histoires",
+    "subtitle": "Découvrez nos derniers articles, études de cas et analyses sectorielles"
   },
   "careers": {
     "title": "Carrières",
@@ -218,4 +222,3 @@
     }
   }
 }
-

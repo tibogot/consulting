@@ -1,5 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import ShaderBackground from "../../../components/ShaderBackground5Lazy";
 import AnimatedText from "../../../components/AnimatedText3";
 import AnimatedButton from "../../../components/AnimatedButton";
 
@@ -10,10 +9,6 @@ export default async function TeamPage() {
     <div className="w-full min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Shader Background */}
-        <ShaderBackground />
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40 z-0" />
 
         {/* Content Overlay - Bottom positioned */}
         <div className="relative z-20 w-full flex flex-col md:flex-row md:items-end md:justify-between gap-6 pb-8 md:pb-12 lg:pb-16 mt-auto">

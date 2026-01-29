@@ -154,6 +154,13 @@ export const routing = defineRouting({
       nl: "/gradients",
     },
 
+    // Shaders
+    "/shaders": {
+      fr: "/shaders",
+      en: "/shaders",
+      nl: "/shaders",
+    },
+
     // Demo routes
     "/gta-scroll-demo": {
       fr: "/gta-scroll-demo",

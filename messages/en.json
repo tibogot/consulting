@@ -24,7 +24,7 @@
       "findJob": "Find a Job",
       "workAtSparagus": "Work at Sparagus"
     },
-    "blog": "Blog",
+    "blog": "Ressources",
     "contact": "Contact",
     "legal": "Legal Information",
     "cookies": "Cookies"
@@ -74,6 +74,10 @@
       "description": "Visionary, motivated, and pragmatic, our management team champions a culture of trust, excellence, and agility.",
       "cta": "Get in Touch"
     }
+  },
+  "blog": {
+    "title": "Insights & Stories",
+    "subtitle": "Discover our latest articles, case studies, and industry insights"
   },
   "careers": {
     "title": "Careers",
@@ -219,4 +223,3 @@
     }
   }
 }
-

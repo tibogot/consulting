@@ -24,7 +24,7 @@
       "findJob": "Vacatures",
       "workAtSparagus": "Werken bij Sparagus"
     },
-    "blog": "Blog",
+    "blog": "Ressources",
     "contact": "Contact",
     "legal": "Juridische informatie",
     "cookies": "Cookies"
@@ -73,6 +73,10 @@
       "title": "Managementteam",
       "description": "Visionair, gemotiveerd en pragmatisch, ons managementteam verdedigt een cultuur van vertrouwen, excellentie en wendbaarheid."
     }
+  },
+  "blog": {
+    "title": "Inzichten & Verhalen",
+    "subtitle": "Ontdek onze nieuwste artikelen, casestudies en sectorinzichten"
   },
   "careers": {
     "title": "Carrières",
@@ -218,4 +222,3 @@
     }
   }
 }
-
