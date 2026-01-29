@@ -248,7 +248,7 @@ export default async function Home() {
 
       <WhyUsSection />
 
-      {/* <LoopingFadeSections /> */}
+      <LoopingFadeSections />
 
       {/* Pinned Clip Path Animation Section */}
       {/* <PinnedClipPathAnimation /> */}
