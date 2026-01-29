@@ -1,21 +1,54 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
+import { ScrollTrigger, useGSAP } from "@/lib/gsapConfig";
 
 export default function WhyUsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const pinTitleRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const trigger = triggerRef.current;
+      const title = pinTitleRef.current;
+      const content = contentRef.current;
+      if (!trigger || !title || !content) return;
+
+      ScrollTrigger.create({
+        trigger: trigger,
+        start: "top 50%",
+        end: () => `+=${content.offsetHeight - title.offsetHeight}`,
+        pin: title,
+        pinSpacing: false,
+        // markers: true,
+        invalidateOnRefresh: true,
+      });
+    },
+    { scope: sectionRef }
+  );
+
   return (
-    <section className="relative w-full bg-black px-4 py-20 md:px-8">
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-black px-4 py-20 md:px-8"
+    >
       <div className="w-full">
         <div className="h-px w-full bg-white/20" />
         <p className="pt-6 font-pp-neue-montreal text-sm text-white md:text-base">
           Why us ?
         </p>
 
-        {/* Two column layout - items-stretch so left column is tall; sticky needs a tall containing block */}
-        <div className="mt-20 flex flex-col md:mt-24 md:flex-row md:items-stretch md:gap-16 lg:gap-24">
-          {/* Left: CSS sticky title */}
+        {/* This is the trigger container */}
+        <div
+          ref={triggerRef}
+          className="mt-20 flex flex-col md:mt-24 md:flex-row md:items-start md:gap-16 lg:gap-24"
+        >
+          {/* Left: GSAP-pinned title */}
           <div className="shrink-0 pb-12 md:w-1/2 md:pb-0 lg:w-2/5">
-            <div className="md:sticky md:top-20">
+            <div ref={pinTitleRef}>
               <h2 className="max-w-xl text-left font-pp-neue-montreal text-4xl leading-tight font-normal text-white md:text-5xl lg:text-6xl">
                 Company, offering integrated solution.
               </h2>
@@ -23,7 +56,10 @@ export default function WhyUsSection() {
           </div>
 
           {/* Right: 5 blocks + Explore services */}
-          <div className="flex flex-col gap-16 md:w-1/2 md:gap-20 lg:w-3/5">
+          <div
+            ref={contentRef}
+            className="flex flex-col gap-16 md:w-1/2 md:gap-20 lg:w-3/5"
+          >
             <div>
               <div className="h-px w-full bg-white/20" />
               <div className="flex flex-row gap-6 pt-6 md:gap-8">
