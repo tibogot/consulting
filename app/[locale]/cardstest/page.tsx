@@ -31,7 +31,7 @@ export default function CardstestPage() {
           LoopingFadeSections
         </h2>
       </section>
-      <section className="bg-black px-6 py-16">
+      <section className="bg-black py-16">
         <LoopingFadeSections />
       </section>
 

@@ -22,6 +22,8 @@ import FractalGradient from "../components/FractalGradient2";
 import PurpleGradient from "../components/PurpleGradient";
 import BlogPreview from "../components/BlogPreview";
 import CaseStudies from "../components/CaseStudies";
+import WhyUsSection from "../components/WhyUsSection";
+import LoopingFadeSections from "../components/LoopingFadeSections";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -33,21 +35,119 @@ export default async function Home() {
 
       <PartnersTicker />
 
-      <section className="relative w-full bg-black px-4 pt-10 pb-40 md:px-8">
+      <section className="relative w-full bg-black px-4 pb-20 md:px-8">
+        <div className="w-full">
+          <div className="mt-12 h-px w-full bg-white/20" />
+
+          <p className="pt-6 font-pp-neue-montreal text-sm text-white md:text-base">
+            What We Deliver
+          </p>
+
+          <div className="mt-20">
+            <AnimatedCopy
+              colorInitial="#666666"
+              colorAccent="#8202FF"
+              colorFinal="#ffffff"
+            >
+              {" "}
+              <h2 className="max-w-4xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-6xl">
+                Expertise That Transforms. Partnerships That Last.
+              </h2>
+            </AnimatedCopy>
+          </div>
+
+          <div className="mt-14 flex flex-col gap-10 md:mt-32 md:flex-row">
+            <div className="hidden md:block md:w-1/2">
+              {/* <h3 className="text-white text-2xl font-normal font-pp-neue-montreal leading-tight max-w-md">
+                How we work
+              </h3> */}
+            </div>
+
+            <div className="md:w-1/2">
+              <div>
+                <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
+                  What started as a Belgian recruitment agency has grown into a
+                  trusted consulting partner spanning 11 countries. Today,
+                  Sparagus bridges the gap between talent and transformation,
+                  helping organizations fill mission-critical roles, execute
+                  complex initiatives, and scale operations—all while preserving
+                  the personal touch that makes partnerships meaningful.
+                </p>
+                <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
+                  With over a decade of experience and 100+ active consultants,
+                  we bring together deep industry expertise, agile execution,
+                  and a focus on sustainable outcomes. Our approach goes beyond
+                  placements and projects—we build relationships that drive
+                  measurable impact and create lasting value for your business.
+                </p>
+
+                <Link
+                  href="/services"
+                  className="mt-8 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
+                >
+                  Discover our services <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="mt-32 grid grid-cols-1 gap-10 md:grid-cols-2">
+            <div>
+              <div className="h-px w-full bg-white/20" />
+              <div className="pt-6">
+                <h3 className="font-pp-neue-montreal text-sm text-white md:text-base">
+                  Clarity, fast
+                </h3>
+                <p className="mt-4 font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
+                  Sharp research, practical strategy, and decision-ready
+                  artifacts—so your team stops debating and starts building.
+                </p>
+                <Link
+                  href="/services"
+                  className="mt-6 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
+                >
+                  See how we work <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+
+            <div>
+              <div className="h-px w-full bg-white/20" />
+              <div className="pt-6">
+                <h3 className="font-pp-neue-montreal text-sm text-white md:text-base">
+                  Delivery you can trust
+                </h3>
+                <p className="mt-4 font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
+                  Clean execution, predictable cadence, and measurable progress—
+                  built with maintainability and long-term ownership in mind.
+                </p>
+                <Link
+                  href="/services"
+                  className="mt-6 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
+                >
+                  View case studies <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+          </div> */}
+        </div>
+      </section>
+
+      {/* <section className="relative w-full bg-black px-4 pt-10 pb-40 md:px-8">
         <div className="mb-4 h-px bg-white px-4 md:px-8"></div>
         <h3 className="mb-24 font-pp-neue-montreal text-sm text-white md:text-base">
           Our services
         </h3>
         <h2 className="max-w-5xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-7xl">
-          {/* <span className="opacity-0 select-none pointer-events-none">
+          <span className="pointer-events-none opacity-0 select-none">
             Invisible text
-          </span> */}
+          </span>
           <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
             A smarter way to find, deploy & manage the expertise your business
-            needs{" "}
+            needs
           </TextAnim>
         </h2>
-        {/* <AnimatedCopy
+        <AnimatedCopy
           colorInitial="#666666"
           colorAccent="#8202FF"
           colorFinal="#ffffff"
@@ -55,7 +155,6 @@ export default async function Home() {
           end="top 50%"
           scrub={0.3}
         >
-          
           <h2 className="max-w-7xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-7xl">
             <span className="pointer-events-none opacity-0 select-none">
               Invisible text
@@ -63,8 +162,8 @@ export default async function Home() {
             A Smarter Way to Find, Deploy & Manage the Expertise Your Business
             Needs{" "}
           </h2>
-        </AnimatedCopy> */}
-      </section>
+        </AnimatedCopy>
+      </section> */}
 
       {/* White Section */}
       {/* <WhiteSection /> */}
@@ -147,105 +246,12 @@ export default async function Home() {
 
       <ServicesHero />
 
-      <section className="relative w-full bg-black px-4 py-20 md:px-8">
-        <div className="w-full">
-          <div className="mt-12 h-px w-full bg-white/20" />
+      <WhyUsSection />
 
-          <p className="pt-6 font-pp-neue-montreal text-sm text-white md:text-base">
-            Built for modern teams
-          </p>
-
-          <div className="mt-20">
-            <AnimatedCopy
-              colorInitial="#666666"
-              colorAccent="#8202FF"
-              colorFinal="#ffffff"
-            >
-              {" "}
-              <h2 className="max-w-xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-6xl">
-                Built on Expertise. Driven by People.
-              </h2>
-            </AnimatedCopy>
-          </div>
-
-          <div className="mt-14 flex flex-col gap-10 md:mt-32 md:flex-row">
-            <div className="hidden md:block md:w-1/2">
-              {/* <h3 className="text-white text-2xl font-normal font-pp-neue-montreal leading-tight max-w-md">
-                How we work
-              </h3> */}
-            </div>
-
-            <div className="md:w-1/2">
-              <div>
-                <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
-                  From our roots as a Belgian recruitment agency to a trusted
-                  consulting partner across 11 countries, Sparagus has evolved
-                  to meet the real expertise needs of modern business. We help
-                  companies fill critical roles, lead complex projects, and
-                  manage full-service delivery — without losing the human touch.
-                </p>
-                <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
-                  With over a decade of experience and 100+ active consultants,
-                  our teams combine deep domain knowledge, operational agility,
-                  and a commitment to long-term partnerships. At Sparagus,
-                  success isn&apos;t about transactions — it&apos;s about
-                  impact.
-                </p>
-
-                <Link
-                  href="/services"
-                  className="mt-8 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
-                >
-                  Explore services <span aria-hidden>→</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* <div className="mt-32 grid grid-cols-1 gap-10 md:grid-cols-2">
-            <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="pt-6">
-                <h3 className="font-pp-neue-montreal text-sm text-white md:text-base">
-                  Clarity, fast
-                </h3>
-                <p className="mt-4 font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
-                  Sharp research, practical strategy, and decision-ready
-                  artifacts—so your team stops debating and starts building.
-                </p>
-                <Link
-                  href="/services"
-                  className="mt-6 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
-                >
-                  See how we work <span aria-hidden>→</span>
-                </Link>
-              </div>
-            </div>
-
-            <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="pt-6">
-                <h3 className="font-pp-neue-montreal text-sm text-white md:text-base">
-                  Delivery you can trust
-                </h3>
-                <p className="mt-4 font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
-                  Clean execution, predictable cadence, and measurable progress—
-                  built with maintainability and long-term ownership in mind.
-                </p>
-                <Link
-                  href="/services"
-                  className="mt-6 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
-                >
-                  View case studies <span aria-hidden>→</span>
-                </Link>
-              </div>
-            </div>
-          </div> */}
-        </div>
-      </section>
+      {/* <LoopingFadeSections /> */}
 
       {/* Pinned Clip Path Animation Section */}
-      <PinnedClipPathAnimation />
+      {/* <PinnedClipPathAnimation /> */}
 
       {/* Animated Vertical Lines Section */}
       {/* <AnimatedVerticalLines

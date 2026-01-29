@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { SplitText } from "@/lib/gsapConfig";
 import blurPlaceholders from "@/lib/blur-placeholders.json";
 
-const HOLD_MS = 12000;
+const HOLD_MS = 6000; // Reduced from 12s to 6s for better flow
 const FADE_DURATION = 0.55;
 const TEXT_IN_DURATION = 0.75;
 const TEXT_IN_STAGGER = 0.1;
@@ -78,76 +78,117 @@ export default function LoopingFadeSections() {
   const numberBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
   const splitRefs = useRef<SectionSplit[]>([]);
   const holdTimerRef = useRef<gsap.core.Tween | null>(null);
-  const isTransitioningRef = useRef(false);
+  const activeTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const currentIndexRef = useRef(0);
+  const isInitializedRef = useRef(false);
+  const runTransitionToRef = useRef<
+    (toIndex: number, isUserInitiated: boolean) => void
+  >(() => {});
 
-  const clearHoldTimer = useCallback(() => {
+  // Kill any active timeline and hold timer
+  const killActiveAnimations = useCallback(() => {
     if (holdTimerRef.current) {
       holdTimerRef.current.kill();
       holdTimerRef.current = null;
     }
+    if (activeTimelineRef.current) {
+      activeTimelineRef.current.kill();
+      activeTimelineRef.current = null;
+    }
   }, []);
 
-  const runTransitionToRef = useRef<(toIndex: number) => void>(() => {});
-
+  // Schedule the next auto-transition
   const scheduleNext = useCallback(
     (currentIndex: number) => {
-      clearHoldTimer();
+      // Clear any existing timer first
+      if (holdTimerRef.current) {
+        holdTimerRef.current.kill();
+        holdTimerRef.current = null;
+      }
+
       const nextIndex = (currentIndex + 1) % sections.length;
       holdTimerRef.current = gsap.delayedCall(HOLD_MS / 1000, () => {
         holdTimerRef.current = null;
-        runTransitionToRef.current(nextIndex);
+        runTransitionToRef.current(nextIndex, false);
       });
     },
-    [clearHoldTimer]
+    [] // Dependencies will be handled via ref
   );
 
+  // Main transition function
   const runTransitionTo = useCallback(
-    (toIndex: number) => {
+    (toIndex: number, isUserInitiated: boolean = false) => {
       const fromIndex = currentIndexRef.current;
-      if (fromIndex === toIndex || isTransitioningRef.current) return;
+
+      // Don't transition to same index
+      if (fromIndex === toIndex) return;
+
       const fromSection = sectionRefs.current[fromIndex];
       const toSection = sectionRefs.current[toIndex];
       const fromSplit = splitRefs.current[fromIndex];
       const toSplit = splitRefs.current[toIndex];
+
       if (!fromSection || !toSection || !fromSplit || !toSplit) return;
 
-      isTransitioningRef.current = true;
-      clearHoldTimer();
+      // Kill any ongoing animations - this allows immediate response to clicks
+      killActiveAnimations();
+
+      // Update state immediately for UI responsiveness
       setActiveIndex(toIndex);
+      currentIndexRef.current = toIndex;
 
-      gsap.set(toSection, { opacity: 0, zIndex: 10 });
+      // Reset states for clean transition
+      // From section: ensure it's visible and on top initially
+      gsap.set(fromSection, { opacity: 1, zIndex: 10 });
+
+      // To section: start invisible, positioned behind
+      gsap.set(toSection, { opacity: 0, zIndex: 5 });
       gsap.set(toSplit.lines, { yPercent: 100, autoAlpha: 0 });
-      gsap.set(fromSection, { zIndex: 10 });
 
+      // Create the transition timeline
       const tl = gsap.timeline({
         onComplete: () => {
+          // Final cleanup
           gsap.set(fromSection, { zIndex: 0 });
           gsap.set(toSection, { zIndex: 10 });
-          currentIndexRef.current = toIndex;
-          isTransitioningRef.current = false;
+          activeTimelineRef.current = null;
+
+          // Schedule next auto-transition
           scheduleNext(toIndex);
         },
       });
 
+      // Store reference to active timeline
+      activeTimelineRef.current = tl;
+
+      // Animate out the current section's text
       tl.to(fromSplit.lines, {
         yPercent: 100,
         autoAlpha: 0,
         stagger: TEXT_OUT_STAGGER,
-        duration: TEXT_OUT_DURATION,
+        duration: isUserInitiated ? TEXT_OUT_DURATION * 0.7 : TEXT_OUT_DURATION, // Faster on click
         ease: "power2.in",
       })
+        // Cross-fade the background images
         .to(
           fromSection,
-          { opacity: 0, duration: FADE_DURATION, ease: "power2.in" },
-          "-=0.2"
+          {
+            opacity: 0,
+            duration: FADE_DURATION,
+            ease: "power2.inOut",
+          },
+          "-=0.15"
         )
-        .set({}, {}, "+=0.05")
         .to(
           toSection,
-          { opacity: 1, duration: FADE_DURATION, ease: "power2.out" },
+          {
+            opacity: 1,
+            duration: FADE_DURATION,
+            ease: "power2.inOut",
+          },
           "<"
         )
+        // Animate in the new section's text
         .to(
           toSplit.lines,
           {
@@ -157,21 +198,26 @@ export default function LoopingFadeSections() {
             duration: TEXT_IN_DURATION,
             ease: "power2.out",
           },
-          `-=${FADE_DURATION * 0.5}`
+          `-=${FADE_DURATION * 0.6}`
         );
     },
-    [clearHoldTimer, scheduleNext]
+    [killActiveAnimations, scheduleNext]
   );
 
-  runTransitionToRef.current = runTransitionTo;
+  // Update ref when runTransitionTo changes
+  useEffect(() => {
+    runTransitionToRef.current = runTransitionTo;
+  }, [runTransitionTo]);
 
+  // Initialize GSAP animations
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || isInitializedRef.current) return;
 
       const textWrappers = textBlockRefs.current;
       const numberWrappers = numberBlockRefs.current;
 
+      // Process all sections and create SplitText instances
       for (let i = 0; i < sections.length; i++) {
         const allLines: HTMLElement[] = [];
         const splits: SplitText[] = [];
@@ -194,12 +240,14 @@ export default function LoopingFadeSections() {
           }
         };
 
+        // Process number block
         const numWrapper = numberWrappers[i];
         if (numWrapper) {
           const numChildren = Array.from(numWrapper.children) as HTMLElement[];
           numChildren.forEach(processElement);
         }
 
+        // Process text block
         const textWrapper = textWrappers[i];
         if (textWrapper) {
           const textChildren = Array.from(
@@ -210,50 +258,69 @@ export default function LoopingFadeSections() {
 
         if (allLines.length) {
           splitRefs.current[i] = { splits, lines: allLines };
+          // Hide all lines initially
           gsap.set(allLines, { yPercent: 100, autoAlpha: 0 });
         }
       }
 
+      // Initial setup for first section
       const section0 = sectionRefs.current[0];
       const split0 = splitRefs.current[0];
+
       if (section0 && split0) {
         gsap.set(section0, { opacity: 1, zIndex: 10 });
-        const tl = gsap.timeline({
-          onComplete: () => scheduleNext(0),
+
+        // Animate in the first section
+        const initialTl = gsap.timeline({
+          onComplete: () => {
+            activeTimelineRef.current = null;
+            scheduleNext(0);
+          },
         });
-        tl.to(split0.lines, {
+
+        activeTimelineRef.current = initialTl;
+
+        initialTl.to(split0.lines, {
           yPercent: 0,
           autoAlpha: 1,
           stagger: TEXT_IN_STAGGER,
           duration: TEXT_IN_DURATION,
           ease: "power2.out",
+          delay: 0.3, // Small delay for page load
         });
       }
 
+      isInitializedRef.current = true;
+
+      // Cleanup function
       return () => {
-        clearHoldTimer();
+        killActiveAnimations();
         splitRefs.current.forEach((s) => {
           s?.splits.forEach((sp) => sp.revert());
         });
         splitRefs.current = [];
+        isInitializedRef.current = false;
       };
     },
     {
       scope: containerRef,
-      dependencies: [scheduleNext, clearHoldTimer],
+      dependencies: [],
     }
   );
 
+  // Cleanup on unmount
   useEffect(() => {
-    return () => clearHoldTimer();
-  }, [clearHoldTimer]);
+    return () => killActiveAnimations();
+  }, [killActiveAnimations]);
 
+  // Handle selector button clicks
   const handleSelectorClick = useCallback(
     (index: number) => {
-      if (index === activeIndex || isTransitioningRef.current) return;
-      runTransitionTo(index);
+      // Allow clicking even during transition - it will interrupt
+      if (index === currentIndexRef.current) return;
+      runTransitionTo(index, true);
     },
-    [activeIndex, runTransitionTo]
+    [runTransitionTo]
   );
 
   return (
@@ -299,7 +366,6 @@ export default function LoopingFadeSections() {
             </div>
             <div className="flex items-end justify-end">
               <div className="w-full max-w-lg text-right font-pp-neue-montreal text-white sm:max-w-xl md:max-w-lg">
-                <div className="mb-2 h-px w-full bg-white md:mb-3" />
                 <div
                   ref={(el) => {
                     textBlockRefs.current[i] = el;
@@ -318,7 +384,7 @@ export default function LoopingFadeSections() {
       ))}
 
       <div
-        className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 gap-3 md:bottom-8"
+        className="absolute bottom-6 left-6 z-30 flex gap-3 md:bottom-8 md:left-8"
         aria-label="Section selector"
       >
         {sections.map((_, i) => (
