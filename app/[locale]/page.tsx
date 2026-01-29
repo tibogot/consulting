@@ -394,7 +394,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <Cards />
+      {/* <Cards /> */}
 
       <CaseStudies />
 
