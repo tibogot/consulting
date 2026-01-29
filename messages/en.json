@@ -25,6 +25,10 @@
       "workAtSparagus": "Work at Sparagus"
     },
     "blog": "Ressources",
+    "ressourcesSubmenu": {
+      "blog": "Blog",
+      "caseStudies": "Case Studies"
+    },
     "contact": "Contact",
     "legal": "Legal Information",
     "cookies": "Cookies"

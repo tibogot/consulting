@@ -2,7 +2,13 @@
 
 import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
-import { useState, useRef, useEffect, useCallback, ComponentProps } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  ComponentProps,
+} from "react";
 import { ChevronDown } from "lucide-react";
 
 type AppPathname = ComponentProps<typeof Link>["href"];
@@ -41,7 +47,7 @@ function useHoverWithDelay(delay = 150) {
 function ArrowIcon() {
   return (
     <svg
-      className="w-4 h-4 text-black"
+      className="h-4 w-4 text-black"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -90,15 +96,15 @@ function DropdownMenu({
 
   return (
     <div
-      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+      className={`overflow-hidden transition-all duration-500 ease-in-out ${
         isOpen
-          ? "max-h-[800px] opacity-100 translate-y-0"
-          : "max-h-0 opacity-0 -translate-y-2"
+          ? "max-h-[800px] translate-y-0 opacity-100"
+          : "max-h-0 -translate-y-2 opacity-0"
       }`}
     >
       {/* Invisible bridge to maintain hover state - connects button to dropdown */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
+        className={`transition-all duration-500 ease-in-out ${
           isOpen ? "h-4 opacity-0" : "h-0 opacity-0"
         }`}
         onMouseEnter={onMouseEnter}
@@ -106,27 +112,27 @@ function DropdownMenu({
       />
       <div className="pt-0 pb-0">
         <div
-          className="flex flex-col md:flex-row min-h-96 pb-6"
+          className="flex min-h-96 flex-col pb-6 md:flex-row"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
           {/* Left Image Section */}
-          <div className="w-full md:w-64 lg:w-80 xl:w-96 h-64 md:h-96 relative flex-shrink-0 p-3 md:p-4 overflow-hidden rounded-lg">
-            <div className="w-full h-full relative overflow-hidden rounded-lg">
+          <div className="relative h-64 w-full flex-shrink-0 overflow-hidden rounded-lg p-3 md:h-96 md:w-64 md:p-4 lg:w-80 xl:w-96">
+            <div className="relative h-full w-full overflow-hidden rounded-lg">
               <img
                 src={image}
                 alt={title}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-              <div className="absolute bottom-3 md:bottom-4 left-3 md:left-4 text-white z-10 text-sm md:text-base">
+              <div className="absolute bottom-3 left-3 z-10 text-sm text-white md:bottom-4 md:left-4 md:text-base">
                 {title}
               </div>
               {titleHref && (
                 <Link
                   href={titleHref}
                   onClick={onLinkClick}
-                  className="absolute bottom-3 md:bottom-4 right-3 md:right-4 w-7 h-7 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors z-10"
+                  className="absolute right-3 bottom-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-200 md:right-4 md:bottom-4 md:h-8 md:w-8"
                 >
                   <ArrowIcon />
                 </Link>
@@ -134,22 +140,25 @@ function DropdownMenu({
             </div>
           </div>
           {/* Right Columns Section */}
-          <div className="flex p-3 md:p-4 lg:p-6 gap-4 md:gap-6 lg:gap-8">
+          <div className="flex gap-4 p-3 md:gap-6 md:p-4 lg:gap-8 lg:p-6">
             {[firstColumn, secondColumn].map((column, colIndex) => (
-              <div key={colIndex} className="space-y-4 md:space-y-6 min-w-[140px] md:min-w-[160px] lg:min-w-[180px]">
+              <div
+                key={colIndex}
+                className="min-w-[140px] space-y-4 md:min-w-[160px] md:space-y-6 lg:min-w-[180px]"
+              >
                 {column.map((item) => (
                   <Link
                     key={item.href as string}
                     href={item.href}
                     onClick={onLinkClick}
-                    className={`block text-xs md:text-sm transition-colors ${
+                    className={`block text-xs transition-colors md:text-sm ${
                       pathname === item.href
                         ? "text-white"
                         : "text-white/90 hover:text-white"
                     }`}
                   >
                     <div className="mb-1 md:mb-2">{item.label}</div>
-                    <p className="text-xs md:text-sm text-white/60">
+                    <p className="text-xs text-white/60 md:text-sm">
                       {item.description}
                     </p>
                   </Link>
@@ -185,24 +194,41 @@ function MobileAccordion({
   isLanguage?: boolean;
   locale?: string;
 }) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Blur any focused elements when menu closes
+  useEffect(() => {
+    if (!isOpen && contentRef.current) {
+      const focusedElement = contentRef.current.querySelector(":focus");
+      if (focusedElement instanceof HTMLElement) {
+        focusedElement.blur();
+      }
+    }
+  }, [isOpen]);
+
+  const handleToggle = () => {
+    onToggle();
+  };
+
   return (
     <div>
       <button
-        onClick={onToggle}
-        className={`w-full flex items-center justify-between text-lg transition-colors ${
+        onClick={handleToggle}
+        className={`flex w-full items-center justify-between text-lg transition-colors ${
           isActive ? "text-white" : "text-white/90 hover:text-white/60"
         }`}
       >
         <span>{title}</span>
         <ChevronDown
-          className={`w-5 h-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`h-5 w-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
       <div
-        className={`ml-4 overflow-hidden transition-all duration-300 ease-in-out ${
+        ref={contentRef}
+        className={`ml-4 overflow-hidden transition-all duration-500 ease-in-out ${
           isOpen
-            ? "max-h-[400px] opacity-100 translate-y-0 mt-2"
-            : "max-h-0 opacity-0 -translate-y-1 mt-0 pointer-events-none"
+            ? "mt-2 max-h-[400px] translate-y-0 opacity-100"
+            : "pointer-events-none mt-0 max-h-0 -translate-y-1 opacity-0"
         }`}
         aria-hidden={!isOpen}
       >
@@ -255,13 +281,13 @@ function NavDropdownButton({
       onMouseLeave={onMouseLeave}
     >
       <button
-        className={`text-xs md:text-sm transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap ${
+        className={`flex cursor-pointer items-center gap-1 text-xs whitespace-nowrap transition-colors md:text-sm ${
           isActive ? "text-white" : "text-white/90 hover:text-white/60"
         }`}
       >
         {label}
         <ChevronDown
-          className={`w-3 h-3 md:w-4 md:h-4 transition-transform flex-shrink-0 ${isHovered ? "rotate-180" : ""}`}
+          className={`h-3 w-3 flex-shrink-0 transition-transform md:h-4 md:w-4 ${isHovered ? "rotate-180" : ""}`}
         />
       </button>
     </div>
@@ -274,6 +300,8 @@ export default function Navbar() {
   const tHubs = useTranslations("hubs");
   const tAbout = useTranslations("about");
   const tCareers = useTranslations("careers");
+  const tBlog = useTranslations("blog");
+  const tCaseStudies = useTranslations("caseStudies");
   const locale = useLocale();
   const pathname = usePathname();
 
@@ -287,6 +315,7 @@ export default function Navbar() {
   const hubs = useHoverWithDelay();
   const about = useHoverWithDelay();
   const careers = useHoverWithDelay();
+  const ressources = useHoverWithDelay();
   const language = useHoverWithDelay();
 
   // Wrapper functions to close all other menus when opening a new one
@@ -318,18 +347,28 @@ export default function Navbar() {
     services.closeImmediately();
     hubs.closeImmediately();
     about.closeImmediately();
+    ressources.closeImmediately();
     language.closeImmediately();
     careers.onMouseEnter();
-  }, [services, hubs, about, careers, language]);
+  }, [services, hubs, about, careers, ressources, language]);
+
+  const handleRessourcesEnter = useCallback(() => {
+    services.closeImmediately();
+    hubs.closeImmediately();
+    about.closeImmediately();
+    careers.closeImmediately();
+    language.closeImmediately();
+    ressources.onMouseEnter();
+  }, [services, hubs, about, careers, ressources, language]);
 
   const handleLanguageEnter = useCallback(() => {
     services.closeImmediately();
     hubs.closeImmediately();
     about.closeImmediately();
     careers.closeImmediately();
+    ressources.closeImmediately();
     language.onMouseEnter();
-  }, [services, hubs, about, careers, language]);
-
+  }, [services, hubs, about, careers, ressources, language]);
 
   // Close all dropdowns immediately when pathname changes (navigation occurs)
   useEffect(() => {
@@ -337,6 +376,7 @@ export default function Navbar() {
     hubs.closeImmediately();
     about.closeImmediately();
     careers.closeImmediately();
+    ressources.closeImmediately();
     language.closeImmediately();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -422,6 +462,22 @@ export default function Navbar() {
         },
       ],
     },
+    ressources: {
+      image: "/images/cards/charlesdeluvio.jpg",
+      titleHref: "/blog" as const,
+      items: [
+        {
+          href: "/blog" as const,
+          label: t("ressourcesSubmenu.blog"),
+          description: tBlog("subtitle"),
+        },
+        {
+          href: "/case-studies" as const,
+          label: t("ressourcesSubmenu.caseStudies"),
+          description: tCaseStudies("description"),
+        },
+      ],
+    },
     language: {
       image: "/img-3.jpg",
       items: [
@@ -443,6 +499,7 @@ export default function Navbar() {
     hubs.isHovered ||
     about.isHovered ||
     careers.isHovered ||
+    ressources.isHovered ||
     language.isHovered;
 
   const toggleMobileMenu = (menu: string) => {
@@ -455,13 +512,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className="fixed top-8 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-[90%] lg:w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 backdrop-blur-xl border-b border-white/10 rounded-lg font-pp-neue-montreal transition-all duration-300"
-    >
-      <div className="px-3 sm:px-4 md:px-5 lg:px-8 relative">
-        <div className="flex justify-between items-center h-16">
+    <nav className="fixed top-8 right-4 left-4 z-50 max-w-5xl rounded-lg border-b border-white/10 bg-gradient-to-b from-black/10 via-black/10 to-black/5 font-pp-neue-montreal backdrop-blur-xl transition-all duration-300 md:left-1/2 md:w-[90%] md:-translate-x-1/2 lg:w-[80%]">
+      <div className="relative px-3 sm:px-4 md:px-5 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" onClick={closeMobileMenu} className="flex items-center h-full flex-shrink-0">
+          <Link
+            href="/"
+            onClick={closeMobileMenu}
+            className="flex h-full flex-shrink-0 items-center"
+          >
             <img
               src="/images/logosvg.svg"
               alt="Sparagus Logo"
@@ -472,7 +531,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-6 xl:space-x-8 flex-1 justify-center min-w-0">
+          <div className="hidden min-w-0 flex-1 items-center justify-center space-x-3 md:flex md:space-x-4 lg:space-x-6 xl:space-x-8">
             {/* Services Dropdown */}
             <div className="relative flex-shrink-0">
               <NavDropdownButton
@@ -517,29 +576,31 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Blog Link */}
-            <Link
-              href="/blog"
-              className={`text-sm transition-colors whitespace-nowrap flex-shrink-0 ${
-                pathname === "/blog"
-                  ? "text-white"
-                  : "text-white/90 hover:text-white/60"
-              }`}
-            >
-              {t("blog")}
-            </Link>
+            {/* Ressources Dropdown */}
+            <div className="relative flex-shrink-0">
+              <NavDropdownButton
+                label={t("blog")}
+                isHovered={ressources.isHovered}
+                isActive={
+                  pathname.startsWith("/blog") ||
+                  pathname.startsWith("/case-studies")
+                }
+                onMouseEnter={handleRessourcesEnter}
+                onMouseLeave={ressources.onMouseLeave}
+              />
+            </div>
           </div>
 
           {/* Language Switcher, Contact & Mobile Menu Button */}
-          <div className="flex items-center space-x-2 md:space-x-3 lg:space-x-4 flex-shrink-0">
+          <div className="flex flex-shrink-0 items-center space-x-2 md:space-x-3 lg:space-x-4">
             {/* Language Switcher Dropdown */}
             <div
-              className="relative hidden md:block flex-shrink-0"
+              className="relative hidden flex-shrink-0 md:block"
               onMouseEnter={handleLanguageEnter}
               onMouseLeave={language.onMouseLeave}
             >
               <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap ${
+                className={`flex cursor-pointer items-center gap-1 text-sm whitespace-nowrap transition-colors ${
                   language.isHovered
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -547,7 +608,7 @@ export default function Navbar() {
               >
                 {languages.find((lang) => lang.code === locale)?.label || "EN"}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform flex-shrink-0 ${
+                  className={`h-4 w-4 flex-shrink-0 transition-transform ${
                     language.isHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -557,7 +618,7 @@ export default function Navbar() {
             {/* Contact Link */}
             <Link
               href="/contact"
-              className={`hidden md:block px-3 md:px-4 lg:px-6 py-2 bg-[var(--primary)] text-white text-xs md:text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] whitespace-nowrap flex-shrink-0 ${
+              className={`hidden flex-shrink-0 rounded-[1px] bg-[var(--primary)] px-3 py-2 font-pp-neue-montreal text-xs whitespace-nowrap text-white transition-colors hover:bg-[#6a02cc] md:block md:px-4 md:text-sm lg:px-6 ${
                 pathname === "/contact" ? "bg-[#6a02cc]" : ""
               }`}
             >
@@ -572,26 +633,22 @@ export default function Navbar() {
                   return !open;
                 })
               }
-              className="md:hidden p-2 text-white/90 hover:text-white relative w-6 h-6 flex flex-col justify-center items-center"
+              className="relative flex h-6 w-6 flex-col items-center justify-center p-2 text-white/90 hover:text-white md:hidden"
               aria-label="Toggle menu"
             >
               <span
-                className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ease-in-out ${
-                  isMenuOpen
-                    ? "rotate-45 translate-y-0"
-                    : "-translate-y-2"
+                className={`absolute h-0.5 w-6 bg-current transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "translate-y-0 rotate-45" : "-translate-y-2"
                 }`}
               />
               <span
-                className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+                className={`absolute h-0.5 w-6 bg-current transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "scale-0 opacity-0" : "scale-100 opacity-100"
                 }`}
               />
               <span
-                className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ease-in-out ${
-                  isMenuOpen
-                    ? "-rotate-45 translate-y-0"
-                    : "translate-y-2"
+                className={`absolute h-0.5 w-6 bg-current transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "translate-y-0 -rotate-45" : "translate-y-2"
                 }`}
               />
             </button>
@@ -652,12 +709,25 @@ export default function Navbar() {
             pathname={pathname}
           />
 
+          {/* Ressources Dropdown */}
+          <DropdownMenu
+            items={menuConfigs.ressources.items}
+            image={menuConfigs.ressources.image}
+            title={t("blog")}
+            titleHref={menuConfigs.ressources.titleHref}
+            isOpen={ressources.isHovered}
+            onMouseEnter={handleRessourcesEnter}
+            onMouseLeave={ressources.onMouseLeave}
+            onLinkClick={ressources.closeImmediately}
+            pathname={pathname}
+          />
+
           {/* Language Dropdown */}
           <div
             className={`overflow-hidden transition-all duration-300 ease-in-out ${
               language.isHovered
-                ? "max-h-[200px] opacity-100 translate-y-0"
-                : "max-h-0 opacity-0 -translate-y-2"
+                ? "max-h-[200px] translate-y-0 opacity-100"
+                : "max-h-0 -translate-y-2 opacity-0"
             }`}
           >
             {/* Invisible bridge to maintain hover state */}
@@ -698,10 +768,10 @@ export default function Navbar() {
 
         {/* Mobile Navigation (keep mounted so it can animate) */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          className={`overflow-hidden transition-all duration-500 ease-in-out md:hidden ${
             isMenuOpen
-              ? "max-h-[900px] opacity-100 translate-y-0 border-t border-white/10"
-              : "max-h-0 opacity-0 -translate-y-2 border-t border-transparent pointer-events-none"
+              ? "max-h-[900px] translate-y-0 border-t border-white/10 opacity-100"
+              : "pointer-events-none max-h-0 -translate-y-2 border-t border-transparent opacity-0"
           }`}
           aria-hidden={!isMenuOpen}
         >
@@ -709,7 +779,10 @@ export default function Navbar() {
             <div className="flex flex-col space-y-4">
               <MobileAccordion
                 title={t("services")}
-                items={menuConfigs.services.items.map((i) => ({ href: i.href, label: i.label }))}
+                items={menuConfigs.services.items.map((i) => ({
+                  href: i.href,
+                  label: i.label,
+                }))}
                 isOpen={mobileOpenMenu === "services"}
                 onToggle={() => toggleMobileMenu("services")}
                 onLinkClick={closeMobileMenu}
@@ -719,7 +792,10 @@ export default function Navbar() {
 
               <MobileAccordion
                 title={t("hubs")}
-                items={menuConfigs.hubs.items.map((i) => ({ href: i.href, label: i.label }))}
+                items={menuConfigs.hubs.items.map((i) => ({
+                  href: i.href,
+                  label: i.label,
+                }))}
                 isOpen={mobileOpenMenu === "hubs"}
                 onToggle={() => toggleMobileMenu("hubs")}
                 onLinkClick={closeMobileMenu}
@@ -729,7 +805,10 @@ export default function Navbar() {
 
               <MobileAccordion
                 title={t("about")}
-                items={menuConfigs.about.items.map((i) => ({ href: i.href, label: i.label }))}
+                items={menuConfigs.about.items.map((i) => ({
+                  href: i.href,
+                  label: i.label,
+                }))}
                 isOpen={mobileOpenMenu === "about"}
                 onToggle={() => toggleMobileMenu("about")}
                 onLinkClick={closeMobileMenu}
@@ -739,7 +818,10 @@ export default function Navbar() {
 
               <MobileAccordion
                 title={t("careers")}
-                items={menuConfigs.careers.items.map((i) => ({ href: i.href, label: i.label }))}
+                items={menuConfigs.careers.items.map((i) => ({
+                  href: i.href,
+                  label: i.label,
+                }))}
                 isOpen={mobileOpenMenu === "careers"}
                 onToggle={() => toggleMobileMenu("careers")}
                 onLinkClick={closeMobileMenu}
@@ -747,21 +829,29 @@ export default function Navbar() {
                 isActive={pathname.startsWith("/careers")}
               />
 
-              <Link
-                href="/blog"
-                onClick={closeMobileMenu}
-                className={`text-lg transition-colors ${
-                  pathname === "/blog"
-                    ? "text-white"
-                    : "text-white/90 hover:text-white/60"
-                }`}
-              >
-                {t("blog")}
-              </Link>
+              <MobileAccordion
+                title={t("blog")}
+                items={menuConfigs.ressources.items.map((i) => ({
+                  href: i.href,
+                  label: i.label,
+                }))}
+                isOpen={mobileOpenMenu === "ressources"}
+                onToggle={() => toggleMobileMenu("ressources")}
+                onLinkClick={closeMobileMenu}
+                pathname={pathname}
+                isActive={
+                  pathname.startsWith("/blog") ||
+                  pathname.startsWith("/case-studies")
+                }
+              />
 
               <MobileAccordion
                 title="Language"
-                items={languages.map((l) => ({ href: pathname, label: l.label, code: l.code }))}
+                items={languages.map((l) => ({
+                  href: pathname,
+                  label: l.label,
+                  code: l.code,
+                }))}
                 isOpen={mobileOpenMenu === "language"}
                 onToggle={() => toggleMobileMenu("language")}
                 onLinkClick={closeMobileMenu}
@@ -774,7 +864,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={closeMobileMenu}
-                className={`px-6 py-2 bg-[var(--primary)] text-white text-lg font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded-[1px] inline-block ${
+                className={`inline-block rounded-[1px] bg-[var(--primary)] px-6 py-2 font-pp-neue-montreal text-lg text-white transition-colors hover:bg-[#6a02cc] ${
                   pathname === "/contact" ? "bg-[#6a02cc]" : ""
                 }`}
               >

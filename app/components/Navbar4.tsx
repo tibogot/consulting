@@ -14,6 +14,7 @@ export default function Navbar() {
   const [isHubsHovered, setIsHubsHovered] = useState(false);
   const [isAboutHovered, setIsAboutHovered] = useState(false);
   const [isCareersHovered, setIsCareersHovered] = useState(false);
+  const [isRessourcesHovered, setIsRessourcesHovered] = useState(false);
   const [isLanguageHovered, setIsLanguageHovered] = useState(false);
 
   // Timeout refs for delayed closing
@@ -21,6 +22,7 @@ export default function Navbar() {
   const hubsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const careersTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const ressourcesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const languageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleServicesMouseEnter = () => {
@@ -93,6 +95,20 @@ export default function Navbar() {
     }, 200);
   };
 
+  const handleRessourcesMouseEnter = () => {
+    if (ressourcesTimeoutRef.current) {
+      clearTimeout(ressourcesTimeoutRef.current);
+      ressourcesTimeoutRef.current = null;
+    }
+    setIsRessourcesHovered(true);
+  };
+
+  const handleRessourcesMouseLeave = () => {
+    ressourcesTimeoutRef.current = setTimeout(() => {
+      setIsRessourcesHovered(false);
+    }, 200);
+  };
+
   const servicesSubmenu = [
     {
       href: "/services/search-selection" as const,
@@ -128,7 +144,13 @@ export default function Navbar() {
     },
   ];
 
-  const navigation = [{ href: "/blog" as const, label: t("blog") }];
+  const ressourcesSubmenu = [
+    { href: "/blog" as const, label: t("ressourcesSubmenu.blog") },
+    {
+      href: "/case-studies" as const,
+      label: t("ressourcesSubmenu.caseStudies"),
+    },
+  ];
 
   const languages = [
     { code: "fr", label: "FR" },
@@ -142,18 +164,19 @@ export default function Navbar() {
     isHubsHovered ||
     isAboutHovered ||
     isCareersHovered ||
+    isRessourcesHovered ||
     isLanguageHovered;
 
   return (
     <nav
-      className={`fixed top-8 left-1/2 -translate-x-1/2 w-[80%] max-w-5xl z-50 bg-gradient-to-b from-black/10 via-black/10 to-black/5 ${
+      className={`fixed top-8 left-1/2 z-50 w-[80%] max-w-5xl -translate-x-1/2 bg-gradient-to-b from-black/10 via-black/10 to-black/5 ${
         isAnySubmenuOpen ? "" : "backdrop-blur-xl"
-      } border-b border-white/10 rounded-lg font-pp-neue-montreal`}
+      } rounded-lg border-b border-white/10 font-pp-neue-montreal`}
     >
-      <div className="px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex justify-between items-center h-16">
+      <div className="relative px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center h-full">
+          <Link href="/" className="flex h-full items-center">
             <img
               src="/images/logosvg.svg"
               alt="Sparagus Logo"
@@ -164,7 +187,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden items-center space-x-8 md:flex">
             {/* Services Dropdown */}
             <div
               className="relative"
@@ -172,7 +195,7 @@ export default function Navbar() {
               onMouseLeave={handleServicesMouseLeave}
             >
               <button
-                className={`text-sm  transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`flex cursor-pointer items-center gap-1 text-sm transition-colors ${
                   pathname.startsWith("/services")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -180,7 +203,7 @@ export default function Navbar() {
               >
                 {t("services")}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`h-4 w-4 transition-transform ${
                     isServicesHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -189,22 +212,22 @@ export default function Navbar() {
               {/* Dropdown Menu */}
               {isServicesHovered && (
                 <div
-                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
+                  className="fixed top-24 left-1/2 z-50 -translate-x-1/2"
                   onMouseEnter={handleServicesMouseEnter}
                   onMouseLeave={handleServicesMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="flex overflow-hidden rounded-lg border border-white/10 bg-gradient-to-b from-black/20 via-black/15 to-black/10 shadow-lg backdrop-blur-xl">
                     {/* Left Image Section */}
-                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white ">
+                    <div className="relative h-64 w-48 flex-shrink-0 bg-gray-800">
+                      <div className="absolute bottom-4 left-4 text-white">
                         {t("services")}
                       </div>
                       <Link
                         href="/services"
-                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        className="absolute right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-200"
                       >
                         <svg
-                          className="w-4 h-4 text-black"
+                          className="h-4 w-4 text-black"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -219,8 +242,8 @@ export default function Navbar() {
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
-                    <div className="flex p-4 gap-8">
-                      <div className="space-y-2 min-w-[180px]">
+                    <div className="flex gap-8 p-4">
+                      <div className="min-w-[180px] space-y-2">
                         {servicesSubmenu
                           .slice(0, Math.ceil(servicesSubmenu.length / 2))
                           .map((item) => (
@@ -237,7 +260,7 @@ export default function Navbar() {
                             </Link>
                           ))}
                       </div>
-                      <div className="space-y-2 min-w-[180px]">
+                      <div className="min-w-[180px] space-y-2">
                         {servicesSubmenu
                           .slice(Math.ceil(servicesSubmenu.length / 2))
                           .map((item) => (
@@ -267,7 +290,7 @@ export default function Navbar() {
               onMouseLeave={handleHubsMouseLeave}
             >
               <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`flex cursor-pointer items-center gap-1 text-sm transition-colors ${
                   pathname.startsWith("/hubs")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -275,7 +298,7 @@ export default function Navbar() {
               >
                 {t("hubs")}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`h-4 w-4 transition-transform ${
                     isHubsHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -284,22 +307,22 @@ export default function Navbar() {
               {/* Dropdown Menu */}
               {isHubsHovered && (
                 <div
-                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
+                  className="fixed top-24 left-1/2 z-50 -translate-x-1/2"
                   onMouseEnter={handleHubsMouseEnter}
                   onMouseLeave={handleHubsMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="flex overflow-hidden rounded-lg border border-white/10 bg-gradient-to-b from-black/20 via-black/15 to-black/10 shadow-lg backdrop-blur-xl">
                     {/* Left Image Section */}
-                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white ">
+                    <div className="relative h-64 w-48 flex-shrink-0 bg-gray-800">
+                      <div className="absolute bottom-4 left-4 text-white">
                         {t("hubs")}
                       </div>
                       <Link
                         href="/hubs"
-                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        className="absolute right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-200"
                       >
                         <svg
-                          className="w-4 h-4 text-black"
+                          className="h-4 w-4 text-black"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -314,8 +337,8 @@ export default function Navbar() {
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
-                    <div className="flex p-4 gap-8">
-                      <div className="space-y-2 min-w-[180px]">
+                    <div className="flex gap-8 p-4">
+                      <div className="min-w-[180px] space-y-2">
                         {hubsSubmenu
                           .slice(0, Math.ceil(hubsSubmenu.length / 2))
                           .map((item) => (
@@ -332,7 +355,7 @@ export default function Navbar() {
                             </Link>
                           ))}
                       </div>
-                      <div className="space-y-2 min-w-[180px]">
+                      <div className="min-w-[180px] space-y-2">
                         {hubsSubmenu
                           .slice(Math.ceil(hubsSubmenu.length / 2))
                           .map((item) => (
@@ -362,7 +385,7 @@ export default function Navbar() {
               onMouseLeave={handleAboutMouseLeave}
             >
               <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`flex cursor-pointer items-center gap-1 text-sm transition-colors ${
                   pathname.startsWith("/about")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -370,7 +393,7 @@ export default function Navbar() {
               >
                 {t("about")}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`h-4 w-4 transition-transform ${
                     isAboutHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -379,22 +402,22 @@ export default function Navbar() {
               {/* Dropdown Menu */}
               {isAboutHovered && (
                 <div
-                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
+                  className="fixed top-24 left-1/2 z-50 -translate-x-1/2"
                   onMouseEnter={handleAboutMouseEnter}
                   onMouseLeave={handleAboutMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="flex overflow-hidden rounded-lg border border-white/10 bg-gradient-to-b from-black/20 via-black/15 to-black/10 shadow-lg backdrop-blur-xl">
                     {/* Left Image Section */}
-                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white ">
+                    <div className="relative h-64 w-48 flex-shrink-0 bg-gray-800">
+                      <div className="absolute bottom-4 left-4 text-white">
                         {t("about")}
                       </div>
                       <Link
                         href="/about"
-                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        className="absolute right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-200"
                       >
                         <svg
-                          className="w-4 h-4 text-black"
+                          className="h-4 w-4 text-black"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -409,8 +432,8 @@ export default function Navbar() {
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
-                    <div className="flex p-4 gap-8">
-                      <div className="space-y-2 min-w-[180px]">
+                    <div className="flex gap-8 p-4">
+                      <div className="min-w-[180px] space-y-2">
                         {aboutSubmenu
                           .slice(0, Math.ceil(aboutSubmenu.length / 2))
                           .map((item) => (
@@ -427,7 +450,7 @@ export default function Navbar() {
                             </Link>
                           ))}
                       </div>
-                      <div className="space-y-2 min-w-[180px]">
+                      <div className="min-w-[180px] space-y-2">
                         {aboutSubmenu
                           .slice(Math.ceil(aboutSubmenu.length / 2))
                           .map((item) => (
@@ -457,7 +480,7 @@ export default function Navbar() {
               onMouseLeave={handleCareersMouseLeave}
             >
               <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`flex cursor-pointer items-center gap-1 text-sm transition-colors ${
                   pathname.startsWith("/careers")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -465,7 +488,7 @@ export default function Navbar() {
               >
                 {t("careers")}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`h-4 w-4 transition-transform ${
                     isCareersHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -474,22 +497,22 @@ export default function Navbar() {
               {/* Dropdown Menu */}
               {isCareersHovered && (
                 <div
-                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
+                  className="fixed top-24 left-1/2 z-50 -translate-x-1/2"
                   onMouseEnter={handleCareersMouseEnter}
                   onMouseLeave={handleCareersMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="flex overflow-hidden rounded-lg border border-white/10 bg-gradient-to-b from-black/20 via-black/15 to-black/10 shadow-lg backdrop-blur-xl">
                     {/* Left Image Section */}
-                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white ">
+                    <div className="relative h-64 w-48 flex-shrink-0 bg-gray-800">
+                      <div className="absolute bottom-4 left-4 text-white">
                         {t("careers")}
                       </div>
                       <Link
                         href="/careers"
-                        className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        className="absolute right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-200"
                       >
                         <svg
-                          className="w-4 h-4 text-black"
+                          className="h-4 w-4 text-black"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -504,8 +527,8 @@ export default function Navbar() {
                       </Link>
                     </div>
                     {/* Right Two Columns Section */}
-                    <div className="flex p-4 gap-8">
-                      <div className="space-y-2 min-w-[180px]">
+                    <div className="flex gap-8 p-4">
+                      <div className="min-w-[180px] space-y-2">
                         {careersSubmenu
                           .slice(0, Math.ceil(careersSubmenu.length / 2))
                           .map((item) => (
@@ -522,7 +545,7 @@ export default function Navbar() {
                             </Link>
                           ))}
                       </div>
-                      <div className="space-y-2 min-w-[180px]">
+                      <div className="min-w-[180px] space-y-2">
                         {careersSubmenu
                           .slice(Math.ceil(careersSubmenu.length / 2))
                           .map((item) => (
@@ -545,20 +568,82 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Other Navigation Items */}
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm transition-colors ${
-                  pathname === item.href
+            {/* Ressources Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={handleRessourcesMouseEnter}
+              onMouseLeave={handleRessourcesMouseLeave}
+            >
+              <button
+                className={`flex cursor-pointer items-center gap-1 text-sm transition-colors ${
+                  pathname.startsWith("/blog") ||
+                  pathname.startsWith("/case-studies")
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
                 }`}
               >
-                {item.label}
-              </Link>
-            ))}
+                {t("blog")}
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    isRessourcesHovered ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Dropdown Menu */}
+              {isRessourcesHovered && (
+                <div
+                  className="fixed top-24 left-1/2 z-50 -translate-x-1/2"
+                  onMouseEnter={handleRessourcesMouseEnter}
+                  onMouseLeave={handleRessourcesMouseLeave}
+                >
+                  <div className="flex overflow-hidden rounded-lg border border-white/10 bg-gradient-to-b from-black/20 via-black/15 to-black/10 shadow-lg backdrop-blur-xl">
+                    {/* Left Image Section */}
+                    <div className="relative h-64 w-48 flex-shrink-0 bg-gray-800">
+                      <div className="absolute bottom-4 left-4 text-white">
+                        {t("blog")}
+                      </div>
+                      <Link
+                        href="/blog"
+                        className="absolute right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full bg-white transition-colors hover:bg-gray-200"
+                      >
+                        <svg
+                          className="h-4 w-4 text-black"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
+                    {/* Right Two Columns Section */}
+                    <div className="flex gap-8 p-4">
+                      <div className="min-w-[180px] space-y-2">
+                        {ressourcesSubmenu.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`block text-sm transition-colors ${
+                              pathname === item.href
+                                ? "text-white"
+                                : "text-white/90 hover:text-white"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Language Switcher, Contact & Mobile Menu Button */}
@@ -570,7 +655,7 @@ export default function Navbar() {
               onMouseLeave={handleLanguageMouseLeave}
             >
               <button
-                className={`text-sm transition-colors flex items-center gap-1 cursor-pointer ${
+                className={`flex cursor-pointer items-center gap-1 text-sm transition-colors ${
                   isLanguageHovered
                     ? "text-white"
                     : "text-white/90 hover:text-white/60"
@@ -578,7 +663,7 @@ export default function Navbar() {
               >
                 {languages.find((lang) => lang.code === locale)?.label || "EN"}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
+                  className={`h-4 w-4 transition-transform ${
                     isLanguageHovered ? "rotate-180" : ""
                   }`}
                 />
@@ -587,20 +672,20 @@ export default function Navbar() {
               {/* Dropdown Menu */}
               {isLanguageHovered && (
                 <div
-                  className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
+                  className="fixed top-24 left-1/2 z-50 -translate-x-1/2"
                   onMouseEnter={handleLanguageMouseEnter}
                   onMouseLeave={handleLanguageMouseLeave}
                 >
-                  <div className="bg-gradient-to-b from-black/20 via-black/15 to-black/10 backdrop-blur-xl rounded-lg border border-white/10 shadow-lg overflow-hidden flex">
+                  <div className="flex overflow-hidden rounded-lg border border-white/10 bg-gradient-to-b from-black/20 via-black/15 to-black/10 shadow-lg backdrop-blur-xl">
                     {/* Left Image Section */}
-                    <div className="w-48 h-64 bg-gray-800 relative flex-shrink-0">
-                      <div className="absolute bottom-4 left-4 text-white ">
+                    <div className="relative h-64 w-48 flex-shrink-0 bg-gray-800">
+                      <div className="absolute bottom-4 left-4 text-white">
                         Language
                       </div>
                     </div>
                     {/* Right Two Columns Section */}
-                    <div className="flex p-4 gap-8">
-                      <div className="space-y-2 min-w-[180px]">
+                    <div className="flex gap-8 p-4">
+                      <div className="min-w-[180px] space-y-2">
                         {languages.map((lang) => (
                           <Link
                             key={lang.code}
@@ -625,7 +710,7 @@ export default function Navbar() {
             {/* Contact Link */}
             <Link
               href="/contact"
-              className={`px-4 py-2 bg-[#8202FF] text-white text-sm font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded ${
+              className={`rounded bg-[#8202FF] px-4 py-2 font-pp-neue-montreal text-sm text-white transition-colors hover:bg-[#6a02cc] ${
                 pathname === "/contact" ? "bg-[#6a02cc]" : ""
               }`}
             >
@@ -635,11 +720,11 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-white/90 hover:text-white"
+              className="p-2 text-white/90 hover:text-white md:hidden"
               aria-label="Toggle menu"
             >
               <svg
-                className="w-6 h-6"
+                className="h-6 w-6"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -659,7 +744,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-white/10">
+          <div className="border-t border-white/10 py-4 md:hidden">
             <div className="flex flex-col space-y-4">
               {/* Services with Submenu in Mobile */}
               <div>
@@ -674,7 +759,7 @@ export default function Navbar() {
                 >
                   {t("services")}
                 </Link>
-                <div className="ml-4 mt-2 space-y-2">
+                <div className="mt-2 ml-4 space-y-2">
                   {servicesSubmenu.map((item) => (
                     <Link
                       key={item.href}
@@ -705,7 +790,7 @@ export default function Navbar() {
                 >
                   {t("hubs")}
                 </Link>
-                <div className="ml-4 mt-2 space-y-2">
+                <div className="mt-2 ml-4 space-y-2">
                   {hubsSubmenu.map((item) => (
                     <Link
                       key={item.href}
@@ -736,7 +821,7 @@ export default function Navbar() {
                 >
                   {t("about")}
                 </Link>
-                <div className="ml-4 mt-2 space-y-2">
+                <div className="mt-2 ml-4 space-y-2">
                   {aboutSubmenu.map((item) => (
                     <Link
                       key={item.href}
@@ -767,7 +852,7 @@ export default function Navbar() {
                 >
                   {t("careers")}
                 </Link>
-                <div className="ml-4 mt-2 space-y-2">
+                <div className="mt-2 ml-4 space-y-2">
                   {careersSubmenu.map((item) => (
                     <Link
                       key={item.href}
@@ -785,25 +870,42 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {navigation.map((item) => (
+              {/* Ressources with Submenu in Mobile */}
+              <div>
                 <Link
-                  key={item.href}
-                  href={item.href}
+                  href="/blog"
                   onClick={() => setIsMenuOpen(false)}
                   className={`text-base transition-colors ${
-                    pathname === item.href
+                    pathname.startsWith("/blog") ||
+                    pathname.startsWith("/case-studies")
                       ? "text-white"
                       : "text-white/90 hover:text-white/60"
                   }`}
                 >
-                  {item.label}
+                  {t("blog")}
                 </Link>
-              ))}
+                <div className="mt-2 ml-4 space-y-2">
+                  {ressourcesSubmenu.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`block text-sm transition-colors ${
+                        pathname === item.href
+                          ? "text-white"
+                          : "text-white/80 hover:text-white/60"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
 
               {/* Language with Submenu in Mobile */}
               <div>
                 <div className="text-base text-white/90">Language</div>
-                <div className="ml-4 mt-2 space-y-2">
+                <div className="mt-2 ml-4 space-y-2">
                   {languages.map((lang) => (
                     <Link
                       key={lang.code}
@@ -825,7 +927,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className={`px-4 py-2 bg-[#8202FF] text-white text-base font-pp-neue-montreal hover:bg-[#6a02cc] transition-colors rounded inline-block ${
+                className={`inline-block rounded bg-[#8202FF] px-4 py-2 font-pp-neue-montreal text-base text-white transition-colors hover:bg-[#6a02cc] ${
                   pathname === "/contact" ? "bg-[#6a02cc]" : ""
                 }`}
               >
