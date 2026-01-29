@@ -31,7 +31,10 @@ export default function ParallaxImage({
         // Calculate the parallax offset based on how much of the container is visible
         const scrollProgress =
           (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-        const parallaxOffset = (scrollProgress - 0.5) * 100 * speed;
+        // Scale by viewport height for a more dramatic effect
+        // speed of 0.3 = 30% of viewport height total movement
+        const parallaxOffset =
+          (scrollProgress - 0.5) * window.innerHeight * speed;
 
         contentRef.current.style.transform = `translateY(${parallaxOffset}px)`;
       }

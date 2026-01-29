@@ -6,28 +6,33 @@ import AnimatedText from "@/app/components/AnimatedText3";
 import ContactLeadForm from "@/app/components/ContactLeadForm";
 import FAQ, { FAQItem } from "@/app/components/FAQ";
 import ParticleGlobe from "@/app/components/ParticleGlobe";
-
+import ParallaxImage from "@/app/components/ParallaxImage";
 
 const FAQ_ITEMS: FAQItem[] = [
   {
     question: "What services do you offer?",
-    answer: "We provide comprehensive infrastructure management, application support, DevOps automation, and security compliance services. Our team handles everything from cloud architecture to 24/7 monitoring and incident response.",
+    answer:
+      "We provide comprehensive infrastructure management, application support, DevOps automation, and security compliance services. Our team handles everything from cloud architecture to 24/7 monitoring and incident response.",
   },
   {
     question: "How quickly can you respond to incidents?",
-    answer: "We offer 24/7 monitoring with guaranteed SLA response times. Our team is always available to address critical issues and ensure minimal downtime for your systems.",
+    answer:
+      "We offer 24/7 monitoring with guaranteed SLA response times. Our team is always available to address critical issues and ensure minimal downtime for your systems.",
   },
   {
     question: "Do you work with specific cloud providers?",
-    answer: "Yes, we have expertise across all major cloud platforms including AWS, Azure, and GCP. We can help you choose the right platform for your needs or manage multi-cloud environments.",
+    answer:
+      "Yes, we have expertise across all major cloud platforms including AWS, Azure, and GCP. We can help you choose the right platform for your needs or manage multi-cloud environments.",
   },
   {
     question: "What is your approach to security and compliance?",
-    answer: "We implement comprehensive security measures including threat monitoring, vulnerability management, and access controls. We ensure your systems meet industry standards like SOC 2, ISO 27001, and GDPR compliance.",
+    answer:
+      "We implement comprehensive security measures including threat monitoring, vulnerability management, and access controls. We ensure your systems meet industry standards like SOC 2, ISO 27001, and GDPR compliance.",
   },
   {
     question: "Can you help with existing infrastructure?",
-    answer: "Absolutely. We can take over management of your existing infrastructure, optimize current setups, and help migrate to more efficient solutions. Our team works seamlessly with your current technology stack.",
+    answer:
+      "Absolutely. We can take over management of your existing infrastructure, optimize current setups, and help migrate to more efficient solutions. Our team works seamlessly with your current technology stack.",
   },
 ];
 
@@ -42,32 +47,32 @@ export default function ContactPage() {
 
   return (
     <div className="w-full">
-      <section className="relative min-h-screen bg-black px-4 md:px-8 pt-64 pb-20">
+      <section className="relative min-h-screen bg-black px-4 pt-64 pb-20 md:px-8">
         <div className="w-full">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-14 items-start">
-            <div className="md:w-1/2 flex flex-col justify-between md:h-[calc(100vh-16rem-5rem)]">
+          <div className="flex flex-col items-start gap-10 md:flex-row md:gap-14">
+            <div className="flex flex-col justify-between md:h-[calc(100vh-16rem-5rem)] md:w-1/2">
               <div>
                 <AnimatedText isHero>
-                  <h1 className="font-pp-neue-montreal text-white text-5xl md:text-7xl font-normal leading-[1.02]">
+                  <h1 className="font-pp-neue-montreal text-5xl leading-[1.02] font-normal text-white md:text-7xl">
                     {t("hero.title")}
                   </h1>
                 </AnimatedText>
               </div>
 
-              <div className="mt-16 md:mt-0 space-y-4">
+              <div className="mt-16 space-y-4 md:mt-0">
                 <a
                   href={`mailto:${email}`}
-                  className="block font-pp-neue-montreal text-white/80 hover:text-white transition-colors text-sm md:text-base"
+                  className="block font-pp-neue-montreal text-sm text-white/80 transition-colors hover:text-white md:text-base"
                 >
                   {email}
                 </a>
                 <a
                   href={phoneHref}
-                  className="block font-pp-neue-montreal text-white/80 hover:text-white transition-colors text-sm md:text-base"
+                  className="block font-pp-neue-montreal text-sm text-white/80 transition-colors hover:text-white md:text-base"
                 >
                   {phone}
                 </a>
-                <p className="font-pp-neue-montreal text-white/80 text-sm md:text-base leading-relaxed">
+                <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
                   {addressLine1}
                   <br />
                   {addressLine2}
@@ -75,11 +80,11 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="md:w-1/2 w-full">
+            <div className="w-full md:w-1/2">
               <div className="w-full max-w-md">
                 <div className="mb-4 border-t border-white" />
                 <AnimatedText isHero delay={0.0} stagger={0.3}>
-                  <p className="font-pp-neue-montreal text-white text-sm md:text-base leading-relaxed max-w-md">
+                  <p className="max-w-md font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
                     {t("hero.subtitle")}
                   </p>
                 </AnimatedText>
@@ -92,31 +97,37 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-            {/* Particle Globe Section */}
-      <section className="relative w-full h-svh">
-        <ParticleGlobe className="w-full h-full" />
+      {/* Particle Globe Section */}
+      <section className="relative h-svh w-full">
+        <ParticleGlobe className="h-full w-full" />
       </section>
 
       {/* Get In Touch – big title + grid (no max width) */}
-      <section className="w-full bg-black px-4 md:px-8 py-16 md:py-24">
-        <h2 className="font-pp-neue-montreal text-white text-4xl md:text-6xl lg:text-7xl font-normal leading-[1.02] text-left mb-12 md:mb-16">
+      <section className="w-full bg-black px-4 py-16 md:px-8 md:py-24">
+        <h2 className="mb-12 text-left font-pp-neue-montreal text-4xl leading-[1.02] font-normal text-white md:mb-16 md:text-6xl lg:text-7xl">
           {t("getInTouch.title")}
         </h2>
 
         <div className="w-full">
           {/* Row 1 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 py-5 md:py-6 border-t border-white/15">
-            <div className="font-pp-neue-montreal text-white text-base md:text-lg">
+          <div className="grid grid-cols-1 gap-6 border-t border-white/15 py-5 md:grid-cols-3 md:gap-8 md:py-6">
+            <div className="font-pp-neue-montreal text-base text-white md:text-lg">
               {t("getInTouch.row1.col1")}
             </div>
-            <div className="font-pp-neue-montreal text-white text-base md:text-lg space-y-0.5">
+            <div className="space-y-0.5 font-pp-neue-montreal text-base text-white md:text-lg">
               <div>{t("getInTouch.row1.col2Label")}</div>
-              <a href={`mailto:${email}`} className="text-white/80 hover:text-white transition-colors block">
+              <a
+                href={`mailto:${email}`}
+                className="block text-white/80 transition-colors hover:text-white"
+              >
                 {email}
               </a>
             </div>
-            <div className="font-pp-neue-montreal text-white text-base md:text-lg text-left md:text-right">
-              <Link href={`/${locale}/careers`} className="text-white/80 hover:text-white transition-colors">
+            <div className="text-left font-pp-neue-montreal text-base text-white md:text-right md:text-lg">
+              <Link
+                href={`/${locale}/careers`}
+                className="text-white/80 transition-colors hover:text-white"
+              >
                 {t("getInTouch.row1.col3")}
               </Link>
             </div>
@@ -127,34 +138,39 @@ export default function ContactPage() {
             const raw = t.raw("getInTouch.locations");
             const locations = Array.isArray(raw) ? (raw as string[]) : [];
             return locations.map((location) => (
-            <div
-              key={location}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 py-5 md:py-6 border-t border-white/15"
-            >
-              <div className="font-pp-neue-montreal text-white text-base md:text-lg">
-                {location}
+              <div
+                key={location}
+                className="grid grid-cols-1 gap-6 border-t border-white/15 py-5 md:grid-cols-3 md:gap-8 md:py-6"
+              >
+                <div className="font-pp-neue-montreal text-base text-white md:text-lg">
+                  {location}
+                </div>
+                <div className="space-y-0.5 font-pp-neue-montreal text-base text-white md:text-lg">
+                  <div>{t("getInTouch.newBusiness")}</div>
+                  <a
+                    href={`mailto:${email}`}
+                    className="block text-white/80 transition-colors hover:text-white"
+                  >
+                    {email}
+                  </a>
+                </div>
+                <div className="text-left font-pp-neue-montreal text-base text-white/80 md:text-right md:text-lg">
+                  {t("getInTouch.col3Time")}
+                </div>
               </div>
-              <div className="font-pp-neue-montreal text-white text-base md:text-lg space-y-0.5">
-                <div>{t("getInTouch.newBusiness")}</div>
-                <a href={`mailto:${email}`} className="text-white/80 hover:text-white transition-colors block">
-                  {email}
-                </a>
-              </div>
-              <div className="font-pp-neue-montreal text-white/80 text-base md:text-lg text-left md:text-right">
-                {t("getInTouch.col3Time")}
-              </div>
-            </div>
-          ));
+            ));
           })()}
         </div>
       </section>
 
       <FAQ items={FAQ_ITEMS} />
 
-      <div
-        className="h-screen w-full bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/campaign-creators.jpg)" }}
-      />
+      <ParallaxImage className="h-screen w-full" speed={0.4}>
+        <div
+          className="h-[140%] w-full bg-cover bg-[center_80%] bg-no-repeat"
+          style={{ backgroundImage: "url(/campaign-creators.jpg)" }}
+        />
+      </ParallaxImage>
     </div>
   );
 }
