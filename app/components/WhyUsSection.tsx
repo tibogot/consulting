@@ -15,7 +15,7 @@ export default function WhyUsSection() {
         <div className="mt-20 flex flex-col md:mt-24 md:flex-row md:items-stretch md:gap-16 lg:gap-24">
           {/* Left: CSS sticky title */}
           <div className="shrink-0 pb-12 md:w-1/2 md:pb-0 lg:w-2/5">
-            <div className="md:sticky md:top-20">
+            <div className="md:sticky md:top-30">
               <h2 className="max-w-xl text-left font-pp-neue-montreal text-4xl leading-tight font-normal text-white md:text-5xl lg:text-6xl">
                 Company, offering integrated solution.
               </h2>
@@ -85,7 +85,7 @@ export default function WhyUsSection() {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <div className="h-px w-full bg-white/20" />
               <div className="flex flex-row gap-6 pt-6 md:gap-8">
                 <p className="shrink-0 font-pp-neue-montreal text-base text-white md:text-lg">
@@ -97,7 +97,7 @@ export default function WhyUsSection() {
                   Clean execution, predictable cadence, and measurable progress.
                 </p>
               </div>
-            </div>
+            </div> */}
 
             <Link
               href="/services"

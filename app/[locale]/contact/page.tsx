@@ -47,19 +47,35 @@ export default function ContactPage() {
 
   return (
     <div className="w-full">
-      <section className="relative min-h-screen bg-black px-4 pt-64 pb-20 md:px-8">
+      {/* Big Hero Title Section */}
+      <section className="flex min-h-[60vh] items-center bg-black px-4 pt-32 md:min-h-[70vh] md:px-8">
+        <div className="flex w-full">
+          <div className="w-1/2" />
+          <div className="w-1/2">
+            <AnimatedText isHero>
+              <h1 className="text-left font-pp-neue-montreal text-5xl leading-[1.1] font-normal text-white md:text-7xl">
+                Have a question?
+                <br />
+                Ready to connect?
+              </h1>
+            </AnimatedText>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative bg-black px-4 pb-20 md:px-8">
         <div className="w-full">
-          <div className="flex flex-col items-start gap-10 md:flex-row md:gap-14">
-            <div className="flex flex-col justify-between md:h-[calc(100vh-16rem-5rem)] md:w-1/2">
+          <div className="flex flex-col gap-10 md:flex-row md:items-stretch md:gap-14">
+            <div className="flex flex-col justify-between md:w-1/3">
               <div>
                 <AnimatedText isHero>
-                  <h1 className="font-pp-neue-montreal text-5xl leading-[1.02] font-normal text-white md:text-7xl">
+                  <h2 className="font-pp-neue-montreal text-3xl leading-[1.02] font-normal text-white md:text-4xl">
                     {t("hero.title")}
-                  </h1>
+                  </h2>
                 </AnimatedText>
               </div>
 
-              <div className="mt-16 space-y-4 md:mt-0">
+              <div className="mt-16 space-y-4 md:mt-auto">
                 <a
                   href={`mailto:${email}`}
                   className="block font-pp-neue-montreal text-sm text-white/80 transition-colors hover:text-white md:text-base"
@@ -80,11 +96,11 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="w-full md:w-1/2">
-              <div className="w-full max-w-md">
+            <div className="w-full md:w-2/3">
+              <div className="w-full">
                 <div className="mb-4 border-t border-white" />
                 <AnimatedText isHero delay={0.0} stagger={0.3}>
-                  <p className="max-w-md font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
+                  <p className="font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
                     {t("hero.subtitle")}
                   </p>
                 </AnimatedText>

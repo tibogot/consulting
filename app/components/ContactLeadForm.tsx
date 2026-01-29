@@ -8,7 +8,7 @@ export default function ContactLeadForm() {
   if (submitted) {
     return (
       <div className="pt-6">
-        <p className="font-pp-neue-montreal text-white/80 text-sm md:text-base leading-relaxed">
+        <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
           Thanks — we’ll get back to you shortly.
         </p>
       </div>
@@ -86,14 +86,11 @@ export default function ContactLeadForm() {
 
       <button
         type="submit"
-        className="mt-6 inline-flex items-center gap-3 font-pp-neue-montreal text-white/60 hover:text-white/85 transition-colors text-[11px] md:text-xs"
+        className="mt-6 inline-flex cursor-pointer items-center gap-3 rounded-[1px] bg-[var(--primary)] px-6 py-3 font-pp-neue-montreal text-sm text-white transition-colors hover:bg-[#6a02cc] md:text-base"
       >
         <span>Submit</span>
-        <span aria-hidden className="text-white/60">
-          →
-        </span>
+        <span aria-hidden>→</span>
       </button>
     </form>
   );
 }
-
