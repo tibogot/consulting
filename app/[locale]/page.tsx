@@ -61,7 +61,7 @@ export default async function Home() {
             <div className="md:w-1/2">
               <div>
                 <AnimatedText>
-                  <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
+                  <p className="max-w-lg font-pp-neue-montreal text-lg leading-relaxed text-white/80">
                     What started as a Belgian recruitment agency has grown into
                     a trusted consulting partner spanning 11 countries. Today,
                     Sparagus bridges the gap between talent and transformation,
@@ -70,7 +70,9 @@ export default async function Home() {
                     preserving the personal touch that makes partnerships
                     meaningful.
                   </p>
-                  <p className="max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
+                </AnimatedText>
+                <AnimatedText delay={1.2}>
+                  <p className="mt-4 max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
                     With over a decade of experience and 100+ active
                     consultants, we bring together deep industry expertise,
                     agile execution, and a focus on sustainable outcomes. Our

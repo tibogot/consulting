@@ -22,82 +22,55 @@ export default function WhyUsSection() {
             </div>
           </div>
 
-          {/* Right: 5 blocks + Explore services */}
-          <div className="flex flex-col gap-16 md:w-1/2 md:gap-20 lg:w-3/5">
-            <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="flex flex-row gap-6 pt-6 md:gap-8">
-                <p className="shrink-0 font-pp-neue-montreal text-base text-white md:text-lg">
-                  (01)
-                </p>
-                <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
-                  From our roots as a Belgian recruitment agency to a trusted
-                  consulting partner across 11 countries, Sparagus has evolved
-                  to meet the real expertise needs of modern business. We help
-                  companies fill critical roles, lead complex projects, and
-                  manage full-service delivery — without losing the human touch.
-                </p>
-              </div>
+          {/* Right: 4 cards + Explore services */}
+          <div className="flex flex-col gap-4 md:w-1/2 lg:w-3/5">
+            <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+                (01)
+              </h3>
+              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+                From our roots as a Belgian recruitment agency to a trusted
+                consulting partner across 11 countries, Sparagus has evolved to
+                meet the real expertise needs of modern business. We help
+                companies fill critical roles, lead complex projects, and manage
+                full-service delivery — without losing the human touch.
+              </p>
             </div>
 
-            <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="flex flex-row gap-6 pt-6 md:gap-8">
-                <p className="shrink-0 font-pp-neue-montreal text-base text-white md:text-lg">
-                  (02)
-                </p>
-                <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
-                  With over a decade of experience and 100+ active consultants,
-                  our teams combine deep domain knowledge, operational agility,
-                  and a commitment to long-term partnerships. At Sparagus,
-                  success isn&apos;t about transactions — it&apos;s about
-                  impact.
-                </p>
-              </div>
+            <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+                (02)
+              </h3>
+              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+                With over a decade of experience and 100+ active consultants,
+                our teams combine deep domain knowledge, operational agility,
+                and a commitment to long-term partnerships. At Sparagus, success
+                isn&apos;t about transactions — it&apos;s about impact.
+              </p>
             </div>
 
-            <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="flex flex-row gap-6 pt-6 md:gap-8">
-                <p className="shrink-0 font-pp-neue-montreal text-base text-white md:text-lg">
-                  (03)
-                </p>
-                <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
-                  We bridge the gap between talent and transformation, helping
-                  organizations execute complex initiatives and scale
-                  operations—all while preserving the personal touch that makes
-                  partnerships meaningful.
-                </p>
-              </div>
+            <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+                (03)
+              </h3>
+              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+                We bridge the gap between talent and transformation, helping
+                organizations execute complex initiatives and scale
+                operations—all while preserving the personal touch that makes
+                partnerships meaningful.
+              </p>
             </div>
 
-            <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="flex flex-row gap-6 pt-6 md:gap-8">
-                <p className="shrink-0 font-pp-neue-montreal text-base text-white md:text-lg">
-                  (04)
-                </p>
-                <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
-                  Our approach goes beyond placements and projects—we build
-                  relationships that drive measurable impact and create lasting
-                  value for your business.
-                </p>
-              </div>
+            <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+                (04)
+              </h3>
+              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+                Our approach goes beyond placements and projects—we build
+                relationships that drive measurable impact and create lasting
+                value for your business.
+              </p>
             </div>
-
-            {/* <div>
-              <div className="h-px w-full bg-white/20" />
-              <div className="flex flex-row gap-6 pt-6 md:gap-8">
-                <p className="shrink-0 font-pp-neue-montreal text-base text-white md:text-lg">
-                  (05)
-                </p>
-                <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
-                  Sharp research, practical strategy, and decision-ready
-                  artifacts—so your team stops debating and starts building.
-                  Clean execution, predictable cadence, and measurable progress.
-                </p>
-              </div>
-            </div> */}
 
             <Link
               href="/services"

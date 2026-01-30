@@ -98,7 +98,7 @@ export default function CaseStudies({
             {/* Case Study Item */}
             <Link
               href={caseStudiesRoute}
-              className="group flex w-full flex-col items-center gap-12 py-4 md:flex-row md:items-center md:py-8"
+              className="group flex w-full flex-col items-start gap-4 py-4 md:flex-row md:items-stretch md:gap-12 md:py-8"
             >
               {/* Column 1: Image - Left aligned */}
               <div className="w-full flex-1">
@@ -132,8 +132,8 @@ export default function CaseStudies({
                 </p>
               </div>
 
-              {/* Column 3: Read More CTA - Right aligned */}
-              <div className="flex flex-1 items-center justify-end">
+              {/* Column 3: Read More CTA - Left on mobile, bottom right on desktop */}
+              <div className="flex flex-1 flex-col items-start justify-end md:items-end">
                 <span className="inline-flex translate-y-0 items-center gap-1 font-pp-neue-montreal text-sm text-white/80 opacity-100 transition-all duration-700 group-hover:translate-y-0 group-hover:opacity-100 md:translate-y-2 md:opacity-0">
                   Read more <span aria-hidden>→</span>
                 </span>
