@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import PartnersTicker from "../components/PartnersTicker";
-import WorkAtSparagusHero from "../components/WorkAtSparagusHero";
+import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
 import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
 import ServicesHero from "../components/ServicesHero";
 import Cards from "../components/Cards";
