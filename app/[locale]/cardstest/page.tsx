@@ -99,11 +99,11 @@ export default function CardstestPage() {
       </section>
       <HorizontalScrollGallery
         images={[
-          "/img-1.jpg",
-          "/img-2.jpg",
-          "/img-3.jpg",
-          "/img-4.jpg",
-          "/img-5.jpg",
+          "/images/sticky-cards/stickycard-1.webp",
+          "/images/sticky-cards/stickycard-2.webp",
+          "/images/sticky-cards/stickycard-3.webp",
+          "/images/sticky-cards/stickycard-4.webp",
+          "/images/cards/charlesdeluvio.jpg",
         ]}
         title="Gallery Showcase"
         subtitle="/ Image Collection"
