@@ -17,7 +17,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
   // Handle initial mount
   useEffect(() => {
     if (!overlayRef.current || !contentRef.current) return;
-    
+
     if (isInitialMount.current) {
       // Initial load: No animation, just show content immediately
       isInitialMount.current = false;
@@ -78,7 +78,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       {/* Transition overlay - DEBUG: using red to see it */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-[9998] bg-red-500 pointer-events-none"
+        className="pointer-events-none fixed inset-0 z-9998 bg-black"
         style={{ willChange: "transform" }}
       />
 
