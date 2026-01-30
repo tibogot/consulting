@@ -78,7 +78,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       {/* Transition overlay - DEBUG: using red to see it */}
       <div
         ref={overlayRef}
-        className="pointer-events-none fixed inset-0 z-9998 bg-black"
+        className="pointer-events-none fixed inset-0 z-9998 bg-red-500"
         style={{ willChange: "transform" }}
       />
 

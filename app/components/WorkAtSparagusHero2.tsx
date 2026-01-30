@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import Image from "next/image";
 import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
+
+const HERO_VIDEO_CDN =
+  "https://cdn.prod.website-files.com/66d3db0a03091f83e3260124%2F66de4dfa2d65d4c9631e442e_Hero%20Visual%20%281%29-transcode.mp4";
 
 interface WorkAtSparagusHeroProps {
   title: string;
@@ -371,17 +373,8 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         className="invisible absolute inset-0 z-0 origin-center will-change-transform backface-hidden"
         style={{ willChange: "clip-path, transform" }}
       >
-        {/* DEBUG: Poster image only (video commented out to test scroll jitter) */}
-        <Image
-          src="/videoherodark-poster.jpg"
-          alt=""
-          fill
-          priority
-          className="object-cover"
-        />
-
-        {/* Video - conditionally loaded based on device/connection (commented out for debug) */}
-        {/* {shouldLoadVideo && (
+        {/* Video from CDN only - no local image or video files */}
+        {shouldLoadVideo && (
           <video
             ref={videoRef}
             autoPlay
@@ -389,31 +382,19 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             muted
             playsInline
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
-            poster="/videoherodark-poster.jpg"
+            crossOrigin="anonymous"
+            className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500"
             onCanPlay={(e) => {
               e.currentTarget.style.opacity = "1";
             }}
             onError={(e) => {
-              console.warn("Video failed to load, using poster image", e);
+              console.warn("Video failed to load from CDN", e);
             }}
           >
-            {isMobile ? (
-              <>
-                <source src="/videoherodark-mobile.webm" type="video/webm" />
-                <source src="/videoherodark-mobile.mp4" type="video/mp4" />
-              </>
-            ) : (
-              <>
-                <source src="/videoherodark.webm" type="video/webm" />
-                <source src="/videoherodark.mp4" type="video/mp4" />
-              </>
-            )}
+            <source src={HERO_VIDEO_CDN} type="video/mp4" />
           </video>
-        )} */}
+        )}
 
-        {/* Overlay for better text readability */}
-        {/* <div className="absolute inset-0 bg-black/20 z-0" /> */}
         {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
         <div className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.5)]" />
       </div>

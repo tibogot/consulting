@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Link, useRouter } from "@/i18n/routing";
+import { Link, useRouter, routing } from "@/i18n/routing";
 import { Draggable } from "@/lib/gsapConfig";
 
 export type BlogArticle = {
@@ -141,7 +141,15 @@ export default function BlogPreview({
           if (link) {
             const href = link.getAttribute("href");
             if (href) {
-              router.push(href as "/blog");
+              // next-intl router expects pathname WITHOUT locale (it prepends it).
+              // Link's href is already /en/blog etc., so strip the locale to avoid /en/en/blog.
+              const pathname = href.replace(/^\//, "");
+              const segments = pathname.split("/");
+              const maybeLocale = segments[0];
+              const pathnameWithoutLocale = (routing.locales as readonly string[]).includes(maybeLocale)
+                ? "/" + (segments.slice(1).join("/") || "")
+                : href;
+              router.push(pathnameWithoutLocale as "/blog");
             }
           }
         }

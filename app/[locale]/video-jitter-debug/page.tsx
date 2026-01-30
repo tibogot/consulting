@@ -1,13 +1,15 @@
 import { getTranslations } from "next-intl/server";
-import WorkAtSparagusHero from "../../../components/WorkAtSparagusHero2";
-import AnimatedText from "../../../components/AnimatedText3";
+import WorkAtSparagusHero from "../../components/WorkAtSparagusHero2";
+import AnimatedText from "../../components/AnimatedText3";
 
-export default async function FindJobPage() {
+export default async function VideoJitterDebugPage() {
   const t = await getTranslations("careers.workAtSparagus");
 
   return (
     <div className="min-h-screen w-full bg-black">
-      {/* Hero Section - same as video-jitter-debug, uses CDN video */}
+      {/* Debug banner */}
+
+      {/* Hero Section - same as home, uses video */}
       <div className="">
         <WorkAtSparagusHero title={t("title")} />
       </div>

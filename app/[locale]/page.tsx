@@ -33,7 +33,7 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
-      <PartnersTicker />
+      {/* <PartnersTicker /> */}
 
       <section className="relative w-full bg-black px-4 pb-20 md:px-8">
         <div className="w-full">
@@ -71,7 +71,7 @@ export default async function Home() {
                     meaningful.
                   </p>
                 </AnimatedText>
-                <AnimatedText delay={1.2}>
+                {/* <AnimatedText delay={1.2}>
                   <p className="mt-4 max-w-lg pb-6 font-pp-neue-montreal text-lg leading-relaxed text-white/80">
                     With over a decade of experience and 100+ active
                     consultants, we bring together deep industry expertise,
@@ -80,7 +80,7 @@ export default async function Home() {
                     relationships that drive measurable impact and create
                     lasting value for your business.
                   </p>
-                </AnimatedText>
+                </AnimatedText> */}
                 <Link
                   href="/services"
                   className="mt-8 inline-flex items-center gap-2 font-pp-neue-montreal text-sm text-white transition-opacity hover:opacity-80 md:text-base"
@@ -133,39 +133,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <section className="relative w-full bg-black px-4 pt-10 pb-40 md:px-8">
-        <div className="mb-4 h-px bg-white px-4 md:px-8"></div>
-        <h3 className="mb-24 font-pp-neue-montreal text-sm text-white md:text-base">
-          Our services
-        </h3>
-        <h2 className="max-w-5xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-7xl">
-          <span className="pointer-events-none opacity-0 select-none">
-            Invisible text
-          </span>
-          <TextAnim useScrollTrigger={true} lightningColor="#cb96ff">
-            A smarter way to find, deploy & manage the expertise your business
-            needs
-          </TextAnim>
-        </h2>
-        <AnimatedCopy
-          colorInitial="#666666"
-          colorAccent="#8202FF"
-          colorFinal="#ffffff"
-          start="top 90%"
-          end="top 50%"
-          scrub={0.3}
-        >
-          <h2 className="max-w-7xl text-left font-pp-neue-montreal text-5xl font-normal text-white md:text-7xl">
-            <span className="pointer-events-none opacity-0 select-none">
-              Invisible text
-            </span>
-            A Smarter Way to Find, Deploy & Manage the Expertise Your Business
-            Needs{" "}
-          </h2>
-        </AnimatedCopy>
-      </section> */}
-
-      {/* White Section */}
       {/* <WhiteSection /> */}
 
       {/* Laser Border Cards Section */}
