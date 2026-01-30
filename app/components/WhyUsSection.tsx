@@ -25,10 +25,10 @@ export default function WhyUsSection() {
           {/* Right: 4 cards + Explore services */}
           <div className="flex flex-col gap-4 md:w-1/2 lg:w-3/5">
             <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
-              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight text-white md:mb-10 md:text-2xl">
                 (01)
               </h3>
-              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+              <p className="max-w-lg font-pp-neue-montreal text-base leading-relaxed text-white/80 md:text-lg">
                 From our roots as a Belgian recruitment agency to a trusted
                 consulting partner across 11 countries, Sparagus has evolved to
                 meet the real expertise needs of modern business. We help
@@ -38,10 +38,10 @@ export default function WhyUsSection() {
             </div>
 
             <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
-              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight text-white md:mb-10 md:text-2xl">
                 (02)
               </h3>
-              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+              <p className="max-w-lg font-pp-neue-montreal text-base leading-relaxed text-white/80 md:text-lg">
                 With over a decade of experience and 100+ active consultants,
                 our teams combine deep domain knowledge, operational agility,
                 and a commitment to long-term partnerships. At Sparagus, success
@@ -50,10 +50,10 @@ export default function WhyUsSection() {
             </div>
 
             <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
-              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight text-white md:mb-10 md:text-2xl">
                 (03)
               </h3>
-              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+              <p className="max-w-lg font-pp-neue-montreal text-base leading-relaxed text-white/80 md:text-lg">
                 We bridge the gap between talent and transformation, helping
                 organizations execute complex initiatives and scale
                 operations—all while preserving the personal touch that makes
@@ -62,10 +62,10 @@ export default function WhyUsSection() {
             </div>
 
             <div className="rounded-xl border border-white/15 bg-white/4 p-8 md:min-h-[280px] md:p-10 lg:p-12">
-              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight font-semibold text-white md:mb-10 md:text-2xl">
+              <h3 className="mb-8 font-pp-neue-montreal text-xl leading-tight text-white md:mb-10 md:text-2xl">
                 (04)
               </h3>
-              <p className="font-pp-neue-montreal text-sm leading-relaxed text-white/80 md:text-base">
+              <p className="max-w-lg font-pp-neue-montreal text-base leading-relaxed text-white/80 md:text-lg">
                 Our approach goes beyond placements and projects—we build
                 relationships that drive measurable impact and create lasting
                 value for your business.

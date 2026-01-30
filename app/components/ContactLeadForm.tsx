@@ -16,7 +16,7 @@ export default function ContactLeadForm() {
   }
 
   const inputBase =
-    "w-full bg-transparent border-b border-white/15 pb-3 font-pp-neue-montreal text-white/80 placeholder:text-white/45 focus:outline-none focus:border-white/70 transition-colors text-sm md:text-base";
+    "w-full bg-transparent border-b border-white/15 pb-3 font-pp-neue-montreal text-white/80 placeholder:text-white/45 focus:outline-none focus:border-white/70 transition-colors text-base md:text-lg";
 
   return (
     <form

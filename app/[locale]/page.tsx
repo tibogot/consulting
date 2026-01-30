@@ -244,7 +244,7 @@ export default async function Home() {
           </div>
         </div> */}
 
-      {/* <ServicesHero /> */}
+      <ServicesHero />
 
       <WhyUsSection />
 

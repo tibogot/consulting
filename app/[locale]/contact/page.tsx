@@ -98,14 +98,7 @@ export default function ContactPage() {
 
             <div className="w-full md:w-2/3">
               <div className="w-full">
-                <div className="mb-4 border-t border-white" />
-                <AnimatedText isHero delay={0.0} stagger={0.3}>
-                  <p className="font-pp-neue-montreal text-sm leading-relaxed text-white md:text-base">
-                    {t("hero.subtitle")}
-                  </p>
-                </AnimatedText>
-
-                <div className="mt-14">
+                <div className="mt-0">
                   <ContactLeadForm />
                 </div>
               </div>
