@@ -2,30 +2,32 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import PartnersTicker from "../components/PartnersTicker";
-import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
-import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
-import ServicesHero from "../components/ServicesHero";
-import Cards from "../components/Cards";
-import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
-import ParticleGlobe from "../components/ParticleGlobe";
-import ParticleGlobeWebGPU from "../components/ParticleGlobeWebGPU";
-import StackingCardsPin from "../components/StackingCardsPin";
-import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
-import AnimatedCopy from "../components/AnimatedCopy";
-import TextAnim from "../components/TextAnim";
-// import WhiteSection from "../components/WhiteSection";
+import PartnersTicker from "../../components/PartnersTicker";
+import WorkAtSparagusHero from "../../components/WorkAtSparagusHero3";
+import PinnedClipPathAnimation from "../../components/PinnedClipPathAnimation";
+import ServicesHero from "../../components/ServicesHero";
+import Cards from "../../components/Cards";
+import AnimatedVerticalLines from "../../components/AnimatedVerticalLines";
+import ParticleGlobe from "../../components/ParticleGlobe";
+import ParticleGlobeWebGPU from "../../components/ParticleGlobeWebGPU";
+import StackingCardsPin from "../../components/StackingCardsPin";
+import AnimatedCopyLoop from "../../components/AnimatedCopyLoop";
+import AnimatedCopy from "../../components/AnimatedCopy";
+import TextAnim from "../../components/TextAnim";
+import WhiteSection from "../../components/WhiteSection";
+import LaserBorderCardsRow from "../../components/LaserBorderCardsRow";
+import GradientTextReveal from "../../components/GradientTextReveal";
 
-import AnimatedText from "../components/AnimatedText3";
-import AnimatedButton from "../components/AnimatedButton";
-import FractalGradient from "../components/FractalGradient2";
-import PurpleGradient from "../components/PurpleGradient";
-import BlogPreview from "../components/BlogPreview";
-import CaseStudies from "../components/CaseStudies";
-import WhyUsSection from "../components/WhyUsSection";
-import LoopingFadeSections from "../components/LoopingFadeSections";
+import AnimatedText from "../../components/AnimatedText3";
+import AnimatedButton from "../../components/AnimatedButton";
+import FractalGradient from "../../components/FractalGradient2";
+import PurpleGradient from "../../components/PurpleGradient";
+import BlogPreview from "../../components/BlogPreview";
+import CaseStudies from "../../components/CaseStudies";
+import WhyUsSection from "../../components/WhyUsSection";
+import LoopingFadeSections from "../../components/LoopingFadeSections";
 
-export default async function Home() {
+export default async function OriginalHomePage() {
   const t = await getTranslations("careers.workAtSparagus");
 
   return (
@@ -33,7 +35,7 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
-      {/* <PartnersTicker /> */}
+      <PartnersTicker />
 
       <section className="relative w-full bg-black px-4 pb-20 md:px-8">
         <div className="w-full">
@@ -91,7 +93,7 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* <div className="mt-32 grid grid-cols-1 gap-10 md:grid-cols-2">
+          <div className="mt-32 grid grid-cols-1 gap-10 md:grid-cols-2">
             <div>
               <div className="h-px w-full bg-white/20" />
               <div className="pt-6">
@@ -129,26 +131,28 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </section>
 
-      {/* <WhiteSection /> */}
+      <WhiteSection />
 
       {/* Laser Border Cards Section */}
-      {/* <section className="relative w-full bg-black py-20 px-4 md:px-8">
+      {/* <section className="relative w-full bg-black px-4 py-20 md:px-8">
         <LaserBorderCardsRow
           cards={[
             {
               title: "Maximum, automated throughput",
-              description: "Terminal delivers maximum data accuracy and optimal throughput to keep your operations humming and material moving.",
+              description:
+                "Terminal delivers maximum data accuracy and optimal throughput to keep your operations humming and material moving.",
               statValue: "50%",
               statLabel: "data accuracy",
               animationDuration: 4,
             },
             {
               title: "Always Available",
-              description: "Enterprise-grade reliability for mission-critical operations.",
+              description:
+                "Enterprise-grade reliability for mission-critical operations.",
               statValue: "99.9%",
               statLabel: "uptime guaranteed",
               animationDuration: 4,
@@ -217,10 +221,8 @@ export default async function Home() {
 
       <LoopingFadeSections />
 
-      {/* Pinned Clip Path Animation Section */}
       <PinnedClipPathAnimation />
 
-      {/* Animated Vertical Lines Section */}
       <AnimatedVerticalLines
         title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
         description="Forward-thinking organizations."
@@ -230,14 +232,14 @@ export default async function Home() {
       />
 
       {/* Fourth Section - White Background with Grey to Purple Gradient */}
-      {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
+      <section className="relative min-h-screen w-full bg-white px-4 py-20 md:px-8">
         <GradientTextReveal
           startColor="rgb(156, 163, 175)"
           endColor="rgb(130, 2, 255)"
-          className="text-5xl md:text-6xl font-medium text-left font-pp-neue-montreal "
+          className="text-left font-pp-neue-montreal text-5xl font-medium md:text-6xl"
         >
           <h2>
-            <span className="opacity-0 select-none pointer-events-none">
+            <span className="pointer-events-none opacity-0 select-none">
               Invisible text{" "}
             </span>
             From AI startups to global tech leaders, we help turn complexity
@@ -245,7 +247,7 @@ export default async function Home() {
             of visits or millions raised, our work is built for impact.
           </h2>
         </GradientTextReveal>
-      </section> */}
+      </section>
 
       {/* Partners Ticker Section */}
       <section className="relative w-full bg-black py-4">
@@ -371,7 +373,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <Cards /> */}
+      <Cards />
 
       <CaseStudies />
 
@@ -440,7 +442,7 @@ export default async function Home() {
           </TextAnim>
         </div>
       </section>
-      <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
+      {/* <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
         <div className="mx-auto w-full max-w-6xl text-center">
           <AnimatedCopyLoop
             colorInitial="#777777"
@@ -458,7 +460,7 @@ export default async function Home() {
             </h2>
           </AnimatedCopyLoop>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
