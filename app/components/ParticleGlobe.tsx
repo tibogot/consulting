@@ -118,6 +118,11 @@ export default function ParticleGlobe({
   const markerDirectionsRef = useRef<Map<string, THREE.Vector3>>(new Map());
   const activeLocationNameRef = useRef<string | null>(null);
 
+  // Animation refs for rotating to a location
+  const animationTargetAzimuthRef = useRef<number | null>(null);
+  const isAnimatingToLocationRef = useRef<boolean>(false);
+  const markerPositionsRef = useRef<Map<string, THREE.Vector3>>(new Map());
+
   const [listHoverLocation, setListHoverLocation] = useState<string | null>(null);
   const [globeHoverLocation, setGlobeHoverLocation] = useState<string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
@@ -763,11 +768,13 @@ export default function ParticleGlobe({
 
     const markerPositions = new Map<string, THREE.Vector3>();
     markerDirectionsRef.current = new Map();
+    markerPositionsRef.current = new Map();
 
     locations.forEach((location) => {
       const snapped = snapToLand(location.lon, location.lat);
       const pos = latLonToPosition(snapped.lon, snapped.lat);
       markerPositions.set(location.name, pos.clone());
+      markerPositionsRef.current.set(location.name, pos.clone());
       markerDirectionsRef.current.set(location.name, pos.clone().normalize());
 
       // Minimal "beacon": small dot + subtle halo (no ripples)
@@ -928,6 +935,39 @@ export default function ParticleGlobe({
 
       // Update OrbitControls (required for damping)
       controls.update(clock.getDelta());
+
+      // Animate rotation to target location if active
+      if (isAnimatingToLocationRef.current && animationTargetAzimuthRef.current !== null) {
+        const currentAzimuth = controls.getAzimuthalAngle();
+        const targetAzimuth = animationTargetAzimuthRef.current;
+
+        // Calculate the shortest angular distance (handling wrap-around)
+        let delta = targetAzimuth - currentAzimuth;
+        while (delta > Math.PI) delta -= Math.PI * 2;
+        while (delta < -Math.PI) delta += Math.PI * 2;
+
+        // Smooth lerp toward target
+        const lerpSpeed = 0.08;
+        const newDelta = delta * lerpSpeed;
+
+        // Apply rotation by adjusting camera position around Y axis
+        const currentPos = camera.position.clone();
+        const radius = Math.sqrt(currentPos.x * currentPos.x + currentPos.z * currentPos.z);
+        const currentAngle = Math.atan2(currentPos.x, currentPos.z);
+        const newAngle = currentAngle + newDelta;
+
+        camera.position.x = radius * Math.sin(newAngle);
+        camera.position.z = radius * Math.cos(newAngle);
+        camera.lookAt(0, 0, 0);
+        controls.update(0);
+
+        // Check if we've reached the target (close enough)
+        if (Math.abs(delta) < 0.01) {
+          isAnimatingToLocationRef.current = false;
+          animationTargetAzimuthRef.current = null;
+          controls.autoRotate = true;
+        }
+      }
 
       // Animate location markers (pulsing/ripple effect)
       if (locationMarkersRef.current) {
@@ -1292,6 +1332,25 @@ export default function ParticleGlobe({
     // colorPalette is a constant, no need to include in deps
   ]);
 
+  // Function to rotate globe to show a specific location
+  const rotateToLocation = (locationName: string) => {
+    const markerPos = markerPositionsRef.current.get(locationName);
+    const controls = controlsRef.current;
+
+    if (!markerPos || !controls) return;
+
+    // Calculate the azimuth angle of the marker (angle around Y axis)
+    // The marker should face the camera, so camera azimuth = marker azimuth
+    const markerAzimuth = Math.atan2(markerPos.x, markerPos.z);
+
+    // Set target and start animation
+    animationTargetAzimuthRef.current = markerAzimuth;
+    isAnimatingToLocationRef.current = true;
+
+    // Pause auto-rotate during animation
+    controls.autoRotate = false;
+  };
+
   return (
     <div className={`relative w-full h-full ${className}`}>
       <div
@@ -1320,7 +1379,11 @@ export default function ParticleGlobe({
                     ].join(" ")}
                     onMouseEnter={variant === "desktop" ? () => setListHoverLocation(loc.name) : undefined}
                     onClick={() => {
-                      setSelectedLocation((prev) => (prev === loc.name ? null : loc.name));
+                      const newSelection = selectedLocation === loc.name ? null : loc.name;
+                      setSelectedLocation(newSelection);
+                      if (newSelection) {
+                        rotateToLocation(newSelection);
+                      }
                       if (variant === "mobile") setIsLocationsPanelOpen(false);
                     }}
                   >
