@@ -233,6 +233,77 @@ export default function ParticleGlobe({
     controls.addEventListener("end", handleControlsEnd);
     controlsRef.current = controls;
 
+    const canvas = renderer.domElement;
+
+    const handleResize = () => {
+      if (!camera || !renderer) return;
+      const rect = containerEl.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      const isMobile = w < 768;
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2)
+      );
+    };
+
+    const updateMouseFromClient = (clientX: number, clientY: number) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width;
+      const y = (clientY - rect.top) / rect.height;
+      mouseRef.current.x = x * 2 - 1;
+      mouseRef.current.y = -(y * 2 - 1);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updateMouseFromClient(e.clientX, e.clientY);
+      if (controls) autoRotateRef.current = controls.autoRotate;
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.x = 9999;
+      mouseRef.current.y = 9999;
+      if (globeHoverLocationRef.current !== null) {
+        globeHoverLocationRef.current = null;
+        setGlobeHoverLocation(null);
+      }
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
+        if (controls) autoRotateRef.current = controls.autoRotate;
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
+        if (controls) autoRotateRef.current = controls.autoRotate;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      mouseRef.current.x = 9999;
+      mouseRef.current.y = 9999;
+      if (globeHoverLocationRef.current !== null) {
+        globeHoverLocationRef.current = null;
+        setGlobeHoverLocation(null);
+      }
+    };
+
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+    canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: true });
+    canvas.addEventListener("touchend", handleTouchEnd);
+    canvas.addEventListener("touchcancel", handleTouchEnd);
+    window.addEventListener("resize", handleResize);
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(containerEl);
+
     // Raycast helpers (initialized after globe is created)
     let interactionSphereGeometry: THREE.SphereGeometry | null = null;
     let interactionSphereMaterial: THREE.MeshBasicMaterial | null = null;
@@ -848,47 +919,6 @@ export default function ParticleGlobe({
     scene.add(routesGroup);
     scene.add(markersGroup);
 
-    // Mouse tracking for particle repulsion (keep this for mouse interaction with particles)
-    const handleMouseMove = (e: MouseEvent) => {
-      // Map mouse coordinates to NDC relative to the actual canvas rect
-      const rect = canvas.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      mouseRef.current.x = x * 2 - 1;
-      mouseRef.current.y = -(y * 2 - 1);
-      
-      // Update auto-rotate state based on controls
-      if (controls) {
-        autoRotateRef.current = controls.autoRotate;
-      }
-    };
-
-    const handleMouseLeave = () => {
-      mouseRef.current.x = 9999;
-      mouseRef.current.y = 9999;
-      if (globeHoverLocationRef.current !== null) {
-        globeHoverLocationRef.current = null;
-        setGlobeHoverLocation(null);
-      }
-    };
-
-    const handleResize = () => {
-      if (!camera || !renderer) return;
-      const rect = containerEl.getBoundingClientRect();
-      const w = Math.max(1, Math.floor(rect.width));
-      const h = Math.max(1, Math.floor(rect.height));
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    };
-
-    // Attach mouse tracking for particle repulsion
-    const canvas = renderer.domElement;
-    canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
-    
-    window.addEventListener("resize", handleResize);
-
     // Animation loop
     const animate = () => {
       if (!scene || !camera || !renderer || !globe || !glowMesh || !geometry || !controls) return;
@@ -1195,10 +1225,18 @@ export default function ParticleGlobe({
     return () => {
       const renderer = rendererRef.current;
       const controls = controlsRef.current;
-      
-      // Event listeners will be cleaned up automatically when DOM element is removed
-      // No need to manually remove them as the canvas will be destroyed
-      
+
+      window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
+      if (canvas) {
+        canvas.removeEventListener("mousemove", handleMouseMove);
+        canvas.removeEventListener("mouseleave", handleMouseLeave);
+        canvas.removeEventListener("touchstart", handleTouchStart);
+        canvas.removeEventListener("touchmove", handleTouchMove);
+        canvas.removeEventListener("touchend", handleTouchEnd);
+        canvas.removeEventListener("touchcancel", handleTouchEnd);
+      }
+
       if (controls) {
         controls.removeEventListener("start", handleControlsStart);
         controls.removeEventListener("end", handleControlsEnd);
@@ -1269,14 +1307,13 @@ export default function ParticleGlobe({
             <div className="mt-3 flex flex-col gap-1.5">
               {locations.map((loc) => {
                 const isActive = activeLocationName === loc.name;
-                const isSelected = selectedLocation === loc.name;
 
                 return (
                   <button
                     key={loc.name}
                     type="button"
                     className={[
-                      "group flex w-full items-center justify-between text-left cursor-pointer",
+                      "group flex w-full items-center text-left cursor-pointer",
                       "text-base md:text-lg leading-tight",
                       "transition-colors",
                       isActive ? "text-white" : "text-white/60 hover:text-white/90",
@@ -1286,19 +1323,8 @@ export default function ParticleGlobe({
                       setSelectedLocation((prev) => (prev === loc.name ? null : loc.name));
                       if (variant === "mobile") setIsLocationsPanelOpen(false);
                     }}
-                    aria-pressed={isSelected}
                   >
-                    <span>{loc.name}</span>
-                    <span
-                      className={[
-                        "text-[11px] uppercase tracking-[0.16em]",
-                        isSelected
-                          ? "text-white/70"
-                          : "text-white/30 group-hover:text-white/50",
-                      ].join(" ")}
-                    >
-                      {isSelected ? "Pinned" : variant === "mobile" ? "Tap" : "Hover"}
-                    </span>
+                    {loc.name}
                   </button>
                 );
               })}
@@ -1313,15 +1339,10 @@ export default function ParticleGlobe({
                   <div className="mt-1 text-sm leading-relaxed text-white/70">
                     {activeLocation.description}
                   </div>
-                  <div className="mt-3 text-[11px] tracking-[0.16em] uppercase text-white/40">
-                    {variant === "mobile" ? "Tap to pin" : "Click to pin"}
-                  </div>
                 </>
               ) : (
                 <div className="text-sm leading-relaxed text-white/50">
-                  {variant === "mobile"
-                    ? "Tap a location (or a marker) to highlight it on the globe."
-                    : "Hover a location (or a marker) to highlight it on the globe."}
+                  Select a location to view details
                 </div>
               )}
             </div>
@@ -1355,7 +1376,7 @@ export default function ParticleGlobe({
                       Locations
                     </div>
                     <div className="mt-1 truncate text-sm text-white/70">
-                      {activeLocation ? activeLocation.name : "Tap to explore"}
+                      {activeLocation ? activeLocation.name : "Select a location"}
                     </div>
                   </div>
                   <div className="shrink-0 text-[11px] uppercase tracking-[0.16em] text-white/60">

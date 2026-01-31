@@ -49,17 +49,14 @@ export default function ContactPage() {
     <div className="w-full">
       {/* Big Hero Title Section */}
       <section className="flex min-h-[60vh] items-center bg-black px-4 pt-32 md:min-h-[70vh] md:px-8">
-        <div className="flex w-full">
-          <div className="w-1/2" />
-          <div className="w-1/2">
-            <AnimatedText isHero>
-              <h1 className="text-left font-pp-neue-montreal text-5xl leading-[1.1] font-normal text-white md:text-7xl">
-                Have a question?
-                <br />
-                Ready to connect?
-              </h1>
-            </AnimatedText>
-          </div>
+        <div className="w-full">
+          <AnimatedText isHero>
+            <h1 className="text-left font-pp-neue-montreal text-5xl leading-[1.1] font-normal text-white md:text-7xl">
+              Have a question?
+              <br />
+              Ready to connect?
+            </h1>
+          </AnimatedText>
         </div>
       </section>
 
@@ -106,8 +103,23 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* Globe Intro Title – left on mobile, right on desktop */}
+      <section className="flex min-h-[30vh] items-center bg-black px-4 py-16 md:min-h-[40vh] md:px-8">
+        <div className="flex w-full flex-col md:flex-row">
+          <div className="hidden md:block md:w-1/2" />
+          <div className="w-full md:w-1/2">
+            <AnimatedText isHero>
+              <h2 className="text-left font-pp-neue-montreal text-4xl leading-[1.1] font-normal text-white md:text-6xl lg:text-7xl">
+                {t("globeIntro.title")}
+              </h2>
+            </AnimatedText>
+          </div>
+        </div>
+      </section>
+
       {/* Particle Globe Section */}
-      <section className="relative h-svh w-full">
+      <section className="relative h-[60vh] min-h-[400px] w-full md:h-svh">
         <ParticleGlobe className="h-full w-full" />
       </section>
 

@@ -135,6 +135,9 @@
     "section3": {
       "description": "Deze sectie test hoe de AnimatedText-component langere paragrafen met meerdere regels verwerkt. De component moet de tekst in regels splitsen en elke regel onafhankelijk animeren. Dit creëert een vloeiend, professioneel tekst onthullingseffect dat geweldig werkt voor storytelling en boeiende gebruikerservaringen."
     },
+    "globeIntro": {
+      "title": "Waar wij actief zijn"
+    },
     "getInTouch": {
       "title": "Neem contact op",
       "row1": {

@@ -136,6 +136,9 @@
     "section3": {
       "description": "This section tests how the AnimatedText component handles longer paragraphs with multiple lines. The component should split the text into lines and animate each line independently. This creates a smooth, professional text reveal effect that works great for storytelling and engaging user experiences."
     },
+    "globeIntro": {
+      "title": "Where we operate"
+    },
     "getInTouch": {
       "title": "Get In Touch",
       "row1": {

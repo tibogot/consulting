@@ -415,6 +415,8 @@ export default async function OriginalHomePage() {
           <AnimatedButton delay={0.4}>
             <form className="flex w-full max-w-md flex-col gap-4 sm:flex-row">
               <input
+                id="newsletter-email"
+                name="email"
                 type="email"
                 placeholder="Enter your email"
                 required
