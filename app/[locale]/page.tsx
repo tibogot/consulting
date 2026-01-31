@@ -144,36 +144,28 @@ export default async function Home() {
 
       <WhyUsSection />
 
-      <LoopingFadeSections />
-
-      {/* <PinnedClipPathAnimation /> */}
-
-      {/* <AnimatedVerticalLines
-        title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
-        description="Forward-thinking organizations."
-        lineHeight={300}
-        animationDuration={3}
-        primaryColor="#ff2dff"
-      /> */}
-
-      {/* <StackingCardsPin /> */}
-
-      <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
-        <div className="mx-auto w-full max-w-5xl text-center">
-          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
-            <h2 className="font-pp-neue-montreal text-4xl leading-tight font-normal text-black md:text-7xl">
-              The Right Talent. The Right Time. The Right Results{" "}
-            </h2>
-          </TextAnim>
+      {/* Sticky trick: one wrapper with pinned 100vh section + rest of page as sibling. Rest scrolls over and covers the pinned section (z-10 + opaque backgrounds). */}
+      <div className="relative w-full">
+        <div className="sticky top-0 z-0 h-screen w-full">
+          <LoopingFadeSections />
         </div>
-      </section>
+        <div className="relative z-10 bg-black">
+          <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
+            <div className="mx-auto w-full max-w-5xl text-center">
+              <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
+                <h2 className="font-pp-neue-montreal text-4xl leading-tight font-normal text-black md:text-7xl">
+                  The Right Talent. The Right Time. The Right Results{" "}
+                </h2>
+              </TextAnim>
+            </div>
+          </section>
 
-      <CaseStudies />
+          <CaseStudies />
 
-      <BlogPreview />
+          <BlogPreview />
 
-      {/* Newsletter Section */}
-      <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
+          {/* Newsletter Section */}
+          <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
         {/* <FractalGradient zIndex={10} position="absolute" /> */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -218,6 +210,8 @@ export default async function Home() {
           </AnimatedButton>
         </div>
       </section>
+        </div>
+      </div>
     </div>
   );
 }
