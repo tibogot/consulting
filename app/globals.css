@@ -5,7 +5,7 @@
   --foreground: #171717;
   --light: #edf1e8;
   --dark: #101010;
-  --primary: #8B5FFB;
+  --primary: #8b5ffb;
 }
 
 @theme inline {
@@ -57,4 +57,3 @@ html.lenis {
 [data-logo-reveal] {
   visibility: hidden;
 }
-
