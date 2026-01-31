@@ -1,20 +1,8 @@
 import Link from "next/link";
-import localFont from "next/font/local";
-import "./globals.css";
-
-const ppNeueMontreal = localFont({
-  src: "../fonts/PP Neue Montreal-Variable.ttf",
-  variable: "--font-pp-neue-montreal",
-  display: "swap",
-  fallback: ["sans-serif"],
-  weight: "100 900",
-});
 
 export default function RootNotFound() {
   return (
-    <div
-      className={`flex min-h-screen w-full flex-col items-center justify-center bg-black px-4 font-pp-neue-montreal antialiased md:px-8 ${ppNeueMontreal.variable}`}
-    >
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black px-4 font-pp-neue-montreal antialiased md:px-8">
       <div className="w-full max-w-2xl text-center">
         <p className="text-sm text-white/60 md:text-base">Not found</p>
         <div className="mt-4 h-px w-full bg-white/20" />
