@@ -113,6 +113,8 @@
     "title": "Contact",
     "description": "Op maat gemaakte oplossingen nodig? Laten we praten",
     "hero": {
+      "bigTitleLine1": "Een vraag?",
+      "bigTitleLine2": "Klaar om te verbinden?",
       "title": "Neem contact met ons op",
       "subtitle": "Vertel ons wat je wil bereiken — timing, context en hoe succes eruitziet. We bekijken je bericht en komen bij je terug met de volgende stappen."
     },

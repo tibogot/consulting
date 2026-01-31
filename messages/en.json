@@ -114,6 +114,8 @@
     "title": "Contact",
     "description": "Need tailored solutions? Let's talk",
     "hero": {
+      "bigTitleLine1": "Have a question?",
+      "bigTitleLine2": "Ready to connect?",
       "title": "Contact Us",
       "subtitle": "Tell us what you’re trying to achieve — timeline, context, and what success looks like. We’ll review your message and get back to you with next steps."
     },

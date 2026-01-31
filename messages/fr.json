@@ -113,6 +113,8 @@
     "title": "Contact",
     "description": "Besoin de solutions sur mesure ? Parlons-en",
     "hero": {
+      "bigTitleLine1": "Une question ?",
+      "bigTitleLine2": "Prêts à échanger ?",
       "title": "Contactez-nous",
       "subtitle": "Dites-nous ce que vous cherchez à accomplir — délais, contexte et ce à quoi ressemble le succès. Nous lirons votre message et reviendrons vers vous avec les prochaines étapes."
     },

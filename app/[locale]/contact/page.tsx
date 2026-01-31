@@ -52,9 +52,9 @@ export default function ContactPage() {
         <div className="w-full">
           <AnimatedText isHero>
             <h1 className="text-left font-pp-neue-montreal text-5xl leading-[1.1] font-normal text-white md:text-7xl">
-              Have a question?
+              {t("hero.bigTitleLine1")}
               <br />
-              Ready to connect?
+              {t("hero.bigTitleLine2")}
             </h1>
           </AnimatedText>
         </div>
