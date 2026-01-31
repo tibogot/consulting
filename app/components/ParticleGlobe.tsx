@@ -204,6 +204,9 @@ export default function ParticleGlobe({
     containerEl.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
+    // Allow vertical scrolling on mobile while still enabling horizontal globe rotation
+    renderer.domElement.style.touchAction = "pan-y";
+
     camera.aspect = initialWidth / initialHeight;
     camera.updateProjectionMatrix();
 
@@ -277,27 +280,23 @@ export default function ParticleGlobe({
     };
 
     // Touch handling with scroll-through support for vertical gestures
+    // We use capture phase to intercept events BEFORE OrbitControls
     let touchStartX = 0;
     let touchStartY = 0;
     let touchDirectionDecided = false;
-    let isHorizontalGesture = false;
+    let isVerticalGesture = false;
 
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
+    const handleTouchStartCapture = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         touchDirectionDecided = false;
-        isHorizontalGesture = false;
-        updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
-        if (controls) {
-          controls.enabled = true; // Re-enable at start
-          autoRotateRef.current = controls.autoRotate;
-        }
+        isVerticalGesture = false;
       }
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
+    const handleTouchMoveCapture = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
         const touchX = e.touches[0].clientX;
         const touchY = e.touches[0].clientY;
 
@@ -305,37 +304,45 @@ export default function ParticleGlobe({
         if (!touchDirectionDecided) {
           const deltaX = Math.abs(touchX - touchStartX);
           const deltaY = Math.abs(touchY - touchStartY);
-          const threshold = 10; // pixels before deciding direction
+          const threshold = 8;
 
           if (deltaX > threshold || deltaY > threshold) {
             touchDirectionDecided = true;
-            isHorizontalGesture = deltaX > deltaY;
-
-            if (!isHorizontalGesture && controls) {
-              // Vertical gesture - disable OrbitControls to allow page scroll
-              controls.enabled = false;
-            }
+            isVerticalGesture = deltaY > deltaX;
           }
         }
 
-        if (isHorizontalGesture) {
-          updateMouseFromClient(touchX, touchY);
-          if (controls) autoRotateRef.current = controls.autoRotate;
+        // If vertical gesture, stop the event from reaching OrbitControls
+        // This allows the browser to handle the scroll naturally
+        if (isVerticalGesture) {
+          e.stopPropagation();
         }
+      }
+    };
+
+    const handleTouchEndCapture = () => {
+      touchDirectionDecided = false;
+      isVerticalGesture = false;
+    };
+
+    // Regular touch handlers for particle repulsion effect
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0 && !isVerticalGesture) {
+        updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
+        if (controls) autoRotateRef.current = controls.autoRotate;
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0 && !isVerticalGesture) {
+        updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
+        if (controls) autoRotateRef.current = controls.autoRotate;
       }
     };
 
     const handleTouchEnd = () => {
       mouseRef.current.x = 9999;
       mouseRef.current.y = 9999;
-      touchDirectionDecided = false;
-      isHorizontalGesture = false;
-
-      // Re-enable controls for next interaction
-      if (controls) {
-        controls.enabled = true;
-      }
-
       if (globeHoverLocationRef.current !== null) {
         globeHoverLocationRef.current = null;
         setGlobeHoverLocation(null);
@@ -344,6 +351,12 @@ export default function ParticleGlobe({
 
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseleave", handleMouseLeave);
+    // Capture phase listeners to intercept vertical gestures before OrbitControls
+    canvas.addEventListener("touchstart", handleTouchStartCapture, { capture: true, passive: true });
+    canvas.addEventListener("touchmove", handleTouchMoveCapture, { capture: true, passive: false });
+    canvas.addEventListener("touchend", handleTouchEndCapture, { capture: true });
+    canvas.addEventListener("touchcancel", handleTouchEndCapture, { capture: true });
+    // Regular listeners for particle repulsion
     canvas.addEventListener("touchstart", handleTouchStart, { passive: true });
     canvas.addEventListener("touchmove", handleTouchMove, { passive: true });
     canvas.addEventListener("touchend", handleTouchEnd);
@@ -1314,6 +1327,10 @@ export default function ParticleGlobe({
       if (canvas) {
         canvas.removeEventListener("mousemove", handleMouseMove);
         canvas.removeEventListener("mouseleave", handleMouseLeave);
+        canvas.removeEventListener("touchstart", handleTouchStartCapture, { capture: true });
+        canvas.removeEventListener("touchmove", handleTouchMoveCapture, { capture: true });
+        canvas.removeEventListener("touchend", handleTouchEndCapture, { capture: true });
+        canvas.removeEventListener("touchcancel", handleTouchEndCapture, { capture: true });
         canvas.removeEventListener("touchstart", handleTouchStart);
         canvas.removeEventListener("touchmove", handleTouchMove);
         canvas.removeEventListener("touchend", handleTouchEnd);
@@ -1399,6 +1416,7 @@ export default function ParticleGlobe({
       <div
         ref={containerRef}
         className={`absolute inset-0 w-full h-full overflow-hidden bg-transparent ${globeHoverLocation ? "cursor-pointer" : ""}`}
+        style={{ touchAction: "pan-y" }}
       />
 
       {(() => {
