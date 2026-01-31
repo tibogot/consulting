@@ -1,30 +1,30 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import PartnersTicker from "../components/PartnersTicker";
+// import Image from "next/image";
+// import { ArrowRight } from "lucide-react";
+// import PartnersTicker from "../components/PartnersTicker";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
-import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
-import ServicesHero from "../components/ServicesHero";
-import Cards from "../components/Cards";
-import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
-import ParticleGlobe from "../components/ParticleGlobe";
-import ParticleGlobeWebGPU from "../components/ParticleGlobeWebGPU";
-import StackingCardsPin from "../components/StackingCardsPin";
-import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
-import AnimatedCopy from "../components/AnimatedCopy";
-import TextAnim from "../components/TextAnim";
+// import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
+// import ServicesHero from "../components/ServicesHero";
+// import Cards from "../components/Cards";
+// import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
+// import ParticleGlobe from "../components/ParticleGlobe";
+// import ParticleGlobeWebGPU from "../components/ParticleGlobeWebGPU";
+// import StackingCardsPin from "../components/StackingCardsPin";
+// import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
+// import AnimatedCopy from "../components/AnimatedCopy";
+// import TextAnim from "../components/TextAnim";
 // import WhiteSection from "../components/WhiteSection";
-import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
+// import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 
 import AnimatedText from "../components/AnimatedText3";
-import AnimatedButton from "../components/AnimatedButton";
-import FractalGradient from "../components/FractalGradient2";
-import PurpleGradient from "../components/PurpleGradient";
-import BlogPreview from "../components/BlogPreview";
-import CaseStudies from "../components/CaseStudies";
-import WhyUsSection from "../components/WhyUsSection";
-import LoopingFadeSections from "../components/LoopingFadeSections";
+// import AnimatedButton from "../components/AnimatedButton";
+// import FractalGradient from "../components/FractalGradient2";
+// import PurpleGradient from "../components/PurpleGradient";
+// import BlogPreview from "../components/BlogPreview";
+// import CaseStudies from "../components/CaseStudies";
+// import WhyUsSection from "../components/WhyUsSection";
+// import LoopingFadeSections from "../components/LoopingFadeSections";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -34,7 +34,7 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
-      <PartnersTicker />
+      {/* <PartnersTicker /> */}
 
       <section className="relative w-full bg-black px-4 pb-20 md:px-8">
         <div className="w-full">
@@ -134,32 +134,32 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="px-4 md:px-8">
+      {/* <div className="px-4 md:px-8">
         <div className="mb-4 h-px w-full bg-white/20"></div>
         <h3 className="mb-8 font-pp-neue-montreal text-sm text-white md:text-base">
           Services
         </h3>
-      </div>
+      </div> */}
 
-      <ServicesHero />
+      {/* <ServicesHero /> */}
 
-      <WhyUsSection />
+      {/* <WhyUsSection /> */}
 
-      <LoopingFadeSections />
+      {/* <LoopingFadeSections /> */}
 
-      <PinnedClipPathAnimation />
+      {/* <PinnedClipPathAnimation /> */}
 
-      <AnimatedVerticalLines
+      {/* <AnimatedVerticalLines
         title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
         description="Forward-thinking organizations."
         lineHeight={300}
         animationDuration={3}
         primaryColor="#ff2dff"
-      />
+      /> */}
 
-      <StackingCardsPin />
+      {/* <StackingCardsPin /> */}
 
-      <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
+      {/* <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
         <div className="mx-auto w-full max-w-5xl text-center">
           <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
             <h2 className="font-pp-neue-montreal text-4xl leading-tight font-normal text-black md:text-7xl">
@@ -167,15 +167,15 @@ export default async function Home() {
             </h2>
           </TextAnim>
         </div>
-      </section>
+      </section> */}
 
-      <CaseStudies />
+      {/* <CaseStudies /> */}
 
-      <BlogPreview />
+      {/* <BlogPreview /> */}
 
       {/* Newsletter Section */}
-      <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
-        {/* <FractalGradient zIndex={10} position="absolute" /> */}
+      {/* <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
+        <FractalGradient zIndex={10} position="absolute" />
         <div className="absolute inset-0 z-0">
           <Image
             src="/maxim-hopman.jpg"
@@ -218,7 +218,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
