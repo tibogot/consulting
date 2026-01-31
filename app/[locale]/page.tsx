@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-// import Image from "next/image";
+import Image from "next/image";
 // import { ArrowRight } from "lucide-react";
-// import PartnersTicker from "../components/PartnersTicker";
+import PartnersTicker from "../components/PartnersTicker";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
 // import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
 // import ServicesHero from "../components/ServicesHero";
@@ -18,12 +18,12 @@ import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
 // import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 
 import AnimatedText from "../components/AnimatedText3";
-// import AnimatedButton from "../components/AnimatedButton";
+import AnimatedButton from "../components/AnimatedButton";
 // import FractalGradient from "../components/FractalGradient2";
 // import PurpleGradient from "../components/PurpleGradient";
-// import BlogPreview from "../components/BlogPreview";
-// import CaseStudies from "../components/CaseStudies";
-// import WhyUsSection from "../components/WhyUsSection";
+import BlogPreview from "../components/BlogPreview";
+import CaseStudies from "../components/CaseStudies";
+import WhyUsSection from "../components/WhyUsSection";
 // import LoopingFadeSections from "../components/LoopingFadeSections";
 
 export default async function Home() {
@@ -34,7 +34,7 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
-      {/* <PartnersTicker /> */}
+      <PartnersTicker />
 
       <section className="relative w-full bg-black px-4 pb-20 md:px-8">
         <div className="w-full">
@@ -143,7 +143,7 @@ export default async function Home() {
 
       {/* <ServicesHero /> */}
 
-      {/* <WhyUsSection /> */}
+      <WhyUsSection />
 
       {/* <LoopingFadeSections /> */}
 
@@ -169,13 +169,13 @@ export default async function Home() {
         </div>
       </section> */}
 
-      {/* <CaseStudies /> */}
+      <CaseStudies />
 
-      {/* <BlogPreview /> */}
+      <BlogPreview />
 
       {/* Newsletter Section */}
-      {/* <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
-        <FractalGradient zIndex={10} position="absolute" />
+      <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
+        {/* <FractalGradient zIndex={10} position="absolute" /> */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/maxim-hopman.jpg"
@@ -218,7 +218,7 @@ export default async function Home() {
             </form>
           </AnimatedButton>
         </div>
-      </section> */}
+      </section>
     </div>
   );
 }
