@@ -408,7 +408,7 @@ export default function ServicesHero() {
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
-                priority={index === 0}
+                // priority={index === 0}
               />
             </div>
           </div>
