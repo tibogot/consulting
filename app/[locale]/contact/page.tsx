@@ -186,7 +186,7 @@ export default function ContactPage() {
 
       <FAQ items={FAQ_ITEMS} />
 
-      <ParallaxImage className="h-screen w-full" speed={0.4}>
+      <ParallaxImage className="h-screen w-full" speed={0.2}>
         <div
           className="h-[140%] w-full bg-cover bg-[center_80%] bg-no-repeat"
           style={{ backgroundImage: "url(/campaign-creators.jpg)" }}

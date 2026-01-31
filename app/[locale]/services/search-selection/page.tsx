@@ -10,7 +10,7 @@ export default async function SearchSelectionPage() {
       <ManagedServicesHero
         title={t("title")}
         description={t("description")}
-        imageSrc="/mike-kononov.jpg"
+        imageSrc="/karsten-wurth.jpg"
         imageAlt="Search & Selection Hero"
       />
     </div>
