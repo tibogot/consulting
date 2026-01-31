@@ -134,12 +134,12 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="px-4 md:px-8">
+      {/* <div className="px-4 md:px-8">
         <div className="mb-4 h-px w-full bg-white/20"></div>
         <h3 className="mb-8 font-pp-neue-montreal text-sm text-white md:text-base">
           Services
         </h3>
-      </div>
+      </div> */}
 
       <ServicesHero />
 
