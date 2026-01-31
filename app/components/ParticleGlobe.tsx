@@ -276,23 +276,66 @@ export default function ParticleGlobe({
       }
     };
 
+    // Touch handling with scroll-through support for vertical gestures
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchDirectionDecided = false;
+    let isHorizontalGesture = false;
+
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length > 0) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchDirectionDecided = false;
+        isHorizontalGesture = false;
         updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
-        if (controls) autoRotateRef.current = controls.autoRotate;
+        if (controls) {
+          controls.enabled = true; // Re-enable at start
+          autoRotateRef.current = controls.autoRotate;
+        }
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
-        updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
-        if (controls) autoRotateRef.current = controls.autoRotate;
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+
+        // Decide direction on first significant movement
+        if (!touchDirectionDecided) {
+          const deltaX = Math.abs(touchX - touchStartX);
+          const deltaY = Math.abs(touchY - touchStartY);
+          const threshold = 10; // pixels before deciding direction
+
+          if (deltaX > threshold || deltaY > threshold) {
+            touchDirectionDecided = true;
+            isHorizontalGesture = deltaX > deltaY;
+
+            if (!isHorizontalGesture && controls) {
+              // Vertical gesture - disable OrbitControls to allow page scroll
+              controls.enabled = false;
+            }
+          }
+        }
+
+        if (isHorizontalGesture) {
+          updateMouseFromClient(touchX, touchY);
+          if (controls) autoRotateRef.current = controls.autoRotate;
+        }
       }
     };
 
     const handleTouchEnd = () => {
       mouseRef.current.x = 9999;
       mouseRef.current.y = 9999;
+      touchDirectionDecided = false;
+      isHorizontalGesture = false;
+
+      // Re-enable controls for next interaction
+      if (controls) {
+        controls.enabled = true;
+      }
+
       if (globeHoverLocationRef.current !== null) {
         globeHoverLocationRef.current = null;
         setGlobeHoverLocation(null);
