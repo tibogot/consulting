@@ -7,6 +7,7 @@ import StickyStackScroll4 from "@/app/components/StickyStackScroll4";
 import StickyStackScroll5 from "@/app/components/StickyStackScroll5";
 import StickyCards3D from "@/app/components/StickyCards3D";
 import HorizontalScrollGallery from "@/app/components/HorizontalScrollGallery";
+import StickyCodegridCards from "@/app/components/StickyCodegridCards";
 
 export default function CardstestPage() {
   return (
@@ -108,6 +109,14 @@ export default function CardstestPage() {
         title="Gallery Showcase"
         subtitle="/ Image Collection"
       />
+
+      {/* StickyCodegridCards */}
+      <section className="bg-black px-6 py-16">
+        <h2 className="mb-8 text-center text-4xl font-bold tracking-tight text-white md:text-6xl lg:text-7xl">
+          StickyCodegridCards
+        </h2>
+      </section>
+      <StickyCodegridCards />
     </div>
   );
 }
