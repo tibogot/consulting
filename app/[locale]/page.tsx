@@ -5,7 +5,7 @@ import Image from "next/image";
 import PartnersTicker from "../components/PartnersTicker";
 import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
 // import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
-// import ServicesHero from "../components/ServicesHero";
+import ServicesHero from "../components/ServicesHero";
 // import Cards from "../components/Cards";
 // import AnimatedVerticalLines from "../components/AnimatedVerticalLines";
 // import ParticleGlobe from "../components/ParticleGlobe";
@@ -13,7 +13,7 @@ import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
 // import StackingCardsPin from "../components/StackingCardsPin";
 // import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 // import AnimatedCopy from "../components/AnimatedCopy";
-// import TextAnim from "../components/TextAnim";
+import TextAnim from "../components/TextAnim";
 // import WhiteSection from "../components/WhiteSection";
 // import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 
@@ -24,14 +24,13 @@ import AnimatedButton from "../components/AnimatedButton";
 import BlogPreview from "../components/BlogPreview";
 import CaseStudies from "../components/CaseStudies";
 import WhyUsSection from "../components/WhyUsSection";
-// import LoopingFadeSections from "../components/LoopingFadeSections";
+import LoopingFadeSections from "../components/LoopingFadeSections";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
 
   return (
     <div className="min-h-screen w-full bg-black">
-      {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
       <PartnersTicker />
@@ -134,18 +133,18 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <div className="px-4 md:px-8">
+      <div className="px-4 md:px-8">
         <div className="mb-4 h-px w-full bg-white/20"></div>
         <h3 className="mb-8 font-pp-neue-montreal text-sm text-white md:text-base">
           Services
         </h3>
-      </div> */}
+      </div>
 
-      {/* <ServicesHero /> */}
+      <ServicesHero />
 
       <WhyUsSection />
 
-      {/* <LoopingFadeSections /> */}
+      <LoopingFadeSections />
 
       {/* <PinnedClipPathAnimation /> */}
 
@@ -159,7 +158,7 @@ export default async function Home() {
 
       {/* <StackingCardsPin /> */}
 
-      {/* <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
+      <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
         <div className="mx-auto w-full max-w-5xl text-center">
           <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
             <h2 className="font-pp-neue-montreal text-4xl leading-tight font-normal text-black md:text-7xl">
@@ -167,7 +166,7 @@ export default async function Home() {
             </h2>
           </TextAnim>
         </div>
-      </section> */}
+      </section>
 
       <CaseStudies />
 

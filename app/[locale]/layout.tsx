@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import "../globals.css";
 import LenisProvider from "../components/LenisProvider";
 import Navbar from "../components/Navbar";
@@ -35,7 +35,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  
+
   // Ensure that the incoming `locale` is valid
   if (!(routing.locales as readonly string[]).includes(locale)) {
     notFound();
@@ -48,7 +48,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <div
-        className={`${ppNeueMontreal.variable} antialiased flex min-h-screen flex-col`}
+        className={`${ppNeueMontreal.variable} flex min-h-screen flex-col antialiased`}
       >
         <PageLoader />
         <LenisProvider>
@@ -63,4 +63,3 @@ export default async function LocaleLayout({
     </NextIntlClientProvider>
   );
 }
-
