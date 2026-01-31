@@ -3,11 +3,15 @@
 import { useRef, useState, useEffect } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
 
-const HERO_VIDEO_CDN =
+const DEFAULT_HERO_VIDEO_CDN =
   "https://cdn.prod.website-files.com/66d3db0a03091f83e3260124%2F66de4dfa2d65d4c9631e442e_Hero%20Visual%20%281%29-transcode.mp4";
 
 interface WorkAtSparagusHeroProps {
   title: string;
+  /** Hero description paragraph. When not provided, uses default text. */
+  description?: string;
+  /** Override the hero video URL. When not provided, uses the default CDN video. */
+  videoSrc?: string;
 }
 
 // ============================================
@@ -69,7 +73,14 @@ function useClientMediaState() {
   return state;
 }
 
-export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
+const DEFAULT_HERO_DESCRIPTION =
+  "Join our team of innovators, designers, and engineers building exceptional digital experiences.";
+
+export default function WorkAtSparagusHero({
+  title,
+  description = DEFAULT_HERO_DESCRIPTION,
+  videoSrc = DEFAULT_HERO_VIDEO_CDN,
+}: WorkAtSparagusHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -382,7 +393,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             muted
             playsInline
             preload="auto"
-            crossOrigin="anonymous"
             className="absolute inset-0 h-full w-full object-cover opacity-0"
             onCanPlay={(e) => {
               e.currentTarget.style.opacity = "1";
@@ -391,7 +401,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
               console.warn("Video failed to load from CDN", e);
             }}
           >
-            <source src={HERO_VIDEO_CDN} type="video/mp4" />
+            <source src={videoSrc} type="video/mp4" />
           </video>
         )}
 
@@ -413,8 +423,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             ref={descriptionRef}
             className="max-w-lg font-pp-neue-montreal text-base text-white opacity-0 md:text-lg"
           >
-            Join our team of innovators, designers, and engineers building
-            exceptional digital experiences.
+            {description}
           </p>
         </div>
 
