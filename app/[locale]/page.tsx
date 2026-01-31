@@ -24,6 +24,7 @@ import AnimatedButton from "../components/AnimatedButton";
 import BlogPreview from "../components/BlogPreview";
 import CaseStudies from "../components/CaseStudies";
 import WhyUsSection from "../components/WhyUsSection";
+import HubsSection from "../components/HubsSection";
 import LoopingFadeSections from "../components/LoopingFadeSections";
 
 export default async function Home() {
@@ -143,6 +144,8 @@ export default async function Home() {
       <ServicesHero />
 
       <WhyUsSection />
+
+      <HubsSection />
 
       {/* Sticky trick: one wrapper with pinned 100vh section + rest of page as sibling. Rest scrolls over and covers the pinned section (z-10 + opaque backgrounds). */}
       <div className="relative w-full">
