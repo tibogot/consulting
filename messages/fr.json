@@ -146,6 +146,7 @@
     }
   },
   "notFound": {
+    "label": "Page introuvable",
     "title": "Page non trouvée",
     "description": "La page que vous recherchez n'existe pas ou a été déplacée.",
     "backHome": "Retour à l'accueil"

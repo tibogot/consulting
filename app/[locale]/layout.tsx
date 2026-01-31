@@ -46,23 +46,21 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body
-        className={`${ppNeueMontreal.variable} antialiased flex flex-col min-h-screen`}
+    <NextIntlClientProvider messages={messages}>
+      <div
+        className={`${ppNeueMontreal.variable} antialiased flex min-h-screen flex-col`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <PageLoader />
-          <LenisProvider>
-            <ScrollToTop />
-            <Navbar />
-            <PageTransition>
-              <main className="flex-1">{children}</main>
-            </PageTransition>
-            <Footer />
-          </LenisProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+        <PageLoader />
+        <LenisProvider>
+          <ScrollToTop />
+          <Navbar />
+          <PageTransition>
+            <main className="flex-1">{children}</main>
+          </PageTransition>
+          <Footer />
+        </LenisProvider>
+      </div>
+    </NextIntlClientProvider>
   );
 }
 

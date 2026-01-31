@@ -15,6 +15,7 @@ import AnimatedCopyLoop from "../components/AnimatedCopyLoop";
 import AnimatedCopy from "../components/AnimatedCopy";
 import TextAnim from "../components/TextAnim";
 // import WhiteSection from "../components/WhiteSection";
+import LaserBorderCardsRow from "../components/LaserBorderCardsRow";
 
 import AnimatedText from "../components/AnimatedText3";
 import AnimatedButton from "../components/AnimatedButton";
@@ -33,7 +34,7 @@ export default async function Home() {
       {/* Hero Section */}
       <WorkAtSparagusHero title={t("title")} />
 
-      {/* <PartnersTicker /> */}
+      <PartnersTicker />
 
       <section className="relative w-full bg-black px-4 pb-20 md:px-8">
         <div className="w-full">
@@ -133,83 +134,12 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <WhiteSection /> */}
-
-      {/* Laser Border Cards Section */}
-      {/* <section className="relative w-full bg-black py-20 px-4 md:px-8">
-        <LaserBorderCardsRow
-          cards={[
-            {
-              title: "Maximum, automated throughput",
-              description: "Terminal delivers maximum data accuracy and optimal throughput to keep your operations humming and material moving.",
-              statValue: "50%",
-              statLabel: "data accuracy",
-              animationDuration: 4,
-            },
-            {
-              title: "Always Available",
-              description: "Enterprise-grade reliability for mission-critical operations.",
-              statValue: "99.9%",
-              statLabel: "uptime guaranteed",
-              animationDuration: 4,
-            },
-            {
-              title: "Dual Processing",
-              description: "Parallel pipelines for maximum efficiency.",
-              statValue: "2x",
-              statLabel: "faster processing",
-              animationDuration: 4,
-            },
-          ]}
-          className="py-10"
-        />
-      </section> */}
-
-      {/* <div className="px-4 md:px-8">
-        <div className="w-full h-px bg-white mb-4"></div>
-        <h3 className="text-sm md:text-base font-pp-neue-montreal text-white mb-8">
+      <div className="px-4 md:px-8">
+        <div className="mb-4 h-px w-full bg-white/20"></div>
+        <h3 className="mb-8 font-pp-neue-montreal text-sm text-white md:text-base">
           Services
         </h3>
-      </div> */}
-
-      {/* <div className="flex w-full mt-42">
-          <div className="w-1/2 flex items-end">
-            <div className="relative w-48 h-48 md:w-64 md:h-64">
-              <Image
-                src="/images/cards/charlesdeluvio.jpg"
-                alt="Image"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 192px, 256px"
-              />
-            </div>
-          </div>
-          <div className="w-1/2">
-          <AnimatedCopy 
-            colorInitial="#444444" 
-            colorAccent="#ffffff" 
-            colorFinal="#ffffff"
-            start="top 60%"
-            end="top 10%"
-            scrub={0.5}
-          >   
-          <p className="text-white font-pp-neue-montreal mb-4 text-xl max-w-lg">
-            The gap between design and development can be vast, often leading to final products that fall short of the original creative vision. Many developers, while technically proficient, lack the designer&apos;s eye for nuance and detail.            </p>
-            <p className="text-white font-pp-neue-montreal mb-4 text-xl max-w-lg">
-            At OMMO, we bridge this gap. We&apos;re committed to creating digital experiences that are not only functional but also true to the designer&apos;s vision. By combining technical expertise with a deep appreciation for design principles, we deliver solutions that preserve your creative intent and resonate with audiences in the ever-evolving digital landscape.          </p>
-            </AnimatedCopy>
-            <Link
-              href="/contact"
-              className="font-pp-neue-montreal bg-secondary text-white hover:bg-secondary/90 group relative z-20 inline-flex items-center gap-3 text-sm transition-all duration-300 md:text-base mt-6"
-            >
-              Get in touch
-              <ArrowRight
-                size={20}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
-          </div>
-        </div> */}
+      </div>
 
       <ServicesHero />
 
@@ -217,10 +147,8 @@ export default async function Home() {
 
       <LoopingFadeSections />
 
-      {/* Pinned Clip Path Animation Section */}
       <PinnedClipPathAnimation />
 
-      {/* Animated Vertical Lines Section */}
       <AnimatedVerticalLines
         title="Transform Your Business with Strategic Innovation and Data-Driven Solutions"
         description="Forward-thinking organizations."
@@ -229,137 +157,7 @@ export default async function Home() {
         primaryColor="#ff2dff"
       />
 
-      {/* Fourth Section - White Background with Grey to Purple Gradient */}
-      {/* <section className="relative w-full min-h-screen bg-white py-20 px-4 md:px-8">
-        <GradientTextReveal
-          startColor="rgb(156, 163, 175)"
-          endColor="rgb(130, 2, 255)"
-          className="text-5xl md:text-6xl font-medium text-left font-pp-neue-montreal "
-        >
-          <h2>
-            <span className="opacity-0 select-none pointer-events-none">
-              Invisible text{" "}
-            </span>
-            From AI startups to global tech leaders, we help turn complexity
-            into clarity, making revolutionary ideas feel inevitable. Millions
-            of visits or millions raised, our work is built for impact.
-          </h2>
-        </GradientTextReveal>
-      </section> */}
-
-      {/* Partners Ticker Section */}
-      <section className="relative w-full bg-black py-4">
-        <PartnersTicker
-          speed={20}
-          direction="left"
-          pauseOnHover={false}
-          gap={32}
-          logoHeight={30}
-        />
-      </section>
-
-      {/* StickyCards3D2 Section */}
-      {/* <section className="relative w-full bg-black">
-        <StickyCards3D2 />
-      </section> */}
-
-      {/* NeoCulture Mouse Move Section */}
-      {/* <section className="relative w-full h-svh bg-black">
-        <NeoCultureMouseMove
-          gradientColors={{
-            initial: "#8202FF",
-            accent: "#FF02FF",
-            final: "#FF02FF",
-          }}
-        />
-      </section> */}
-
-      {/* Particle Globe Section */}
-      {/* <section className="relative w-full h-svh">
-        <ParticleGlobe className="w-full h-full" />
-      </section> */}
-
-      {/* Stacking Cards Pin Section */}
       <StackingCardsPin />
-
-      {/* Blue Section (same layout as About/Us) */}
-      <section className="relative h-svh w-full bg-primary text-white">
-        <div className="mx-auto flex h-full w-full max-w-7xl items-center px-4 md:px-8">
-          <div className="max-w-3xl font-pp-neue-montreal">
-            <p className="text-xs tracking-wide text-white/70 uppercase md:text-sm">
-              Next
-            </p>
-            <h2 className="mt-3 text-4xl leading-tight font-normal md:text-6xl">
-              A partner that ships
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-white/85 md:text-lg">
-              From discovery to delivery, we work side-by-side with your team to
-              turn ambiguity into clear priorities and real momentum.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
-              The goal is simple: move faster with confidence—without
-              sacrificing quality, maintainability, or long-term ownership.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Purple Gradient Section */}
-      <section
-        className="relative flex h-screen items-center overflow-hidden px-4 md:px-8"
-        style={{
-          background:
-            "linear-gradient(180deg, #f8f9fa 0%, #f5f7fa 50%, #f2f5f8 100%)",
-        }}
-      >
-        <div className="absolute inset-0">
-          <PurpleGradient />
-        </div>
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <div className="flex flex-col">
-            <div>
-              <AnimatedCopy
-                colorInitial="#cccccc"
-                colorAccent="#8202FF"
-                colorFinal="#1a0a2a"
-              >
-                <h1 className="font-pp-neue-montreal text-4xl leading-tight font-normal tracking-[-0.02em] md:text-6xl lg:text-7xl">
-                  <span className="pointer-events-none opacity-0 select-none">
-                    Invisible text{" "}
-                  </span>
-                  Innovation meets
-                  <span className="block text-[#8202FF]">excellence</span>
-                </h1>
-              </AnimatedCopy>
-            </div>
-
-            <div className="mt-16 max-w-lg font-pp-neue-montreal">
-              <AnimatedCopy
-                colorInitial="#cccccc"
-                colorAccent="#8202FF"
-                colorFinal="#1a0a2a"
-              >
-                <p className="mb-6 text-base leading-relaxed md:text-lg">
-                  We combine cutting-edge technology with deep expertise to
-                  deliver solutions that transform businesses and drive
-                  meaningful impact.
-                </p>
-                <p className="mb-6 text-base leading-relaxed md:text-lg">
-                  Our approach is built on collaboration, innovation, and a
-                  commitment to excellence that sets new standards in the
-                  industry.
-                </p>
-                <p className="text-base leading-relaxed md:text-lg">
-                  Every project is an opportunity to push boundaries, challenge
-                  conventions, and create value that extends far beyond the
-                  immediate deliverables.
-                </p>
-              </AnimatedCopy>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="relative flex h-screen w-full items-center justify-center border-t bg-white px-4 md:px-8">
         <div className="mx-auto w-full max-w-5xl text-center">
@@ -370,8 +168,6 @@ export default async function Home() {
           </TextAnim>
         </div>
       </section>
-
-      {/* <Cards /> */}
 
       <CaseStudies />
 
@@ -421,42 +217,6 @@ export default async function Home() {
               </button>
             </form>
           </AnimatedButton>
-        </div>
-      </section>
-
-      {/* Particle Globe WebGPU Section */}
-      {/* <section className="relative h-svh w-full">
-        <ParticleGlobeWebGPU className="h-full w-full" />
-      </section> */}
-
-      {/* Closing Loop Section */}
-      <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
-        <div className="mx-auto w-full max-w-6xl text-center">
-          <TextAnim useScrollTrigger={true} lightningColor="#8202FF">
-            <h2 className="font-pp-neue-montreal text-4xl font-normal text-white md:text-7xl">
-              Ready to build something that moves fast, scales clean, and feels
-              inevitable?
-            </h2>
-          </TextAnim>
-        </div>
-      </section>
-      <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
-        <div className="mx-auto w-full max-w-6xl text-center">
-          <AnimatedCopyLoop
-            colorInitial="#777777"
-            colorAccent="#8202FF"
-            colorFinal="#ffffff"
-            staggerEach={0.008}
-            // durationToAccent={0.25}
-            // durationToFinal={0.2}
-            // durationToInitial={0.25}
-            // repeatDelay={0.3}
-          >
-            <h2 className="font-pp-neue-montreal text-4xl leading-[1.05] font-normal tracking-[-0.02em] text-[#777777] md:text-6xl lg:text-7xl">
-              Ready to build something that moves fast, scales clean, and feels
-              inevitable?
-            </h2>
-          </AnimatedCopyLoop>
         </div>
       </section>
     </div>

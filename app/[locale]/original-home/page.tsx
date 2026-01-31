@@ -26,6 +26,7 @@ import BlogPreview from "../../components/BlogPreview";
 import CaseStudies from "../../components/CaseStudies";
 import WhyUsSection from "../../components/WhyUsSection";
 import LoopingFadeSections from "../../components/LoopingFadeSections";
+import NeoCultureMouseMove from "../../components/NeoCultureMouseMove";
 
 export default async function OriginalHomePage() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -138,7 +139,7 @@ export default async function OriginalHomePage() {
       <WhiteSection />
 
       {/* Laser Border Cards Section */}
-      {/* <section className="relative w-full bg-black px-4 py-20 md:px-8">
+      <section className="relative w-full bg-black px-4 py-20 md:px-8">
         <LaserBorderCardsRow
           cards={[
             {
@@ -167,53 +168,63 @@ export default async function OriginalHomePage() {
           ]}
           className="py-10"
         />
-      </section> */}
+      </section>
 
-      {/* <div className="px-4 md:px-8">
-        <div className="w-full h-px bg-white mb-4"></div>
-        <h3 className="text-sm md:text-base font-pp-neue-montreal text-white mb-8">
+      <div className="px-4 md:px-8">
+        <div className="mb-4 h-px w-full bg-white"></div>
+        <h3 className="mb-8 font-pp-neue-montreal text-sm text-white md:text-base">
           Services
         </h3>
-      </div> */}
+      </div>
 
-      {/* <div className="flex w-full mt-42">
-          <div className="w-1/2 flex items-end">
-            <div className="relative w-48 h-48 md:w-64 md:h-64">
-              <Image
-                src="/images/cards/charlesdeluvio.jpg"
-                alt="Image"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 192px, 256px"
-              />
-            </div>
+      <div className="mt-42 flex w-full">
+        <div className="flex w-1/2 items-end">
+          <div className="relative h-48 w-48 md:h-64 md:w-64">
+            <Image
+              src="/images/cards/charlesdeluvio.jpg"
+              alt="Image"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 192px, 256px"
+            />
           </div>
-          <div className="w-1/2">
-          <AnimatedCopy 
-            colorInitial="#444444" 
-            colorAccent="#ffffff" 
+        </div>
+        <div className="w-1/2">
+          <AnimatedCopy
+            colorInitial="#444444"
+            colorAccent="#ffffff"
             colorFinal="#ffffff"
             start="top 60%"
             end="top 10%"
             scrub={0.5}
-          >   
-          <p className="text-white font-pp-neue-montreal mb-4 text-xl max-w-lg">
-            The gap between design and development can be vast, often leading to final products that fall short of the original creative vision. Many developers, while technically proficient, lack the designer&apos;s eye for nuance and detail.            </p>
-            <p className="text-white font-pp-neue-montreal mb-4 text-xl max-w-lg">
-            At OMMO, we bridge this gap. We&apos;re committed to creating digital experiences that are not only functional but also true to the designer&apos;s vision. By combining technical expertise with a deep appreciation for design principles, we deliver solutions that preserve your creative intent and resonate with audiences in the ever-evolving digital landscape.          </p>
-            </AnimatedCopy>
-            <Link
-              href="/contact"
-              className="font-pp-neue-montreal bg-secondary text-white hover:bg-secondary/90 group relative z-20 inline-flex items-center gap-3 text-sm transition-all duration-300 md:text-base mt-6"
-            >
-              Get in touch
-              <ArrowRight
-                size={20}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Link>
-          </div>
-        </div> */}
+          >
+            <p className="mb-4 max-w-lg font-pp-neue-montreal text-xl text-white">
+              The gap between design and development can be vast, often leading
+              to final products that fall short of the original creative vision.
+              Many developers, while technically proficient, lack the
+              designer&apos;s eye for nuance and detail.{" "}
+            </p>
+            <p className="mb-4 max-w-lg font-pp-neue-montreal text-xl text-white">
+              At OMMO, we bridge this gap. We&apos;re committed to creating
+              digital experiences that are not only functional but also true to
+              the designer&apos;s vision. By combining technical expertise with
+              a deep appreciation for design principles, we deliver solutions
+              that preserve your creative intent and resonate with audiences in
+              the ever-evolving digital landscape.{" "}
+            </p>
+          </AnimatedCopy>
+          <Link
+            href="/contact"
+            className="bg-secondary hover:bg-secondary/90 group relative z-20 mt-6 inline-flex items-center gap-3 font-pp-neue-montreal text-sm text-white transition-all duration-300 md:text-base"
+          >
+            Get in touch
+            <ArrowRight
+              size={20}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+      </div>
 
       <ServicesHero />
 
@@ -266,7 +277,7 @@ export default async function OriginalHomePage() {
       </section> */}
 
       {/* NeoCulture Mouse Move Section */}
-      {/* <section className="relative w-full h-svh bg-black">
+      <section className="relative h-svh w-full bg-black">
         <NeoCultureMouseMove
           gradientColors={{
             initial: "#8202FF",
@@ -274,14 +285,8 @@ export default async function OriginalHomePage() {
             final: "#FF02FF",
           }}
         />
-      </section> */}
+      </section>
 
-      {/* Particle Globe Section */}
-      {/* <section className="relative w-full h-svh">
-        <ParticleGlobe className="w-full h-full" />
-      </section> */}
-
-      {/* Stacking Cards Pin Section */}
       <StackingCardsPin />
 
       {/* Blue Section (same layout as About/Us) */}
@@ -442,7 +447,7 @@ export default async function OriginalHomePage() {
           </TextAnim>
         </div>
       </section>
-      {/* <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
+      <section className="relative flex h-[80vh] w-full items-center justify-center border-t border-white/10 bg-black px-4 md:px-8">
         <div className="mx-auto w-full max-w-6xl text-center">
           <AnimatedCopyLoop
             colorInitial="#777777"
@@ -460,7 +465,7 @@ export default async function OriginalHomePage() {
             </h2>
           </AnimatedCopyLoop>
         </div>
-      </section> */}
+      </section>
     </div>
   );
 }

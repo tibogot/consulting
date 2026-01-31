@@ -58,7 +58,3 @@ html.lenis {
   visibility: hidden;
 }
 
-/* AnimatedCopy character transition */
-.char {
-  transition: color 150ms ease-out;
-}
