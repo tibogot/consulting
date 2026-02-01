@@ -289,21 +289,27 @@ export default function ParticleGlobe({
     };
 
     // Custom touch handling for mobile:
-    // - Horizontal swipes rotate the globe
+    // - Horizontal swipes rotate the globe with inertia
     // - Vertical swipes scroll the page (not captured)
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
+    let lastTouchTime = 0;
     let touchDirectionDecided = false;
     let isHorizontalGesture = false;
+    let touchVelocity = 0;
+    let isInertiaActive = false;
 
     const handleTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         lastTouchX = touchStartX;
+        lastTouchTime = performance.now();
         touchDirectionDecided = false;
         isHorizontalGesture = false;
+        touchVelocity = 0;
+        isInertiaActive = false;
 
         // Update mouse position for particle repulsion
         updateMouseFromClient(e.touches[0].clientX, e.touches[0].clientY);
@@ -314,6 +320,7 @@ export default function ParticleGlobe({
       if (e.touches.length === 1) {
         const touchX = e.touches[0].clientX;
         const touchY = e.touches[0].clientY;
+        const now = performance.now();
 
         // Decide direction on first significant movement
         if (!touchDirectionDecided) {
@@ -336,10 +343,16 @@ export default function ParticleGlobe({
         if (isHorizontalGesture) {
           e.preventDefault(); // Prevent scroll only for horizontal
 
-          // Rotate camera based on horizontal movement
           const deltaX = touchX - lastTouchX;
-          const rotateSpeed = 0.005;
+          const deltaTime = now - lastTouchTime;
 
+          // Calculate velocity (pixels per ms)
+          if (deltaTime > 0) {
+            touchVelocity = deltaX / deltaTime;
+          }
+
+          // Rotate camera based on horizontal movement
+          const rotateSpeed = 0.005;
           const currentPos = camera.position.clone();
           const radius = Math.sqrt(currentPos.x * currentPos.x + currentPos.z * currentPos.z);
           const currentAngle = Math.atan2(currentPos.x, currentPos.z);
@@ -350,6 +363,7 @@ export default function ParticleGlobe({
           camera.lookAt(0, 0, 0);
 
           lastTouchX = touchX;
+          lastTouchTime = now;
 
           // Update mouse for particle repulsion
           updateMouseFromClient(touchX, touchY);
@@ -362,8 +376,11 @@ export default function ParticleGlobe({
       mouseRef.current.y = 9999;
       touchDirectionDecided = false;
 
-      // Resume auto-rotate after touch ends
-      if (isHorizontalGesture) {
+      // Start inertia if there was horizontal movement with velocity
+      if (isHorizontalGesture && Math.abs(touchVelocity) > 0.1) {
+        isInertiaActive = true;
+        // Don't resume auto-rotate yet - wait for inertia to finish
+      } else if (isHorizontalGesture) {
         controls.autoRotate = true;
       }
       isHorizontalGesture = false;
@@ -371,6 +388,35 @@ export default function ParticleGlobe({
       if (globeHoverLocationRef.current !== null) {
         globeHoverLocationRef.current = null;
         setGlobeHoverLocation(null);
+      }
+    };
+
+    // Inertia animation function - will be called in the main render loop
+    const applyTouchInertia = () => {
+      if (!isInertiaActive) return;
+
+      const rotateSpeed = 0.005;
+      const friction = 0.95; // Decay factor
+
+      // Apply velocity
+      const currentPos = camera.position.clone();
+      const radius = Math.sqrt(currentPos.x * currentPos.x + currentPos.z * currentPos.z);
+      const currentAngle = Math.atan2(currentPos.x, currentPos.z);
+      // Multiply by 16 to approximate 60fps frame time
+      const newAngle = currentAngle - touchVelocity * 16 * rotateSpeed;
+
+      camera.position.x = radius * Math.sin(newAngle);
+      camera.position.z = radius * Math.cos(newAngle);
+      camera.lookAt(0, 0, 0);
+
+      // Apply friction
+      touchVelocity *= friction;
+
+      // Stop when velocity is very small
+      if (Math.abs(touchVelocity) < 0.01) {
+        isInertiaActive = false;
+        touchVelocity = 0;
+        controls.autoRotate = true;
       }
     };
 
@@ -1011,6 +1057,9 @@ export default function ParticleGlobe({
 
       // Update OrbitControls (required for damping)
       controls.update(clock.getDelta());
+
+      // Apply touch inertia for mobile
+      applyTouchInertia();
 
       // Animate rotation to target location if active
       if (isAnimatingToLocationRef.current && animationTargetAzimuthRef.current !== null) {
