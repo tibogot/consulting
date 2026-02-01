@@ -26,6 +26,8 @@ import CaseStudies from "../components/CaseStudies";
 import WhyUsSection from "../components/WhyUsSection";
 import HubsSection from "../components/HubsSection";
 import LoopingFadeSections from "../components/LoopingFadeSections";
+import HorizontalScrollSection from "../components/HorizontalScrollSection";
+import HorizontalServices from "../components/HorizontalServices";
 
 export default async function Home() {
   const t = await getTranslations("careers.workAtSparagus");
@@ -167,54 +169,58 @@ export default async function Home() {
 
           <BlogPreview />
 
+          {/* <HorizontalScrollSection /> */}
+
+          <HorizontalServices />
+
           {/* Newsletter Section */}
           <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
-        {/* <FractalGradient zIndex={10} position="absolute" /> */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/maxim-hopman.jpg"
-            alt="Background"
-            fill
-            className="object-cover opacity-80"
-            sizes="100vw"
-            priority
-          />
-        </div>
-
-        <div className="relative z-20 flex max-w-3xl flex-col items-center justify-center px-4 text-center">
-          <AnimatedText className="mb-6 font-pp-neue-montreal text-4xl font-normal text-white md:mb-8 md:text-6xl">
-            <h2>Stay Updated</h2>
-          </AnimatedText>
-          <AnimatedText
-            delay={0.2}
-            className="mb-8 max-w-2xl font-pp-neue-montreal text-base text-white md:mb-10 md:text-lg"
-          >
-            <p>
-              Subscribe to our newsletter to stay informed about the latest
-              insights, innovations, and opportunities in technology and
-              business.
-            </p>
-          </AnimatedText>
-          <AnimatedButton delay={0.4}>
-            <form className="flex w-full max-w-md flex-col gap-4 sm:flex-row">
-              <input
-                id="newsletter-email"
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                required
-                className="flex-1 border border-white/20 bg-white/10 px-6 py-3 font-pp-neue-montreal text-white backdrop-blur-sm transition-colors placeholder:text-white/60 focus:border-[#8202FF] focus:outline-none"
+            {/* <FractalGradient zIndex={10} position="absolute" /> */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src="/maxim-hopman.jpg"
+                alt="Background"
+                fill
+                className="object-cover opacity-80"
+                sizes="100vw"
+                priority
               />
-              <button
-                type="submit"
-                className="cursor-pointer bg-[#8202FF] px-8 py-3 font-pp-neue-montreal whitespace-nowrap text-white transition-colors hover:bg-[#6a02cc]"
+            </div>
+
+            <div className="relative z-20 flex max-w-3xl flex-col items-center justify-center px-4 text-center">
+              <AnimatedText className="mb-6 font-pp-neue-montreal text-4xl font-normal text-white md:mb-8 md:text-6xl">
+                <h2>Stay Updated</h2>
+              </AnimatedText>
+              <AnimatedText
+                delay={0.2}
+                className="mb-8 max-w-2xl font-pp-neue-montreal text-base text-white md:mb-10 md:text-lg"
               >
-                Subscribe
-              </button>
-            </form>
-          </AnimatedButton>
-        </div>
-      </section>
+                <p>
+                  Subscribe to our newsletter to stay informed about the latest
+                  insights, innovations, and opportunities in technology and
+                  business.
+                </p>
+              </AnimatedText>
+              <AnimatedButton delay={0.4}>
+                <form className="flex w-full max-w-md flex-col gap-4 sm:flex-row">
+                  <input
+                    id="newsletter-email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    required
+                    className="flex-1 border border-white/20 bg-white/10 px-6 py-3 font-pp-neue-montreal text-white backdrop-blur-sm transition-colors placeholder:text-white/60 focus:border-[#8202FF] focus:outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="cursor-pointer bg-[#8202FF] px-8 py-3 font-pp-neue-montreal whitespace-nowrap text-white transition-colors hover:bg-[#6a02cc]"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              </AnimatedButton>
+            </div>
+          </section>
         </div>
       </div>
     </div>
