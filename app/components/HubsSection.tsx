@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRef, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Draggable, gsap } from "@/lib/gsapConfig";
+import { Link, useRouter, routing } from "@/i18n/routing";
+import { gsap } from "@/lib/gsapConfig";
+import { horizontalLoop, type ExtendedTimeline } from "@/lib/horizontalLoop";
 import AnimatedText from "./AnimatedText3";
+
+const TAP_THRESHOLD = 12;
 
 const HUB_CARDS = [
   {
@@ -13,99 +16,160 @@ const HUB_CARDS = [
     src: "/campaign-creators.jpg",
     alt: "Modern and clean extraction",
     title: "Modern and clean extraction",
+    href: "/hubs/technology",
   },
   {
     id: "2",
     src: "/channel-82.jpg",
     alt: "Access to new and untapped sources",
     title: "Access to new and untapped sources",
+    href: "/hubs/engineering",
   },
   {
     id: "3",
     src: "/alev-takil.jpg",
     alt: "Technology integration",
     title: "Technology integration",
+    href: "/hubs/business-operations",
   },
 ];
 
 export default function HubsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const draggableRef = useRef<Draggable | null>(null);
+  const loopRef = useRef<ExtendedTimeline | null>(null);
+  const router = useRouter();
 
-  const setupDraggable = useCallback(() => {
-    const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
-
-    draggableRef.current?.kill();
-
-    const containerWidth = container.clientWidth;
-    const trackWidth = track.scrollWidth;
-    const maxScroll = Math.max(0, trackWidth - containerWidth);
-
-    if (maxScroll <= 0) return;
-
-    draggableRef.current = Draggable.create(track, {
-      type: "x",
-      bounds: { minX: -maxScroll, maxX: 0 },
-      inertia: { x: { min: -maxScroll, max: 0 } },
-      cursor: "grab",
-      activeCursor: "grabbing",
-      edgeResistance: 0.85,
-      dragResistance: 0,
-      minimumMovement: 12,
-      onDragStart: function () {
-        container.classList.add("is-dragging");
-      },
-      onDragEnd: function () {
-        container.classList.remove("is-dragging");
-      },
-    })[0];
-  }, []);
+  const dragStateRef = useRef({
+    isDragging: false,
+    startPointerX: 0,
+    startPointerY: 0,
+    pointerMoved: false,
+  });
 
   const go = useCallback((direction: 1 | -1) => {
-    const container = containerRef.current;
-    const track = trackRef.current;
-    const draggable = draggableRef.current;
-    if (!container || !track || !draggable) return;
-
-    const containerWidth = container.clientWidth;
-    const trackWidth = track.scrollWidth;
-    const maxScroll = Math.max(0, trackWidth - containerWidth);
-    if (maxScroll <= 0) return;
-
-    const currentX = gsap.getProperty(track, "x") as number;
-    const step = containerWidth * 0.8;
-    let newX = direction === 1 ? currentX - step : currentX + step;
-    newX = Math.max(-maxScroll, Math.min(0, newX));
-
-    gsap.to(track, {
-      x: newX,
-      duration: 0.35,
-      ease: "power2.out",
-      onComplete: () => {
-        draggable.update();
-      },
-    });
+    const loop = loopRef.current;
+    if (!loop) return;
+    const vars = { duration: 0.35, ease: "power2.out" as const };
+    if (direction === 1) loop.next?.(vars);
+    else loop.previous?.(vars);
   }, []);
 
   useEffect(() => {
-    setupDraggable();
-
     const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
+    if (!container) return;
 
-    const ro = new ResizeObserver(() => setupDraggable());
-    ro.observe(container);
+    const items = gsap.utils.toArray(
+      container.querySelectorAll(".hub-card")
+    ) as HTMLElement[];
+    if (items.length === 0) return;
+
+    const loop = horizontalLoop(items, {
+      repeat: -1,
+      paused: true,
+      draggable: true,
+      center: false,
+      paddingRight: 24,
+      minimumMovement: TAP_THRESHOLD,
+      onPressInit() {
+        dragStateRef.current.isDragging = false;
+        dragStateRef.current.pointerMoved = false;
+      },
+      onPress(event?: MouseEvent | TouchEvent) {
+        dragStateRef.current.pointerMoved = false;
+        if (event) {
+          if ("touches" in event && event.touches.length > 0) {
+            dragStateRef.current.startPointerX = event.touches[0].clientX;
+            dragStateRef.current.startPointerY = event.touches[0].clientY;
+          } else if ("clientX" in event) {
+            dragStateRef.current.startPointerX = event.clientX;
+            dragStateRef.current.startPointerY = event.clientY;
+          }
+        }
+      },
+      onDragStart() {
+        dragStateRef.current.isDragging = true;
+        dragStateRef.current.pointerMoved = true;
+      },
+      onDragEnd() {
+        setTimeout(() => {
+          dragStateRef.current.isDragging = false;
+        }, 50);
+      },
+      onClick(e: MouseEvent | TouchEvent) {
+        if (
+          !dragStateRef.current.pointerMoved &&
+          !dragStateRef.current.isDragging
+        ) {
+          const target = (e.target as HTMLElement).closest("a");
+          if (target) {
+            const href = target.getAttribute("href");
+            if (href) {
+              const pathname = href.replace(/^\//, "");
+              const segments = pathname.split("/");
+              const maybeLocale = segments[0];
+              const pathnameWithoutLocale = (
+                routing.locales as readonly string[]
+              ).includes(maybeLocale)
+                ? "/" + (segments.slice(1).join("/") || "")
+                : href;
+              router.push(pathnameWithoutLocale as "/hubs");
+            }
+          }
+        }
+      },
+    });
+    loopRef.current = loop;
+
+    const handlePointerDown = (e: PointerEvent) => {
+      dragStateRef.current.pointerMoved = false;
+      dragStateRef.current.startPointerX = e.clientX;
+      dragStateRef.current.startPointerY = e.clientY;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const deltaX = Math.abs(
+        e.clientX - dragStateRef.current.startPointerX
+      );
+      const deltaY = Math.abs(
+        e.clientY - dragStateRef.current.startPointerY
+      );
+      if (deltaX > TAP_THRESHOLD || deltaY > TAP_THRESHOLD) {
+        dragStateRef.current.pointerMoved = true;
+      }
+    };
+
+    const handleLinkClick = (e: MouseEvent) => {
+      if (
+        dragStateRef.current.isDragging ||
+        dragStateRef.current.pointerMoved
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    container.addEventListener("pointerdown", handlePointerDown, {
+      passive: true,
+    });
+    container.addEventListener("pointermove", handlePointerMove, {
+      passive: true,
+    });
+
+    const links = container.querySelectorAll("a[href^='/hubs']");
+    links.forEach((link) => {
+      link.addEventListener("click", handleLinkClick, { capture: true });
+    });
 
     return () => {
-      ro.disconnect();
-      draggableRef.current?.kill();
-      draggableRef.current = null;
+      container.removeEventListener("pointerdown", handlePointerDown);
+      container.removeEventListener("pointermove", handlePointerMove);
+      links.forEach((link) => {
+        link.removeEventListener("click", handleLinkClick, { capture: true });
+      });
+      loop.kill();
+      loopRef.current = null;
     };
-  }, [setupDraggable]);
+  }, [router]);
 
   return (
     <section className="relative w-full bg-black py-16 md:py-24">
@@ -141,7 +205,7 @@ export default function HubsSection() {
             <button
               type="button"
               onClick={() => go(-1)}
-              className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center bg-white/10 text-white transition-opacity hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               aria-label="Previous hub"
             >
               <ChevronLeft className="h-5 w-5" strokeWidth={2} />
@@ -149,27 +213,25 @@ export default function HubsSection() {
             <button
               type="button"
               onClick={() => go(1)}
-              className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              className="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center bg-white/10 text-white transition-opacity hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               aria-label="Next hub"
             >
               <ChevronRight className="h-5 w-5" strokeWidth={2} />
             </button>
           </div>
         </div>
-        {/* Draggable track: no right padding on this section so carousel bleeds to edge */}
-        <div
-          ref={containerRef}
-          className="relative min-w-0 flex-1 cursor-grab overflow-hidden select-none lg:max-w-3xl xl:max-w-4xl [&.is-dragging]:cursor-grabbing"
-          style={{ touchAction: "pan-y" }}
-        >
+        <div className="relative min-w-0 flex-1 overflow-hidden lg:max-w-3xl xl:max-w-4xl">
           <div
-            ref={trackRef}
-            className="flex w-max gap-0 will-change-transform"
+            ref={containerRef}
+            className="flex w-max cursor-grab gap-6 select-none pl-0 active:cursor-grabbing"
+            style={{ touchAction: "pan-y" }}
           >
             {HUB_CARDS.map((card) => (
-              <div
+              <Link
                 key={card.id}
-                className="relative aspect-3/4 w-[320px] shrink-0 overflow-hidden md:aspect-4/5 md:w-[400px] lg:aspect-[4/5] lg:w-[480px]"
+                href={card.href as "/hubs"}
+                className="hub-card relative block aspect-3/4 w-[320px] shrink-0 overflow-hidden md:aspect-4/5 md:w-[400px] lg:aspect-[4/5] lg:w-[480px]"
+                draggable={false}
               >
                 <Image
                   src={card.src}
@@ -184,7 +246,7 @@ export default function HubsSection() {
                     {card.title}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
