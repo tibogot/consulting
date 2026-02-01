@@ -210,8 +210,17 @@ export default function ParticleGlobe({
     camera.aspect = initialWidth / initialHeight;
     camera.updateProjectionMatrix();
 
+    // Detect touch device
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    // On touch devices, use a dummy element for OrbitControls so it doesn't capture touch events
+    // OrbitControls will still handle auto-rotate, but won't interfere with page scrolling
+    const controlsElement = isTouchDevice
+      ? document.createElement("div") // Dummy element - not in DOM, won't capture events
+      : renderer.domElement;
+
     // Initialize OrbitControls
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, controlsElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     // Slow idle rotation when not interacting
@@ -230,13 +239,6 @@ export default function ParticleGlobe({
     const lockedPolar = controls.getPolarAngle();
     controls.minPolarAngle = lockedPolar;
     controls.maxPolarAngle = lockedPolar;
-
-    // On mobile/touch devices, disable OrbitControls touch handling
-    // We'll implement our own horizontal-only touch rotation
-    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) {
-      controls.enableRotate = false; // Disable built-in touch rotation
-    }
 
     const handleControlsStart = () => {
       controls.autoRotate = false;
