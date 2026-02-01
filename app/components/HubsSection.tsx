@@ -138,7 +138,7 @@ export default function HubsSection() {
       }
     };
 
-    const handleLinkClick = (e: MouseEvent) => {
+    const handleLinkClick = (e: Event) => {
       if (
         dragStateRef.current.isDragging ||
         dragStateRef.current.pointerMoved
