@@ -127,12 +127,8 @@ export default function HubsSection() {
     };
 
     const handlePointerMove = (e: PointerEvent) => {
-      const deltaX = Math.abs(
-        e.clientX - dragStateRef.current.startPointerX
-      );
-      const deltaY = Math.abs(
-        e.clientY - dragStateRef.current.startPointerY
-      );
+      const deltaX = Math.abs(e.clientX - dragStateRef.current.startPointerX);
+      const deltaY = Math.abs(e.clientY - dragStateRef.current.startPointerY);
       if (deltaX > TAP_THRESHOLD || deltaY > TAP_THRESHOLD) {
         dragStateRef.current.pointerMoved = true;
       }
@@ -223,7 +219,7 @@ export default function HubsSection() {
         <div className="relative min-w-0 flex-1 overflow-hidden lg:max-w-3xl xl:max-w-4xl">
           <div
             ref={containerRef}
-            className="flex w-max cursor-grab gap-6 select-none pl-0 active:cursor-grabbing"
+            className="flex w-max cursor-grab gap-6 pl-0 select-none active:cursor-grabbing"
             style={{ touchAction: "pan-y" }}
           >
             {HUB_CARDS.map((card) => (

@@ -362,10 +362,11 @@ export function horizontalLoop(
   }
 
   const originalKill = tl.kill.bind(tl);
-  tl.kill = () => {
+  tl.kill = function (this: ExtendedTimeline): ExtendedTimeline {
     window.removeEventListener("resize", onResize);
     if (tl.draggable) tl.draggable.kill();
     originalKill();
+    return tl;
   };
   return tl;
 }
