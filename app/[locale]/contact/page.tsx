@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import AnimatedText from "@/app/components/AnimatedText3";
@@ -7,6 +8,34 @@ import ContactLeadForm from "@/app/components/ContactLeadForm";
 import FAQ, { FAQItem } from "@/app/components/FAQ";
 import ParticleGlobe from "@/app/components/ParticleGlobe";
 import ParallaxImage from "@/app/components/ParallaxImage";
+
+const LOCATION_TIMEZONES: Record<string, string> = {
+  Brussels: "Europe/Brussels",
+  London: "Europe/London",
+};
+
+function OfficeTime({ timezone }: { timezone: string }) {
+  const [time, setTime] = useState("");
+  const locale = useLocale();
+
+  useEffect(() => {
+    const format = () => {
+      setTime(
+        new Date().toLocaleTimeString(locale === "nl" ? "nl-BE" : locale === "fr" ? "fr-BE" : "en-GB", {
+          timeZone: timezone,
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        })
+      );
+    };
+    format();
+    const interval = setInterval(format, 60000);
+    return () => clearInterval(interval);
+  }, [timezone, locale]);
+
+  return <span>{time || "—"}</span>;
+}
 
 const FAQ_ITEMS: FAQItem[] = [
   {
@@ -154,32 +183,40 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Rows 2 & 3 – locations */}
+          {/* Rows 2 & 3 – locations (side by side on mobile) */}
           {(() => {
             const raw = t.raw("getInTouch.locations");
             const locations = Array.isArray(raw) ? (raw as string[]) : [];
-            return locations.map((location) => (
-              <div
-                key={location}
-                className="grid grid-cols-1 gap-6 border-t border-white/15 py-5 md:grid-cols-3 md:gap-8 md:py-6"
-              >
-                <div className="font-pp-neue-montreal text-base text-white md:text-lg">
-                  {location}
-                </div>
-                <div className="space-y-0.5 font-pp-neue-montreal text-base text-white md:text-lg">
-                  <div>{t("getInTouch.newBusiness")}</div>
-                  <a
-                    href={`mailto:${email}`}
-                    className="block text-white/80 transition-colors hover:text-white"
+            return (
+              <div className="grid grid-cols-2 gap-4 border-t border-white/15 py-5 md:contents md:gap-0 md:py-0">
+                {locations.map((location) => (
+                  <div
+                    key={location}
+                    className="flex flex-col gap-2 md:grid md:grid-cols-3 md:gap-8 md:border-t md:border-white/15 md:py-6"
                   >
-                    {email}
-                  </a>
-                </div>
-                <div className="text-left font-pp-neue-montreal text-base text-white/80 md:text-right md:text-lg">
-                  {t("getInTouch.col3Time")}
-                </div>
+                    <div className="font-pp-neue-montreal text-base text-white md:text-lg">
+                      {location}
+                    </div>
+                    <div className="space-y-0.5 font-pp-neue-montreal text-base text-white md:text-lg">
+                      <div>{t("getInTouch.newBusiness")}</div>
+                      <a
+                        href={`mailto:${email}`}
+                        className="block text-white/80 transition-colors hover:text-white"
+                      >
+                        {email}
+                      </a>
+                    </div>
+                    <div className="text-left font-pp-neue-montreal text-base text-white/80 md:text-right md:text-lg">
+                      {LOCATION_TIMEZONES[location] ? (
+                        <OfficeTime timezone={LOCATION_TIMEZONES[location]} />
+                      ) : (
+                        t("getInTouch.col3Time")
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ));
+            );
           })()}
         </div>
       </section>
