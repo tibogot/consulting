@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import AnimatedText from "../../components/AnimatedText3";
 import AnimatedButton from "../../components/AnimatedButton";
+import TalentFlowMorph from "../../components/TalentFlowMorph";
 
 export default async function CaseStudiesPage() {
   const t = await getTranslations("caseStudies");
@@ -53,6 +54,11 @@ export default async function CaseStudiesPage() {
             </AnimatedButton>
           </div>
         </div>
+      </section>
+
+      {/* Talent Flow morph visualization */}
+      <section className="relative min-h-svh w-full">
+        <TalentFlowMorph className="w-full h-svh" />
       </section>
     </div>
   );
