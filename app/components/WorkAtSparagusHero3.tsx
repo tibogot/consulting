@@ -6,6 +6,8 @@ import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
 const HERO_VIDEO_CDN =
   //   "https://cdn.prod.website-files.com/66d3db0a03091f83e3260124%2F66de4dfa2d65d4c9631e442e_Hero%20Visual%20%281%29-transcode.mp4";
   "https://dymcnsx6f7jgtkqa.public.blob.vercel-storage.com/videoherodark.mp4";
+const HERO_VIDEO_MOBILE_CDN =
+  "https://dymcnsx6f7jgtkqa.public.blob.vercel-storage.com/videoherodark-mobile.mp4";
 
 interface WorkAtSparagusHeroProps {
   title: string;
@@ -78,7 +80,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   // const ctaRef = useRef<HTMLDivElement>(null);
   const [animationReady, setAnimationReady] = useState(false);
-  const { shouldLoadVideo } = useClientMediaState(); // isMobile only used when video is enabled
+  const { shouldLoadVideo, isMobile } = useClientMediaState();
 
   // Set initial clip-path immediately on mount (matches ManagedServicesHero approach)
   useEffect(() => {
@@ -392,7 +394,10 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
               console.warn("Video failed to load from CDN", e);
             }}
           >
-            <source src={HERO_VIDEO_CDN} type="video/mp4" />
+            <source
+              src={isMobile ? HERO_VIDEO_MOBILE_CDN : HERO_VIDEO_CDN}
+              type="video/mp4"
+            />
           </video>
         )}
 
