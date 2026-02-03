@@ -25,12 +25,15 @@ function OfficeTime({ timezone }: { timezone: string }) {
   useEffect(() => {
     const format = () => {
       setTime(
-        new Date().toLocaleTimeString(locale === "nl" ? "nl-BE" : locale === "fr" ? "fr-BE" : "en-GB", {
-          timeZone: timezone,
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        })
+        new Date().toLocaleTimeString(
+          locale === "nl" ? "nl-BE" : locale === "fr" ? "fr-BE" : "en-GB",
+          {
+            timeZone: timezone,
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          }
+        )
       );
     };
     format();
@@ -142,7 +145,7 @@ export default function ContactPage() {
         <div className="flex w-full flex-col md:flex-row">
           <div className="hidden md:block md:w-1/2" />
           <div className="w-full md:w-1/2">
-            <AnimatedText isHero>
+            <AnimatedText>
               <h2 className="text-left font-pp-neue-montreal text-4xl leading-[1.1] font-normal text-white md:text-6xl lg:text-7xl">
                 {t("globeIntro.title")}
               </h2>
@@ -158,9 +161,11 @@ export default function ContactPage() {
 
       {/* Get In Touch – big title + grid (no max width) */}
       <section className="w-full bg-black px-4 py-16 md:px-8 md:py-24">
-        <h2 className="mb-12 text-left font-pp-neue-montreal text-4xl leading-[1.02] font-normal text-white md:mb-16 md:text-6xl lg:text-7xl">
-          {t("getInTouch.title")}
-        </h2>
+        <AnimatedText>
+          <h2 className="mb-12 text-left font-pp-neue-montreal text-4xl leading-[1.02] font-normal text-white md:mb-16 md:text-6xl lg:text-7xl">
+            {t("getInTouch.title")}
+          </h2>
+        </AnimatedText>
 
         <div className="w-full">
           {/* Row 1 */}
