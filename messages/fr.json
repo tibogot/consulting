@@ -143,11 +143,11 @@
     "getInTouch": {
       "title": "Restons en contact",
       "row1": {
-        "col1": "Restons en contact",
-        "col2Label": "Nouveaux projets",
-        "col3": "Rejoignez l'équipe"
+        "col1": "Général",
+        "col2Label": "E-mail",
+        "col3": "Carrières"
       },
-      "newBusiness": "Nouveaux projets",
+      "newBusiness": "E-mail",
       "col3Time": "—",
       "locations": ["Bruxelles", "Londres"]
     }

@@ -143,11 +143,11 @@
     "getInTouch": {
       "title": "Neem contact op",
       "row1": {
-        "col1": "Neem contact op",
-        "col2Label": "Nieuw project",
-        "col3": "Word lid van het team"
+        "col1": "Algemeen",
+        "col2Label": "E-mail",
+        "col3": "Carrières"
       },
-      "newBusiness": "Nieuw project",
+      "newBusiness": "E-mail",
       "col3Time": "—",
       "locations": ["Brussel", "Londen"]
     }

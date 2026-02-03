@@ -144,11 +144,11 @@
     "getInTouch": {
       "title": "Get In Touch",
       "row1": {
-        "col1": "Get In Touch",
-        "col2Label": "New Business",
-        "col3": "Join The Team"
+        "col1": "General",
+        "col2Label": "Email",
+        "col3": "Careers"
       },
-      "newBusiness": "New Business",
+      "newBusiness": "Email",
       "col3Time": "—",
       "locations": ["Brussels", "London"]
     }
