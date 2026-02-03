@@ -120,10 +120,10 @@
       "subtitle": "Tell us what you’re trying to achieve — timeline, context, and what success looks like. We’ll review your message and get back to you with next steps."
     },
     "details": {
-      "email": "hello@sparagus.com",
-      "phone": "+32 000 00 00 00",
-      "addressLine1": "Avenue Example 123",
-      "addressLine2": "1000 Brussels, Belgium"
+      "email": "info@sparagus.be",
+      "phone": "+32 2 883 36 00",
+      "addressLine1": "Avenue Louise 65/11",
+      "addressLine2": "1050 Brussels, Belgium"
     },
     "section1": {
       "title": "Default Scroll Animation",

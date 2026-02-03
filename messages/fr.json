@@ -119,10 +119,10 @@
       "subtitle": "Dites-nous ce que vous cherchez à accomplir — délais, contexte et ce à quoi ressemble le succès. Nous lirons votre message et reviendrons vers vous avec les prochaines étapes."
     },
     "details": {
-      "email": "hello@sparagus.com",
-      "phone": "+32 000 00 00 00",
-      "addressLine1": "Avenue Exemple 123",
-      "addressLine2": "1000 Bruxelles, Belgique"
+      "email": "info@sparagus.be",
+      "phone": "+32 2 883 36 00",
+      "addressLine1": "Avenue Louise 65/11",
+      "addressLine2": "1050 Bruxelles, Belgique"
     },
     "section1": {
       "title": "Animation de défilement par défaut",
