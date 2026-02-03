@@ -11,7 +11,11 @@ import ParallaxImage from "@/app/components/ParallaxImage";
 
 const LOCATION_TIMEZONES: Record<string, string> = {
   Brussels: "Europe/Brussels",
+  Brussel: "Europe/Brussels",
+  Bruxelles: "Europe/Brussels",
   London: "Europe/London",
+  Londen: "Europe/London",
+  Londres: "Europe/London",
 };
 
 function OfficeTime({ timezone }: { timezone: string }) {
