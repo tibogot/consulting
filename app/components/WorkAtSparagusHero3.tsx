@@ -109,60 +109,68 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
   // - Initial load: wait for PageLoader (clip-path animates while loader slides up)
   // - Navigation: wait for PageTransition (clip-path animates after overlay slides away)
   useEffect(() => {
-    let hasStarted = false;
-
-    const startAnimation = () => {
-      if (hasStarted) return; // Prevent double-triggering
-      hasStarted = true;
-      setTimeout(() => {
-        setAnimationReady(true);
-      }, ANIMATION_CONFIG.animationStartDelay * 1000);
-    };
-
-    // Check if this is a navigation (PageLoader already completed previously)
-    const isNavigation = document.documentElement.classList.contains(
-      "page-loader-complete"
+    // TEMP: skip loader/transition wait – start animation immediately for testing (uncomment block below to restore)
+    const t = setTimeout(
+      () => setAnimationReady(true),
+      ANIMATION_CONFIG.animationStartDelay * 1000
     );
+    return () => clearTimeout(t);
 
-    if (isNavigation) {
-      // Navigation: check if PageTransition already completed (race condition fix)
-      if (
-        document.documentElement.classList.contains("page-transition-complete")
-      ) {
-        // Already completed, start immediately
-        startAnimation();
-        return;
-      }
-
-      // Wait for PageTransition to complete
-      const handlePageTransitionComplete = () => {
-        startAnimation();
-      };
-
-      window.addEventListener(
-        "pageTransitionComplete",
-        handlePageTransitionComplete
-      );
-      return () => {
-        window.removeEventListener(
-          "pageTransitionComplete",
-          handlePageTransitionComplete
-        );
-      };
-    } else {
-      // Initial load: wait for PageLoader to complete
-      const handlePageLoaderComplete = () => {
-        startAnimation();
-      };
-
-      window.addEventListener("pageLoaderComplete", handlePageLoaderComplete);
-      return () => {
-        window.removeEventListener(
-          "pageLoaderComplete",
-          handlePageLoaderComplete
-        );
-      };
-    }
+    // --- ORIGINAL: wait for PageLoader or PageTransition (commented out for testing) ---
+    // let hasStarted = false;
+    //
+    // const startAnimation = () => {
+    //   if (hasStarted) return; // Prevent double-triggering
+    //   hasStarted = true;
+    //   setTimeout(() => {
+    //     setAnimationReady(true);
+    //   }, ANIMATION_CONFIG.animationStartDelay * 1000);
+    // };
+    //
+    // // Check if this is a navigation (PageLoader already completed previously)
+    // const isNavigation = document.documentElement.classList.contains(
+    //   "page-loader-complete"
+    // );
+    //
+    // if (isNavigation) {
+    //   // Navigation: check if PageTransition already completed (race condition fix)
+    //   if (
+    //     document.documentElement.classList.contains("page-transition-complete")
+    //   ) {
+    //     // Already completed, start immediately
+    //     startAnimation();
+    //     return;
+    //   }
+    //
+    //   // Wait for PageTransition to complete
+    //   const handlePageTransitionComplete = () => {
+    //     startAnimation();
+    //   };
+    //
+    //   window.addEventListener(
+    //     "pageTransitionComplete",
+    //     handlePageTransitionComplete
+    //   );
+    //   return () => {
+    //     window.removeEventListener(
+    //       "pageTransitionComplete",
+    //       handlePageTransitionComplete
+    //     );
+    //   };
+    // } else {
+    //   // Initial load: wait for PageLoader to complete
+    //   const handlePageLoaderComplete = () => {
+    //     startAnimation();
+    //   };
+    //
+    //   window.addEventListener("pageLoaderComplete", handlePageLoaderComplete);
+    //   return () => {
+    //     window.removeEventListener(
+    //       "pageLoaderComplete",
+    //       handlePageLoaderComplete
+    //     );
+    //   };
+    // }
   }, []);
 
   // Ensure video loops properly

@@ -86,7 +86,7 @@ export default function ContactLeadForm() {
 
       <button
         type="submit"
-        className="mt-6 inline-flex cursor-pointer items-center gap-3 rounded-[1px] bg-[var(--primary)] px-6 py-3 font-pp-neue-montreal text-sm text-white transition-colors hover:bg-[#6a02cc] md:text-base"
+        className="mt-6 inline-flex cursor-pointer items-center gap-3 rounded-[1px] font-pp-neue-montreal text-lg text-white transition-colors hover:text-white/90 md:text-xl"
       >
         <span>Submit</span>
         <span aria-hidden>→</span>

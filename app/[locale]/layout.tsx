@@ -40,9 +40,9 @@ export default async function LocaleLayout({
         <LenisProvider>
           <ScrollToTop />
           <Navbar />
-          <PageTransition>
-            <main className="flex-1">{children}</main>
-          </PageTransition>
+          {/* <PageTransition> */}
+          <main className="flex-1">{children}</main>
+          {/* </PageTransition> */}
           <Footer />
         </LenisProvider>
       </div>
