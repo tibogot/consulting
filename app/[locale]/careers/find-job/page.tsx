@@ -1,15 +1,18 @@
 import { getTranslations } from "next-intl/server";
-import WorkAtSparagusHero from "../../../components/WorkAtSparagusHero2";
+import WorkAtSparagusHero4 from "../../../components/WorkAtSparagusHero4";
 import AnimatedText from "../../../components/AnimatedText3";
 
 export default async function FindJobPage() {
-  const t = await getTranslations("careers.workAtSparagus");
+  const t = await getTranslations("careers.findJob");
 
   return (
     <div className="min-h-screen w-full bg-black">
-      {/* Hero Section - same as video-jitter-debug, uses CDN video */}
+      {/* Hero Section */}
       <div className="">
-        <WorkAtSparagusHero title={t("title")} />
+        <WorkAtSparagusHero4
+          title={t("title")}
+          description={t("description")}
+        />
       </div>
 
       {/* Second section - AnimatedText like home page */}

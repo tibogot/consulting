@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 // import { ArrowRight } from "lucide-react";
 import PartnersTicker from "../components/PartnersTicker";
-import WorkAtSparagusHero from "../components/WorkAtSparagusHero3";
+import WorkAtSparagusHero4 from "../components/WorkAtSparagusHero4";
 // import PinnedClipPathAnimation from "../components/PinnedClipPathAnimation";
 import ServicesHero from "../components/ServicesHero";
 // import Cards from "../components/Cards";
@@ -34,7 +34,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen w-full bg-black">
-      <WorkAtSparagusHero title={t("title")} />
+      <WorkAtSparagusHero4 title={t("title")} description={t("description")} />
 
       <PartnersTicker />
 

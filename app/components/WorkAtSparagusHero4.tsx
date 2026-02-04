@@ -3,14 +3,21 @@
 import { useRef, useState, useEffect } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsapConfig";
 
-const HERO_VIDEO_CDN =
-  //   "https://cdn.prod.website-files.com/66d3db0a03091f83e3260124%2F66de4dfa2d65d4c9631e442e_Hero%20Visual%20%281%29-transcode.mp4";
+const DEFAULT_VIDEO_DESKTOP_CDN =
   "https://dymcnsx6f7jgtkqa.public.blob.vercel-storage.com/videoherodark.mp4";
-const HERO_VIDEO_MOBILE_CDN =
+const DEFAULT_VIDEO_MOBILE_CDN =
   "https://dymcnsx6f7jgtkqa.public.blob.vercel-storage.com/videoherodark-mobile.mp4";
+const DEFAULT_HERO_DESCRIPTION =
+  "Join our team of innovators, designers, and engineers building exceptional digital experiences.";
 
-interface WorkAtSparagusHeroProps {
+interface WorkAtSparagusHero4Props {
   title: string;
+  /** Hero description paragraph. When not provided, uses default text. */
+  description?: string;
+  /** Desktop hero video URL. When not provided, uses default CDN. */
+  videoSrcDesktop?: string;
+  /** Mobile hero video URL. When not provided, uses default CDN. */
+  videoSrcMobile?: string;
 }
 
 // ============================================
@@ -72,13 +79,17 @@ function useClientMediaState() {
   return state;
 }
 
-export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
+export default function WorkAtSparagusHero4({
+  title,
+  description = DEFAULT_HERO_DESCRIPTION,
+  videoSrcDesktop = DEFAULT_VIDEO_DESKTOP_CDN,
+  videoSrcMobile = DEFAULT_VIDEO_MOBILE_CDN,
+}: WorkAtSparagusHero4Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
-  // const ctaRef = useRef<HTMLDivElement>(null);
   const [animationReady, setAnimationReady] = useState(false);
   const { shouldLoadVideo, isMobile } = useClientMediaState();
 
@@ -89,7 +100,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
     const section = sectionRef.current;
     const videoContainer = videoContainerRef.current;
 
-    // Calculate initial dimensions
     const sectionWidth = section.offsetWidth;
     const sectionHeight = section.offsetHeight;
     const initialSize = Math.min(sectionWidth, sectionHeight) * 0.3;
@@ -97,7 +107,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
     const initialInsetLeft = (sectionWidth - initialSize) / 2;
     const initialBorderRadius = initialSize / 2;
 
-    // Apply initial clip-path using direct DOM (like ManagedServicesHero)
     videoContainer.style.clipPath = `inset(${initialInsetTop}px ${initialInsetLeft}px ${initialInsetTop}px ${initialInsetLeft}px)`;
     videoContainer.style.borderRadius = `${initialBorderRadius}px`;
     videoContainer.style.transform = "rotate(-10deg) scale(1)";
@@ -149,18 +158,14 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
     if (!shouldLoadVideo || !videoRef.current) return;
 
     const video = videoRef.current;
-
-    // Ensure loop attribute is set
     video.loop = true;
 
-    // Handle ended event as fallback for browsers where loop doesn't work
     const handleEnded = () => {
       video.currentTime = 0;
       video.play().catch(() => {});
     };
 
     video.addEventListener("ended", handleEnded);
-
     return () => {
       video.removeEventListener("ended", handleEnded);
     };
@@ -173,7 +178,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         !videoContainerRef.current ||
         !titleRef.current ||
         !descriptionRef.current ||
-        // !ctaRef.current ||
         !animationReady
       )
         return;
@@ -182,39 +186,27 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
       const videoContainer = videoContainerRef.current;
       const titleElement = titleRef.current;
       const descriptionElement = descriptionRef.current;
-      // const ctaElement = ctaRef.current;
 
-      // Ensure section has white background
       gsap.set(section, {
         backgroundColor: "#000000",
       });
 
-      // Get section dimensions
       const sectionWidth = section.offsetWidth;
       const sectionHeight = section.offsetHeight;
-
-      // Calculate initial size (30% of smaller dimension)
       const initialSize = Math.min(sectionWidth, sectionHeight) * 0.3;
       const initialWidth = initialSize;
       const initialHeight = initialSize;
-
-      // Calculate initial inset to center the rectangle
       const initialInsetTop = (sectionHeight - initialHeight) / 2;
       const initialInsetLeft = (sectionWidth - initialWidth) / 2;
       const initialInsetRight = (sectionWidth - initialWidth) / 2;
       const initialInsetBottom = (sectionHeight - initialHeight) / 2;
-
-      // Initial border-radius (large = circular, small = rectangular)
       const initialBorderRadius = Math.min(initialWidth, initialHeight) / 2;
       const finalBorderRadius = 0;
-
-      // Initial rotation and scale
       const initialRotation = -10;
       const finalRotation = 0;
       const initialScale = 1.0;
       const finalScale = 1.05;
 
-      // Animation data object for clip-path
       const animationData = {
         insetTop: initialInsetTop,
         insetRight: initialInsetRight,
@@ -225,8 +217,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         scale: initialScale,
       };
 
-      // Set initial state with GSAP (syncs with GSAP's internal state before animating)
-      // This matches ManagedServicesHero approach
       gsap.set(videoContainer, {
         clipPath: `inset(${initialInsetTop}px ${initialInsetRight}px ${initialInsetBottom}px ${initialInsetLeft}px)`,
         borderRadius: `${initialBorderRadius}px`,
@@ -235,16 +225,12 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         transformOrigin: "center center",
       });
 
-      // Make title visible (was hidden with opacity-0 to prevent FOUC)
       gsap.set(titleElement, { opacity: 1 });
 
-      // Create SplitText for title
       const titleSplit = SplitText.create(titleElement, {
         type: "lines",
         mask: "lines",
       });
-
-      // Fix descender clipping (g, y, p letters) - add padding to lines, keep masks clipping
       gsap.set(titleSplit.lines, {
         paddingBottom: "0.1em",
         yPercent: 100,
@@ -253,14 +239,11 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         marginBottom: "-0.1em",
       });
 
-      // Make description visible and create SplitText
       gsap.set(descriptionElement, { opacity: 1 });
       const descriptionSplit = SplitText.create(descriptionElement, {
         type: "lines",
         mask: "lines",
       });
-
-      // Fix descender clipping for description
       gsap.set(descriptionSplit.lines, {
         paddingBottom: "0.1em",
         yPercent: 100,
@@ -269,16 +252,8 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         marginBottom: "-0.1em",
       });
 
-      // Set initial state for CTA button
-      // gsap.set(ctaElement, {
-      //   opacity: 0,
-      //   y: 20,
-      // });
-
-      // Create unified timeline
       const timeline = gsap.timeline();
 
-      // Clip-path animation
       timeline.to(animationData, {
         insetTop: 0,
         insetRight: 0,
@@ -296,7 +271,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         },
       });
 
-      // Text animation - overlaps with clip-path
       timeline.to(
         titleSplit.lines,
         {
@@ -309,7 +283,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         `-=${ANIMATION_CONFIG.textOverlap}`
       );
 
-      // Description animation - follows title
       timeline.to(
         descriptionSplit.lines,
         {
@@ -322,19 +295,6 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
         `-=${ANIMATION_CONFIG.ctaOverlap}`
       );
 
-      // CTA button animation
-      // timeline.to(
-      //   ctaElement,
-      //   {
-      //     opacity: 1,
-      //     y: 0,
-      //     duration: 0.5,
-      //     ease: "power2.out",
-      //   },
-      //   `-=${ANIMATION_CONFIG.ctaOverlap}`
-      // );
-
-      // Cleanup
       return () => {
         titleSplit.revert();
         descriptionSplit.revert();
@@ -343,19 +303,17 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
     { scope: sectionRef, dependencies: [animationReady] }
   );
 
+  const videoSrc = isMobile ? videoSrcMobile : videoSrcDesktop;
+
   return (
     <section
       ref={sectionRef}
       className="relative flex h-svh flex-col overflow-hidden bg-black px-4 sm:px-6 lg:px-8"
     >
-      {/* Video Background Container with Clip Path */}
-      {/* Initially invisible via CSS to prevent FOUC - JS sets visibility after clip-path is applied */}
       <div
         ref={videoContainerRef}
         className="invisible absolute inset-0 z-0 origin-center"
-        // style={{ willChange: "clip-path, transform" }}
       >
-        {/* Video from CDN only - no local image or video files */}
         {shouldLoadVideo && (
           <video
             ref={videoRef}
@@ -364,7 +322,7 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             muted
             playsInline
             preload="auto"
-            crossOrigin="anonymous"
+            // crossOrigin="anonymous"
             className="absolute inset-0 h-full w-full object-cover opacity-0"
             onCanPlay={(e) => {
               e.currentTarget.style.opacity = "1";
@@ -373,20 +331,14 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
               console.warn("Video failed to load from CDN", e);
             }}
           >
-            <source
-              src={isMobile ? HERO_VIDEO_MOBILE_CDN : HERO_VIDEO_CDN}
-              type="video/mp4"
-            />
+            <source src={videoSrc} type="video/mp4" />
           </video>
         )}
 
-        {/* Edge smoothing overlay - helps anti-alias clip-path edges */}
         <div className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.5)]" />
       </div>
 
-      {/* Content Overlay - Bottom positioned */}
       <div className="relative z-20 mt-auto flex w-full flex-col gap-6 pb-8 md:flex-row md:items-end md:justify-between md:pb-12 lg:pb-16">
-        {/* Left side - Title */}
         <div className="max-w-3xl">
           <h1
             ref={titleRef}
@@ -398,17 +350,9 @@ export default function WorkAtSparagusHero({ title }: WorkAtSparagusHeroProps) {
             ref={descriptionRef}
             className="max-w-lg font-pp-neue-montreal text-base text-white opacity-0 md:text-lg"
           >
-            Join our team of innovators, designers, and engineers building
-            exceptional digital experiences.
+            {description}
           </p>
         </div>
-
-        {/* Right side - CTA Button */}
-        {/* <div ref={ctaRef} className="flex items-end opacity-0">
-          <div className="w-12 h-12 bg-[var(--primary)] rounded-sm flex items-center justify-center">
-            <ArrowDown className="text-white w-6 h-6" />
-          </div>
-        </div> */}
       </div>
     </section>
   );

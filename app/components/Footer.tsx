@@ -47,6 +47,13 @@ export default function Footer() {
         label: t("careersSubmenu.workAtSparagus"),
       },
     ],
+    ressources: [
+      { href: "/blog" as const, label: t("ressourcesSubmenu.blog") },
+      {
+        href: "/case-studies" as const,
+        label: t("ressourcesSubmenu.caseStudies"),
+      },
+    ],
   };
 
   return (
@@ -178,20 +185,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Blog & Contact */}
+          {/* Ressources */}
           <div>
             <h3 className="mb-4 text-sm font-semibold tracking-wider uppercase">
               {t("blog")}
             </h3>
             <ul className="mb-6 space-y-2">
-              <li>
-                <Link
-                  href={"/blog" as const}
-                  className="text-sm text-gray-400 transition-colors hover:text-white"
-                >
-                  {t("blog")}
-                </Link>
-              </li>
+              {footerLinks.ressources.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-gray-400 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
             <h3 className="mb-4 text-sm font-semibold tracking-wider uppercase">
               {t("contact")}

@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import WorkAtSparagusHero from "../../../components/WorkAtSparagusHero2";
+import WorkAtSparagusHero4 from "../../../components/WorkAtSparagusHero4";
 import AnimatedText from "../../../components/AnimatedText3";
 
 export default async function WorkAtSparagusPage() {
@@ -7,12 +7,13 @@ export default async function WorkAtSparagusPage() {
 
   return (
     <div className="min-h-screen w-full bg-black">
-      {/* Hero Section - same as video-jitter-debug, uses CDN video */}
+      {/* Hero Section */}
       <div className="">
-        <WorkAtSparagusHero
+        <WorkAtSparagusHero4
           title={t("heroTitle")}
           description={t("heroDescription")}
-          videoSrc="https://sensei.lon1.cdn.digitaloceanspaces.com/Sensei_Industry_Education.mp4"
+          videoSrcDesktop="https://sensei.lon1.cdn.digitaloceanspaces.com/Sensei_Industry_Education.mp4"
+          videoSrcMobile="https://sensei.lon1.cdn.digitaloceanspaces.com/Sensei_Industry_Education.mp4"
         />
       </div>
 

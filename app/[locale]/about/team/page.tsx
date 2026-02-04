@@ -1,42 +1,31 @@
 import { getTranslations } from "next-intl/server";
-import AnimatedText from "../../../components/AnimatedText3";
+import Link from "next/link";
+import WorkAtSparagusHero4 from "../../../components/WorkAtSparagusHero4";
 import AnimatedButton from "../../../components/AnimatedButton";
 
 export default async function TeamPage() {
-  const t = await getTranslations("careers.workAtSparagus");
+  const t = await getTranslations("about.team");
 
   return (
-    <div className="w-full min-h-screen bg-black">
-      {/* Hero Section */}
-      <section className="relative h-svh flex flex-col px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="min-h-screen w-full bg-black">
+      <WorkAtSparagusHero4
+        title={t("title")}
+        description={t("description")}
+        videoSrcDesktop="https://cdn.prod.website-files.com/66d3db0a03091f83e3260124%2F66de4dfa2d65d4c9631e442e_Hero%20Visual%20%281%29-transcode.mp4"
+        // videoSrcMobile="https://your-cdn.com/team-hero-mobile.mp4"
+      />
 
-        {/* Content Overlay - Bottom positioned */}
-        <div className="relative z-20 w-full flex flex-col md:flex-row md:items-end md:justify-between gap-6 pb-8 md:pb-12 lg:pb-16 mt-auto">
-          {/* Left side - Title and Description */}
-          <div className="max-w-3xl">
-            <AnimatedText
-              isHero
-              className="text-4xl md:text-7xl font-normal  text-white mb-4 md:mb-6 font-pp-neue-montreal text-left"
+      {/* CTA Section */}
+      <section className="relative px-4 py-8 sm:px-6 md:py-12 lg:px-8">
+        <div className="flex justify-end">
+          <AnimatedButton isHero delay={0.3}>
+            <Link
+              href="/contact"
+              className="inline-block cursor-pointer rounded-sm bg-[#8202FF] px-8 py-2 font-pp-neue-montreal text-white transition-colors hover:bg-[#6a02cc]"
             >
-              <h1>{t("title")}</h1>
-            </AnimatedText>
-            <AnimatedText
-              isHero
-              delay={0.3}
-              className="text-base  text-white font-pp-neue-montreal text-left max-w-xl"
-            >
-              <p>{t("description")}</p>
-            </AnimatedText>
-          </div>
-
-          {/* Right side - CTA Button */}
-          <div className="flex items-end">
-            <AnimatedButton isHero delay={0.6}>
-              <button className="px-8 py-2 bg-[#8202FF] cursor-pointer text-white font-pp-neue-montreal rounded-sm hover:bg-[#6a02cc] transition-colors">
-                {t("cta")}
-              </button>
-            </AnimatedButton>
-          </div>
+              {t("cta")}
+            </Link>
+          </AnimatedButton>
         </div>
       </section>
     </div>
