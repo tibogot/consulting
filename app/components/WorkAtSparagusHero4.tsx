@@ -346,12 +346,16 @@ export default function WorkAtSparagusHero4({
           >
             {title}
           </h1>
-          <p
+          {/* <p
             ref={descriptionRef}
             className="max-w-lg font-pp-neue-montreal text-base text-white opacity-0 md:text-lg"
           >
             {description}
-          </p>
+          </p> */}
+          {/* Keep ref for animation; p content commented out above */}
+          <span ref={descriptionRef} className="sr-only" aria-hidden>
+            {description}
+          </span>
         </div>
       </div>
     </section>
