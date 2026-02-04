@@ -171,7 +171,7 @@ export default async function Home() {
 
           {/* <HorizontalScrollSection /> */}
 
-          <HorizontalServices />
+          {/* <HorizontalServices /> */}
 
           {/* Newsletter Section */}
           <section className="relative flex h-[90vh] w-full items-center justify-center overflow-hidden bg-black">
