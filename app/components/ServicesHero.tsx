@@ -67,10 +67,10 @@ export default function ServicesHero() {
       // Create SplitText instances for all titles and descriptions
       const titleSplits: ReturnType<typeof SplitText.create>[] = [];
       titles.forEach((title) => {
-        const h1 = title?.querySelector("h1");
-        if (h1) {
+        const heading = title?.querySelector("h3");
+        if (heading) {
           titleSplits.push(
-            SplitText.create(h1, {
+            SplitText.create(heading, {
               type: "lines",
               linesClass: "line-child",
             })
@@ -427,9 +427,9 @@ export default function ServicesHero() {
               }}
               className="absolute inset-0"
             >
-              <h1 className="w-full max-w-lg text-left font-pp-neue-montreal text-3xl text-white md:text-5xl">
+              <h3 className="w-full max-w-lg text-left font-pp-neue-montreal text-3xl text-white md:text-5xl">
                 {service.title}
-              </h1>
+              </h3>
             </div>
           ))}
         </div>
