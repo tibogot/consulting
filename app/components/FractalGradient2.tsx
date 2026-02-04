@@ -225,7 +225,7 @@ const COLORS = {
 const WAVE = {
   frequency: 2.0,
   amplitude: 20.0,
-  speed: 0.5,
+  speed: 0.2,
 };
 
 const NOISE = {
@@ -235,20 +235,20 @@ const NOISE = {
 };
 
 const POSITION = {
-  uvOffsetX: -0.25,
+  uvOffsetX: -0.55,
   uvOffsetY: 0.25,
   layerMixStart: 0.5,
   layerMixEnd: -0.3,
 };
 
 const MAGNETIC = {
-  magneticStrength: 1,
-  magneticRadius: 0.8,
+  magneticStrength: 0.5,
+  magneticRadius: 0.3,
   magneticSoftness: 2.0,
 };
 
 const METALLIC = {
-  metallic: 0.2,
+  metallic: 0.8,
   sheenIntensity: 0.5,
   sheenSpeed: 0.5,
   sheenScale: 3.0,

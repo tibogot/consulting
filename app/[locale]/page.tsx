@@ -174,9 +174,9 @@ export default async function Home() {
           <HorizontalServices />
 
           {/* Newsletter Section */}
-          <section className="relative flex h-[80vh] w-full items-center justify-center overflow-hidden bg-black">
-            <FractalGradient zIndex={10} position="absolute" />
-            {/* <div className="absolute inset-0 z-0">
+          <section className="relative flex h-[90vh] w-full items-center justify-center overflow-hidden bg-black">
+            {/* <FractalGradient zIndex={10} position="absolute" /> */}
+            <div className="absolute inset-0 z-0">
               <Image
                 src="/maxim-hopman.jpg"
                 alt="Background"
@@ -185,7 +185,7 @@ export default async function Home() {
                 sizes="100vw"
                 priority
               />
-            </div> */}
+            </div>
 
             <div className="relative z-20 flex max-w-3xl flex-col items-center justify-center px-4 text-center">
               <AnimatedText className="mb-6 font-pp-neue-montreal text-4xl font-normal text-white md:mb-8 md:text-6xl">
