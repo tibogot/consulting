@@ -57,3 +57,10 @@ html.lenis {
 [data-logo-reveal] {
   visibility: hidden;
 }
+
+/* OvaScrollSlider: SplitText line wrappers */
+.ova-slider-line {
+  position: relative;
+  display: block;
+  will-change: transform;
+}
